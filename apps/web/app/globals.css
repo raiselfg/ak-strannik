@@ -1,0 +1,242 @@
+@import "tailwindcss";
+@import "@workspace/ui/globals.css";
+
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../../../components/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@theme inline {
+  --font-heading: var(--font-cyrillic-old);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  /* Брендовые токены палитры «Ночное плавание» */
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --font-sans: "Geist Variable", sans-serif;
+  /* Рукописный/заголовочный акцент — заголовки берут фирменный кириллический шрифт */
+  --font-hand: var(--font-cyrillic-old), cursive;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* Анимации hero */
+  --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-wheel: wheel 1.8s infinite;
+}
+
+:root {
+  /* Тёмно-синяя «ночь» + тёплый золотой акцент */
+  --background: oklch(0.13 0.05 268);
+  --foreground: oklch(0.96 0.012 268);
+
+  --card: oklch(0.17 0.055 268);
+  --card-foreground: oklch(0.96 0.012 268);
+  --popover: oklch(0.17 0.055 268);
+  --popover-foreground: oklch(0.96 0.012 268);
+
+  --primary: oklch(0.83 0.085 84);
+  --primary-foreground: oklch(0.13 0.05 268);
+
+  --secondary: oklch(0.21 0.075 268);
+  --secondary-foreground: oklch(0.96 0.012 268);
+
+  --muted: oklch(0.17 0.055 268);
+  --muted-foreground: oklch(0.78 0.045 275);
+
+  --accent: oklch(0.21 0.075 268);
+  --accent-foreground: oklch(0.96 0.012 268);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.96 0.012 268);
+
+  --border: oklch(0.42 0.05 272);
+  --input: oklch(0.42 0.05 272);
+  --ring: oklch(0.83 0.085 84);
+
+  --chart-1: oklch(0.83 0.085 84);
+  --chart-2: oklch(0.62 0.12 275);
+  --chart-3: oklch(0.55 0.1 300);
+  --chart-4: oklch(0.7 0.08 230);
+  --chart-5: oklch(0.78 0.045 275);
+
+  --radius: 0.625rem;
+
+  /* Брендовые значения */
+  --ink: oklch(0.13 0.05 268);
+  --ink-2: oklch(0.17 0.055 268);
+  --ink-3: oklch(0.21 0.075 268);
+  --gold: oklch(0.83 0.085 84);
+  --gold-soft: oklch(0.88 0.07 86);
+
+  /* Sidebar — тёмные варианты под общую тему */
+  --sidebar: oklch(0.13 0.05 268);
+  --sidebar-foreground: oklch(0.96 0.012 268);
+  --sidebar-primary: oklch(0.83 0.085 84);
+  --sidebar-primary-foreground: oklch(0.13 0.05 268);
+  --sidebar-accent: oklch(0.21 0.075 268);
+  --sidebar-accent-foreground: oklch(0.96 0.012 268);
+  --sidebar-border: oklch(0.42 0.05 272);
+  --sidebar-ring: oklch(0.83 0.085 84);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+
+  body[data-scroll-locked] {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ---------- Декоративные элементы hero (сложные градиенты) ---------- */
+.hero-sky {
+  background:
+    radial-gradient(120% 90% at 78% 8%, #2b327a 0%, rgba(43, 50, 122, 0) 55%),
+    radial-gradient(
+      130% 100% at 12% 100%,
+      #3a4794 0%,
+      rgba(58, 71, 148, 0) 50%
+    ),
+    linear-gradient(180deg, #05071c 0%, #0a0f3a 45%, #1a2367 100%);
+}
+
+.moon {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 34%,
+    #f4f1ff 0%,
+    #c9cdfb 40%,
+    #8f97e6 72%,
+    #5a64bf 100%
+  );
+  box-shadow:
+    0 0 90px 30px rgba(150, 160, 255, 0.28),
+    inset -22px -14px 50px rgba(40, 45, 110, 0.5);
+}
+.moon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 64% 60%,
+      rgba(80, 88, 170, 0.5) 0 8%,
+      transparent 9%
+    ),
+    radial-gradient(
+      circle at 40% 70%,
+      rgba(80, 88, 170, 0.4) 0 5%,
+      transparent 6%
+    );
+}
+@media (max-width: 768px) {
+  .moon {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+.hero-glow {
+  width: 520px;
+  height: 240px;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 228, 170, 0.55),
+    rgba(255, 210, 140, 0.08) 60%,
+    transparent 75%
+  );
+  filter: blur(6px);
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-26px) rotate(1deg);
+  }
+}
+
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+}
