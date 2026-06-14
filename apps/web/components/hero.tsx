@@ -142,6 +142,7 @@ export function Hero() {
               height={350}
               width={500}
               priority
+              fetchPriority="high"
             />
           </div>
         </div>

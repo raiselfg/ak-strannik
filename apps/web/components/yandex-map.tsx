@@ -25,6 +25,25 @@ export default function YandexMap({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const [isApiLoaded, setIsApiLoaded] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const el = mapContainerRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && entry.isIntersecting) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const initMap = useCallback(() => {
     if (!window.ymaps || !mapContainerRef.current || mapRef.current) return;
@@ -66,10 +85,13 @@ export default function YandexMap({
 
   return (
     <>
-      <Script
-        src={`https://api-maps.yandex.ru/2.1/?apikey=${apiKey}&lang=ru_RU`}
-        onLoad={() => setIsApiLoaded(true)}
-      />
+      {shouldLoad && (
+        <Script
+          src={`https://api-maps.yandex.ru/2.1/?apikey=${apiKey}&lang=ru_RU`}
+          strategy="lazyOnload"
+          onLoad={() => setIsApiLoaded(true)}
+        />
+      )}
       <div
         ref={mapContainerRef}
         className={className}

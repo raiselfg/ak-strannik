@@ -100,7 +100,7 @@ export default function ContactsSection() {
           </div>
 
           <YandexMap
-            className="border-border/50 h-full w-full overflow-hidden rounded-xl border shadow-xl"
+            className="border-border/50 h-full min-h-[400px] w-full overflow-hidden rounded-xl border shadow-xl"
             apiKey={YANDEX_MAPS_API_KEY}
             center={MAP_CENTER}
           />
