@@ -45,7 +45,7 @@ export default function Starfield({
 
   return (
     <div
-      className={cn("pointer-events-none absolute -inset-[10%]", className)}
+      className={cn("pointer-events-none absolute inset-[-10%]", className)}
       aria-hidden
     >
       {stars.map((s, i) => (

@@ -37,7 +37,7 @@ export default function RootLayout({
           <Starfield count={70} maxSize={2} />
           <Starfield count={45} minSize={1.4} maxSize={3.4} />
         </div>
-        <main className="flex flex-col gap-24">
+        <main className="flex flex-col gap-12 px-3 md:gap-24 md:px-0">
           <Header />
           {children}
           <Suspense fallback={null}>

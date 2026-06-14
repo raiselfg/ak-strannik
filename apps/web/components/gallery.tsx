@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Gallery() {
   return (
     <>
-      <ul className="container mx-auto grid grid-cols-2 gap-8 md:grid-cols-3 md:gap-10">
+      <ul className="container mx-auto grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-3 md:gap-10">
         {gratitudes.map((g, i) => (
           <li key={g.image}>
             <Image

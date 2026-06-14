@@ -4,9 +4,9 @@ import Image from "next/image";
 export default function TeamSection() {
   return (
     <section id="about">
-      <div className="container mx-auto max-w-5xl">
-        <div className="mb-20 flex flex-col items-center text-center">
-          <h2 className="font-hand text-5xl leading-[0.95] font-bold tracking-[0.5px] md:text-7xl">
+      <div className="lg:x-0 container mx-auto max-w-5xl p-2">
+        <div className="mb-10 flex flex-col items-center text-center sm:mb-20">
+          <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
             Команда Академии
           </h2>
           <p className="text-muted-foreground mt-6 max-w-2xl font-serif text-xl italic">
@@ -18,30 +18,30 @@ export default function TeamSection() {
           {team.members.map((m, i) => (
             <div key={m.name}>
               <div
-                className="bg-background sticky z-10 flex w-full flex-col overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_-15px_40px_rgba(0,0,15,0.6)] md:h-[420px] md:flex-row"
+                className="bg-background sticky flex w-full flex-col overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_-15px_40px_rgba(0,0,15,0.6)] md:h-[420px] md:flex-row"
                 style={{ top: `calc(12vh + ${i * 24}px)` }}
               >
-                <span className="pointer-events-none absolute -top-12 -right-6 z-0 font-serif text-[14rem] leading-none font-bold text-white/2 select-none">
+                <span className="pointer-events-none absolute -top-12 -right-6 font-serif text-[14rem] leading-none font-bold text-white/2 select-none">
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
-                <div className="relative h-[350px] w-full shrink-0 border-b border-white/10 md:h-full md:w-[45%] md:border-r md:border-b-0">
+                <div className="relative h-[260px] w-full shrink-0 border-b border-white/10 sm:h-[320px] md:h-full md:w-[45%] md:border-r md:border-b-0">
                   <Image
                     src={m.image}
                     alt={m.name}
                     width={500}
                     height={600}
                     sizes="(max-width: 768px) 100vw, 45vw"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
 
-                <div className="relative z-10 flex flex-1 flex-col justify-center p-8 md:p-12 lg:p-16">
+                <div className="relative flex flex-1 flex-col justify-center p-5 sm:p-8 md:p-10 lg:p-16">
                   <div className="border-gold/30 bg-gold/10 text-gold mb-6 inline-flex w-max items-center rounded-full border px-5 py-2 text-sm font-medium tracking-wide backdrop-blur-md">
                     {m.role}
                   </div>
 
-                  <h3 className="text-foreground mb-8 text-4xl leading-tight font-bold md:text-5xl lg:text-[3.4rem]">
+                  <h3 className="text-foreground mb-4 text-3xl leading-tight font-bold sm:mb-6 sm:text-4xl md:mb-8 md:text-5xl lg:text-[3.4rem]">
                     {m.name}
                   </h3>
 

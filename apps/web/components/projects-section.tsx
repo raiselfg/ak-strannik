@@ -7,25 +7,25 @@ const Gallery = dynamic(() => import("@/components/gallery"));
 export default function ProjectsSection() {
   return (
     <section id="projects">
-      <div className="container mx-auto flex flex-col gap-20">
+      <div className="container mx-auto flex flex-col gap-12 sm:gap-20">
         <div className="flex flex-col items-center text-center">
-          <h2 className="font-hand text-5xl leading-[0.95] font-bold tracking-[0.5px] md:text-7xl">
+          <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
             Наши проекты
           </h2>
-          <p className="text-muted-foreground mt-6 max-w-2xl text-lg">
+          <p className="text-muted-foreground mt-4 max-w-2xl text-base sm:mt-6 sm:text-lg">
             {projects.intro}
           </p>
         </div>
 
-        <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <div className="relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {projects.items.map((p, idx) => (
             <div
               key={idx}
               className="group hover:border-gold relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/2 p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_80px_rgba(200,165,100,0.15)]"
             >
-              <div className="from-gold/20 absolute inset-0 z-0 bg-linear-to-br via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="from-gold/20 absolute inset-0 bg-linear-to-br via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-              <div className="relative z-10 flex h-full flex-col">
+              <div className="relative flex h-full flex-col">
                 <div className="mb-10 flex items-start justify-between">
                   <span className="text-gold font-serif text-2xl font-light opacity-60">
                     {String(idx + 1).padStart(2, "0")}
@@ -66,7 +66,7 @@ export default function ProjectsSection() {
                       {p.after}
                     </span>
                     {p.afterHref && (
-                      <a href={p.afterHref} className="absolute inset-0 z-20">
+                      <a href={p.afterHref} className="absolute inset-0">
                         <span className="sr-only">Подробнее</span>
                       </a>
                     )}
@@ -86,12 +86,12 @@ export default function ProjectsSection() {
         </div>
 
         <div className="flex flex-col gap-12">
-          <div className="flex items-center justify-center gap-14">
-            <span className="bg-gold/50 block h-px w-12" />
-            <h3 className="font-hand text-gold text-center text-4xl">
+          <div className="flex items-center justify-center gap-5 sm:gap-14">
+            <span className="bg-gold/50 block h-px w-6 shrink-0 sm:w-12" />
+            <h3 className="font-hand text-gold text-center text-3xl sm:text-4xl">
               Благодарности
             </h3>
-            <span className="bg-gold/50 block h-px w-12" />
+            <span className="bg-gold/50 block h-px w-6 shrink-0 sm:w-12" />
           </div>
           <Gallery />
         </div>

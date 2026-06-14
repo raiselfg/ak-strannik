@@ -19,7 +19,7 @@ export default function ContactsSection() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-start gap-8">
-            <h2 className="font-hand text-5xl leading-[0.95] font-bold tracking-[0.5px] md:text-7xl">
+            <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
               Контакты
             </h2>
 

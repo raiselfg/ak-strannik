@@ -5,6 +5,7 @@ import { hero } from "@/lib/constants";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
+import { useIsMobile } from "@strannik/ui/hooks/useIsMobile";
 
 const Starfield = dynamic(() => import("@/components/starfield"));
 
@@ -24,7 +25,13 @@ export function Hero() {
   const moon = useRef<HTMLDivElement>(null);
   const ship = useRef<HTMLDivElement>(null);
 
+  const isMobile = useIsMobile();
+
   useEffect(() => {
+    if (isMobile) {
+      return;
+    }
+
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -99,25 +106,25 @@ export function Hero() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onMove);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
       id="top"
       className="relative flex min-h-svh items-center overflow-hidden"
     >
-      <div className="hero-sky absolute inset-0 z-0" />
+      <div className="hero-sky absolute inset-0" />
 
-      <div ref={stars1} className="absolute inset-0 z-1">
+      <div ref={stars1} className="absolute inset-0">
         <Starfield count={50} maxSize={2} />
       </div>
-      <div ref={stars2} className="absolute inset-0 z-1">
+      <div ref={stars2} className="absolute inset-0">
         <Starfield count={40} minSize={1.4} maxSize={3.4} />
       </div>
 
-      <div ref={moon} className="moon absolute top-[9%] right-[8%] z-1" />
+      <div ref={moon} className="moon absolute top-[9%] right-[8%]" />
 
-      <div className="absolute top-1/2 right-[3%] z-3 w-[min(46vw,640px)] -translate-y-1/2 max-md:top-auto max-md:right-[-12%] max-md:bottom-[8%] max-md:w-[74vw] max-md:translate-y-0 max-md:opacity-55">
+      <div className="absolute top-1/2 right-[3%] hidden w-[min(46vw,640px)] -translate-y-1/2 max-md:top-auto max-md:right-[-12%] max-md:bottom-[8%] max-md:w-[74vw] max-md:translate-y-0 max-md:opacity-55 xl:block">
         <div ref={ship} className="origin-center">
           <div className="motion-safe:animate-float">
             <Image
@@ -133,16 +140,16 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto flex min-h-svh w-full flex-col items-center justify-center pt-24 pb-12 lg:items-start">
+      <div className="relative container mx-auto flex min-h-svh w-full flex-col items-center justify-center px-2 pt-20 pb-8 sm:px-4 sm:pt-24 sm:pb-12 lg:items-start lg:px-0">
         <div className="mx-auto mt-auto w-full max-w-[800px] text-center lg:mx-0 lg:max-w-[580px] lg:text-left">
-          <div className="font-hand text-gold mb-4 text-2xl leading-none font-semibold">
+          <div className="font-hand text-gold mb-3 text-xl leading-none font-semibold sm:mb-4 sm:text-2xl">
             {hero.eyebrow}
           </div>
-          <h1 className="font-hand mb-6 text-[clamp(3.8rem,10vw,7.2rem)] leading-[0.85] font-bold tracking-[1px] [text-shadow:0_6px_40px_rgba(0,0,10,0.5)]">
+          <h1 className="font-hand mb-6 text-[clamp(2.6rem,10vw,7.2rem)] leading-[0.85] font-bold tracking-[1px] [text-shadow:0_6px_40px_rgba(0,0,10,0.5)]">
             {hero.title[0]}
             <span className="text-gold-soft block">{hero.title[1]}</span>
           </h1>
-          <p className="bg-background/10 text-muted-foreground/90 mx-auto max-w-[600px] rounded-2xl p-4 text-lg backdrop-blur-sm lg:mx-0">
+          <p className="bg-background/10 text-muted-foreground/90 mx-auto max-w-[600px] rounded-2xl p-3 text-sm backdrop-blur-sm sm:p-4 sm:text-base lg:mx-0 lg:text-lg">
             <b className="text-foreground mr-2 text-sm font-semibold tracking-wide uppercase">
               Академия Странствий
             </b>
@@ -150,15 +157,15 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="mx-auto mt-auto grid w-full max-w-[800px] grid-cols-1 gap-6 pt-16 md:grid-cols-2 lg:mx-0 lg:max-w-[700px]">
+        <div className="mx-auto mt-auto grid w-full max-w-[800px] grid-cols-1 gap-4 pt-10 sm:gap-6 sm:pt-16 md:grid-cols-2 lg:mx-0 lg:max-w-[700px]">
           {hero.missions.map((m) => {
             const Icon = missionIcons[m.icon];
             return (
               <div
                 key={m.title}
-                className="group flex items-start gap-5 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                className="group flex items-start gap-4 rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all duration-500 sm:gap-5 sm:p-6 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
               >
-                <span className="text-gold flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/5 bg-linear-to-br from-white/10 to-transparent shadow-inner">
+                <span className="text-gold flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/5 bg-linear-to-br from-white/10 to-transparent shadow-inner sm:h-14 sm:w-14">
                   <Icon
                     className="h-7 w-7 transition-transform duration-500 group-hover:scale-110"
                     strokeWidth={1.5}
