@@ -22,11 +22,9 @@ export function Hero() {
   const stars1 = useRef<HTMLDivElement>(null);
   const stars2 = useRef<HTMLDivElement>(null);
   const moon = useRef<HTMLDivElement>(null);
-  const glow = useRef<HTMLDivElement>(null);
   const ship = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 1. ОСТОРОЖНО: Если у тебя в Windows/macOS отключены анимации, этот блок глушил скрипт!
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -37,12 +35,10 @@ export function Hero() {
       return;
     }
 
-    // Собираем ссылки в объект для удобного доступа
     const refs: Record<string, React.RefObject<HTMLDivElement | null>> = {
       stars1,
       stars2,
       moon,
-      glow,
       ship,
     };
 
@@ -55,8 +51,6 @@ export function Hero() {
       ticking = false;
 
       PARALLAX_CONFIG.forEach((config) => {
-        // 2. ИСПРАВЛЕНИЕ: Достаем .current прямо перед отрисовкой кадра.
-        // Это спасает от багов React Strict Mode и Hot Reload.
         const el = refs[config.key]?.current;
         if (!el) return;
 
@@ -99,7 +93,6 @@ export function Hero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointermove", onMove, { passive: true });
 
-    // Принудительно вызываем один раз при старте
     apply();
 
     return () => {
@@ -115,26 +108,17 @@ export function Hero() {
     >
       <div className="hero-sky absolute inset-0 z-0" />
 
-      {/* Проверь z-index. В Tailwind по умолчанию нет классов z-1, z-2. Используй z-10 или произвольные z-[1] */}
-      <div ref={stars1} className="absolute inset-0 z-[1]">
+      <div ref={stars1} className="absolute inset-0 z-1">
         <Starfield count={50} maxSize={2} />
       </div>
-      <div ref={stars2} className="absolute inset-0 z-[1]">
+      <div ref={stars2} className="absolute inset-0 z-1">
         <Starfield count={40} minSize={1.4} maxSize={3.4} />
       </div>
 
-      <div ref={moon} className="moon absolute top-[9%] right-[8%] z-[1]" />
+      <div ref={moon} className="moon absolute top-[9%] right-[8%] z-1" />
 
-      <div className="absolute bottom-[6%] left-[42%] z-[2] -translate-x-1/2">
-        <div ref={glow} className="hero-glow" />
-      </div>
-
-      <div className="absolute top-1/2 right-[3%] z-[3] w-[min(46vw,640px)] -translate-y-1/2 max-md:top-auto max-md:right-[-12%] max-md:bottom-[8%] max-md:w-[74vw] max-md:translate-y-0 max-md:opacity-55">
-        <div
-          ref={ship}
-          // 3. ИСПРАВЛЕНИЕ: Убрано transition-transform. JS и CSS конфликтовали!
-          className="origin-center"
-        >
+      <div className="absolute top-1/2 right-[3%] z-3 w-[min(46vw,640px)] -translate-y-1/2 max-md:top-auto max-md:right-[-12%] max-md:bottom-[8%] max-md:w-[74vw] max-md:translate-y-0 max-md:opacity-55">
+        <div ref={ship} className="origin-center">
           <div className="motion-safe:animate-float">
             <Image
               src={hero.shipImage}
@@ -143,12 +127,12 @@ export function Hero() {
               width={500}
               priority
               fetchPriority="high"
+              className="h-full w-full"
             />
           </div>
         </div>
       </div>
 
-      {/* ... Остальной контент без изменений ... */}
       <div className="relative z-10 container mx-auto flex min-h-svh w-full flex-col items-center justify-center pt-24 pb-12 lg:items-start">
         <div className="mx-auto mt-auto w-full max-w-[800px] text-center lg:mx-0 lg:max-w-[580px] lg:text-left">
           <div className="font-hand text-gold mb-4 text-2xl leading-none font-semibold">

@@ -15,6 +15,7 @@ export default function Logo() {
         fetchPriority="high"
         preload
         quality={75}
+        className="h-full w-full"
       />
       <span className="font-hand text-3xl leading-[0.95] font-bold">
         Академия
