@@ -1,7 +1,12 @@
-import type { NextConfig } from "next"
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@workspace/ui"],
-}
+  transpilePackages: ["@strannik/ui"],
+  reactCompiler: true,
+  images: {
+    formats: ["image/avif"],
+    qualities: [50, 75],
+  },
+};
 
-export default nextConfig
+export default nextConfig;

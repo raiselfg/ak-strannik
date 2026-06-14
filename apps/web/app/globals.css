@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@workspace/ui/globals.css";
+@import "@strannik/ui/globals.css";
 
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
@@ -62,7 +62,6 @@
   /* Анимации hero */
   --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
   --animate-float: float 9s ease-in-out infinite;
-  --animate-wheel: wheel 1.8s infinite;
 }
 
 :root {
@@ -224,19 +223,5 @@
   }
   50% {
     transform: translateY(-26px) rotate(1deg);
-  }
-}
-
-@keyframes wheel {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 0);
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, 12px);
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@strannik/web",
   "version": "0.0.1",
   "type": "module",
   "private": true,
@@ -12,20 +12,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
+    "@strannik/ui": "workspace:*",
+    "babel-plugin-react-compiler": "^1.0.0",
     "lucide-react": "^1.18.0",
-    "motion": "^12.40.0",
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
+    "@strannik/eslint-config": "workspace:^",
+    "@strannik/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:^",
-    "@workspace/typescript-config": "workspace:*",
     "eslint": "^9",
     "typescript": "^5"
   }

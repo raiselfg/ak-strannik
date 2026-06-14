@@ -1,36 +1,35 @@
-"use client"
+"use client";
 
-import { cn } from "@workspace/ui/lib/utils"
-import * as React from "react"
+import { cn } from "@strannik/ui/lib/utils";
+import { useEffect, useState } from "react";
 
 interface StarfieldProps {
-  count?: number
-  minSize?: number
-  maxSize?: number
-  className?: string
+  count?: number;
+  minSize?: number;
+  maxSize?: number;
+  className?: string;
 }
 
 interface Star {
-  left: string
-  top: string
-  size: number
-  opacity: number
-  duration: string
-  delay: string
+  left: string;
+  top: string;
+  size: number;
+  opacity: number;
+  duration: string;
+  delay: string;
 }
 
-/** Слой мерцающих звёзд. Генерируется на клиенте, чтобы не было рассинхрона гидратации. */
-export function Starfield({
+export default function Starfield({
   count = 50,
   minSize = 1,
   maxSize = 2.4,
   className,
 }: StarfieldProps) {
-  const [stars, setStars] = React.useState<Star[]>([])
+  const [stars, setStars] = useState<Star[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const arr: Star[] = Array.from({ length: count }, () => {
-      const size = minSize + Math.random() * (maxSize - minSize)
+      const size = minSize + Math.random() * (maxSize - minSize);
       return {
         left: `${(Math.random() * 100).toFixed(3)}%`,
         top: `${(Math.random() * 100).toFixed(3)}%`,
@@ -38,11 +37,11 @@ export function Starfield({
         opacity: 0.25 + Math.random() * 0.75,
         duration: `${(2.2 + Math.random() * 4).toFixed(2)}s`,
         delay: `${(-Math.random() * 6).toFixed(2)}s`,
-      }
-    })
-    const t = window.setTimeout(() => setStars(arr), 0)
-    return () => window.clearTimeout(t)
-  }, [count, minSize, maxSize])
+      };
+    });
+    const t = window.setTimeout(() => setStars(arr), 0);
+    return () => window.clearTimeout(t);
+  }, [count, minSize, maxSize]);
 
   return (
     <div
@@ -67,5 +66,5 @@ export function Starfield({
         />
       ))}
     </div>
-  )
+  );
 }

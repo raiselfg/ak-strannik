@@ -7,7 +7,7 @@ export const nav = [
   { label: "Проекты", href: "#projects" },
   { label: "Аренда", href: "#rent" },
   { label: "Контакты", href: "#contacts" },
-] as const
+] as const;
 
 export const hero = {
   eyebrow: "Творческая Мастерская",
@@ -28,7 +28,7 @@ export const hero = {
       text: "Создание событий, которые делают мир и каждого человека лучше.",
     },
   ],
-}
+};
 
 export const team = {
   quote:
@@ -56,7 +56,7 @@ export const team = {
       image: "/images/tihon.webp",
     },
   ],
-}
+};
 
 export const stats = [
   {
@@ -77,7 +77,7 @@ export const stats = [
     label: "Благотворительных фондов,",
     emphasis: "с которыми мы сотрудничаем",
   },
-]
+];
 
 export const projects = {
   intro:
@@ -119,7 +119,7 @@ export const projects = {
     "За время существования Академия вошла в список СОНКО и была отмечена множеством благодарственных писем.",
     "В условиях пандемии нам удалось в кратчайшие сроки освоить и применить цифровые технологии, отработать новые методики проведения онлайн-мероприятий и при этом сохранить высокий уровень наших проектов.",
   ],
-}
+};
 
 export const gratitudes = [
   { image: "/images/blag1.webp", alt: "Благодарность" },
@@ -128,7 +128,7 @@ export const gratitudes = [
   { image: "/images/blag4.webp", alt: "Благодарственное письмо" },
   { image: "/images/blag5.jpg", alt: "Благодарственное письмо" },
   { image: "/images/blag6.webp", alt: "Благодарственное письмо" },
-]
+];
 
 export const contacts = {
   phone: { display: "+7 (996) 775-22-57", href: "tel:+79967752257" },
@@ -141,4 +141,4 @@ export const contacts = {
   },
   charterHref: "#",
   mapEmbed: "" as string,
-}
+};

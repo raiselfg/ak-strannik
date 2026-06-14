@@ -1,44 +1,40 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import Script from "next/script"
+import { useCallback, useEffect, useRef, useState } from "react";
+import Script from "next/script";
 
 interface YandexMapProps {
-  apiKey: string
-  center: [number, number] // [lat, lon] for v2.1
-  zoom?: number
-  className?: string
+  apiKey: string;
+  center: [number, number];
+  zoom?: number;
+  className?: string;
 }
 
 declare global {
   interface Window {
-    ymaps: any
+    ymaps: any;
   }
 }
 
-export function YandexMap({
+export default function YandexMap({
   apiKey,
   center,
   zoom = 16,
   className,
 }: YandexMapProps) {
-  const mapContainerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<any>(null)
-  const [isApiLoaded, setIsApiLoaded] = useState(false)
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
+  const [isApiLoaded, setIsApiLoaded] = useState(false);
 
   const initMap = useCallback(() => {
-    if (!window.ymaps || !mapContainerRef.current || mapRef.current) return
-
-    const container = mapContainerRef.current
+    if (!window.ymaps || !mapContainerRef.current || mapRef.current) return;
 
     window.ymaps.ready(() => {
-      if (!container || !container.isConnected) return
-
-      const map = new window.ymaps.Map(container, {
+      const map = new window.ymaps.Map(mapContainerRef.current, {
         center: center,
         zoom: zoom,
         controls: ["zoomControl", "fullscreenControl"],
-      })
+      });
 
       const placemark = new window.ymaps.Placemark(
         center,
@@ -49,24 +45,24 @@ export function YandexMap({
         {
           preset: "islands#yellowDotIcon",
         }
-      )
+      );
 
-      map.geoObjects.add(placemark)
-      mapRef.current = map
-    })
-  }, [center, zoom])
+      map.geoObjects.add(placemark);
+      mapRef.current = map;
+    });
+  }, [center, zoom]);
 
   useEffect(() => {
     if (isApiLoaded) {
-      initMap()
+      initMap();
     }
     return () => {
       if (mapRef.current) {
-        mapRef.current.destroy()
-        mapRef.current = null
+        mapRef.current.destroy();
+        mapRef.current = null;
       }
-    }
-  }, [isApiLoaded, initMap])
+    };
+  }, [isApiLoaded, initMap]);
 
   return (
     <>
@@ -80,5 +76,5 @@ export function YandexMap({
         style={{ width: "100%", height: "100%" }}
       />
     </>
-  )
+  );
 }

@@ -1,24 +1,29 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google";
 
-import { cn } from "@workspace/ui/lib/utils"
-import { Starfield } from "@/components/starfield"
-import "@/app/globals.css"
+import { cn } from "@strannik/ui/lib/utils";
+import { Header } from "@/components/header";
+import { ReactNode, Suspense } from "react";
+import dynamic from "next/dynamic";
+import "@/app/globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const Starfield = dynamic(() => import("@/components/starfield"));
+const ContactsSection = dynamic(() => import("@/components/contacts-section"));
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode;
 }>) {
   return (
     <html
-      lang="en"
+      lang="ru"
       suppressHydrationWarning
       className={cn(
         "antialiased",
@@ -32,8 +37,14 @@ export default function RootLayout({
           <Starfield count={70} maxSize={2} />
           <Starfield count={45} minSize={1.4} maxSize={3.4} />
         </div>
-        {children}
+        <main className="flex flex-col gap-24">
+          <Header />
+          {children}
+          <Suspense fallback={null}>
+            <ContactsSection />
+          </Suspense>
+        </main>
       </body>
     </html>
-  )
+  );
 }

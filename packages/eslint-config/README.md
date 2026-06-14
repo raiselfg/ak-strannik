@@ -1,3 +1,3 @@
-# `@workspace/eslint-config`
+# `@strannik/eslint-config`
 
-Shared eslint configuration for the workspace.
+Shared eslint configuration for the strannik.

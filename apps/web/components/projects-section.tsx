@@ -1,17 +1,18 @@
-import * as React from "react"
-import { projects } from "@/lib/constants"
-import { Gallery } from "@/components/gallery"
-import { ArrowUpRight } from "lucide-react"
+import { projects } from "@/lib/constants";
+import { ArrowUpRight } from "lucide-react";
+import dynamic from "next/dynamic";
 
-export function ProjectsSection() {
+const Gallery = dynamic(() => import("@/components/gallery"));
+
+export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-24 md:py-32">
-      <div className="container mx-auto">
-        <div className="mb-16 flex flex-col items-center text-center">
+    <section id="projects">
+      <div className="container mx-auto flex flex-col gap-20">
+        <div className="flex flex-col items-center text-center">
           <h2 className="font-hand text-5xl leading-[0.95] font-bold tracking-[0.5px] md:text-7xl">
             Наши проекты
           </h2>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mt-6 max-w-2xl text-lg">
             {projects.intro}
           </p>
         </div>
@@ -40,19 +41,19 @@ export function ProjectsSection() {
                 <div className="mb-8 flex-1">
                   {p.nameFirst ? (
                     <>
-                      <h3 className="text-2xl leading-tight font-bold text-foreground">
+                      <h3 className="text-foreground text-2xl leading-tight font-bold">
                         {p.name}
                       </h3>
-                      <p className="mt-2 text-base font-medium text-muted-foreground">
+                      <p className="text-muted-foreground mt-2 text-base font-medium">
                         {p.lead}
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="text-base leading-relaxed text-muted-foreground">
+                      <p className="text-muted-foreground text-base leading-relaxed">
                         {p.lead}
                       </p>
-                      <h3 className="mt-2 text-2xl leading-tight font-bold text-foreground">
+                      <h3 className="text-foreground mt-2 text-2xl leading-tight font-bold">
                         {p.name}
                       </h3>
                     </>
@@ -61,7 +62,7 @@ export function ProjectsSection() {
 
                 {p.after && (
                   <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-4">
-                    <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                    <span className="text-muted-foreground group-hover:text-foreground text-sm font-medium transition-colors">
                       {p.after}
                     </span>
                     {p.afterHref && (
@@ -76,7 +77,7 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        <div className="mx-auto mt-16 max-w-[880px] text-center text-sm text-muted-foreground/80 sm:text-base">
+        <div className="text-muted-foreground/80 text-center text-sm sm:text-base">
           {projects.note.map((para, i) => (
             <p key={i} className={i > 0 ? "mt-4" : ""}>
               {para}
@@ -84,8 +85,8 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        <div className="relative z-10 mt-24 sm:mt-32">
-          <div className="mb-10 flex items-center justify-center gap-4">
+        <div className="flex flex-col gap-12">
+          <div className="flex items-center justify-center gap-14">
             <span className="bg-gold/50 block h-px w-12" />
             <h3 className="font-hand text-gold text-center text-4xl">
               Благодарности
@@ -96,5 +97,5 @@ export function ProjectsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

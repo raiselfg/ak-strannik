@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Menu } from "lucide-react"
+import { Menu } from "lucide-react";
 
-import { nav } from "@/lib/constants"
+import { nav } from "@/lib/constants";
 
 import {
   Sheet,
@@ -11,20 +10,25 @@ import {
   SheetTitle,
   SheetTrigger,
   SheetClose,
-} from "@workspace/ui/components/sheet"
-import { cn } from "@workspace/ui/lib/utils"
-import { Button } from "@workspace/ui/components/button"
-import Image from "next/image"
+} from "@strannik/ui/components/sheet";
+import { cn } from "@strannik/ui/lib/utils";
 
-export function SiteHeader() {
-  const [scrolled, setScrolled] = React.useState(false)
+import Logo from "./logo";
+import { useEffect, useState } from "react";
 
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () =>
+      setScrolled((prev) => {
+        const next = window.scrollY > 40;
+        return next === prev ? prev : next;
+      });
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <header
@@ -34,7 +38,7 @@ export function SiteHeader() {
       )}
     >
       <div className="container mx-auto flex items-center justify-between">
-        <Brand />
+        <Logo />
 
         <nav className="hidden items-center gap-1.5 lg:flex">
           {nav.map((item, i) => (
@@ -56,7 +60,7 @@ export function SiteHeader() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className="grid h-11 w-11 place-items-center rounded-xl border border-border text-foreground lg:hidden"
+              className="border-border text-foreground grid h-11 w-11 place-items-center rounded-xl border lg:hidden"
               aria-label="Меню"
             >
               <Menu className="h-5 w-5" />
@@ -71,7 +75,7 @@ export function SiteHeader() {
               <SheetClose asChild key={item.href}>
                 <a
                   href={item.href}
-                  className="rounded-lg px-2 py-3 text-2xl font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground rounded-lg px-2 py-3 text-2xl font-medium transition-colors"
                 >
                   {item.label}
                 </a>
@@ -81,28 +85,5 @@ export function SiteHeader() {
         </Sheet>
       </div>
     </header>
-  )
-}
-
-function Brand() {
-  return (
-    <a
-      href="#"
-      className="flex items-center gap-3"
-      aria-label="Академия Странствий"
-    >
-      <Image
-        src={"/images/logo.png"}
-        alt="Академия странствий"
-        width={48}
-        height={48}
-      />
-      <span className="font-hand text-3xl leading-[0.95] font-bold">
-        Академия
-        <small className="mt-px block font-sans text-xs font-semibold tracking-[0.32em] text-muted-foreground uppercase">
-          Странствий
-        </small>
-      </span>
-    </a>
-  )
+  );
 }
