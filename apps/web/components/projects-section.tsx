@@ -7,7 +7,7 @@ const Gallery = dynamic(() => import("@/components/gallery"));
 export default function ProjectsSection() {
   return (
     <section id="projects">
-      <div className="container mx-auto flex flex-col gap-12 sm:gap-20">
+      <div className="container mx-auto flex flex-col gap-12 px-2 sm:gap-20">
         <div className="flex flex-col items-center text-center">
           <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
             Наши проекты

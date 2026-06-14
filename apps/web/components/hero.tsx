@@ -163,7 +163,7 @@ export function Hero() {
             return (
               <div
                 key={m.title}
-                className="group flex items-start gap-4 rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all duration-500 sm:gap-5 sm:p-6 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                className="group flex items-start gap-4 rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] sm:gap-5 sm:p-6"
               >
                 <span className="text-gold flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/5 bg-linear-to-br from-white/10 to-transparent shadow-inner sm:h-14 sm:w-14">
                   <Icon

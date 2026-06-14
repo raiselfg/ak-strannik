@@ -16,10 +16,10 @@ const MAP_CENTER: [number, number] = [59.928686, 30.370513];
 export default function ContactsSection() {
   return (
     <section id="contacts">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-2">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col items-start gap-8">
-            <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
+          <div className="flex flex-col gap-8">
+            <h2 className="font-hand text-center text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
               Контакты
             </h2>
 
