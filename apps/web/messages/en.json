@@ -1,0 +1,156 @@
+{
+  "Metadata": {
+    "title": "Academy of Wanderings",
+    "description": "Academy of Wanderings is a creative space in Saint Petersburg for events, festivals, performances, workshops and cultural projects."
+  },
+  "Navigation": {
+    "home": "Home",
+    "contacts": "Contacts",
+    "languageLabel": "Language selection",
+    "logoLabel": "Academy of Wanderings — home",
+    "mobileAriaLabel": "Mobile navigation",
+    "openMenu": "Open menu",
+    "sheetTitle": "Navigation",
+    "sheetDescription": "Sections of the Academy of Wanderings website",
+    "siteLanguage": "Site language",
+    "groups": {
+      "about": "About",
+      "projects": "Projects",
+      "rent": "Rental"
+    },
+    "links": {
+      "events": "Events",
+      "partners": "Partners",
+      "charity": "Charity",
+      "thankYouNotes": "Letters of thanks",
+      "festival": "Festivals",
+      "concerts": "Concert programs",
+      "artists": "Artists",
+      "performances": "Performances",
+      "masterclasses": "Workshops and classes for children",
+      "holidayShows": "New Year shows",
+      "exhibitions": "Exhibitions",
+      "usta": "Usta",
+      "ustaBoutique": "Usta atelier boutique",
+      "pryalochkaOfTime": "Musical tale Pryalochka of Time",
+      "requisite": "Prop rental",
+      "attraction": "Attraction rental",
+      "mascotCostume": "Mascot costume rental"
+    }
+  },
+  "Hero": {
+    "eyebrow": "Saint Petersburg · culture · journey",
+    "title": "Academy of Wanderings",
+    "description": "We create festivals, performances, concerts and children’s programs — events where history, music and craft become a living adventure.",
+    "contactCta": "Contact us",
+    "projectsCta": "View projects"
+  },
+  "Contacts": {
+    "title": "Contacts",
+    "address": "Saint Petersburg, Nevsky Prospect, 111/3",
+    "addressNote": "entrance through the arch from Goncharnaya Street, 26",
+    "vkLabel": "VK",
+    "youtubeLabel": "YouTube",
+    "charter": "Organization charter"
+  },
+  "Map": {
+    "unavailableLabel": "Map is temporarily unavailable",
+    "unavailableTitle": "Map is temporarily unavailable",
+    "unavailableDescription": "Add NEXT_PUBLIC_YANDEX_MAPS_API_KEY to enable the directions map.",
+    "hint": "Academy of Wanderings",
+    "balloon": "Nevsky Prospect, 111/3"
+  },
+  "Pages": {
+    "common": {
+      "pending": "Materials for this section are still being prepared. Contact us to clarify the details — we will tell you about available formats and possibilities.",
+      "contactCta": "Contact us",
+      "homeCta": "Back to home",
+      "notFoundTitle": "Page not found"
+    },
+    "aboutEvents": {
+      "title": "Events",
+      "eyebrow": "About",
+      "description": "We are preparing the Academy of Wanderings event calendar: festivals, meetings, concerts and family events."
+    },
+    "aboutPartners": {
+      "title": "Partners",
+      "eyebrow": "About",
+      "description": "A section about the partners who help the Academy of Wanderings create cultural projects."
+    },
+    "aboutCharity": {
+      "title": "Charity",
+      "eyebrow": "About",
+      "description": "A section about charitable initiatives, family programs and social projects is in preparation."
+    },
+    "aboutThankYouNotes": {
+      "title": "Letters of thanks",
+      "eyebrow": "About",
+      "description": "This page will include letters of thanks, organizational feedback and confirmations of completed projects."
+    },
+    "projectsFestival": {
+      "title": "Festivals",
+      "eyebrow": "Projects",
+      "description": "A page about Academy of Wanderings festival programs — from concept and script to full production."
+    },
+    "projectsConcerts": {
+      "title": "Concert programs",
+      "eyebrow": "Projects",
+      "description": "We are preparing descriptions of concert programs, performance formats and opportunities for venues."
+    },
+    "projectsArtists": {
+      "title": "Artists",
+      "eyebrow": "Projects",
+      "description": "This section will feature artists, ensembles and participants in creative programs."
+    },
+    "projectsPerformances": {
+      "title": "Performances",
+      "eyebrow": "Projects",
+      "description": "A page about performances, interactive productions and stage formats from the Academy."
+    },
+    "projectsMasterclasses": {
+      "title": "Workshops and classes for children",
+      "eyebrow": "Projects",
+      "description": "This page will include children’s classes, workshops and creative programs for family audiences."
+    },
+    "projectsHolidayShows": {
+      "title": "New Year shows",
+      "eyebrow": "Projects",
+      "description": "A section about holiday performances, interactive activities and traveling New Year programs."
+    },
+    "projectsExhibitions": {
+      "title": "Exhibitions",
+      "eyebrow": "Projects",
+      "description": "We are preparing information about exhibition projects, displays and artistic formats."
+    },
+    "projectsUsta": {
+      "title": "Usta",
+      "eyebrow": "Projects",
+      "description": "A page for the Usta project — about craft, tradition, costume and a living cultural environment."
+    },
+    "projectsPryalochkaOfTime": {
+      "title": "Musical tale Pryalochka of Time",
+      "eyebrow": "Projects",
+      "description": "A description of the musical tale, program cast and production terms will appear here soon."
+    },
+    "rentRequisite": {
+      "title": "Prop rental",
+      "eyebrow": "Rental",
+      "description": "We are preparing a prop catalog for performances, photo shoots, festivals and themed events."
+    },
+    "rentAttraction": {
+      "title": "Attraction rental",
+      "eyebrow": "Rental",
+      "description": "This page will include information about attractions and interactive zones for traveling events."
+    },
+    "rentMascotCostume": {
+      "title": "Mascot costume rental",
+      "eyebrow": "Rental",
+      "description": "A section with mascot costumes, characters and rental terms for celebrations and promotional events."
+    },
+    "charter": {
+      "title": "Organization charter",
+      "eyebrow": "Documents",
+      "description": "The section for the Academy of Wanderings charter and official documents is in preparation."
+    }
+  }
+}

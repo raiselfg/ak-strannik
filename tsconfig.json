@@ -1,4 +1,3 @@
 {
-  "extends": "@workspace/typescript-config/base.json"
+  "extends": "@ak-strannik/typescript-config/base.json",
 }
-
