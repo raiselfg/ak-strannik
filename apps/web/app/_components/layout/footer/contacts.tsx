@@ -1,4 +1,6 @@
-import { Phone, Mail, MapPin, FileText } from 'lucide-react';
+import type { ReactNode } from 'react';
+import Image from 'next/image';
+import { FileText, Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
@@ -21,90 +23,211 @@ export default function Contacts() {
   const t = useTranslations('Contacts');
 
   return (
-    <section id="contacts">
-      <div className="container mx-auto px-2">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col gap-8">
-            <h2 className="font-hand text-center text-4xl leading-[0.95] font-bold tracking-[0.5px] sm:text-5xl md:text-7xl">
-              {t('title')}
-            </h2>
+    <section
+      id="contacts"
+      className="relative overflow-hidden px-4 pt-20 pb-8 sm:px-6 lg:px-8"
+    >
+      <div className="via-gold/60 absolute inset-x-0 top-0 -z-10 h-px bg-linear-to-r from-transparent to-transparent" />
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_15%_10%,var(--color-gold)/0.12,transparent_30%),linear-gradient(180deg,transparent,var(--color-ink)_70%)]" />
 
-            <ul className="flex flex-col gap-6">
-              <li className="flex items-center gap-4">
-                <Phone strokeWidth={1.5} />
-                <a
+      <div className="container mx-auto">
+        <div className="overflow-hidden rounded-[2rem] border border-border/45 bg-card/45 shadow-2xl shadow-background/35 backdrop-blur-md lg:rounded-[3rem]">
+          <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="flex flex-col gap-10 p-6 sm:p-8 lg:p-10">
+              <div>
+                <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
+                  {t('eyebrow')}
+                </p>
+                <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+                  {t('title')}
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
+                  {t('description')}
+                </p>
+              </div>
+
+              <div className="grid gap-3">
+                <ContactRow
+                  icon={<Phone className="size-5" strokeWidth={1.5} />}
+                  label={t('phoneLabel')}
+                  value={contacts.phone.display}
                   href={contacts.phone.href}
-                  className="hover:text-gold text-lg font-medium transition-colors md:text-xl"
-                >
-                  {contacts.phone.display}
-                </a>
-              </li>
-
-              <li className="flex items-center gap-4">
-                <Mail strokeWidth={1.5} />
-                <a
+                />
+                <ContactRow
+                  icon={<Mail className="size-5" strokeWidth={1.5} />}
+                  label={t('emailLabel')}
+                  value={contacts.email.display}
                   href={contacts.email.href}
-                  className="hover:text-gold text-lg font-medium transition-colors md:text-xl"
-                >
-                  {contacts.email.display}
-                </a>
-              </li>
+                />
+                <ContactRow
+                  icon={<MapPin className="size-5" strokeWidth={1.5} />}
+                  label={t('addressLabel')}
+                  value={t('address')}
+                  note={t('addressNote')}
+                />
+              </div>
 
-              <li className="flex items-center gap-4">
-                <MapPin strokeWidth={1.5} />
-                <div className="flex flex-col justify-center">
-                  <span className="text-lg font-medium md:text-xl">
-                    {t('address')}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {t('addressNote')}
-                  </span>
+              <div className="grid gap-4 rounded-4xl border border-border/40 bg-background/35 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <p className="text-sm font-semibold text-foreground">
+                    {t('documentTitle')}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t('documentDescription')}
+                  </p>
                 </div>
-              </li>
-
-              <li className="flex gap-4">
-                <NextLink
-                  href={contacts.socials.vk}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={t('vkLabel')}
+                <Button
+                  variant="outline"
+                  asChild
+                  className="border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 hover:text-gold"
                 >
-                  <VkIcon />
-                </NextLink>
+                  <Link
+                    href={contacts.charterHref}
+                    className="flex items-center gap-2"
+                  >
+                    <FileText className="size-4" strokeWidth={1.5} />
+                    <span>{t('charter')}</span>
+                  </Link>
+                </Button>
+              </div>
 
-                <NextLink
-                  href={contacts.socials.youtube}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={t('youtubeLabel')}
-                >
-                  <YoutubeIcon />
-                </NextLink>
-              </li>
-            </ul>
+              <div className="mt-auto flex flex-col gap-4 border-t border-border/35 pt-6 sm:flex-row sm:items-end sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/logo.png"
+                    alt=""
+                    height={52}
+                    width={52}
+                    className="size-13"
+                  />
+                  <div>
+                    <p className="font-hand text-2xl leading-none font-bold">
+                      {t('brand')}
+                    </p>
+                    <p className="mt-1 text-xs tracking-[0.2em] text-muted-foreground uppercase">
+                      {t('brandCaption')}
+                    </p>
+                  </div>
+                </div>
 
-            <Button
-              variant="link"
-              asChild
-              className="hover:text-gold h-auto p-0 font-normal text-foreground hover:no-underline"
-            >
-              <Link
-                href={contacts.charterHref}
-                className="flex items-center gap-2"
-              >
-                <FileText strokeWidth={1.5} />
-                <span>{t('charter')}</span>
-              </Link>
-            </Button>
+                <div>
+                  <p className="mb-2 text-sm text-muted-foreground">
+                    {t('socialTitle')}
+                  </p>
+                  <div className="flex gap-3">
+                    <SocialLink href={contacts.socials.vk} label={t('vkLabel')}>
+                      <VkIcon className="size-12" />
+                    </SocialLink>
+                    <SocialLink
+                      href={contacts.socials.youtube}
+                      label={t('youtubeLabel')}
+                    >
+                      <YoutubeIcon className="size-12" />
+                    </SocialLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-border/45 bg-background/25 p-3 lg:border-t-0 lg:border-l">
+              <div className="relative h-full min-h-110 overflow-hidden rounded-[1.5rem] border border-border/45 bg-muted/20 lg:rounded-[2.25rem]">
+                <div className="flex items-center justify-between gap-4 p-4">
+                  <div>
+                    <p className="text-gold text-xs font-semibold tracking-[0.22em] uppercase">
+                      {t('mapEyebrow')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('mapDescription')}
+                    </p>
+                  </div>
+                  <MapPin className="text-gold size-5" strokeWidth={1.5} />
+                </div>
+                <YandexMap
+                  className="h-full min-h-110 w-full"
+                  apiKey={YANDEX_MAPS_API_KEY}
+                  center={MAP_CENTER}
+                />
+              </div>
+            </div>
           </div>
-
-          <YandexMap
-            className="h-full min-h-100 w-full overflow-hidden rounded-xl border border-border/50 shadow-xl"
-            apiKey={YANDEX_MAPS_API_KEY}
-            center={MAP_CENTER}
-          />
         </div>
       </div>
     </section>
+  );
+}
+
+interface ContactRowProps {
+  icon: ReactNode;
+  label: string;
+  value: string;
+  href?: string;
+  note?: string;
+}
+
+function ContactRow({ icon, label, value, href, note }: ContactRowProps) {
+  const content = (
+    <>
+      <span className="text-base font-semibold text-foreground sm:text-lg">
+        {value}
+      </span>
+      {note && <span className="text-sm text-muted-foreground">{note}</span>}
+    </>
+  );
+
+  return (
+    <>
+      {href ? (
+        <Link
+          href={href}
+          className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40"
+        >
+          <div className="border-gold/25 bg-gold/10 text-gold flex size-11 items-center justify-center rounded-full border">
+            {icon}
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+              {label}
+            </p>
+
+            <div className="mt-1 flex flex-col">{content}</div>
+          </div>
+        </Link>
+      ) : (
+        <div className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40">
+          <div className="border-gold/25 bg-gold/10 text-gold flex size-11 items-center justify-center rounded-full border">
+            {icon}
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+              {label}
+            </p>
+
+            <div className="mt-1 flex flex-col">{content}</div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+interface SocialLinkProps {
+  href: string;
+  label: string;
+  children: ReactNode;
+}
+
+function SocialLink({ href, label, children }: SocialLinkProps) {
+  return (
+    <NextLink
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={label}
+      className="hover:border-gold/45 flex items-center justify-center rounded-4xl transition-transform hover:-translate-y-0.5"
+    >
+      <Button variant="ghost" size="icon" className="cursor-pointer">
+        {children}
+      </Button>
+    </NextLink>
   );
 }

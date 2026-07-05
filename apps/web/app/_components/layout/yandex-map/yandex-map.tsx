@@ -3,6 +3,7 @@
 import Script from 'next/script';
 import { useLocale, useTranslations } from 'next-intl';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { cn } from '@ak-strannik/ui/lib/utils';
 
 type Coordinates = [number, number];
 
@@ -121,8 +122,7 @@ export default function YandexMap({
   if (!apiKey) {
     return (
       <div
-        className={className}
-        style={{ width: '100%', height: '100%' }}
+        className={cn(className, 'h-full w-full')}
         role="status"
         aria-label={t('unavailableLabel')}
       >
@@ -146,11 +146,7 @@ export default function YandexMap({
           onReady={initMap}
         />
       )}
-      <div
-        ref={mapContainerRef}
-        className={className}
-        style={{ width: '100%', height: '100%' }}
-      />
+      <div ref={mapContainerRef} className={cn(className, 'h-full w-full')} />
     </>
   );
 }

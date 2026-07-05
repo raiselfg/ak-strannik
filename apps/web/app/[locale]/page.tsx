@@ -1,5 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 
+import { AboutSections } from '../_components/page/about-sections/about-sections';
 import { Hero } from '../_components/page/hero/hero';
 
 type PageProps = {
@@ -13,5 +14,10 @@ export default async function Page({ params }: PageProps) {
 
   setRequestLocale(locale);
 
-  return <Hero />;
+  return (
+    <>
+      <Hero />
+      <AboutSections />
+    </>
+  );
 }

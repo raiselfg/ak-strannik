@@ -45,10 +45,80 @@
     "contactCta": "Contact us",
     "projectsCta": "View projects"
   },
+  "HomeSections": {
+    "team": {
+      "eyebrow": "Team",
+      "title": "Academy team",
+      "quote": "“A wanderer is a free wind, finding its path at the crossroads of a thousand roads.”",
+      "members": {
+        "svetlana": {
+          "name": "Svetlana Isaeva (UstA)",
+          "role": "Academy founder"
+        },
+        "aleksey": {
+          "name": "Alexey Vinogradov",
+          "role": "Technical director"
+        },
+        "ksenia": {
+          "name": "Ksenia Pronina",
+          "role": "Academy director"
+        },
+        "roman": {
+          "name": "Roman Goncharov",
+          "role": "Artist, DJ"
+        },
+        "tihon": {
+          "name": "Tikhon Vinogradov",
+          "role": "PR manager"
+        }
+      }
+    },
+    "achievements": {
+      "eyebrow": "Experience",
+      "title": "Our achievements",
+      "stats": {
+        "participants": "Participants in Academy of Wanderings projects",
+        "audience": "Audience reach across our projects",
+        "funds": "Charitable foundations we collaborate with"
+      },
+      "projectsTitle": "Projects supported by the city",
+      "intro": "Over the years, with support from the Saint Petersburg Committee for Culture, the Academy has produced festivals, competitions, concerts, performances and charitable programs.",
+      "pandemicNote": "The Academy joined the list of socially oriented non-profit organizations and received numerous letters of thanks. During the pandemic, the team quickly adopted digital tools, developed online event methods and preserved a high level of project quality.",
+      "projects": {
+        "musicIsSevenNotes": "Music program “Music — 7 Notes”",
+        "russianBaroque": "All-Russian competition-festival “Russian Baroque”",
+        "starBorn": "All-Russian competition-festival “A Star Born in Petersburg”",
+        "bravo": "International arts festival BRAVO",
+        "blackAndWhite": "Grand concert of piano masters “Black and White”",
+        "kindnessTheater": "Festival for children and teenagers “Theater — Territory of Kindness”",
+        "warVictory": "Holiday program “Different War, Shared Victory” dedicated to the 75th anniversary of Victory",
+        "heartToHeart": "Charity concerts in nursing homes “From Heart to Heart”",
+        "pryalochka": "Musical tale “Pryalochka of Time”"
+      }
+    },
+    "letters": {
+      "eyebrow": "Recognition",
+      "title": "Letters of thanks",
+      "description": "These letters preserve the trace of projects, meetings and shared work with cultural, educational and social organizations.",
+      "letterAlt": "Letter of thanks {number}"
+    }
+  },
   "Contacts": {
+    "eyebrow": "Coordinates",
     "title": "Contacts",
+    "description": "Tell us what kind of event you are planning — we will suggest a program, venue, artists or props for the task.",
+    "brand": "Academy of Wanderings",
+    "brandCaption": "culture in motion",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "addressLabel": "Address",
     "address": "Saint Petersburg, Nevsky Prospect, 111/3",
     "addressNote": "entrance through the arch from Goncharnaya Street, 26",
+    "socialTitle": "Follow us",
+    "documentTitle": "Official documents",
+    "documentDescription": "The charter and organization materials are collected in a dedicated section.",
+    "mapEyebrow": "Find us",
+    "mapDescription": "Nevsky Prospect, near Moskovsky Railway Station",
     "vkLabel": "VK",
     "youtubeLabel": "YouTube",
     "charter": "Organization charter"

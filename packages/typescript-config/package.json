@@ -5,5 +5,12 @@
   "license": "PROPRIETARY",
   "publishConfig": {
     "access": "public"
+  },
+  "exports": {
+    "./base.json": "./base.json",
+    "./nextjs.json": "./nextjs.json",
+    "./react-library.json": "./react-library.json",
+    "./vite-node.json": "./vite-node.json",
+    "./vite-react.json": "./vite-react.json"
   }
 }
