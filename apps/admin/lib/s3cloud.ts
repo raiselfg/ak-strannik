@@ -1,20 +1,38 @@
 import {
-  S3Client,
-  PutObjectCommand,
-  S3ServiceException,
   DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+  S3ServiceException,
 } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
 import sharp from 'sharp';
 
 import { env } from './env';
-import { ValidationError, StorageError } from './errors';
+import { StorageError, ValidationError } from './errors';
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
+export type UploadedMediaFile = {
+  url: string;
+  bucket: string;
+  objectKey: string;
+  contentType: string;
+  sizeBytes: number;
+  width?: number;
+  height?: number;
+};
+
+type S3ErrorDetails = {
+  name?: string;
+  message?: string;
+  $metadata?: {
+    httpStatusCode?: number;
+  };
+};
+
 let _client: S3Client | null = null;
 
-// Ленивая инициализация клиента — обращается к env только в рантайме.
+// Lazy client init keeps env validation in runtime code paths.
 function getClient(): S3Client {
   if (_client) return _client;
 
@@ -32,6 +50,13 @@ function getClient(): S3Client {
 }
 
 export async function uploadFile(fileBody: File): Promise<string> {
+  const result = await uploadMediaFile(fileBody);
+  return result.url;
+}
+
+export async function uploadMediaFile(
+  fileBody: File,
+): Promise<UploadedMediaFile> {
   if (fileBody.size > MAX_FILE_SIZE) {
     throw new ValidationError(
       `File size exceeds 2MB limit: ${(fileBody.size / 1024 / 1024).toFixed(2)}MB`,
@@ -53,6 +78,7 @@ export async function uploadFile(fileBody: File): Promise<string> {
       effort: 5,
     })
     .toBuffer();
+  const optimizedMetadata = await sharp(optimizedBuffer).metadata();
 
   const command = new PutObjectCommand({
     Bucket: env.AWS_BUCKET,
@@ -65,19 +91,32 @@ export async function uploadFile(fileBody: File): Promise<string> {
 
   try {
     await getClient().send(command);
-    return `${env.AWS_ENDPOINT}/${env.AWS_BUCKET}/${fileName}`;
+    return {
+      url: `${env.AWS_ENDPOINT}/${env.AWS_BUCKET}/${fileName}`,
+      bucket: env.AWS_BUCKET,
+      objectKey: fileName,
+      contentType: 'image/avif',
+      sizeBytes: optimizedBuffer.byteLength,
+      width: optimizedMetadata.width,
+      height: optimizedMetadata.height,
+    };
   } catch (error) {
     if (error instanceof S3ServiceException) {
-      console.error(`[S3] Upload failed: ${error.name}`, {
-        status: error.$metadata.httpStatusCode,
-        message: error.message,
+      const s3Error = error as S3ErrorDetails;
+      console.error(`[S3] Upload failed: ${s3Error.name}`, {
+        status: s3Error.$metadata?.httpStatusCode,
+        message: s3Error.message,
       });
-      throw new StorageError(`Storage failed: ${error.name}`);
+      throw new StorageError(`Storage failed: ${s3Error.name}`);
     }
 
     console.error('[S3] Unexpected upload error:', error);
     throw new StorageError('Internal upload error');
   }
+}
+
+export function getFileUrl(file: Pick<UploadedMediaFile, 'bucket' | 'objectKey'>) {
+  return `${env.AWS_ENDPOINT}/${file.bucket}/${file.objectKey}`;
 }
 
 export async function deleteFile(fileUrl: string): Promise<void> {
@@ -98,11 +137,12 @@ export async function deleteFile(fileUrl: string): Promise<void> {
     await getClient().send(command);
   } catch (error) {
     if (error instanceof S3ServiceException) {
-      console.error(`[S3] Delete failed: ${error.name}`, {
-        status: error.$metadata.httpStatusCode,
-        message: error.message,
+      const s3Error = error as S3ErrorDetails;
+      console.error(`[S3] Delete failed: ${s3Error.name}`, {
+        status: s3Error.$metadata?.httpStatusCode,
+        message: s3Error.message,
       });
-      throw new StorageError(`Storage failed: ${error.name}`);
+      throw new StorageError(`Storage failed: ${s3Error.name}`);
     }
 
     console.error('[S3] Unexpected delete error:', error);

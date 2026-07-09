@@ -15,11 +15,13 @@
     "@ak-strannik/database": "workspace:*",
     "@ak-strannik/ui": "workspace:*",
     "@aws-sdk/client-s3": "^3.1080.0",
+    "@hookform/resolvers": "^5.4.0",
     "better-auth": "^1.6.23",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-hook-form": "^7.81.0",
     "sharp": "^0.35.3",
     "zod": "^4.4.3"
   },
