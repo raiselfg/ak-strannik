@@ -1,0 +1,14 @@
+import type { Metadata } from 'next';
+import { PageBreadcrumbs } from '../../../_components/page-breadcrumbs';
+import { PageHeader } from '../../../_components/page-header';
+import { ProjectForm } from '../../../../features/projects/project-form';
+import { getProjectMediaOptions } from '../../../../features/projects/queries';
+
+export const metadata: Metadata = { title: 'Новый проект' };
+
+export default async function NewProjectPage() {
+  const mediaOptions = await getProjectMediaOptions();
+  return (
+    <div className="space-y-8"><div><PageBreadcrumbs items={[{ label: 'Проекты', href: '/projects' }, { label: 'Новый проект' }]} /><PageHeader description="Создайте проект, после чего сможете добавить секции его страницы." title="Новый проект" /></div><ProjectForm mediaOptions={mediaOptions} mode="create" /></div>
+  );
+}

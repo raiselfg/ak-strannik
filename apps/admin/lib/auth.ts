@@ -6,8 +6,6 @@ import { env } from './env';
 import { nextCookies } from 'better-auth/next-js';
 
 export const auth = betterAuth({
-  secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
@@ -16,14 +14,14 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     minPasswordLength: 6,
     maxPasswordLength: 64,
+    // Accounts are provisioned out of band; public registration would grant
+    // administrative access to an untrusted user.
     disableSignUp: true,
   },
   trustedOrigins: [
-    'https://us-ta.ru',
-    'https://admin.us-ta.ru',
-    'https://cdn.us-ta.ru',
-    'http://localhost:5173',
+    'https://admin.ak-strannik.ru',
     'http://localhost:3001',
+    'http://localhost:3000',
   ],
   rateLimit: {
     enabled: true,
@@ -40,10 +38,10 @@ export const auth = betterAuth({
   },
   advanced: {
     useSecureCookies: env.NODE_ENV === 'production',
-    cookiePrefix: 'usta_auth',
+    cookiePrefix: 'strannik_auth',
     defaultCookieAttributes: {
-      sameSite: 'none',
-      secure: true,
+      sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: env.NODE_ENV === 'production',
     },
   },
   plugins: [nextCookies()],

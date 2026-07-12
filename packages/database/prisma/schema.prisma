@@ -1,21 +1,27 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+// ============================================================
+// Better Auth
+// ============================================================
+
 model User {
-  id            String    @id
+  id            String   @id
   name          String
   email         String
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+
+  sessions Session[]
+  accounts Account[]
 
   @@unique([email])
   @@map("user")
@@ -29,8 +35,9 @@ model Session {
   updatedAt DateTime
   ipAddress String?
   userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -41,7 +48,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -51,6 +57,8 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
@@ -66,848 +74,424 @@ model Verification {
   @@map("verification")
 }
 
-enum EntityStatus {
-  active
-  archived
+// ============================================================
+// Enums
+// ============================================================
+
+enum Locale {
+  ru
+  en
 }
 
-enum TranslationStatus {
+enum ContentStatus {
   draft
-  review
   published
   archived
 }
 
-enum MediaKind {
-  image
-  video
-  document
-}
-
-enum MediaStatus {
-  pending
-  processing
-  ready
-  failed
-  deleting
-  deleted
-}
-
-enum ProjectKind {
-  charity
-  showcase
-  festival
-}
-
-enum ShowcaseCategory {
-  concert
-  artist
-  performance
-  master_class
-  holiday_event
-  exhibition
-}
-
-enum RentalCategory {
-  prop
-  attraction
+enum RentalType {
   mascot
+  attraction
+  props
 }
 
-enum MetricQualifier {
-  exact
-  at_least
-  at_most
+enum ProjectType {
+  musical
+  singer
+  exhibition
+  newYearShow
+  masterClass
+  performance
+  artist
+  concertProgram
+  festival
+  charity
+  other
 }
 
-enum JobStatus {
-  queued
-  running
-  done
-  failed
+enum ProjectSectionVariant {
+  content
+  split
+  gallery
+  slider
+  youtube
+  quote
 }
 
-model Locale {
-  code       String   @id @db.VarChar(16)
-  name       String   @db.Text
-  nativeName String   @map("native_name") @db.Text
-  pathPrefix String   @default("") @map("path_prefix") @db.VarChar(32)
-  isDefault  Boolean  @default(false) @map("is_default")
-  isEnabled  Boolean  @default(true) @map("is_enabled")
-  sortOrder  Int      @default(0) @map("sort_order")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  @@unique([pathPrefix])
-  @@index([isEnabled, sortOrder])
-  @@map("locales")
-}
-
-model AuditLog {
-  id                  BigInt   @id @default(autoincrement())
-  actorAdminAccountId String?  @map("actor_admin_account_id") @db.Uuid
-  sessionId           String?  @map("session_id") @db.Uuid
-  action              String   @db.Text
-  entityType          String?  @map("entity_type") @db.Text
-  entityId            String?  @map("entity_id") @db.Uuid
-  ipAddress           String?  @map("ip_address")
-  userAgent           String?  @map("user_agent") @db.Text
-  metadata            Json?
-  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  @@index([createdAt])
-  @@index([entityType, entityId, createdAt])
-  @@index([actorAdminAccountId])
-  @@index([sessionId])
-  @@map("audit_log")
-}
+// ============================================================
+// Media
+// ============================================================
 
 model MediaAsset {
-  id                       String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  kind                     MediaKind
-  bucket                   String      @db.Text
-  objectKey                String      @map("object_key") @db.Text
-  originalFilename         String?     @map("original_filename") @db.Text
-  contentType              String      @map("content_type") @db.Text
-  sizeBytes                BigInt      @map("size_bytes")
-  width                    Int?
-  height                   Int?
-  checksumSha256           String?     @map("checksum_sha256") @db.Text
-  status                   MediaStatus @default(pending)
-  uploadedByAdminAccountId String?     @map("uploaded_by_admin_account_id") @db.Uuid
-  createdAt                DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt                DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id String @id @default(uuid()) @db.Uuid
+  objectKey String @unique
 
-  translations MediaAssetTranslation[]
-  variants     MediaVariant[]
-
-  @@unique([bucket, objectKey])
-  @@index([uploadedByAdminAccountId])
-  @@index([status, createdAt])
-  @@map("media_assets")
-}
-
-model MediaVariant {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mediaAssetId String   @map("media_asset_id") @db.Uuid
-  code         String   @db.Text
-  bucket       String   @db.Text
-  objectKey    String   @map("object_key") @db.Text
-  contentType  String   @map("content_type") @db.Text
-  sizeBytes    BigInt   @map("size_bytes")
+  originalName String
+  mimeType     String
+  size         Int?
   width        Int?
   height       Int?
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  mediaAsset MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@unique([mediaAssetId, code])
-  @@unique([bucket, objectKey])
-  @@index([mediaAssetId])
-  @@map("media_variants")
+  translations MediaAssetTranslation[]
+
+  teamMembers         TeamMember[]          @relation("TeamMemberImage")
+  eventCovers         Event[]               @relation("EventCoverImage")
+  eventImages         EventImage[]          @relation("EventGalleryImage")
+  rentalItems         RentalItem[]          @relation("RentalItemImage")
+  projectCovers       Project[]             @relation("ProjectCoverImage")
+  projectSectionMedia ProjectSectionMedia[] @relation("ProjectSectionMediaAsset")
+  partnerLogos        Partner[]             @relation("PartnerLogo")
+  certificateImages   Certificate[]         @relation("CertificateImage")
+
+  @@index([mimeType])
+  @@index([createdAt])
 }
 
 model MediaAssetTranslation {
-  mediaAssetId  String  @map("media_asset_id") @db.Uuid
-  localeCode    String  @map("locale_code") @db.VarChar(16)
-  altText       String? @map("alt_text") @db.Text
-  title         String? @db.Text
-  caption       String? @db.Text
-  copyrightText String? @map("copyright_text") @db.Text
+  id           String @id @default(uuid()) @db.Uuid
+  mediaAssetId String @db.Uuid
+  locale       Locale
+
+  alt     String?
+  title   String?
+  caption String? @db.Text
 
   mediaAsset MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
 
-  @@id([mediaAssetId, localeCode])
-  @@index([localeCode])
-  @@map("media_asset_translations")
+  @@unique([mediaAssetId, locale])
+  @@index([locale])
 }
 
-model ContentDocument {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+// ============================================================
+// Team
+// Используется на главной и при необходимости на странице "О нас".
+// Остальной контент этих страниц хранится статически.
+// ============================================================
 
-  blocks ContentBlock[]
+model TeamMember {
+  id      String  @id @default(uuid()) @db.Uuid
+  imageId String? @db.Uuid
 
-  @@map("content_documents")
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image MediaAsset? @relation("TeamMemberImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  translations TeamMemberTranslation[]
+
+  @@index([imageId])
+  @@index([isActive, sortOrder])
 }
 
-model ContentBlock {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  documentId String   @map("document_id") @db.Uuid
-  type       String   @db.VarChar(32)
-  sortOrder  Int      @default(0) @map("sort_order")
-  settings   Json
-  payload    Json
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+model TeamMemberTranslation {
+  id           String @id @default(uuid()) @db.Uuid
+  teamMemberId String @db.Uuid
+  locale       Locale
 
-  document ContentDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  name        String
+  role        String?
+  description String? @db.Text
 
-  @@index([documentId, sortOrder])
-  @@map("content_blocks")
+  teamMember TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([teamMemberId, locale])
+  @@index([locale])
 }
 
-model Page {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code      String       @unique @db.VarChar(64)
-  status    EntityStatus @default(active)
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations PageTranslation[]
-
-  @@index([status])
-  @@map("pages")
-}
-
-model PageTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  pageId         String            @map("page_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  title          String?           @db.Text
-  slug           String?           @db.VarChar(180)
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  seoOgMediaId   String?           @map("seo_og_media_id") @db.Uuid
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
-
-  @@unique([pageId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@index([seoOgMediaId])
-  @@map("page_translations")
-}
-
-model Person {
-  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  avatarMediaId String?      @map("avatar_media_id") @db.Uuid
-  status        EntityStatus @default(active)
-  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations    PersonTranslation[]
-  teamMembership  TeamMembership?
-  links           PersonLink[]
-  awards          PersonAward[]
-
-  @@index([avatarMediaId])
-  @@index([status])
-  @@map("people")
-}
-
-model PersonTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personId       String            @map("person_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  fullName       String            @map("full_name") @db.Text
-  slug           String?           @db.VarChar(180)
-  shortBio       String?           @map("short_bio") @db.Text
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
-
-  @@unique([personId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@map("person_translations")
-}
-
-model TeamMembership {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personId  String       @unique @map("person_id") @db.Uuid
-  status    EntityStatus @default(active)
-  sortOrder Int          @default(0) @map("sort_order")
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  person       Person                      @relation(fields: [personId], references: [id], onDelete: Cascade)
-  translations TeamMembershipTranslation[]
-
-  @@index([status, sortOrder])
-  @@map("team_memberships")
-}
-
-model TeamMembershipTranslation {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  teamMembershipId String            @map("team_membership_id") @db.Uuid
-  localeCode       String            @map("locale_code") @db.VarChar(16)
-  roleTitle        String?           @map("role_title") @db.Text
-  status           TranslationStatus @default(draft)
-  publishedAt      DateTime?         @map("published_at") @db.Timestamptz(6)
-
-  membership TeamMembership @relation(fields: [teamMembershipId], references: [id], onDelete: Cascade)
-
-  @@unique([teamMembershipId, localeCode])
-  @@index([localeCode, status])
-  @@map("team_membership_translations")
-}
-
-model PersonLink {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personId  String   @map("person_id") @db.Uuid
-  url       String   @db.Text
-  linkType  String   @map("link_type") @db.Text
-  sortOrder Int      @default(0) @map("sort_order")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  person       Person                  @relation(fields: [personId], references: [id], onDelete: Cascade)
-  translations PersonLinkTranslation[]
-
-  @@index([personId, sortOrder])
-  @@map("person_links")
-}
-
-model PersonLinkTranslation {
-  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personLinkId String  @map("person_link_id") @db.Uuid
-  localeCode   String  @map("locale_code") @db.VarChar(16)
-  label        String? @db.Text
-
-  link PersonLink @relation(fields: [personLinkId], references: [id], onDelete: Cascade)
-
-  @@unique([personLinkId, localeCode])
-  @@index([localeCode])
-  @@map("person_link_translations")
-}
-
-model PersonAward {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personId     String    @map("person_id") @db.Uuid
-  imageMediaId String?   @map("image_media_id") @db.Uuid
-  awardedOn    DateTime? @map("awarded_on") @db.Date
-  sortOrder    Int       @default(0) @map("sort_order")
-  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  person       Person                   @relation(fields: [personId], references: [id], onDelete: Cascade)
-  translations PersonAwardTranslation[]
-
-  @@index([personId, sortOrder])
-  @@index([imageMediaId])
-  @@map("person_awards")
-}
-
-model PersonAwardTranslation {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  personAwardId String  @map("person_award_id") @db.Uuid
-  localeCode    String  @map("locale_code") @db.VarChar(16)
-  title         String? @db.Text
-  description   String? @db.Text
-
-  award PersonAward @relation(fields: [personAwardId], references: [id], onDelete: Cascade)
-
-  @@unique([personAwardId, localeCode])
-  @@index([localeCode])
-  @@map("person_award_translations")
-}
-
-model Partner {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  logoMediaId String?      @map("logo_media_id") @db.Uuid
-  websiteUrl  String?      @map("website_url") @db.Text
-  status      EntityStatus @default(active)
-  sortOrder   Int          @default(0) @map("sort_order")
-  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations PartnerTranslation[]
-  projects     ProjectPartner[]
-
-  @@index([status, sortOrder])
-  @@index([logoMediaId])
-  @@map("partners")
-}
-
-model PartnerTranslation {
-  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  partnerId   String            @map("partner_id") @db.Uuid
-  localeCode  String            @map("locale_code") @db.VarChar(16)
-  name        String            @db.Text
-  description String?           @db.Text
-  status      TranslationStatus @default(draft)
-  publishedAt DateTime?         @map("published_at") @db.Timestamptz(6)
-
-  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
-
-  @@unique([partnerId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@map("partner_translations")
-}
-
-model Project {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  kind             ProjectKind
-  showcaseCategory ShowcaseCategory? @map("showcase_category")
-  startsOn         DateTime?         @map("starts_on") @db.Date
-  endsOn           DateTime?         @map("ends_on") @db.Date
-  coverMediaId     String?           @map("cover_media_id") @db.Uuid
-  status           EntityStatus      @default(active)
-  sortOrder        Int               @default(0) @map("sort_order")
-  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations ProjectTranslation[]
-  media        ProjectMedia[]
-  partners     ProjectPartner[]
-  cast         ProjectCastMember[]
-
-  @@index([kind, status, sortOrder])
-  @@index([startsOn, endsOn])
-  @@index([coverMediaId])
-  @@map("projects")
-}
-
-model ProjectTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  projectId      String            @map("project_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  title          String            @db.Text
-  slug           String?           @db.VarChar(180)
-  subtitle       String?           @db.Text
-  excerpt        String?           @db.Text
-  periodLabel    String?           @map("period_label") @db.Text
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  seoOgMediaId   String?           @map("seo_og_media_id") @db.Uuid
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@unique([projectId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@index([seoOgMediaId])
-  @@map("project_translations")
-}
-
-model ProjectMedia {
-  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  projectId    String @map("project_id") @db.Uuid
-  mediaAssetId String @map("media_asset_id") @db.Uuid
-  role         String @default("gallery") @db.VarChar(32)
-  sortOrder    Int    @default(0) @map("sort_order")
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@unique([projectId, mediaAssetId])
-  @@index([projectId, sortOrder])
-  @@index([mediaAssetId])
-  @@map("project_media")
-}
-
-model ProjectPartner {
-  projectId String @map("project_id") @db.Uuid
-  partnerId String @map("partner_id") @db.Uuid
-  sortOrder Int    @default(0) @map("sort_order")
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Restrict)
-
-  @@id([projectId, partnerId])
-  @@index([partnerId])
-  @@index([projectId, sortOrder])
-  @@map("project_partners")
-}
-
-model ProjectCastMember {
-  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  projectId String @map("project_id") @db.Uuid
-  personId  String @map("person_id") @db.Uuid
-  sortOrder Int    @default(0) @map("sort_order")
-
-  project      Project                        @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  translations ProjectCastMemberTranslation[]
-
-  @@unique([projectId, personId])
-  @@index([projectId, sortOrder])
-  @@index([personId])
-  @@map("project_cast_members")
-}
-
-model ProjectCastMemberTranslation {
-  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  castMemberId String  @map("cast_member_id") @db.Uuid
-  localeCode   String  @map("locale_code") @db.VarChar(16)
-  roleTitle    String? @map("role_title") @db.Text
-  note         String? @db.Text
-
-  castMember ProjectCastMember @relation(fields: [castMemberId], references: [id], onDelete: Cascade)
-
-  @@unique([castMemberId, localeCode])
-  @@index([localeCode])
-  @@map("project_cast_member_translations")
-}
+// ============================================================
+// Events
+// Список мероприятий и отдельные страницы мероприятий.
+// Структура страницы фиксирована:
+// cover + title + body + optional YouTube + gallery.
+// ============================================================
 
 model Event {
-  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  startsAt     DateTime     @map("starts_at") @db.Timestamptz(6)
-  endsAt       DateTime?    @map("ends_at") @db.Timestamptz(6)
-  timezone     String       @db.Text
-  isAllDay     Boolean      @default(false) @map("is_all_day")
-  coverMediaId String?      @map("cover_media_id") @db.Uuid
-  status       EntityStatus @default(active)
-  sortOrder    Int          @default(0) @map("sort_order")
-  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id   String @id @default(uuid()) @db.Uuid
+  slug String @unique
+
+  status    ContentStatus @default(draft)
+  eventDate DateTime?
+
+  coverImageId String? @db.Uuid
+  youtubeUrl   String?
+
+  sortOrder Int @default(0)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  coverImage MediaAsset? @relation("EventCoverImage", fields: [coverImageId], references: [id], onDelete: SetNull)
 
   translations EventTranslation[]
-  media        EventMedia[]
+  images       EventImage[]
 
-  @@index([status, startsAt, sortOrder])
-  @@index([coverMediaId])
-  @@map("events")
+  @@index([status, eventDate])
+  @@index([sortOrder])
+  @@index([coverImageId])
 }
 
 model EventTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  eventId        String            @map("event_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  title          String?           @db.Text
-  slug           String?           @db.VarChar(180)
-  excerpt        String?           @db.Text
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  seoOgMediaId   String?           @map("seo_og_media_id") @db.Uuid
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id      String @id @default(uuid()) @db.Uuid
+  eventId String @db.Uuid
+  locale  Locale
+
+  title          String
+  excerpt        String? @db.Text
+  body           String? @db.Text
+  seoTitle       String?
+  seoDescription String? @db.Text
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-  @@unique([eventId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@index([seoOgMediaId])
-  @@map("event_translations")
+  @@unique([eventId, locale])
+  @@index([locale])
 }
 
-model EventMedia {
-  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  eventId      String @map("event_id") @db.Uuid
-  mediaAssetId String @map("media_asset_id") @db.Uuid
-  role         String @default("gallery") @db.VarChar(32)
-  sortOrder    Int    @default(0) @map("sort_order")
+model EventImage {
+  id      String @id @default(uuid()) @db.Uuid
+  eventId String @db.Uuid
+  mediaId String @db.Uuid
+
+  sortOrder Int @default(0)
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-  @@unique([eventId, mediaAssetId])
+  media MediaAsset @relation("EventGalleryImage", fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, mediaId])
   @@index([eventId, sortOrder])
-  @@index([mediaAssetId])
-  @@map("event_media")
+  @@index([mediaId])
 }
 
-model Document {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  category  String       @db.Text
-  issuedAt  DateTime?    @map("issued_at") @db.Date
-  status    EntityStatus @default(active)
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations DocumentTranslation[]
-
-  @@index([category, status, issuedAt])
-  @@map("documents")
-}
-
-model DocumentTranslation {
-  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  documentId  String            @map("document_id") @db.Uuid
-  localeCode  String            @map("locale_code") @db.VarChar(16)
-  title       String            @db.Text
-  slug        String?           @db.VarChar(180)
-  description String?           @db.Text
-  fileMediaId String?           @map("file_media_id") @db.Uuid
-  status      TranslationStatus @default(draft)
-  publishedAt DateTime?         @map("published_at") @db.Timestamptz(6)
-
-  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
-
-  @@unique([documentId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([fileMediaId])
-  @@map("document_translations")
-}
-
-model Report {
-  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  projectId    String?      @map("project_id") @db.Uuid
-  year         Int?         @db.SmallInt
-  periodStart  DateTime?    @map("period_start") @db.Date
-  periodEnd    DateTime?    @map("period_end") @db.Date
-  coverMediaId String?      @map("cover_media_id") @db.Uuid
-  status       EntityStatus @default(active)
-  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations ReportTranslation[]
-  metrics      ReportMetric[]
-  venues       ReportVenue[]
-
-  @@index([status, year])
-  @@index([projectId])
-  @@index([coverMediaId])
-  @@map("reports")
-}
-
-model ReportTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  reportId       String            @map("report_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  title          String            @db.Text
-  slug           String?           @db.VarChar(180)
-  excerpt        String?           @db.Text
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
-
-  @@unique([reportId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@map("report_translations")
-}
-
-model ReportMetric {
-  id           String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  reportId     String          @map("report_id") @db.Uuid
-  code         String          @db.VarChar(64)
-  valueNumeric Decimal         @map("value_numeric") @db.Decimal
-  qualifier    MetricQualifier
-  unitCode     String?         @map("unit_code") @db.VarChar(32)
-  sortOrder    Int             @default(0) @map("sort_order")
-
-  report       Report                    @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  translations ReportMetricTranslation[]
-
-  @@unique([reportId, code])
-  @@index([reportId, sortOrder])
-  @@map("report_metrics")
-}
-
-model ReportMetricTranslation {
-  reportMetricId String  @map("report_metric_id") @db.Uuid
-  localeCode     String  @map("locale_code") @db.VarChar(16)
-  label          String  @db.Text
-  suffix         String? @db.Text
-
-  metric ReportMetric @relation(fields: [reportMetricId], references: [id], onDelete: Cascade)
-
-  @@id([reportMetricId, localeCode])
-  @@index([localeCode])
-  @@map("report_metric_translations")
-}
-
-model Venue {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  city        String?  @db.Text
-  region      String?  @db.Text
-  countryCode String?  @map("country_code") @db.Text
-  latitude    Decimal? @db.Decimal
-  longitude   Decimal? @db.Decimal
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  translations VenueTranslation[]
-  reports      ReportVenue[]
-
-  @@map("venues")
-}
-
-model VenueTranslation {
-  venueId     String  @map("venue_id") @db.Uuid
-  localeCode  String  @map("locale_code") @db.VarChar(16)
-  name        String  @db.Text
-  addressText String? @map("address_text") @db.Text
-
-  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
-
-  @@id([venueId, localeCode])
-  @@index([localeCode])
-  @@map("venue_translations")
-}
-
-model ReportVenue {
-  reportId  String @map("report_id") @db.Uuid
-  venueId   String @map("venue_id") @db.Uuid
-  sortOrder Int    @default(0) @map("sort_order")
-
-  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  venue  Venue  @relation(fields: [venueId], references: [id], onDelete: Restrict)
-
-  @@id([reportId, venueId])
-  @@index([venueId])
-  @@index([reportId, sortOrder])
-  @@map("report_venues")
-}
+// ============================================================
+// Rental
+// Категории фиксированы через RentalType.
+// У позиции аренды одно основное изображение.
+// ============================================================
 
 model RentalItem {
-  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  category     RentalCategory
-  coverMediaId String?        @map("cover_media_id") @db.Uuid
-  status       EntityStatus   @default(active)
-  sortOrder    Int            @default(0) @map("sort_order")
-  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id   String     @id @default(uuid()) @db.Uuid
+  slug String     @unique
+  type RentalType
+
+  imageId String? @db.Uuid
+
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image MediaAsset? @relation("RentalItemImage", fields: [imageId], references: [id], onDelete: SetNull)
 
   translations RentalItemTranslation[]
 
-  @@index([category, status, sortOrder])
-  @@index([coverMediaId])
-  @@map("rental_items")
+  @@index([type, isActive, sortOrder])
+  @@index([imageId])
 }
 
 model RentalItemTranslation {
-  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  rentalItemId   String            @map("rental_item_id") @db.Uuid
-  localeCode     String            @map("locale_code") @db.VarChar(16)
-  title          String            @db.Text
-  slug           String?           @db.VarChar(180)
-  excerpt        String?           @db.Text
-  bodyDocumentId String?           @map("body_document_id") @db.Uuid
-  seoTitle       String?           @map("seo_title") @db.Text
-  seoDescription String?           @map("seo_description") @db.Text
-  status         TranslationStatus @default(draft)
-  publishedAt    DateTime?         @map("published_at") @db.Timestamptz(6)
-  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id           String @id @default(uuid()) @db.Uuid
+  rentalItemId String @db.Uuid
+  locale       Locale
+
+  title       String
+  description String? @db.Text
+  priceText   String?
 
   rentalItem RentalItem @relation(fields: [rentalItemId], references: [id], onDelete: Cascade)
 
-  @@unique([rentalItemId, localeCode])
-  @@index([localeCode, status, publishedAt])
-  @@index([bodyDocumentId])
-  @@map("rental_item_translations")
+  @@unique([rentalItemId, locale])
+  @@index([locale])
 }
 
-model OrganizationAward {
-  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  imageMediaId String?      @map("image_media_id") @db.Uuid
-  awardedOn    DateTime?    @map("awarded_on") @db.Date
-  sortOrder    Int          @default(0) @map("sort_order")
-  status       EntityStatus @default(active)
-  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+// ============================================================
+// Projects
+// Сюда входят спектакли, выставки, мастер-классы,
+// концертные программы, фестивали, благотворительность и т. д.
+//
+// Только проекты имеют управляемые секции, потому что их страницы
+// действительно имеют разную последовательность контента.
+// ============================================================
 
-  translations OrganizationAwardTranslation[]
+model Project {
+  id   String      @id @default(uuid()) @db.Uuid
+  slug String      @unique
+  type ProjectType
 
-  @@index([status, sortOrder])
-  @@index([imageMediaId])
-  @@map("organization_awards")
+  status ContentStatus @default(draft)
+
+  coverImageId String? @db.Uuid
+  sortOrder    Int     @default(0)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  coverImage MediaAsset? @relation("ProjectCoverImage", fields: [coverImageId], references: [id], onDelete: SetNull)
+
+  translations ProjectTranslation[]
+  sections     ProjectSection[]
+
+  @@index([type, status, sortOrder])
+  @@index([coverImageId])
 }
 
-model OrganizationAwardTranslation {
-  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  awardId     String            @map("award_id") @db.Uuid
-  localeCode  String            @map("locale_code") @db.VarChar(16)
-  title       String?           @db.Text
-  description String?           @db.Text
-  status      TranslationStatus @default(draft)
-  publishedAt DateTime?         @map("published_at") @db.Timestamptz(6)
+model ProjectTranslation {
+  id        String @id @default(uuid()) @db.Uuid
+  projectId String @db.Uuid
+  locale    Locale
 
-  award OrganizationAward @relation(fields: [awardId], references: [id], onDelete: Cascade)
+  title          String
+  subtitle       String?
+  excerpt        String? @db.Text
+  seoTitle       String?
+  seoDescription String? @db.Text
 
-  @@unique([awardId, localeCode])
-  @@index([localeCode, status])
-  @@map("organization_award_translations")
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, locale])
+  @@index([locale])
 }
 
-model Redirect {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  fromPath   String   @unique @map("from_path") @db.Text
-  toPath     String   @map("to_path") @db.Text
-  httpStatus Int      @map("http_status") @db.SmallInt
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+model ProjectSection {
+  id        String                @id @default(uuid()) @db.Uuid
+  projectId String                @db.Uuid
+  variant   ProjectSectionVariant @default(content)
 
-  @@index([isActive, fromPath])
-  @@map("redirects")
+  youtubeUrl String?
+
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  translations ProjectSectionTranslation[]
+  media        ProjectSectionMedia[]
+
+  @@index([projectId, sortOrder])
+  @@index([variant])
 }
 
-model Job {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  type      String    @db.Text
-  payload   Json
-  status    String    @default("queued") @db.Text
-  attempts  Int       @default(0)
-  runAfter  DateTime  @default(now()) @map("run_after") @db.Timestamptz(6)
-  lockedAt  DateTime? @map("locked_at") @db.Timestamptz(6)
-  lockedBy  String?   @map("locked_by") @db.Text
-  lastError String?   @map("last_error") @db.Text
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+model ProjectSectionTranslation {
+  id        String @id @default(uuid()) @db.Uuid
+  sectionId String @db.Uuid
+  locale    Locale
 
-  @@index([status, runAfter, createdAt])
-  @@map("jobs")
+  title    String?
+  subtitle String?
+  body     String? @db.Text
+
+  // Используется для variant = quote.
+  author String?
+
+  section ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionId, locale])
+  @@index([locale])
 }
 
-model SiteSetting {
-  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  singleton        Boolean  @unique @default(true)
-  email            String?  @db.Text
-  phone            String?  @db.Text
-  telegramUrl      String?  @map("telegram_url") @db.Text
-  vkUrl            String?  @map("vk_url") @db.Text
-  youtubeUrl       String?  @map("youtube_url") @db.Text
-  addressLatitude  Decimal? @map("address_latitude") @db.Decimal
-  addressLongitude Decimal? @map("address_longitude") @db.Decimal
-  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+model ProjectSectionMedia {
+  id        String @id @default(uuid()) @db.Uuid
+  sectionId String @db.Uuid
+  mediaId   String @db.Uuid
 
-  translations SiteSettingTranslation[]
+  sortOrder Int @default(0)
 
-  @@map("site_settings")
+  section ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  media MediaAsset @relation("ProjectSectionMediaAsset", fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionId, mediaId])
+  @@index([sectionId, sortOrder])
+  @@index([mediaId])
 }
 
-model SiteSettingTranslation {
-  siteSettingId         String   @map("site_setting_id") @db.Uuid
-  localeCode            String   @map("locale_code") @db.VarChar(16)
-  organizationName      String?  @map("organization_name") @db.Text
-  legalName             String?  @map("legal_name") @db.Text
-  addressText           String?  @map("address_text") @db.Text
-  footerText            String?  @map("footer_text") @db.Text
-  defaultSeoTitle       String?  @map("default_seo_title") @db.Text
-  defaultSeoDescription String?  @map("default_seo_description") @db.Text
-  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+// ============================================================
+// Partners
+// Страница и её заголовки статичны.
+// Список партнёров загружается из БД.
+// ============================================================
 
-  setting SiteSetting @relation(fields: [siteSettingId], references: [id], onDelete: Cascade)
+model Partner {
+  id     String  @id @default(uuid()) @db.Uuid
+  logoId String? @db.Uuid
 
-  @@id([siteSettingId, localeCode])
-  @@index([localeCode])
-  @@map("site_setting_translations")
+  websiteUrl String?
+
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logo MediaAsset? @relation("PartnerLogo", fields: [logoId], references: [id], onDelete: SetNull)
+
+  translations PartnerTranslation[]
+
+  @@index([logoId])
+  @@index([isActive, sortOrder])
 }
 
-model ContentSeedRegistry {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  seedKey    String   @unique @map("seed_key") @db.Text
-  entityType String   @map("entity_type") @db.Text
-  entityId   String   @map("entity_id") @db.Uuid
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+model PartnerTranslation {
+  id        String @id @default(uuid()) @db.Uuid
+  partnerId String @db.Uuid
+  locale    Locale
 
-  @@map("content_seed_registry")
+  name        String
+  description String? @db.Text
+
+  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([partnerId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// Certificates / благодарственные письма
+// ============================================================
+
+model Certificate {
+  id      String @id @default(uuid()) @db.Uuid
+  imageId String @db.Uuid
+
+  year      Int?
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image MediaAsset @relation("CertificateImage", fields: [imageId], references: [id], onDelete: Restrict)
+
+  translations CertificateTranslation[]
+
+  @@index([imageId])
+  @@index([isActive, sortOrder])
+  @@index([year])
+}
+
+model CertificateTranslation {
+  id            String @id @default(uuid()) @db.Uuid
+  certificateId String @db.Uuid
+  locale        Locale
+
+  title       String?
+  issuer      String?
+  description String? @db.Text
+
+  certificate Certificate @relation(fields: [certificateId], references: [id], onDelete: Cascade)
+
+  @@unique([certificateId, locale])
+  @@index([locale])
 }
