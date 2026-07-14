@@ -22,6 +22,7 @@ WORKDIR /app
 
 COPY --from=pruner /app/out/json/ ./
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/full/packages/database/prisma ./packages/database/prisma
 
 RUN pnpm install --frozen-lockfile
 
@@ -32,7 +33,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
-RUN pnpm turbo run build --filter=@ak-strannik/admin
+RUN DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy \
+    BETTER_AUTH_SECRET=build-only-build-only-build-only \
+    BETTER_AUTH_URL=http://localhost:3000 \
+    AWS_ENDPOINT=http://localhost:9000 \
+    AWS_REGION=us-east-1 \
+    AWS_ACCESS_KEY=build-only \
+    AWS_SECRET_KEY=build-only \
+    AWS_BUCKET=build-only \
+    pnpm turbo run build --filter=@ak-strannik/admin --env-mode=loose
 
 
 FROM node:22-alpine AS runner
