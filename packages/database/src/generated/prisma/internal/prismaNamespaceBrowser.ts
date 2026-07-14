@@ -62,8 +62,10 @@ export const ModelName = {
   Event: 'Event',
   EventTranslation: 'EventTranslation',
   EventImage: 'EventImage',
+  EventVideo: 'EventVideo',
   RentalItem: 'RentalItem',
   RentalItemTranslation: 'RentalItemTranslation',
+  RentalItemImage: 'RentalItemImage',
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
   ProjectSection: 'ProjectSection',
@@ -71,6 +73,8 @@ export const ModelName = {
   ProjectSectionMedia: 'ProjectSectionMedia',
   Partner: 'Partner',
   PartnerTranslation: 'PartnerTranslation',
+  PartnerMedia: 'PartnerMedia',
+  PartnerVideo: 'PartnerVideo',
   Certificate: 'Certificate',
   CertificateTranslation: 'CertificateTranslation'
 } as const
@@ -152,6 +156,7 @@ export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[k
 export const MediaAssetScalarFieldEnum = {
   id: 'id',
   objectKey: 'objectKey',
+  checksumSha256: 'checksumSha256',
   originalName: 'originalName',
   mimeType: 'mimeType',
   size: 'size',
@@ -204,9 +209,11 @@ export const EventScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   status: 'status',
-  eventDate: 'eventDate',
+  eventYear: 'eventYear',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  projectId: 'projectId',
   coverImageId: 'coverImageId',
-  youtubeUrl: 'youtubeUrl',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -223,6 +230,8 @@ export const EventTranslationScalarFieldEnum = {
   title: 'title',
   excerpt: 'excerpt',
   body: 'body',
+  dateText: 'dateText',
+  locationText: 'locationText',
   seoTitle: 'seoTitle',
   seoDescription: 'seoDescription'
 } as const
@@ -238,6 +247,17 @@ export const EventImageScalarFieldEnum = {
 } as const
 
 export type EventImageScalarFieldEnum = (typeof EventImageScalarFieldEnum)[keyof typeof EventImageScalarFieldEnum]
+
+
+export const EventVideoScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  provider: 'provider',
+  url: 'url',
+  sortOrder: 'sortOrder'
+} as const
+
+export type EventVideoScalarFieldEnum = (typeof EventVideoScalarFieldEnum)[keyof typeof EventVideoScalarFieldEnum]
 
 
 export const RentalItemScalarFieldEnum = {
@@ -264,6 +284,16 @@ export const RentalItemTranslationScalarFieldEnum = {
 } as const
 
 export type RentalItemTranslationScalarFieldEnum = (typeof RentalItemTranslationScalarFieldEnum)[keyof typeof RentalItemTranslationScalarFieldEnum]
+
+
+export const RentalItemImageScalarFieldEnum = {
+  id: 'id',
+  rentalItemId: 'rentalItemId',
+  mediaId: 'mediaId',
+  sortOrder: 'sortOrder'
+} as const
+
+export type RentalItemImageScalarFieldEnum = (typeof RentalItemImageScalarFieldEnum)[keyof typeof RentalItemImageScalarFieldEnum]
 
 
 export const ProjectScalarFieldEnum = {
@@ -299,7 +329,8 @@ export const ProjectSectionScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   variant: 'variant',
-  youtubeUrl: 'youtubeUrl',
+  videoProvider: 'videoProvider',
+  videoUrl: 'videoUrl',
   sortOrder: 'sortOrder',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -354,6 +385,27 @@ export const PartnerTranslationScalarFieldEnum = {
 } as const
 
 export type PartnerTranslationScalarFieldEnum = (typeof PartnerTranslationScalarFieldEnum)[keyof typeof PartnerTranslationScalarFieldEnum]
+
+
+export const PartnerMediaScalarFieldEnum = {
+  id: 'id',
+  partnerId: 'partnerId',
+  mediaId: 'mediaId',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PartnerMediaScalarFieldEnum = (typeof PartnerMediaScalarFieldEnum)[keyof typeof PartnerMediaScalarFieldEnum]
+
+
+export const PartnerVideoScalarFieldEnum = {
+  id: 'id',
+  partnerId: 'partnerId',
+  provider: 'provider',
+  url: 'url',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PartnerVideoScalarFieldEnum = (typeof PartnerVideoScalarFieldEnum)[keyof typeof PartnerVideoScalarFieldEnum]
 
 
 export const CertificateScalarFieldEnum = {

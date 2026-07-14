@@ -37,25 +37,29 @@ export async function getTeamMemberById(id: string) {
   });
 
   if (!member) return null;
-  const ru = member.translations.find((translation) => translation.locale === 'ru');
-  const en = member.translations.find((translation) => translation.locale === 'en');
+  const ru = member.translations.find(
+    (translation) => translation.locale === 'ru'
+  );
+  const en = member.translations.find(
+    (translation) => translation.locale === 'en'
+  );
   const defaultValues: TeamMemberFormValues = {
     imageId: member.imageId,
     sortOrder: member.sortOrder,
     isActive: member.isActive,
     translations: {
-      ru: { name: ru?.name ?? '', role: ru?.role ?? null, description: ru?.description ?? null },
-      en: { name: en?.name ?? '', role: en?.role ?? null, description: en?.description ?? null },
+      ru: {
+        name: ru?.name ?? '',
+        role: ru?.role ?? null,
+        description: ru?.description ?? null,
+      },
+      en: {
+        name: en?.name ?? '',
+        role: en?.role ?? null,
+        description: en?.description ?? null,
+      },
     },
   };
 
   return { id: member.id, defaultValues };
-}
-
-export async function getTeamMemberMediaOptions() {
-  return prisma.mediaAsset.findMany({
-    where: { mimeType: { startsWith: 'image/' } },
-    select: { id: true, originalName: true },
-    orderBy: { createdAt: 'desc' },
-  });
 }

@@ -2,43 +2,21 @@
 
 import { prisma } from '@ak-strannik/database';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { requireAdminSession } from '../../lib/require-admin-session';
-import type { ActionResult } from '../team/actions';
 import {
-  CertificateFormSchema,
-  type CertificateFormValues,
-} from './schema';
-
-const idSchema = z.uuid();
-
-function fieldErrors(error: z.ZodError): Record<string, string[]> {
-  return error.issues.reduce<Record<string, string[]>>((result, issue) => {
-    const key = issue.path.join('.');
-    if (key) result[key] = [...(result[key] ?? []), issue.message];
-    return result;
-  }, {});
-}
+  authenticate,
+  fieldErrors,
+  idSchema,
+  type ActionResult,
+} from '../../lib/action-utils';
+import { CertificateFormSchema, type CertificateFormValues } from './schema';
 
 function hasEnglishTranslation(values: CertificateFormValues) {
   const translation = values.translations.en;
   return Boolean(
-    translation.title?.trim()
-    || translation.issuer?.trim()
-    || translation.description?.trim()
+    translation.title?.trim() ||
+    translation.issuer?.trim() ||
+    translation.description?.trim()
   );
-}
-
-async function authenticate(): Promise<ActionResult | null> {
-  try {
-    await requireAdminSession();
-    return null;
-  } catch {
-    return {
-      success: false,
-      message: 'Необходимо войти в административную панель',
-    };
-  }
 }
 
 async function imageExists(imageId: string) {
@@ -61,7 +39,7 @@ export async function createCertificateAction(
       fieldErrors: fieldErrors(parsed.error),
     };
   }
-  if (!await imageExists(parsed.data.imageId)) {
+  if (!(await imageExists(parsed.data.imageId))) {
     return {
       success: false,
       message: 'Выбранное изображение не найдено',
@@ -112,7 +90,10 @@ export async function updateCertificateAction(
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
-    return { success: false, message: 'Некорректный идентификатор сертификата' };
+    return {
+      success: false,
+      message: 'Некорректный идентификатор сертификата',
+    };
   }
   const parsed = CertificateFormSchema.safeParse(input);
   if (!parsed.success) {
@@ -122,7 +103,7 @@ export async function updateCertificateAction(
       fieldErrors: fieldErrors(parsed.error),
     };
   }
-  if (!await imageExists(parsed.data.imageId)) {
+  if (!(await imageExists(parsed.data.imageId))) {
     return {
       success: false,
       message: 'Выбранное изображение не найдено',
@@ -181,11 +162,16 @@ export async function updateCertificateAction(
   }
 }
 
-export async function deleteCertificateAction(id: string): Promise<ActionResult> {
+export async function deleteCertificateAction(
+  id: string
+): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
-    return { success: false, message: 'Некорректный идентификатор сертификата' };
+    return {
+      success: false,
+      message: 'Некорректный идентификатор сертификата',
+    };
   }
   try {
     const exists = await prisma.certificate.findUnique({

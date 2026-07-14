@@ -2,42 +2,34 @@
 
 import { prisma } from '@ak-strannik/database';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { requireAdminSession } from '../../lib/require-admin-session';
-import type { ActionResult } from '../team/actions';
+import {
+  authenticate,
+  fieldErrors,
+  idSchema,
+  type ActionResult,
+} from '../../lib/action-utils';
 import { EventFormSchema, type EventFormValues } from './schema';
-
-const idSchema = z.uuid();
-
-function fieldErrors(error: z.ZodError): Record<string, string[]> {
-  return error.issues.reduce<Record<string, string[]>>((result, issue) => {
-    const key = issue.path.join('.');
-    if (key) result[key] = [...(result[key] ?? []), issue.message];
-    return result;
-  }, {});
-}
 
 function hasEnglishTranslation(values: EventFormValues) {
   const translation = values.translations.en;
   return Boolean(
-    translation.title.trim() || translation.excerpt?.trim()
-    || translation.body?.trim() || translation.seoTitle?.trim()
-    || translation.seoDescription?.trim()
+    translation.title.trim() ||
+    translation.excerpt?.trim() ||
+    translation.body?.trim() ||
+    translation.seoTitle?.trim() ||
+    translation.seoDescription?.trim() ||
+    translation.dateText?.trim() ||
+    translation.locationText?.trim()
   );
 }
 
 function isUniqueConstraintError(error: unknown) {
-  return typeof error === 'object' && error !== null
-    && 'code' in error && error.code === 'P2002';
-}
-
-async function authenticate(): Promise<ActionResult | null> {
-  try {
-    await requireAdminSession();
-    return null;
-  } catch {
-    return { success: false, message: 'Необходимо войти в административную панель' };
-  }
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    error.code === 'P2002'
+  );
 }
 
 function slugConflictResult(): ActionResult {
@@ -48,7 +40,22 @@ function slugConflictResult(): ActionResult {
   };
 }
 
-async function validateMedia(values: EventFormValues): Promise<ActionResult | null> {
+async function validateMedia(
+  values: EventFormValues
+): Promise<ActionResult | null> {
+  if (
+    values.projectId &&
+    !(await prisma.project.findUnique({
+      where: { id: values.projectId },
+      select: { id: true },
+    }))
+  ) {
+    return {
+      success: false,
+      message: 'Выбранный проект не найден',
+      fieldErrors: { projectId: ['Выбранный проект не найден'] },
+    };
+  }
   if (values.coverImageId) {
     const cover = await prisma.mediaAsset.findFirst({
       where: { id: values.coverImageId, mimeType: { startsWith: 'image/' } },
@@ -86,15 +93,26 @@ function resolvePublishedAt(
   return values.publishedAt ?? existing ?? new Date();
 }
 
-export async function createEventAction(input: EventFormValues): Promise<ActionResult> {
+export async function createEventAction(
+  input: EventFormValues
+): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   const parsed = EventFormSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, message: 'Проверьте заполненные поля', fieldErrors: fieldErrors(parsed.error) };
+    return {
+      success: false,
+      message: 'Проверьте заполненные поля',
+      fieldErrors: fieldErrors(parsed.error),
+    };
   }
   const values = parsed.data;
-  if (await prisma.event.findUnique({ where: { slug: values.slug }, select: { id: true } })) {
+  if (
+    await prisma.event.findUnique({
+      where: { slug: values.slug },
+      select: { id: true },
+    })
+  ) {
     return slugConflictResult();
   }
   const mediaError = await validateMedia(values);
@@ -106,9 +124,11 @@ export async function createEventAction(input: EventFormValues): Promise<ActionR
         data: {
           slug: values.slug,
           status: values.status,
-          eventDate: values.eventDate,
+          eventYear: values.eventYear,
+          startDate: values.startDate,
+          endDate: values.endDate,
+          projectId: values.projectId,
           coverImageId: values.coverImageId,
-          youtubeUrl: values.youtubeUrl,
           sortOrder: values.sortOrder,
           publishedAt: resolvePublishedAt(values),
         },
@@ -123,7 +143,15 @@ export async function createEventAction(input: EventFormValues): Promise<ActionR
       }
       if (values.gallery.length) {
         await tx.eventImage.createMany({
-          data: values.gallery.map((image) => ({ eventId: event.id, ...image })),
+          data: values.gallery.map((image) => ({
+            eventId: event.id,
+            ...image,
+          })),
+        });
+      }
+      if (values.videos.length) {
+        await tx.eventVideo.createMany({
+          data: values.videos.map((video) => ({ eventId: event.id, ...video })),
         });
       }
     });
@@ -143,20 +171,32 @@ export async function updateEventAction(
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
-    return { success: false, message: 'Некорректный идентификатор мероприятия' };
+    return {
+      success: false,
+      message: 'Некорректный идентификатор мероприятия',
+    };
   }
   const parsed = EventFormSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, message: 'Проверьте заполненные поля', fieldErrors: fieldErrors(parsed.error) };
+    return {
+      success: false,
+      message: 'Проверьте заполненные поля',
+      fieldErrors: fieldErrors(parsed.error),
+    };
   }
   const values = parsed.data;
   const existing = await prisma.event.findUnique({
-    where: { id }, select: { id: true, publishedAt: true },
+    where: { id },
+    select: { id: true, publishedAt: true },
   });
   if (!existing) return { success: false, message: 'Мероприятие не найдено' };
-  if (await prisma.event.findFirst({
-    where: { slug: values.slug, id: { not: id } }, select: { id: true },
-  })) return slugConflictResult();
+  if (
+    await prisma.event.findFirst({
+      where: { slug: values.slug, id: { not: id } },
+      select: { id: true },
+    })
+  )
+    return slugConflictResult();
   const mediaError = await validateMedia(values);
   if (mediaError) return mediaError;
 
@@ -167,9 +207,11 @@ export async function updateEventAction(
         data: {
           slug: values.slug,
           status: values.status,
-          eventDate: values.eventDate,
+          eventYear: values.eventYear,
+          startDate: values.startDate,
+          endDate: values.endDate,
+          projectId: values.projectId,
           coverImageId: values.coverImageId,
-          youtubeUrl: values.youtubeUrl,
           sortOrder: values.sortOrder,
           publishedAt: resolvePublishedAt(values, existing.publishedAt),
         },
@@ -186,12 +228,20 @@ export async function updateEventAction(
           update: values.translations.en,
         });
       } else {
-        await tx.eventTranslation.deleteMany({ where: { eventId: id, locale: 'en' } });
+        await tx.eventTranslation.deleteMany({
+          where: { eventId: id, locale: 'en' },
+        });
       }
       await tx.eventImage.deleteMany({ where: { eventId: id } });
       if (values.gallery.length) {
         await tx.eventImage.createMany({
           data: values.gallery.map((image) => ({ eventId: id, ...image })),
+        });
+      }
+      await tx.eventVideo.deleteMany({ where: { eventId: id } });
+      if (values.videos.length) {
+        await tx.eventVideo.createMany({
+          data: values.videos.map((video) => ({ eventId: id, ...video })),
         });
       }
     });
@@ -209,10 +259,15 @@ export async function deleteEventAction(id: string): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
-    return { success: false, message: 'Некорректный идентификатор мероприятия' };
+    return {
+      success: false,
+      message: 'Некорректный идентификатор мероприятия',
+    };
   }
   try {
-    if (!await prisma.event.findUnique({ where: { id }, select: { id: true } })) {
+    if (
+      !(await prisma.event.findUnique({ where: { id }, select: { id: true } }))
+    ) {
       return { success: false, message: 'Мероприятие не найдено' };
     }
     await prisma.event.delete({ where: { id } });

@@ -7,6 +7,7 @@ export const rentalTypeOptions = [
 export type RentalTypeValue = (typeof rentalTypeOptions)[number]['value'];
 
 export function getRentalTypeLabel(value: RentalTypeValue) {
-  return rentalTypeOptions.find((option) => option.value === value)?.label
-    ?? value;
+  return (
+    rentalTypeOptions.find((option) => option.value === value)?.label ?? value
+  );
 }

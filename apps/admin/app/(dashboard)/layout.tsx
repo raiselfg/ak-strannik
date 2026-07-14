@@ -3,7 +3,11 @@ import { redirect } from 'next/navigation';
 import { DashboardShell } from '../_components/dashboard-shell';
 import { requireAdminSession } from '../../lib/require-admin-session';
 
-export default async function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   try {
     await requireAdminSession();
   } catch {

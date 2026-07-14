@@ -14,7 +14,11 @@ import { ProjectTypeSchema } from '../../../features/projects/schema';
 
 export const metadata: Metadata = { title: 'Проекты' };
 
-export default async function ProjectsPage({ searchParams }: { searchParams: Promise<{ status?: string; type?: string }> }) {
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string; type?: string }>;
+}) {
   const params = await searchParams;
   const parsedStatus = ContentStatusSchema.safeParse(params.status);
   const parsedType = ProjectTypeSchema.safeParse(params.type);
@@ -31,9 +35,66 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
     return value ? `/projects?${value}` : '/projects';
   }
   return (
-    <div className="space-y-8"><div><PageBreadcrumbs items={[{ label: 'Проекты' }]} /><PageHeader action={<Button asChild><Link href="/projects/new">Добавить проект</Link></Button>} description="Управление проектами и структурой их публичных страниц." title="Проекты" /></div>
-      <div className="space-y-2"><div className="flex flex-wrap gap-2"><Button asChild size="sm" variant={!status ? 'default' : 'outline'}><Link href={type ? `/projects?type=${type}` : '/projects'}>Все статусы</Link></Button>{contentStatusOptions.map((option) => <Button asChild key={option.value} size="sm" variant={status === option.value ? 'default' : 'outline'}><Link href={href({ status: option.value })}>{option.label}</Link></Button>)}</div><div className="flex flex-wrap gap-2"><Button asChild size="sm" variant={!type ? 'default' : 'outline'}><Link href={status ? `/projects?status=${status}` : '/projects'}>Все типы</Link></Button>{projectTypeOptions.map((option) => <Button asChild key={option.value} size="sm" variant={type === option.value ? 'default' : 'outline'}><Link href={href({ type: option.value })}>{option.label}</Link></Button>)}</div></div>
-      {projects.length ? <ProjectsTable projects={projects} /> : <EmptyState actionHref="/projects/new" actionLabel="Добавить проект" description="Добавьте первый проект и настройте его содержимое." icon={FolderKanban} title="Проекты пока не добавлены" />}
+    <div className="space-y-8">
+      <div>
+        <PageBreadcrumbs items={[{ label: 'Проекты' }]} />
+        <PageHeader
+          action={
+            <Button asChild>
+              <Link href="/projects/new">Добавить проект</Link>
+            </Button>
+          }
+          description="Управление проектами и структурой их публичных страниц."
+          title="Проекты"
+        />
+      </div>
+      <div className="space-y-2">
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm" variant={!status ? 'default' : 'outline'}>
+            <Link href={type ? `/projects?type=${type}` : '/projects'}>
+              Все статусы
+            </Link>
+          </Button>
+          {contentStatusOptions.map((option) => (
+            <Button
+              asChild
+              key={option.value}
+              size="sm"
+              variant={status === option.value ? 'default' : 'outline'}
+            >
+              <Link href={href({ status: option.value })}>{option.label}</Link>
+            </Button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm" variant={!type ? 'default' : 'outline'}>
+            <Link href={status ? `/projects?status=${status}` : '/projects'}>
+              Все типы
+            </Link>
+          </Button>
+          {projectTypeOptions.map((option) => (
+            <Button
+              asChild
+              key={option.value}
+              size="sm"
+              variant={type === option.value ? 'default' : 'outline'}
+            >
+              <Link href={href({ type: option.value })}>{option.label}</Link>
+            </Button>
+          ))}
+        </div>
+      </div>
+      {projects.length ? (
+        <ProjectsTable projects={projects} />
+      ) : (
+        <EmptyState
+          actionHref="/projects/new"
+          actionLabel="Добавить проект"
+          description="Добавьте первый проект и настройте его содержимое."
+          icon={FolderKanban}
+          title="Проекты пока не добавлены"
+        />
+      )}
     </div>
   );
 }

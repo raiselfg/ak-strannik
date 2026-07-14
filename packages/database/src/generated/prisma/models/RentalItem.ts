@@ -242,6 +242,7 @@ export type RentalItemWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"RentalItem"> | Date | string
   image?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.RentalItemTranslationListRelationFilter
+  images?: Prisma.RentalItemImageListRelationFilter
 }
 
 export type RentalItemOrderByWithRelationInput = {
@@ -255,6 +256,7 @@ export type RentalItemOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   image?: Prisma.MediaAssetOrderByWithRelationInput
   translations?: Prisma.RentalItemTranslationOrderByRelationAggregateInput
+  images?: Prisma.RentalItemImageOrderByRelationAggregateInput
 }
 
 export type RentalItemWhereUniqueInput = Prisma.AtLeast<{
@@ -271,6 +273,7 @@ export type RentalItemWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"RentalItem"> | Date | string
   image?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.RentalItemTranslationListRelationFilter
+  images?: Prisma.RentalItemImageListRelationFilter
 }, "id" | "slug">
 
 export type RentalItemOrderByWithAggregationInput = {
@@ -311,8 +314,9 @@ export type RentalItemCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaAssetCreateNestedOneWithoutRentalItemsInput
+  image?: Prisma.MediaAssetCreateNestedOneWithoutRentalItemCoversInput
   translations?: Prisma.RentalItemTranslationCreateNestedManyWithoutRentalItemInput
+  images?: Prisma.RentalItemImageCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemUncheckedCreateInput = {
@@ -325,6 +329,7 @@ export type RentalItemUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.RentalItemTranslationUncheckedCreateNestedManyWithoutRentalItemInput
+  images?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemUpdateInput = {
@@ -335,8 +340,9 @@ export type RentalItemUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaAssetUpdateOneWithoutRentalItemsNestedInput
+  image?: Prisma.MediaAssetUpdateOneWithoutRentalItemCoversNestedInput
   translations?: Prisma.RentalItemTranslationUpdateManyWithoutRentalItemNestedInput
+  images?: Prisma.RentalItemImageUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemUncheckedUpdateInput = {
@@ -349,6 +355,7 @@ export type RentalItemUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.RentalItemTranslationUncheckedUpdateManyWithoutRentalItemNestedInput
+  images?: Prisma.RentalItemImageUncheckedUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemCreateManyInput = {
@@ -499,6 +506,20 @@ export type RentalItemUpdateOneRequiredWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RentalItemUpdateToOneWithWhereWithoutTranslationsInput, Prisma.RentalItemUpdateWithoutTranslationsInput>, Prisma.RentalItemUncheckedUpdateWithoutTranslationsInput>
 }
 
+export type RentalItemCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.RentalItemCreateWithoutImagesInput, Prisma.RentalItemUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.RentalItemCreateOrConnectWithoutImagesInput
+  connect?: Prisma.RentalItemWhereUniqueInput
+}
+
+export type RentalItemUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.RentalItemCreateWithoutImagesInput, Prisma.RentalItemUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.RentalItemCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.RentalItemUpsertWithoutImagesInput
+  connect?: Prisma.RentalItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RentalItemUpdateToOneWithWhereWithoutImagesInput, Prisma.RentalItemUpdateWithoutImagesInput>, Prisma.RentalItemUncheckedUpdateWithoutImagesInput>
+}
+
 export type RentalItemCreateWithoutImageInput = {
   id?: string
   slug: string
@@ -508,6 +529,7 @@ export type RentalItemCreateWithoutImageInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.RentalItemTranslationCreateNestedManyWithoutRentalItemInput
+  images?: Prisma.RentalItemImageCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemUncheckedCreateWithoutImageInput = {
@@ -519,6 +541,7 @@ export type RentalItemUncheckedCreateWithoutImageInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.RentalItemTranslationUncheckedCreateNestedManyWithoutRentalItemInput
+  images?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemCreateOrConnectWithoutImageInput = {
@@ -569,7 +592,8 @@ export type RentalItemCreateWithoutTranslationsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaAssetCreateNestedOneWithoutRentalItemsInput
+  image?: Prisma.MediaAssetCreateNestedOneWithoutRentalItemCoversInput
+  images?: Prisma.RentalItemImageCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemUncheckedCreateWithoutTranslationsInput = {
@@ -581,6 +605,7 @@ export type RentalItemUncheckedCreateWithoutTranslationsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutRentalItemInput
 }
 
 export type RentalItemCreateOrConnectWithoutTranslationsInput = {
@@ -607,7 +632,8 @@ export type RentalItemUpdateWithoutTranslationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaAssetUpdateOneWithoutRentalItemsNestedInput
+  image?: Prisma.MediaAssetUpdateOneWithoutRentalItemCoversNestedInput
+  images?: Prisma.RentalItemImageUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemUncheckedUpdateWithoutTranslationsInput = {
@@ -619,6 +645,71 @@ export type RentalItemUncheckedUpdateWithoutTranslationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.RentalItemImageUncheckedUpdateManyWithoutRentalItemNestedInput
+}
+
+export type RentalItemCreateWithoutImagesInput = {
+  id?: string
+  slug: string
+  type: $Enums.RentalType
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  image?: Prisma.MediaAssetCreateNestedOneWithoutRentalItemCoversInput
+  translations?: Prisma.RentalItemTranslationCreateNestedManyWithoutRentalItemInput
+}
+
+export type RentalItemUncheckedCreateWithoutImagesInput = {
+  id?: string
+  slug: string
+  type: $Enums.RentalType
+  imageId?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.RentalItemTranslationUncheckedCreateNestedManyWithoutRentalItemInput
+}
+
+export type RentalItemCreateOrConnectWithoutImagesInput = {
+  where: Prisma.RentalItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.RentalItemCreateWithoutImagesInput, Prisma.RentalItemUncheckedCreateWithoutImagesInput>
+}
+
+export type RentalItemUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.RentalItemUpdateWithoutImagesInput, Prisma.RentalItemUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.RentalItemCreateWithoutImagesInput, Prisma.RentalItemUncheckedCreateWithoutImagesInput>
+  where?: Prisma.RentalItemWhereInput
+}
+
+export type RentalItemUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.RentalItemWhereInput
+  data: Prisma.XOR<Prisma.RentalItemUpdateWithoutImagesInput, Prisma.RentalItemUncheckedUpdateWithoutImagesInput>
+}
+
+export type RentalItemUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRentalTypeFieldUpdateOperationsInput | $Enums.RentalType
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  image?: Prisma.MediaAssetUpdateOneWithoutRentalItemCoversNestedInput
+  translations?: Prisma.RentalItemTranslationUpdateManyWithoutRentalItemNestedInput
+}
+
+export type RentalItemUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRentalTypeFieldUpdateOperationsInput | $Enums.RentalType
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.RentalItemTranslationUncheckedUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemCreateManyImageInput = {
@@ -640,6 +731,7 @@ export type RentalItemUpdateWithoutImageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.RentalItemTranslationUpdateManyWithoutRentalItemNestedInput
+  images?: Prisma.RentalItemImageUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemUncheckedUpdateWithoutImageInput = {
@@ -651,6 +743,7 @@ export type RentalItemUncheckedUpdateWithoutImageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.RentalItemTranslationUncheckedUpdateManyWithoutRentalItemNestedInput
+  images?: Prisma.RentalItemImageUncheckedUpdateManyWithoutRentalItemNestedInput
 }
 
 export type RentalItemUncheckedUpdateManyWithoutImageInput = {
@@ -670,10 +763,12 @@ export type RentalItemUncheckedUpdateManyWithoutImageInput = {
 
 export type RentalItemCountOutputType = {
   translations: number
+  images: number
 }
 
 export type RentalItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | RentalItemCountOutputTypeCountTranslationsArgs
+  images?: boolean | RentalItemCountOutputTypeCountImagesArgs
 }
 
 /**
@@ -693,6 +788,13 @@ export type RentalItemCountOutputTypeCountTranslationsArgs<ExtArgs extends runti
   where?: Prisma.RentalItemTranslationWhereInput
 }
 
+/**
+ * RentalItemCountOutputType without action
+ */
+export type RentalItemCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RentalItemImageWhereInput
+}
+
 
 export type RentalItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -705,6 +807,7 @@ export type RentalItemSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   image?: boolean | Prisma.RentalItem$imageArgs<ExtArgs>
   translations?: boolean | Prisma.RentalItem$translationsArgs<ExtArgs>
+  images?: boolean | Prisma.RentalItem$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.RentalItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rentalItem"]>
 
@@ -747,6 +850,7 @@ export type RentalItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type RentalItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   image?: boolean | Prisma.RentalItem$imageArgs<ExtArgs>
   translations?: boolean | Prisma.RentalItem$translationsArgs<ExtArgs>
+  images?: boolean | Prisma.RentalItem$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.RentalItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RentalItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -761,6 +865,7 @@ export type $RentalItemPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     image: Prisma.$MediaAssetPayload<ExtArgs> | null
     translations: Prisma.$RentalItemTranslationPayload<ExtArgs>[]
+    images: Prisma.$RentalItemImagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1167,6 +1272,7 @@ export interface Prisma__RentalItemClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   image<T extends Prisma.RentalItem$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RentalItem$imageArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   translations<T extends Prisma.RentalItem$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RentalItem$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  images<T extends Prisma.RentalItem$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RentalItem$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1645,6 +1751,30 @@ export type RentalItem$translationsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.RentalItemTranslationScalarFieldEnum | Prisma.RentalItemTranslationScalarFieldEnum[]
+}
+
+/**
+ * RentalItem.images
+ */
+export type RentalItem$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RentalItemImage
+   */
+  select?: Prisma.RentalItemImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RentalItemImage
+   */
+  omit?: Prisma.RentalItemImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RentalItemImageInclude<ExtArgs> | null
+  where?: Prisma.RentalItemImageWhereInput
+  orderBy?: Prisma.RentalItemImageOrderByWithRelationInput | Prisma.RentalItemImageOrderByWithRelationInput[]
+  cursor?: Prisma.RentalItemImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RentalItemImageScalarFieldEnum | Prisma.RentalItemImageScalarFieldEnum[]
 }
 
 /**

@@ -4,6 +4,7 @@ import { IdSchema, DateTimeSchema } from './common';
 export const MediaAssetSchema = z.object({
   id: IdSchema,
   objectKey: z.string(),
+  checksumSha256: z.string().nullable(),
   originalName: z.string(),
   mimeType: z.string(),
   size: z.number().int().nullable(),
@@ -14,12 +15,13 @@ export const MediaAssetSchema = z.object({
 });
 export const CreateMediaAssetDtoSchema = MediaAssetSchema.pick({
   objectKey: true,
+  checksumSha256: true,
   originalName: true,
   mimeType: true,
   size: true,
   width: true,
   height: true,
-}).partial({ size: true, width: true, height: true });
+}).partial({ checksumSha256: true, size: true, width: true, height: true });
 export const UpdateMediaAssetDtoSchema = CreateMediaAssetDtoSchema.partial();
 export const FindOneMediaAssetDtoSchema = z.object({ id: IdSchema });
 export const DeleteMediaAssetDtoSchema = FindOneMediaAssetDtoSchema;

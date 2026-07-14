@@ -14,8 +14,29 @@ export default async function RentalsPage() {
   const items = await getRentalItems();
   return (
     <div className="space-y-8">
-      <div><PageBreadcrumbs items={[{ label: 'Аренда' }]} /><PageHeader action={<Button asChild><Link href="/rentals/new">Добавить позицию</Link></Button>} description="Каталог ростовых кукол, аттракционов и реквизита, доступных для аренды." title="Аренда" /></div>
-      {items.length ? <RentalItemsTable items={items} /> : <EmptyState actionHref="/rentals/new" actionLabel="Добавить позицию" description="Добавьте ростовые куклы, аттракционы и реквизит, доступные для аренды." icon={PackageOpen} title="Позиции аренды пока не добавлены" />}
+      <div>
+        <PageBreadcrumbs items={[{ label: 'Аренда' }]} />
+        <PageHeader
+          action={
+            <Button asChild>
+              <Link href="/rentals/new">Добавить позицию</Link>
+            </Button>
+          }
+          description="Каталог ростовых кукол, аттракционов и реквизита, доступных для аренды."
+          title="Аренда"
+        />
+      </div>
+      {items.length ? (
+        <RentalItemsTable items={items} />
+      ) : (
+        <EmptyState
+          actionHref="/rentals/new"
+          actionLabel="Добавить позицию"
+          description="Добавьте ростовые куклы, аттракционы и реквизит, доступные для аренды."
+          icon={PackageOpen}
+          title="Позиции аренды пока не добавлены"
+        />
+      )}
     </div>
   );
 }

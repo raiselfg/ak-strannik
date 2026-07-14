@@ -21,8 +21,14 @@ export const ProjectSectionVariantSchema = z.enum([
   'split',
   'gallery',
   'slider',
-  'youtube',
+  'video',
   'quote',
+]);
+export const VideoProviderSchema = z.enum([
+  'youtube',
+  'vk',
+  'rutube',
+  'external',
 ]);
 
 export type Locale = z.infer<typeof LocaleSchema>;
@@ -30,3 +36,4 @@ export type ContentStatus = z.infer<typeof ContentStatusSchema>;
 export type RentalType = z.infer<typeof RentalTypeSchema>;
 export type ProjectType = z.infer<typeof ProjectTypeSchema>;
 export type ProjectSectionVariant = z.infer<typeof ProjectSectionVariantSchema>;
+export type VideoProvider = z.infer<typeof VideoProviderSchema>;

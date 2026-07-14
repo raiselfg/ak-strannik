@@ -12,6 +12,29 @@ export const metadata: Metadata = { title: 'Медиатека' };
 export default async function MediaPage() {
   const assets = await getMediaAssets();
   return (
-    <div className="space-y-8"><div><PageBreadcrumbs items={[{ label: 'Медиатека' }]} /><PageHeader title="Медиатека" description="Единое хранилище изображений сайта и их локализованных метаданных." action={<MediaUploadDialog />} /></div>{assets.length ? <MediaAssetGrid assets={assets} /> : <div className="space-y-4"><EmptyState icon={Images} title="Медиафайлы пока не загружены" description="Загрузите первое изображение или другой поддерживаемый файл." /><div className="flex justify-center"><MediaUploadDialog /></div></div>}</div>
+    <div className="space-y-8">
+      <div>
+        <PageBreadcrumbs items={[{ label: 'Медиатека' }]} />
+        <PageHeader
+          title="Медиатека"
+          description="Единое хранилище изображений сайта и их локализованных метаданных."
+          action={<MediaUploadDialog />}
+        />
+      </div>
+      {assets.length ? (
+        <MediaAssetGrid assets={assets} />
+      ) : (
+        <div className="space-y-4">
+          <EmptyState
+            icon={Images}
+            title="Медиафайлы пока не загружены"
+            description="Загрузите первое изображение или другой поддерживаемый файл."
+          />
+          <div className="flex justify-center">
+            <MediaUploadDialog />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

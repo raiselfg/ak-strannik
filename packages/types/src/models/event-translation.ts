@@ -9,6 +9,8 @@ export const EventTranslationSchema = z.object({
   title: z.string(),
   excerpt: z.string().nullable(),
   body: z.string().nullable(),
+  dateText: z.string().nullable(),
+  locationText: z.string().nullable(),
   seoTitle: z.string().nullable(),
   seoDescription: z.string().nullable(),
 });
@@ -18,11 +20,15 @@ export const CreateEventTranslationDtoSchema = EventTranslationSchema.pick({
   title: true,
   excerpt: true,
   body: true,
+  dateText: true,
+  locationText: true,
   seoTitle: true,
   seoDescription: true,
 }).partial({
   excerpt: true,
   body: true,
+  dateText: true,
+  locationText: true,
   seoTitle: true,
   seoDescription: true,
 });

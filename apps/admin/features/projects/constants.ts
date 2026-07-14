@@ -15,6 +15,7 @@ export const projectTypeOptions = [
 export type ProjectTypeValue = (typeof projectTypeOptions)[number]['value'];
 
 export function getProjectTypeLabel(value: ProjectTypeValue) {
-  return projectTypeOptions.find((option) => option.value === value)?.label
-    ?? value;
+  return (
+    projectTypeOptions.find((option) => option.value === value)?.label ?? value
+  );
 }

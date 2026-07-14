@@ -7,6 +7,8 @@ export const contentStatusOptions = [
 export type ContentStatusValue = (typeof contentStatusOptions)[number]['value'];
 
 export function getContentStatusLabel(value: ContentStatusValue) {
-  return contentStatusOptions.find((option) => option.value === value)?.label
-    ?? value;
+  return (
+    contentStatusOptions.find((option) => option.value === value)?.label ??
+    value
+  );
 }

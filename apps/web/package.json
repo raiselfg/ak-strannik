@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ak-strannik/database": "workspace:*",
     "@ak-strannik/ui": "workspace:*",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",

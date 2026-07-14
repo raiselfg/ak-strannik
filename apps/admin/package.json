@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "legacy:upload-media": "tsx --env-file=../../packages/database/.env --env-file=.env scripts/legacy-media.ts upload",
+    "legacy:verify": "tsx --env-file=../../packages/database/.env --env-file=.env scripts/legacy-verify.ts"
   },
   "dependencies": {
     "@ak-strannik/database": "workspace:*",
@@ -22,7 +24,6 @@
     "next": "16.2.10",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.81.0",
     "sharp": "^0.35.3",
     "zod": "^4.4.3"

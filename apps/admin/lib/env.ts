@@ -9,7 +9,6 @@ const envUrl = z
   .transform((value) => cleanEnvString(value).replace(/\/+$/, ''));
 
 const envSchema = z.object({
-  DATABASE_URL: envUrl,
   BETTER_AUTH_SECRET: envString,
   BETTER_AUTH_URL: envUrl,
   AWS_ENDPOINT: envUrl,

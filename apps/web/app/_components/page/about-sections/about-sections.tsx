@@ -1,29 +1,6 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-const teamMembers = [
-  {
-    key: 'svetlana',
-    image: '/svetlana.webp',
-  },
-  {
-    key: 'aleksey',
-    image: '/aleksey.png',
-  },
-  {
-    key: 'ksenia',
-    image: '/ksenia.webp',
-  },
-  {
-    key: 'roman',
-    image: '/roman.webp',
-  },
-  {
-    key: 'tihon',
-    image: '/tihon.webp',
-  },
-] as const;
-
 const stats = [
   { key: 'participants', value: '40 000' },
   { key: 'audience', value: '150 000' },
@@ -54,61 +31,9 @@ const letters = [
 export function AboutSections() {
   return (
     <>
-      <TeamSection />
       <AchievementsSection />
       <LettersSection />
     </>
-  );
-}
-
-function TeamSection() {
-  const t = useTranslations('HomeSections.team');
-
-  return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
-      <div className="via-gold/50 absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent to-transparent" />
-      <div className="container mx-auto">
-        <div className="mb-12 max-w-3xl">
-          <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
-            {t('eyebrow')}
-          </p>
-          <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
-            {t('title')}
-          </h2>
-          <p className="mt-5 text-lg text-muted-foreground italic sm:text-xl">
-            {t('quote')}
-          </p>
-        </div>
-
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {teamMembers.map((member) => (
-            <li
-              key={member.key}
-              className="group rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-muted">
-                <Image
-                  src={member.image}
-                  alt={t(`members.${member.key}.name`)}
-                  fill
-                  sizes="(min-width: 1024px) 18vw, (min-width: 640px) 45vw, 90vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/75 to-transparent" />
-              </div>
-              <div className="px-2 pt-4 text-center">
-                <h3 className="text-xl leading-tight font-semibold">
-                  {t(`members.${member.key}.name`)}
-                </h3>
-                <p className="text-gold mt-2 text-sm">
-                  {t(`members.${member.key}.role`)}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
   );
 }
 

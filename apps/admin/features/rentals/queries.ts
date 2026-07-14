@@ -19,6 +19,7 @@ export async function getRentalItems() {
         select: { locale: true, title: true, priceText: true },
         where: { locale: { in: ['ru', 'en'] } },
       },
+      _count: { select: { images: true } },
     },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
   });
@@ -43,20 +44,37 @@ export async function getRentalItemById(id: string) {
       sortOrder: true,
       isActive: true,
       translations: {
-        select: { locale: true, title: true, description: true, priceText: true },
+        select: {
+          locale: true,
+          title: true,
+          description: true,
+          priceText: true,
+        },
+      },
+      images: {
+        select: { mediaId: true, sortOrder: true },
+        orderBy: { sortOrder: 'asc' },
       },
     },
   });
 
   if (!item) return null;
-  const ru = item.translations.find((translation) => translation.locale === 'ru');
-  const en = item.translations.find((translation) => translation.locale === 'en');
+  const ru = item.translations.find(
+    (translation) => translation.locale === 'ru'
+  );
+  const en = item.translations.find(
+    (translation) => translation.locale === 'en'
+  );
   const defaultValues: RentalItemFormValues = {
     slug: item.slug,
     type: item.type,
     imageId: item.imageId,
     sortOrder: item.sortOrder,
     isActive: item.isActive,
+    gallery: item.images.map((image, index) => ({
+      mediaId: image.mediaId,
+      sortOrder: index,
+    })),
     translations: {
       ru: {
         title: ru?.title ?? '',
@@ -72,29 +90,4 @@ export async function getRentalItemById(id: string) {
   };
 
   return { id: item.id, defaultValues };
-}
-
-export async function getRentalMediaOptions() {
-  const assets = await prisma.mediaAsset.findMany({
-    where: { mimeType: { startsWith: 'image/' } },
-    select: {
-      id: true,
-      originalName: true,
-      objectKey: true,
-      translations: {
-        where: { locale: { in: ['ru', 'en'] } },
-        select: { locale: true, alt: true },
-      },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-
-  return assets.map((asset) => ({
-    id: asset.id,
-    originalName: asset.originalName,
-    publicUrl: getMediaPublicUrl(asset.objectKey),
-    alt: asset.translations.find((item) => item.locale === 'ru')?.alt
-      ?? asset.translations.find((item) => item.locale === 'en')?.alt
-      ?? asset.originalName,
-  }));
 }

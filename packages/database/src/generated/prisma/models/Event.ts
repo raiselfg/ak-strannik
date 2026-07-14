@@ -27,10 +27,12 @@ export type AggregateEvent = {
 }
 
 export type EventAvgAggregateOutputType = {
+  eventYear: number | null
   sortOrder: number | null
 }
 
 export type EventSumAggregateOutputType = {
+  eventYear: number | null
   sortOrder: number | null
 }
 
@@ -38,9 +40,11 @@ export type EventMinAggregateOutputType = {
   id: string | null
   slug: string | null
   status: $Enums.ContentStatus | null
-  eventDate: Date | null
+  eventYear: number | null
+  startDate: Date | null
+  endDate: Date | null
+  projectId: string | null
   coverImageId: string | null
-  youtubeUrl: string | null
   sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,9 +55,11 @@ export type EventMaxAggregateOutputType = {
   id: string | null
   slug: string | null
   status: $Enums.ContentStatus | null
-  eventDate: Date | null
+  eventYear: number | null
+  startDate: Date | null
+  endDate: Date | null
+  projectId: string | null
   coverImageId: string | null
-  youtubeUrl: string | null
   sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,9 +70,11 @@ export type EventCountAggregateOutputType = {
   id: number
   slug: number
   status: number
-  eventDate: number
+  eventYear: number
+  startDate: number
+  endDate: number
+  projectId: number
   coverImageId: number
-  youtubeUrl: number
   sortOrder: number
   createdAt: number
   updatedAt: number
@@ -76,10 +84,12 @@ export type EventCountAggregateOutputType = {
 
 
 export type EventAvgAggregateInputType = {
+  eventYear?: true
   sortOrder?: true
 }
 
 export type EventSumAggregateInputType = {
+  eventYear?: true
   sortOrder?: true
 }
 
@@ -87,9 +97,11 @@ export type EventMinAggregateInputType = {
   id?: true
   slug?: true
   status?: true
-  eventDate?: true
+  eventYear?: true
+  startDate?: true
+  endDate?: true
+  projectId?: true
   coverImageId?: true
-  youtubeUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -100,9 +112,11 @@ export type EventMaxAggregateInputType = {
   id?: true
   slug?: true
   status?: true
-  eventDate?: true
+  eventYear?: true
+  startDate?: true
+  endDate?: true
+  projectId?: true
   coverImageId?: true
-  youtubeUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -113,9 +127,11 @@ export type EventCountAggregateInputType = {
   id?: true
   slug?: true
   status?: true
-  eventDate?: true
+  eventYear?: true
+  startDate?: true
+  endDate?: true
+  projectId?: true
   coverImageId?: true
-  youtubeUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -213,9 +229,11 @@ export type EventGroupByOutputType = {
   id: string
   slug: string
   status: $Enums.ContentStatus
-  eventDate: Date | null
+  eventYear: number | null
+  startDate: Date | null
+  endDate: Date | null
+  projectId: string | null
   coverImageId: string | null
-  youtubeUrl: string | null
   sortOrder: number
   createdAt: Date
   updatedAt: Date
@@ -249,32 +267,40 @@ export type EventWhereInput = {
   id?: Prisma.UuidFilter<"Event"> | string
   slug?: Prisma.StringFilter<"Event"> | string
   status?: Prisma.EnumContentStatusFilter<"Event"> | $Enums.ContentStatus
-  eventDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  eventYear?: Prisma.IntNullableFilter<"Event"> | number | null
+  startDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  endDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  projectId?: Prisma.UuidNullableFilter<"Event"> | string | null
   coverImageId?: Prisma.UuidNullableFilter<"Event"> | string | null
-  youtubeUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   sortOrder?: Prisma.IntFilter<"Event"> | number
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
   coverImage?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.EventTranslationListRelationFilter
   images?: Prisma.EventImageListRelationFilter
+  videos?: Prisma.EventVideoListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  eventDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectId?: Prisma.SortOrderInput | Prisma.SortOrder
   coverImageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  project?: Prisma.ProjectOrderByWithRelationInput
   coverImage?: Prisma.MediaAssetOrderByWithRelationInput
   translations?: Prisma.EventTranslationOrderByRelationAggregateInput
   images?: Prisma.EventImageOrderByRelationAggregateInput
+  videos?: Prisma.EventVideoOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -284,25 +310,31 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   status?: Prisma.EnumContentStatusFilter<"Event"> | $Enums.ContentStatus
-  eventDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  eventYear?: Prisma.IntNullableFilter<"Event"> | number | null
+  startDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  endDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  projectId?: Prisma.UuidNullableFilter<"Event"> | string | null
   coverImageId?: Prisma.UuidNullableFilter<"Event"> | string | null
-  youtubeUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   sortOrder?: Prisma.IntFilter<"Event"> | number
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
   coverImage?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.EventTranslationListRelationFilter
   images?: Prisma.EventImageListRelationFilter
+  videos?: Prisma.EventVideoListRelationFilter
 }, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  eventDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectId?: Prisma.SortOrderInput | Prisma.SortOrder
   coverImageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -321,9 +353,11 @@ export type EventScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Event"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Event"> | string
   status?: Prisma.EnumContentStatusWithAggregatesFilter<"Event"> | $Enums.ContentStatus
-  eventDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+  eventYear?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
+  startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+  endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+  projectId?: Prisma.UuidNullableWithAggregatesFilter<"Event"> | string | null
   coverImageId?: Prisma.UuidNullableWithAggregatesFilter<"Event"> | string | null
-  youtubeUrl?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"Event"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -334,69 +368,83 @@ export type EventCreateInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  project?: Prisma.ProjectCreateNestedOneWithoutEventsInput
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutEventCoversInput
   translations?: Prisma.EventTranslationCreateNestedManyWithoutEventInput
   images?: Prisma.EventImageCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   coverImageId?: string | null
-  youtubeUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   translations?: Prisma.EventTranslationUncheckedCreateNestedManyWithoutEventInput
   images?: Prisma.EventImageUncheckedCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  project?: Prisma.ProjectUpdateOneWithoutEventsNestedInput
   coverImage?: Prisma.MediaAssetUpdateOneWithoutEventCoversNestedInput
   translations?: Prisma.EventTranslationUpdateManyWithoutEventNestedInput
   images?: Prisma.EventImageUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.EventTranslationUncheckedUpdateManyWithoutEventNestedInput
   images?: Prisma.EventImageUncheckedUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   coverImageId?: string | null
-  youtubeUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -407,8 +455,9 @@ export type EventUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -419,9 +468,11 @@ export type EventUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -442,9 +493,11 @@ export type EventCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  eventDate?: Prisma.SortOrder
+  eventYear?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
+  endDate?: Prisma.SortOrder
+  projectId?: Prisma.SortOrder
   coverImageId?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -452,6 +505,7 @@ export type EventCountOrderByAggregateInput = {
 }
 
 export type EventAvgOrderByAggregateInput = {
+  eventYear?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -459,9 +513,11 @@ export type EventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  eventDate?: Prisma.SortOrder
+  eventYear?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
+  endDate?: Prisma.SortOrder
+  projectId?: Prisma.SortOrder
   coverImageId?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -472,9 +528,11 @@ export type EventMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  eventDate?: Prisma.SortOrder
+  eventYear?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
+  endDate?: Prisma.SortOrder
+  projectId?: Prisma.SortOrder
   coverImageId?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -482,6 +540,7 @@ export type EventMinOrderByAggregateInput = {
 }
 
 export type EventSumOrderByAggregateInput = {
+  eventYear?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -564,32 +623,94 @@ export type EventUpdateOneRequiredWithoutImagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutImagesInput, Prisma.EventUpdateWithoutImagesInput>, Prisma.EventUncheckedUpdateWithoutImagesInput>
 }
 
+export type EventCreateNestedOneWithoutVideosInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutVideosInput, Prisma.EventUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutVideosInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneRequiredWithoutVideosNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutVideosInput, Prisma.EventUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutVideosInput
+  upsert?: Prisma.EventUpsertWithoutVideosInput
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutVideosInput, Prisma.EventUpdateWithoutVideosInput>, Prisma.EventUncheckedUpdateWithoutVideosInput>
+}
+
+export type EventCreateNestedManyWithoutProjectInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput> | Prisma.EventCreateWithoutProjectInput[] | Prisma.EventUncheckedCreateWithoutProjectInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutProjectInput | Prisma.EventCreateOrConnectWithoutProjectInput[]
+  createMany?: Prisma.EventCreateManyProjectInputEnvelope
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+}
+
+export type EventUncheckedCreateNestedManyWithoutProjectInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput> | Prisma.EventCreateWithoutProjectInput[] | Prisma.EventUncheckedCreateWithoutProjectInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutProjectInput | Prisma.EventCreateOrConnectWithoutProjectInput[]
+  createMany?: Prisma.EventCreateManyProjectInputEnvelope
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+}
+
+export type EventUpdateManyWithoutProjectNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput> | Prisma.EventCreateWithoutProjectInput[] | Prisma.EventUncheckedCreateWithoutProjectInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutProjectInput | Prisma.EventCreateOrConnectWithoutProjectInput[]
+  upsert?: Prisma.EventUpsertWithWhereUniqueWithoutProjectInput | Prisma.EventUpsertWithWhereUniqueWithoutProjectInput[]
+  createMany?: Prisma.EventCreateManyProjectInputEnvelope
+  set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  update?: Prisma.EventUpdateWithWhereUniqueWithoutProjectInput | Prisma.EventUpdateWithWhereUniqueWithoutProjectInput[]
+  updateMany?: Prisma.EventUpdateManyWithWhereWithoutProjectInput | Prisma.EventUpdateManyWithWhereWithoutProjectInput[]
+  deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
+}
+
+export type EventUncheckedUpdateManyWithoutProjectNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput> | Prisma.EventCreateWithoutProjectInput[] | Prisma.EventUncheckedCreateWithoutProjectInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutProjectInput | Prisma.EventCreateOrConnectWithoutProjectInput[]
+  upsert?: Prisma.EventUpsertWithWhereUniqueWithoutProjectInput | Prisma.EventUpsertWithWhereUniqueWithoutProjectInput[]
+  createMany?: Prisma.EventCreateManyProjectInputEnvelope
+  set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  update?: Prisma.EventUpdateWithWhereUniqueWithoutProjectInput | Prisma.EventUpdateWithWhereUniqueWithoutProjectInput[]
+  updateMany?: Prisma.EventUpdateManyWithWhereWithoutProjectInput | Prisma.EventUpdateManyWithWhereWithoutProjectInput[]
+  deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
+}
+
 export type EventCreateWithoutCoverImageInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  project?: Prisma.ProjectCreateNestedOneWithoutEventsInput
   translations?: Prisma.EventTranslationCreateNestedManyWithoutEventInput
   images?: Prisma.EventImageCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutCoverImageInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   translations?: Prisma.EventTranslationUncheckedCreateNestedManyWithoutEventInput
   images?: Prisma.EventImageUncheckedCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutCoverImageInput = {
@@ -625,9 +746,11 @@ export type EventScalarWhereInput = {
   id?: Prisma.UuidFilter<"Event"> | string
   slug?: Prisma.StringFilter<"Event"> | string
   status?: Prisma.EnumContentStatusFilter<"Event"> | $Enums.ContentStatus
-  eventDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  eventYear?: Prisma.IntNullableFilter<"Event"> | number | null
+  startDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  endDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  projectId?: Prisma.UuidNullableFilter<"Event"> | string | null
   coverImageId?: Prisma.UuidNullableFilter<"Event"> | string | null
-  youtubeUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   sortOrder?: Prisma.IntFilter<"Event"> | number
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -638,28 +761,34 @@ export type EventCreateWithoutTranslationsInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  project?: Prisma.ProjectCreateNestedOneWithoutEventsInput
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutEventCoversInput
   images?: Prisma.EventImageCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutTranslationsInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   coverImageId?: string | null
-  youtubeUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   images?: Prisma.EventImageUncheckedCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutTranslationsInput = {
@@ -682,56 +811,68 @@ export type EventUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  project?: Prisma.ProjectUpdateOneWithoutEventsNestedInput
   coverImage?: Prisma.MediaAssetUpdateOneWithoutEventCoversNestedInput
   images?: Prisma.EventImageUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   images?: Prisma.EventImageUncheckedUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutImagesInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  project?: Prisma.ProjectCreateNestedOneWithoutEventsInput
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutEventCoversInput
   translations?: Prisma.EventTranslationCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutImagesInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   coverImageId?: string | null
-  youtubeUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   translations?: Prisma.EventTranslationUncheckedCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutImagesInput = {
@@ -754,36 +895,188 @@ export type EventUpdateWithoutImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  project?: Prisma.ProjectUpdateOneWithoutEventsNestedInput
   coverImage?: Prisma.MediaAssetUpdateOneWithoutEventCoversNestedInput
   translations?: Prisma.EventTranslationUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.EventTranslationUncheckedUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutVideosInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  project?: Prisma.ProjectCreateNestedOneWithoutEventsInput
+  coverImage?: Prisma.MediaAssetCreateNestedOneWithoutEventCoversInput
+  translations?: Prisma.EventTranslationCreateNestedManyWithoutEventInput
+  images?: Prisma.EventImageCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutVideosInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
+  coverImageId?: string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  translations?: Prisma.EventTranslationUncheckedCreateNestedManyWithoutEventInput
+  images?: Prisma.EventImageUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutVideosInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutVideosInput, Prisma.EventUncheckedCreateWithoutVideosInput>
+}
+
+export type EventUpsertWithoutVideosInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutVideosInput, Prisma.EventUncheckedUpdateWithoutVideosInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutVideosInput, Prisma.EventUncheckedCreateWithoutVideosInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutVideosInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutVideosInput, Prisma.EventUncheckedUpdateWithoutVideosInput>
+}
+
+export type EventUpdateWithoutVideosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  project?: Prisma.ProjectUpdateOneWithoutEventsNestedInput
+  coverImage?: Prisma.MediaAssetUpdateOneWithoutEventCoversNestedInput
+  translations?: Prisma.EventTranslationUpdateManyWithoutEventNestedInput
+  images?: Prisma.EventImageUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutVideosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  translations?: Prisma.EventTranslationUncheckedUpdateManyWithoutEventNestedInput
+  images?: Prisma.EventImageUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutProjectInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  coverImage?: Prisma.MediaAssetCreateNestedOneWithoutEventCoversInput
+  translations?: Prisma.EventTranslationCreateNestedManyWithoutEventInput
+  images?: Prisma.EventImageCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutProjectInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  coverImageId?: string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  translations?: Prisma.EventTranslationUncheckedCreateNestedManyWithoutEventInput
+  images?: Prisma.EventImageUncheckedCreateNestedManyWithoutEventInput
+  videos?: Prisma.EventVideoUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutProjectInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput>
+}
+
+export type EventCreateManyProjectInputEnvelope = {
+  data: Prisma.EventCreateManyProjectInput | Prisma.EventCreateManyProjectInput[]
+  skipDuplicates?: boolean
+}
+
+export type EventUpsertWithWhereUniqueWithoutProjectInput = {
+  where: Prisma.EventWhereUniqueInput
+  update: Prisma.XOR<Prisma.EventUpdateWithoutProjectInput, Prisma.EventUncheckedUpdateWithoutProjectInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutProjectInput, Prisma.EventUncheckedCreateWithoutProjectInput>
+}
+
+export type EventUpdateWithWhereUniqueWithoutProjectInput = {
+  where: Prisma.EventWhereUniqueInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutProjectInput, Prisma.EventUncheckedUpdateWithoutProjectInput>
+}
+
+export type EventUpdateManyWithWhereWithoutProjectInput = {
+  where: Prisma.EventScalarWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateManyMutationInput, Prisma.EventUncheckedUpdateManyWithoutProjectInput>
 }
 
 export type EventCreateManyCoverImageInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
-  eventDate?: Date | string | null
-  youtubeUrl?: string | null
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  projectId?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -794,36 +1087,106 @@ export type EventUpdateWithoutCoverImageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  project?: Prisma.ProjectUpdateOneWithoutEventsNestedInput
   translations?: Prisma.EventTranslationUpdateManyWithoutEventNestedInput
   images?: Prisma.EventImageUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutCoverImageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.EventTranslationUncheckedUpdateManyWithoutEventNestedInput
   images?: Prisma.EventImageUncheckedUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutCoverImageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-  eventDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type EventCreateManyProjectInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  eventYear?: number | null
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  coverImageId?: string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+}
+
+export type EventUpdateWithoutProjectInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  coverImage?: Prisma.MediaAssetUpdateOneWithoutEventCoversNestedInput
+  translations?: Prisma.EventTranslationUpdateManyWithoutEventNestedInput
+  images?: Prisma.EventImageUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutProjectInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  translations?: Prisma.EventTranslationUncheckedUpdateManyWithoutEventNestedInput
+  images?: Prisma.EventImageUncheckedUpdateManyWithoutEventNestedInput
+  videos?: Prisma.EventVideoUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateManyWithoutProjectInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  eventYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -838,11 +1201,13 @@ export type EventUncheckedUpdateManyWithoutCoverImageInput = {
 export type EventCountOutputType = {
   translations: number
   images: number
+  videos: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | EventCountOutputTypeCountTranslationsArgs
   images?: boolean | EventCountOutputTypeCountImagesArgs
+  videos?: boolean | EventCountOutputTypeCountVideosArgs
 }
 
 /**
@@ -869,21 +1234,32 @@ export type EventCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.EventImageWhereInput
 }
 
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountVideosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventVideoWhereInput
+}
+
 
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   slug?: boolean
   status?: boolean
-  eventDate?: boolean
+  eventYear?: boolean
+  startDate?: boolean
+  endDate?: boolean
+  projectId?: boolean
   coverImageId?: boolean
-  youtubeUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
   translations?: boolean | Prisma.Event$translationsArgs<ExtArgs>
   images?: boolean | Prisma.Event$imagesArgs<ExtArgs>
+  videos?: boolean | Prisma.Event$videosArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -891,13 +1267,16 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   slug?: boolean
   status?: boolean
-  eventDate?: boolean
+  eventYear?: boolean
+  startDate?: boolean
+  endDate?: boolean
+  projectId?: boolean
   coverImageId?: boolean
-  youtubeUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -905,13 +1284,16 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   slug?: boolean
   status?: boolean
-  eventDate?: boolean
+  eventYear?: boolean
+  startDate?: boolean
+  endDate?: boolean
+  projectId?: boolean
   coverImageId?: boolean
-  youtubeUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -919,43 +1301,53 @@ export type EventSelectScalar = {
   id?: boolean
   slug?: boolean
   status?: boolean
-  eventDate?: boolean
+  eventYear?: boolean
+  startDate?: boolean
+  endDate?: boolean
+  projectId?: boolean
   coverImageId?: boolean
-  youtubeUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "eventDate" | "coverImageId" | "youtubeUrl" | "sortOrder" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "eventYear" | "startDate" | "endDate" | "projectId" | "coverImageId" | "sortOrder" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
   translations?: boolean | Prisma.Event$translationsArgs<ExtArgs>
   images?: boolean | Prisma.Event$imagesArgs<ExtArgs>
+  videos?: boolean | Prisma.Event$videosArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
 }
 export type EventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  project?: boolean | Prisma.Event$projectArgs<ExtArgs>
   coverImage?: boolean | Prisma.Event$coverImageArgs<ExtArgs>
 }
 
 export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Event"
   objects: {
+    project: Prisma.$ProjectPayload<ExtArgs> | null
     coverImage: Prisma.$MediaAssetPayload<ExtArgs> | null
     translations: Prisma.$EventTranslationPayload<ExtArgs>[]
     images: Prisma.$EventImagePayload<ExtArgs>[]
+    videos: Prisma.$EventVideoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     slug: string
     status: $Enums.ContentStatus
-    eventDate: Date | null
+    eventYear: number | null
+    startDate: Date | null
+    endDate: Date | null
+    projectId: string | null
     coverImageId: string | null
-    youtubeUrl: string | null
     sortOrder: number
     createdAt: Date
     updatedAt: Date
@@ -1354,9 +1746,11 @@ readonly fields: EventFieldRefs;
  */
 export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  project<T extends Prisma.Event$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   coverImage<T extends Prisma.Event$coverImageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$coverImageArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   translations<T extends Prisma.Event$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   images<T extends Prisma.Event$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videos<T extends Prisma.Event$videosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$videosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventVideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1389,9 +1783,11 @@ export interface EventFieldRefs {
   readonly id: Prisma.FieldRef<"Event", 'String'>
   readonly slug: Prisma.FieldRef<"Event", 'String'>
   readonly status: Prisma.FieldRef<"Event", 'ContentStatus'>
-  readonly eventDate: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly eventYear: Prisma.FieldRef<"Event", 'Int'>
+  readonly startDate: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly endDate: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly projectId: Prisma.FieldRef<"Event", 'String'>
   readonly coverImageId: Prisma.FieldRef<"Event", 'String'>
-  readonly youtubeUrl: Prisma.FieldRef<"Event", 'String'>
   readonly sortOrder: Prisma.FieldRef<"Event", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
@@ -1797,6 +2193,25 @@ export type EventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Event.project
+ */
+export type Event$projectArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Project
+   */
+  select?: Prisma.ProjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Project
+   */
+  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectInclude<ExtArgs> | null
+  where?: Prisma.ProjectWhereInput
+}
+
+/**
  * Event.coverImage
  */
 export type Event$coverImageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1861,6 +2276,30 @@ export type Event$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.EventImageScalarFieldEnum | Prisma.EventImageScalarFieldEnum[]
+}
+
+/**
+ * Event.videos
+ */
+export type Event$videosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventVideo
+   */
+  select?: Prisma.EventVideoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventVideo
+   */
+  omit?: Prisma.EventVideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventVideoInclude<ExtArgs> | null
+  where?: Prisma.EventVideoWhereInput
+  orderBy?: Prisma.EventVideoOrderByWithRelationInput | Prisma.EventVideoOrderByWithRelationInput[]
+  cursor?: Prisma.EventVideoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventVideoScalarFieldEnum | Prisma.EventVideoScalarFieldEnum[]
 }
 
 /**

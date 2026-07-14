@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": ["AWS_ENDPOINT", "AWS_BUCKET"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

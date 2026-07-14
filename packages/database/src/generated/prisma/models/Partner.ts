@@ -234,6 +234,8 @@ export type PartnerWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Partner"> | Date | string
   logo?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.PartnerTranslationListRelationFilter
+  media?: Prisma.PartnerMediaListRelationFilter
+  videos?: Prisma.PartnerVideoListRelationFilter
 }
 
 export type PartnerOrderByWithRelationInput = {
@@ -246,6 +248,8 @@ export type PartnerOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   logo?: Prisma.MediaAssetOrderByWithRelationInput
   translations?: Prisma.PartnerTranslationOrderByRelationAggregateInput
+  media?: Prisma.PartnerMediaOrderByRelationAggregateInput
+  videos?: Prisma.PartnerVideoOrderByRelationAggregateInput
 }
 
 export type PartnerWhereUniqueInput = Prisma.AtLeast<{
@@ -261,6 +265,8 @@ export type PartnerWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Partner"> | Date | string
   logo?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.PartnerTranslationListRelationFilter
+  media?: Prisma.PartnerMediaListRelationFilter
+  videos?: Prisma.PartnerVideoListRelationFilter
 }, "id">
 
 export type PartnerOrderByWithAggregationInput = {
@@ -300,6 +306,8 @@ export type PartnerCreateInput = {
   updatedAt?: Date | string
   logo?: Prisma.MediaAssetCreateNestedOneWithoutPartnerLogosInput
   translations?: Prisma.PartnerTranslationCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerUncheckedCreateInput = {
@@ -311,6 +319,8 @@ export type PartnerUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.PartnerTranslationUncheckedCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoUncheckedCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerUpdateInput = {
@@ -322,6 +332,8 @@ export type PartnerUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.MediaAssetUpdateOneWithoutPartnerLogosNestedInput
   translations?: Prisma.PartnerTranslationUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerUncheckedUpdateInput = {
@@ -333,6 +345,8 @@ export type PartnerUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.PartnerTranslationUncheckedUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUncheckedUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUncheckedUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerCreateManyInput = {
@@ -473,6 +487,34 @@ export type PartnerUpdateOneRequiredWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PartnerUpdateToOneWithWhereWithoutTranslationsInput, Prisma.PartnerUpdateWithoutTranslationsInput>, Prisma.PartnerUncheckedUpdateWithoutTranslationsInput>
 }
 
+export type PartnerCreateNestedOneWithoutMediaInput = {
+  create?: Prisma.XOR<Prisma.PartnerCreateWithoutMediaInput, Prisma.PartnerUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.PartnerCreateOrConnectWithoutMediaInput
+  connect?: Prisma.PartnerWhereUniqueInput
+}
+
+export type PartnerUpdateOneRequiredWithoutMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.PartnerCreateWithoutMediaInput, Prisma.PartnerUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.PartnerCreateOrConnectWithoutMediaInput
+  upsert?: Prisma.PartnerUpsertWithoutMediaInput
+  connect?: Prisma.PartnerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PartnerUpdateToOneWithWhereWithoutMediaInput, Prisma.PartnerUpdateWithoutMediaInput>, Prisma.PartnerUncheckedUpdateWithoutMediaInput>
+}
+
+export type PartnerCreateNestedOneWithoutVideosInput = {
+  create?: Prisma.XOR<Prisma.PartnerCreateWithoutVideosInput, Prisma.PartnerUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.PartnerCreateOrConnectWithoutVideosInput
+  connect?: Prisma.PartnerWhereUniqueInput
+}
+
+export type PartnerUpdateOneRequiredWithoutVideosNestedInput = {
+  create?: Prisma.XOR<Prisma.PartnerCreateWithoutVideosInput, Prisma.PartnerUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.PartnerCreateOrConnectWithoutVideosInput
+  upsert?: Prisma.PartnerUpsertWithoutVideosInput
+  connect?: Prisma.PartnerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PartnerUpdateToOneWithWhereWithoutVideosInput, Prisma.PartnerUpdateWithoutVideosInput>, Prisma.PartnerUncheckedUpdateWithoutVideosInput>
+}
+
 export type PartnerCreateWithoutLogoInput = {
   id?: string
   websiteUrl?: string | null
@@ -481,6 +523,8 @@ export type PartnerCreateWithoutLogoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.PartnerTranslationCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerUncheckedCreateWithoutLogoInput = {
@@ -491,6 +535,8 @@ export type PartnerUncheckedCreateWithoutLogoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.PartnerTranslationUncheckedCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoUncheckedCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerCreateOrConnectWithoutLogoInput = {
@@ -540,6 +586,8 @@ export type PartnerCreateWithoutTranslationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.MediaAssetCreateNestedOneWithoutPartnerLogosInput
+  media?: Prisma.PartnerMediaCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerUncheckedCreateWithoutTranslationsInput = {
@@ -550,6 +598,8 @@ export type PartnerUncheckedCreateWithoutTranslationsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  media?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoUncheckedCreateNestedManyWithoutPartnerInput
 }
 
 export type PartnerCreateOrConnectWithoutTranslationsInput = {
@@ -576,6 +626,8 @@ export type PartnerUpdateWithoutTranslationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.MediaAssetUpdateOneWithoutPartnerLogosNestedInput
+  media?: Prisma.PartnerMediaUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerUncheckedUpdateWithoutTranslationsInput = {
@@ -586,6 +638,136 @@ export type PartnerUncheckedUpdateWithoutTranslationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.PartnerMediaUncheckedUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUncheckedUpdateManyWithoutPartnerNestedInput
+}
+
+export type PartnerCreateWithoutMediaInput = {
+  id?: string
+  websiteUrl?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.MediaAssetCreateNestedOneWithoutPartnerLogosInput
+  translations?: Prisma.PartnerTranslationCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoCreateNestedManyWithoutPartnerInput
+}
+
+export type PartnerUncheckedCreateWithoutMediaInput = {
+  id?: string
+  logoId?: string | null
+  websiteUrl?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.PartnerTranslationUncheckedCreateNestedManyWithoutPartnerInput
+  videos?: Prisma.PartnerVideoUncheckedCreateNestedManyWithoutPartnerInput
+}
+
+export type PartnerCreateOrConnectWithoutMediaInput = {
+  where: Prisma.PartnerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PartnerCreateWithoutMediaInput, Prisma.PartnerUncheckedCreateWithoutMediaInput>
+}
+
+export type PartnerUpsertWithoutMediaInput = {
+  update: Prisma.XOR<Prisma.PartnerUpdateWithoutMediaInput, Prisma.PartnerUncheckedUpdateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.PartnerCreateWithoutMediaInput, Prisma.PartnerUncheckedCreateWithoutMediaInput>
+  where?: Prisma.PartnerWhereInput
+}
+
+export type PartnerUpdateToOneWithWhereWithoutMediaInput = {
+  where?: Prisma.PartnerWhereInput
+  data: Prisma.XOR<Prisma.PartnerUpdateWithoutMediaInput, Prisma.PartnerUncheckedUpdateWithoutMediaInput>
+}
+
+export type PartnerUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.MediaAssetUpdateOneWithoutPartnerLogosNestedInput
+  translations?: Prisma.PartnerTranslationUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUpdateManyWithoutPartnerNestedInput
+}
+
+export type PartnerUncheckedUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.PartnerTranslationUncheckedUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUncheckedUpdateManyWithoutPartnerNestedInput
+}
+
+export type PartnerCreateWithoutVideosInput = {
+  id?: string
+  websiteUrl?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.MediaAssetCreateNestedOneWithoutPartnerLogosInput
+  translations?: Prisma.PartnerTranslationCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaCreateNestedManyWithoutPartnerInput
+}
+
+export type PartnerUncheckedCreateWithoutVideosInput = {
+  id?: string
+  logoId?: string | null
+  websiteUrl?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.PartnerTranslationUncheckedCreateNestedManyWithoutPartnerInput
+  media?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutPartnerInput
+}
+
+export type PartnerCreateOrConnectWithoutVideosInput = {
+  where: Prisma.PartnerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PartnerCreateWithoutVideosInput, Prisma.PartnerUncheckedCreateWithoutVideosInput>
+}
+
+export type PartnerUpsertWithoutVideosInput = {
+  update: Prisma.XOR<Prisma.PartnerUpdateWithoutVideosInput, Prisma.PartnerUncheckedUpdateWithoutVideosInput>
+  create: Prisma.XOR<Prisma.PartnerCreateWithoutVideosInput, Prisma.PartnerUncheckedCreateWithoutVideosInput>
+  where?: Prisma.PartnerWhereInput
+}
+
+export type PartnerUpdateToOneWithWhereWithoutVideosInput = {
+  where?: Prisma.PartnerWhereInput
+  data: Prisma.XOR<Prisma.PartnerUpdateWithoutVideosInput, Prisma.PartnerUncheckedUpdateWithoutVideosInput>
+}
+
+export type PartnerUpdateWithoutVideosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.MediaAssetUpdateOneWithoutPartnerLogosNestedInput
+  translations?: Prisma.PartnerTranslationUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUpdateManyWithoutPartnerNestedInput
+}
+
+export type PartnerUncheckedUpdateWithoutVideosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.PartnerTranslationUncheckedUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUncheckedUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerCreateManyLogoInput = {
@@ -605,6 +787,8 @@ export type PartnerUpdateWithoutLogoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.PartnerTranslationUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerUncheckedUpdateWithoutLogoInput = {
@@ -615,6 +799,8 @@ export type PartnerUncheckedUpdateWithoutLogoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.PartnerTranslationUncheckedUpdateManyWithoutPartnerNestedInput
+  media?: Prisma.PartnerMediaUncheckedUpdateManyWithoutPartnerNestedInput
+  videos?: Prisma.PartnerVideoUncheckedUpdateManyWithoutPartnerNestedInput
 }
 
 export type PartnerUncheckedUpdateManyWithoutLogoInput = {
@@ -633,10 +819,14 @@ export type PartnerUncheckedUpdateManyWithoutLogoInput = {
 
 export type PartnerCountOutputType = {
   translations: number
+  media: number
+  videos: number
 }
 
 export type PartnerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | PartnerCountOutputTypeCountTranslationsArgs
+  media?: boolean | PartnerCountOutputTypeCountMediaArgs
+  videos?: boolean | PartnerCountOutputTypeCountVideosArgs
 }
 
 /**
@@ -656,6 +846,20 @@ export type PartnerCountOutputTypeCountTranslationsArgs<ExtArgs extends runtime.
   where?: Prisma.PartnerTranslationWhereInput
 }
 
+/**
+ * PartnerCountOutputType without action
+ */
+export type PartnerCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PartnerMediaWhereInput
+}
+
+/**
+ * PartnerCountOutputType without action
+ */
+export type PartnerCountOutputTypeCountVideosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PartnerVideoWhereInput
+}
+
 
 export type PartnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -667,6 +871,8 @@ export type PartnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   logo?: boolean | Prisma.Partner$logoArgs<ExtArgs>
   translations?: boolean | Prisma.Partner$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Partner$mediaArgs<ExtArgs>
+  videos?: boolean | Prisma.Partner$videosArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["partner"]>
 
@@ -706,6 +912,8 @@ export type PartnerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type PartnerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logo?: boolean | Prisma.Partner$logoArgs<ExtArgs>
   translations?: boolean | Prisma.Partner$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Partner$mediaArgs<ExtArgs>
+  videos?: boolean | Prisma.Partner$videosArgs<ExtArgs>
   _count?: boolean | Prisma.PartnerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PartnerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -720,6 +928,8 @@ export type $PartnerPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     logo: Prisma.$MediaAssetPayload<ExtArgs> | null
     translations: Prisma.$PartnerTranslationPayload<ExtArgs>[]
+    media: Prisma.$PartnerMediaPayload<ExtArgs>[]
+    videos: Prisma.$PartnerVideoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1125,6 +1335,8 @@ export interface Prisma__PartnerClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   logo<T extends Prisma.Partner$logoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Partner$logoArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   translations<T extends Prisma.Partner$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Partner$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.Partner$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Partner$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videos<T extends Prisma.Partner$videosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Partner$videosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerVideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1602,6 +1814,54 @@ export type Partner$translationsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.PartnerTranslationScalarFieldEnum | Prisma.PartnerTranslationScalarFieldEnum[]
+}
+
+/**
+ * Partner.media
+ */
+export type Partner$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PartnerMedia
+   */
+  select?: Prisma.PartnerMediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PartnerMedia
+   */
+  omit?: Prisma.PartnerMediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PartnerMediaInclude<ExtArgs> | null
+  where?: Prisma.PartnerMediaWhereInput
+  orderBy?: Prisma.PartnerMediaOrderByWithRelationInput | Prisma.PartnerMediaOrderByWithRelationInput[]
+  cursor?: Prisma.PartnerMediaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PartnerMediaScalarFieldEnum | Prisma.PartnerMediaScalarFieldEnum[]
+}
+
+/**
+ * Partner.videos
+ */
+export type Partner$videosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PartnerVideo
+   */
+  select?: Prisma.PartnerVideoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PartnerVideo
+   */
+  omit?: Prisma.PartnerVideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PartnerVideoInclude<ExtArgs> | null
+  where?: Prisma.PartnerVideoWhereInput
+  orderBy?: Prisma.PartnerVideoOrderByWithRelationInput | Prisma.PartnerVideoOrderByWithRelationInput[]
+  cursor?: Prisma.PartnerVideoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PartnerVideoScalarFieldEnum | Prisma.PartnerVideoScalarFieldEnum[]
 }
 
 /**

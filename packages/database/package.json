@@ -20,7 +20,7 @@
     "@prisma/client": "^7.8.0",
     "dotenv": "^17.4.2",
     "pg": "^8.20.0",
-    "prisma": "^7.8.0"
+    "prisma": "^7.8.0"  
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -34,6 +34,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./legacy-media": {
+      "types": "./dist/legacy-media.d.ts",
+      "default": "./dist/legacy-media.js"
     }
   }
 }

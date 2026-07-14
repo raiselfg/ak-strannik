@@ -395,8 +395,10 @@ export const ModelName = {
   Event: 'Event',
   EventTranslation: 'EventTranslation',
   EventImage: 'EventImage',
+  EventVideo: 'EventVideo',
   RentalItem: 'RentalItem',
   RentalItemTranslation: 'RentalItemTranslation',
+  RentalItemImage: 'RentalItemImage',
   Project: 'Project',
   ProjectTranslation: 'ProjectTranslation',
   ProjectSection: 'ProjectSection',
@@ -404,6 +406,8 @@ export const ModelName = {
   ProjectSectionMedia: 'ProjectSectionMedia',
   Partner: 'Partner',
   PartnerTranslation: 'PartnerTranslation',
+  PartnerMedia: 'PartnerMedia',
+  PartnerVideo: 'PartnerVideo',
   Certificate: 'Certificate',
   CertificateTranslation: 'CertificateTranslation'
 } as const
@@ -421,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "mediaAsset" | "mediaAssetTranslation" | "teamMember" | "teamMemberTranslation" | "event" | "eventTranslation" | "eventImage" | "rentalItem" | "rentalItemTranslation" | "project" | "projectTranslation" | "projectSection" | "projectSectionTranslation" | "projectSectionMedia" | "partner" | "partnerTranslation" | "certificate" | "certificateTranslation"
+    modelProps: "user" | "session" | "account" | "verification" | "mediaAsset" | "mediaAssetTranslation" | "teamMember" | "teamMemberTranslation" | "event" | "eventTranslation" | "eventImage" | "eventVideo" | "rentalItem" | "rentalItemTranslation" | "rentalItemImage" | "project" | "projectTranslation" | "projectSection" | "projectSectionTranslation" | "projectSectionMedia" | "partner" | "partnerTranslation" | "partnerMedia" | "partnerVideo" | "certificate" | "certificateTranslation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1239,6 +1243,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    EventVideo: {
+      payload: Prisma.$EventVideoPayload<ExtArgs>
+      fields: Prisma.EventVideoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventVideoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventVideoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        findFirst: {
+          args: Prisma.EventVideoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventVideoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        findMany: {
+          args: Prisma.EventVideoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>[]
+        }
+        create: {
+          args: Prisma.EventVideoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        createMany: {
+          args: Prisma.EventVideoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventVideoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>[]
+        }
+        delete: {
+          args: Prisma.EventVideoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        update: {
+          args: Prisma.EventVideoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventVideoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventVideoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventVideoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventVideoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventVideoPayload>
+        }
+        aggregate: {
+          args: Prisma.EventVideoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventVideo>
+        }
+        groupBy: {
+          args: Prisma.EventVideoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventVideoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventVideoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventVideoCountAggregateOutputType> | number
+        }
+      }
+    }
     RentalItem: {
       payload: Prisma.$RentalItemPayload<ExtArgs>
       fields: Prisma.RentalItemFieldRefs
@@ -1384,6 +1462,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RentalItemTranslationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RentalItemTranslationCountAggregateOutputType> | number
+        }
+      }
+    }
+    RentalItemImage: {
+      payload: Prisma.$RentalItemImagePayload<ExtArgs>
+      fields: Prisma.RentalItemImageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RentalItemImageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RentalItemImageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        findFirst: {
+          args: Prisma.RentalItemImageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RentalItemImageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        findMany: {
+          args: Prisma.RentalItemImageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>[]
+        }
+        create: {
+          args: Prisma.RentalItemImageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        createMany: {
+          args: Prisma.RentalItemImageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RentalItemImageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>[]
+        }
+        delete: {
+          args: Prisma.RentalItemImageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        update: {
+          args: Prisma.RentalItemImageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        deleteMany: {
+          args: Prisma.RentalItemImageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RentalItemImageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RentalItemImageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>[]
+        }
+        upsert: {
+          args: Prisma.RentalItemImageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalItemImagePayload>
+        }
+        aggregate: {
+          args: Prisma.RentalItemImageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRentalItemImage>
+        }
+        groupBy: {
+          args: Prisma.RentalItemImageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RentalItemImageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RentalItemImageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RentalItemImageCountAggregateOutputType> | number
         }
       }
     }
@@ -1905,6 +2057,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PartnerMedia: {
+      payload: Prisma.$PartnerMediaPayload<ExtArgs>
+      fields: Prisma.PartnerMediaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PartnerMediaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PartnerMediaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        findFirst: {
+          args: Prisma.PartnerMediaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PartnerMediaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        findMany: {
+          args: Prisma.PartnerMediaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>[]
+        }
+        create: {
+          args: Prisma.PartnerMediaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        createMany: {
+          args: Prisma.PartnerMediaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PartnerMediaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>[]
+        }
+        delete: {
+          args: Prisma.PartnerMediaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        update: {
+          args: Prisma.PartnerMediaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        deleteMany: {
+          args: Prisma.PartnerMediaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PartnerMediaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PartnerMediaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>[]
+        }
+        upsert: {
+          args: Prisma.PartnerMediaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerMediaPayload>
+        }
+        aggregate: {
+          args: Prisma.PartnerMediaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePartnerMedia>
+        }
+        groupBy: {
+          args: Prisma.PartnerMediaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerMediaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PartnerMediaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerMediaCountAggregateOutputType> | number
+        }
+      }
+    }
+    PartnerVideo: {
+      payload: Prisma.$PartnerVideoPayload<ExtArgs>
+      fields: Prisma.PartnerVideoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PartnerVideoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PartnerVideoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        findFirst: {
+          args: Prisma.PartnerVideoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PartnerVideoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        findMany: {
+          args: Prisma.PartnerVideoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>[]
+        }
+        create: {
+          args: Prisma.PartnerVideoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        createMany: {
+          args: Prisma.PartnerVideoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PartnerVideoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>[]
+        }
+        delete: {
+          args: Prisma.PartnerVideoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        update: {
+          args: Prisma.PartnerVideoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        deleteMany: {
+          args: Prisma.PartnerVideoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PartnerVideoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PartnerVideoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>[]
+        }
+        upsert: {
+          args: Prisma.PartnerVideoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerVideoPayload>
+        }
+        aggregate: {
+          args: Prisma.PartnerVideoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePartnerVideo>
+        }
+        groupBy: {
+          args: Prisma.PartnerVideoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerVideoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PartnerVideoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerVideoCountAggregateOutputType> | number
+        }
+      }
+    }
     Certificate: {
       payload: Prisma.$CertificatePayload<ExtArgs>
       fields: Prisma.CertificateFieldRefs
@@ -2153,6 +2453,7 @@ export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[k
 export const MediaAssetScalarFieldEnum = {
   id: 'id',
   objectKey: 'objectKey',
+  checksumSha256: 'checksumSha256',
   originalName: 'originalName',
   mimeType: 'mimeType',
   size: 'size',
@@ -2205,9 +2506,11 @@ export const EventScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   status: 'status',
-  eventDate: 'eventDate',
+  eventYear: 'eventYear',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  projectId: 'projectId',
   coverImageId: 'coverImageId',
-  youtubeUrl: 'youtubeUrl',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -2224,6 +2527,8 @@ export const EventTranslationScalarFieldEnum = {
   title: 'title',
   excerpt: 'excerpt',
   body: 'body',
+  dateText: 'dateText',
+  locationText: 'locationText',
   seoTitle: 'seoTitle',
   seoDescription: 'seoDescription'
 } as const
@@ -2239,6 +2544,17 @@ export const EventImageScalarFieldEnum = {
 } as const
 
 export type EventImageScalarFieldEnum = (typeof EventImageScalarFieldEnum)[keyof typeof EventImageScalarFieldEnum]
+
+
+export const EventVideoScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  provider: 'provider',
+  url: 'url',
+  sortOrder: 'sortOrder'
+} as const
+
+export type EventVideoScalarFieldEnum = (typeof EventVideoScalarFieldEnum)[keyof typeof EventVideoScalarFieldEnum]
 
 
 export const RentalItemScalarFieldEnum = {
@@ -2265,6 +2581,16 @@ export const RentalItemTranslationScalarFieldEnum = {
 } as const
 
 export type RentalItemTranslationScalarFieldEnum = (typeof RentalItemTranslationScalarFieldEnum)[keyof typeof RentalItemTranslationScalarFieldEnum]
+
+
+export const RentalItemImageScalarFieldEnum = {
+  id: 'id',
+  rentalItemId: 'rentalItemId',
+  mediaId: 'mediaId',
+  sortOrder: 'sortOrder'
+} as const
+
+export type RentalItemImageScalarFieldEnum = (typeof RentalItemImageScalarFieldEnum)[keyof typeof RentalItemImageScalarFieldEnum]
 
 
 export const ProjectScalarFieldEnum = {
@@ -2300,7 +2626,8 @@ export const ProjectSectionScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   variant: 'variant',
-  youtubeUrl: 'youtubeUrl',
+  videoProvider: 'videoProvider',
+  videoUrl: 'videoUrl',
   sortOrder: 'sortOrder',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -2355,6 +2682,27 @@ export const PartnerTranslationScalarFieldEnum = {
 } as const
 
 export type PartnerTranslationScalarFieldEnum = (typeof PartnerTranslationScalarFieldEnum)[keyof typeof PartnerTranslationScalarFieldEnum]
+
+
+export const PartnerMediaScalarFieldEnum = {
+  id: 'id',
+  partnerId: 'partnerId',
+  mediaId: 'mediaId',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PartnerMediaScalarFieldEnum = (typeof PartnerMediaScalarFieldEnum)[keyof typeof PartnerMediaScalarFieldEnum]
+
+
+export const PartnerVideoScalarFieldEnum = {
+  id: 'id',
+  partnerId: 'partnerId',
+  provider: 'provider',
+  url: 'url',
+  sortOrder: 'sortOrder'
+} as const
+
+export type PartnerVideoScalarFieldEnum = (typeof PartnerVideoScalarFieldEnum)[keyof typeof PartnerVideoScalarFieldEnum]
 
 
 export const CertificateScalarFieldEnum = {
@@ -2486,6 +2834,20 @@ export type EnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'ContentStatus[]'
  */
 export type ListEnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoProvider'
+ */
+export type EnumVideoProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoProvider[]'
+ */
+export type ListEnumVideoProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoProvider[]'>
     
 
 
@@ -2665,8 +3027,10 @@ export type GlobalOmitConfig = {
   event?: Prisma.EventOmit
   eventTranslation?: Prisma.EventTranslationOmit
   eventImage?: Prisma.EventImageOmit
+  eventVideo?: Prisma.EventVideoOmit
   rentalItem?: Prisma.RentalItemOmit
   rentalItemTranslation?: Prisma.RentalItemTranslationOmit
+  rentalItemImage?: Prisma.RentalItemImageOmit
   project?: Prisma.ProjectOmit
   projectTranslation?: Prisma.ProjectTranslationOmit
   projectSection?: Prisma.ProjectSectionOmit
@@ -2674,6 +3038,8 @@ export type GlobalOmitConfig = {
   projectSectionMedia?: Prisma.ProjectSectionMediaOmit
   partner?: Prisma.PartnerOmit
   partnerTranslation?: Prisma.PartnerTranslationOmit
+  partnerMedia?: Prisma.PartnerMediaOmit
+  partnerVideo?: Prisma.PartnerVideoOmit
   certificate?: Prisma.CertificateOmit
   certificateTranslation?: Prisma.CertificateTranslationOmit
 }

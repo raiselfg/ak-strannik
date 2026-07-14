@@ -14,44 +14,53 @@ import {
 import { Button } from '@ak-strannik/ui/components/button';
 import { toast } from '@ak-strannik/ui/components/sonner';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { deletePartnerAction } from './actions';
+import { type ReactNode, useState } from 'react';
+import type { ActionResult } from '../../lib/action-utils';
 
-export function DeletePartnerDialog({
-  id,
-  redirectAfterDelete = false,
+export function DeleteDialog<TArgs extends string[]>({
+  args,
+  deleteAction,
+  description,
+  disabledReason,
+  redirectTo,
+  title,
+  triggerLabel = 'Удалить',
 }: {
-  id: string;
-  redirectAfterDelete?: boolean;
+  args: TArgs;
+  deleteAction: (...args: TArgs) => Promise<ActionResult>;
+  description: ReactNode;
+  disabledReason?: string;
+  redirectTo?: string;
+  title: string;
+  triggerLabel?: string;
 }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function handleDelete() {
     setPending(true);
-    const result = await deletePartnerAction(id);
-    setPending(false);
-    if (!result.success) {
-      toast.error(result.message);
-      return;
+    try {
+      const result = await deleteAction(...args);
+      if (!result.success) return toast.error(result.message);
+      toast.success(result.message);
+      if (redirectTo) router.push(redirectTo);
+      else router.refresh();
+    } finally {
+      setPending(false);
     }
-    toast.success(result.message);
-    if (redirectAfterDelete) router.push('/partners');
-    else router.refresh();
   }
 
-  return (
+  const dialog = (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Удалить</Button>
+        <Button disabled={Boolean(disabledReason)} variant="destructive">
+          {triggerLabel}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Удалить партнёра?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Партнёр и его переводы будут удалены. Логотип останется в
-            медиатеке. Это действие нельзя отменить.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
@@ -69,5 +78,14 @@ export function DeletePartnerDialog({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  );
+
+  return disabledReason ? (
+    <div className="space-y-2">
+      {dialog}
+      <p className="text-sm text-destructive">{disabledReason}</p>
+    </div>
+  ) : (
+    dialog
   );
 }

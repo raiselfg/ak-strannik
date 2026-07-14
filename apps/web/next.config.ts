@@ -9,8 +9,12 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif'],
     qualities: [50, 75],
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'cdn.ak-strannik.ru',
+    }]
   },
-  transpilePackages: ['@ak-strannik/ui'],
+  transpilePackages: ['@ak-strannik/ui', '@ak-strannik/database'],
   output: 'standalone',
 };
 

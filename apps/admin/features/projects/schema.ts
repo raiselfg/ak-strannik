@@ -1,17 +1,28 @@
 import { z } from 'zod';
 import { ContentStatusSchema } from '../events/schema';
 
-const nullableText = z.union([z.string(), z.null()]).transform((value) => {
-  const normalized = value?.trim() ?? '';
-  return normalized === '' ? null : normalized;
-});
+const nullableText = z
+  .string()
+  .trim()
+  .transform((value) => value || null)
+  .nullable();
 
-const nullableUuid = z.union([z.literal(''), z.uuid(), z.null()])
-  .transform((value) => value === '' ? null : value);
+const nullableUuid = z
+  .union([z.literal(''), z.uuid(), z.null()])
+  .transform((value) => (value === '' ? null : value));
 
 export const ProjectTypeSchema = z.enum([
-  'musical', 'singer', 'exhibition', 'newYearShow', 'masterClass',
-  'performance', 'artist', 'concertProgram', 'festival', 'charity', 'other',
+  'musical',
+  'singer',
+  'exhibition',
+  'newYearShow',
+  'masterClass',
+  'performance',
+  'artist',
+  'concertProgram',
+  'festival',
+  'charity',
+  'other',
 ]);
 
 const translationSchema = z.object({
@@ -29,7 +40,8 @@ const translationSchema = z.object({
 });
 
 export const ProjectFormSchema = z.object({
-  slug: z.string()
+  slug: z
+    .string()
     .trim()
     .min(1, 'Укажите slug')
     .max(160, 'Slug слишком длинный')
@@ -40,7 +52,8 @@ export const ProjectFormSchema = z.object({
   type: ProjectTypeSchema,
   status: ContentStatusSchema,
   coverImageId: nullableUuid,
-  sortOrder: z.number()
+  sortOrder: z
+    .number()
     .int('Порядок должен быть целым числом')
     .min(0, 'Порядок не может быть отрицательным'),
   publishedAt: z.date().nullable(),

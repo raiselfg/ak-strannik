@@ -14,8 +14,29 @@ export default async function TeamPage() {
   const members = await getTeamMembers();
   return (
     <div className="space-y-8">
-      <div><PageBreadcrumbs items={[{ label: 'Команда' }]} /><PageHeader title="Команда" description="Участники команды и информация для публичных страниц." action={<Button asChild><Link href="/team/new">Добавить участника</Link></Button>} /></div>
-      {members.length ? <TeamMembersTable members={members} /> : <EmptyState icon={Users} title="Участники команды пока не добавлены" description="Добавьте первого участника команды, чтобы он появился на сайте." actionHref="/team/new" actionLabel="Добавить участника" />}
+      <div>
+        <PageBreadcrumbs items={[{ label: 'Команда' }]} />
+        <PageHeader
+          title="Команда"
+          description="Участники команды и информация для публичных страниц."
+          action={
+            <Button asChild>
+              <Link href="/team/new">Добавить участника</Link>
+            </Button>
+          }
+        />
+      </div>
+      {members.length ? (
+        <TeamMembersTable members={members} />
+      ) : (
+        <EmptyState
+          icon={Users}
+          title="Участники команды пока не добавлены"
+          description="Добавьте первого участника команды, чтобы он появился на сайте."
+          actionHref="/team/new"
+          actionLabel="Добавить участника"
+        />
+      )}
     </div>
   );
 }

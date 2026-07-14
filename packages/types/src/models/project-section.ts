@@ -1,12 +1,13 @@
 import { z } from 'zod';
 import { IdSchema, DateTimeSchema, SortOrderSchema } from './common';
-import { ProjectSectionVariantSchema } from './enums';
+import { ProjectSectionVariantSchema, VideoProviderSchema } from './enums';
 
 export const ProjectSectionSchema = z.object({
   id: IdSchema,
   projectId: IdSchema,
   variant: ProjectSectionVariantSchema,
-  youtubeUrl: z.string().nullable(),
+  videoProvider: VideoProviderSchema.nullable(),
+  videoUrl: z.string().nullable(),
   sortOrder: SortOrderSchema,
   isActive: z.boolean(),
   createdAt: DateTimeSchema,
@@ -15,7 +16,8 @@ export const ProjectSectionSchema = z.object({
 export const CreateProjectSectionDtoSchema = z.object({
   projectId: IdSchema,
   variant: ProjectSectionVariantSchema.optional(),
-  youtubeUrl: z.string().nullable().optional(),
+  videoProvider: VideoProviderSchema.nullable().optional(),
+  videoUrl: z.string().nullable().optional(),
   sortOrder: SortOrderSchema.optional(),
   isActive: z.boolean().optional(),
 });

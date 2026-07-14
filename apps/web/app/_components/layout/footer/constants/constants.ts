@@ -7,7 +7,6 @@ export const contacts = {
     vk: 'https://vk.com/fondas',
     youtube: 'https://www.youtube.com/@aka_stran/featured',
   },
-  charterHref: '/charter',
   mapEmbed: '' as string,
 };
 export const MAP_CENTER: [number, number] = [59.928686, 30.370513];

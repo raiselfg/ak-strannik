@@ -38,7 +38,8 @@ export type ProjectSectionMinAggregateOutputType = {
   id: string | null
   projectId: string | null
   variant: $Enums.ProjectSectionVariant | null
-  youtubeUrl: string | null
+  videoProvider: $Enums.VideoProvider | null
+  videoUrl: string | null
   sortOrder: number | null
   isActive: boolean | null
   createdAt: Date | null
@@ -49,7 +50,8 @@ export type ProjectSectionMaxAggregateOutputType = {
   id: string | null
   projectId: string | null
   variant: $Enums.ProjectSectionVariant | null
-  youtubeUrl: string | null
+  videoProvider: $Enums.VideoProvider | null
+  videoUrl: string | null
   sortOrder: number | null
   isActive: boolean | null
   createdAt: Date | null
@@ -60,7 +62,8 @@ export type ProjectSectionCountAggregateOutputType = {
   id: number
   projectId: number
   variant: number
-  youtubeUrl: number
+  videoProvider: number
+  videoUrl: number
   sortOrder: number
   isActive: number
   createdAt: number
@@ -81,7 +84,8 @@ export type ProjectSectionMinAggregateInputType = {
   id?: true
   projectId?: true
   variant?: true
-  youtubeUrl?: true
+  videoProvider?: true
+  videoUrl?: true
   sortOrder?: true
   isActive?: true
   createdAt?: true
@@ -92,7 +96,8 @@ export type ProjectSectionMaxAggregateInputType = {
   id?: true
   projectId?: true
   variant?: true
-  youtubeUrl?: true
+  videoProvider?: true
+  videoUrl?: true
   sortOrder?: true
   isActive?: true
   createdAt?: true
@@ -103,7 +108,8 @@ export type ProjectSectionCountAggregateInputType = {
   id?: true
   projectId?: true
   variant?: true
-  youtubeUrl?: true
+  videoProvider?: true
+  videoUrl?: true
   sortOrder?: true
   isActive?: true
   createdAt?: true
@@ -201,7 +207,8 @@ export type ProjectSectionGroupByOutputType = {
   id: string
   projectId: string
   variant: $Enums.ProjectSectionVariant
-  youtubeUrl: string | null
+  videoProvider: $Enums.VideoProvider | null
+  videoUrl: string | null
   sortOrder: number
   isActive: boolean
   createdAt: Date
@@ -235,7 +242,8 @@ export type ProjectSectionWhereInput = {
   id?: Prisma.UuidFilter<"ProjectSection"> | string
   projectId?: Prisma.UuidFilter<"ProjectSection"> | string
   variant?: Prisma.EnumProjectSectionVariantFilter<"ProjectSection"> | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
+  videoProvider?: Prisma.EnumVideoProviderNullableFilter<"ProjectSection"> | $Enums.VideoProvider | null
+  videoUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
   sortOrder?: Prisma.IntFilter<"ProjectSection"> | number
   isActive?: Prisma.BoolFilter<"ProjectSection"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectSection"> | Date | string
@@ -249,7 +257,8 @@ export type ProjectSectionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   variant?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoProvider?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -266,7 +275,8 @@ export type ProjectSectionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProjectSectionWhereInput | Prisma.ProjectSectionWhereInput[]
   projectId?: Prisma.UuidFilter<"ProjectSection"> | string
   variant?: Prisma.EnumProjectSectionVariantFilter<"ProjectSection"> | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
+  videoProvider?: Prisma.EnumVideoProviderNullableFilter<"ProjectSection"> | $Enums.VideoProvider | null
+  videoUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
   sortOrder?: Prisma.IntFilter<"ProjectSection"> | number
   isActive?: Prisma.BoolFilter<"ProjectSection"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectSection"> | Date | string
@@ -280,7 +290,8 @@ export type ProjectSectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   variant?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoProvider?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -299,7 +310,8 @@ export type ProjectSectionScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"ProjectSection"> | string
   projectId?: Prisma.UuidWithAggregatesFilter<"ProjectSection"> | string
   variant?: Prisma.EnumProjectSectionVariantWithAggregatesFilter<"ProjectSection"> | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.StringNullableWithAggregatesFilter<"ProjectSection"> | string | null
+  videoProvider?: Prisma.EnumVideoProviderNullableWithAggregatesFilter<"ProjectSection"> | $Enums.VideoProvider | null
+  videoUrl?: Prisma.StringNullableWithAggregatesFilter<"ProjectSection"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"ProjectSection"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"ProjectSection"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectSection"> | Date | string
@@ -309,7 +321,8 @@ export type ProjectSectionScalarWhereWithAggregatesInput = {
 export type ProjectSectionCreateInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -323,7 +336,8 @@ export type ProjectSectionUncheckedCreateInput = {
   id?: string
   projectId: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -335,7 +349,8 @@ export type ProjectSectionUncheckedCreateInput = {
 export type ProjectSectionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,7 +364,8 @@ export type ProjectSectionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,7 +378,8 @@ export type ProjectSectionCreateManyInput = {
   id?: string
   projectId: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -372,7 +389,8 @@ export type ProjectSectionCreateManyInput = {
 export type ProjectSectionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,7 +401,8 @@ export type ProjectSectionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -404,7 +423,8 @@ export type ProjectSectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   variant?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
+  videoProvider?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -419,7 +439,8 @@ export type ProjectSectionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   variant?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
+  videoProvider?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -430,7 +451,8 @@ export type ProjectSectionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   variant?: Prisma.SortOrder
-  youtubeUrl?: Prisma.SortOrder
+  videoProvider?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -492,6 +514,10 @@ export type EnumProjectSectionVariantFieldUpdateOperationsInput = {
   set?: $Enums.ProjectSectionVariant
 }
 
+export type NullableEnumVideoProviderFieldUpdateOperationsInput = {
+  set?: $Enums.VideoProvider | null
+}
+
 export type ProjectSectionCreateNestedOneWithoutTranslationsInput = {
   create?: Prisma.XOR<Prisma.ProjectSectionCreateWithoutTranslationsInput, Prisma.ProjectSectionUncheckedCreateWithoutTranslationsInput>
   connectOrCreate?: Prisma.ProjectSectionCreateOrConnectWithoutTranslationsInput
@@ -523,7 +549,8 @@ export type ProjectSectionUpdateOneRequiredWithoutMediaNestedInput = {
 export type ProjectSectionCreateWithoutProjectInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -535,7 +562,8 @@ export type ProjectSectionCreateWithoutProjectInput = {
 export type ProjectSectionUncheckedCreateWithoutProjectInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -577,7 +605,8 @@ export type ProjectSectionScalarWhereInput = {
   id?: Prisma.UuidFilter<"ProjectSection"> | string
   projectId?: Prisma.UuidFilter<"ProjectSection"> | string
   variant?: Prisma.EnumProjectSectionVariantFilter<"ProjectSection"> | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
+  videoProvider?: Prisma.EnumVideoProviderNullableFilter<"ProjectSection"> | $Enums.VideoProvider | null
+  videoUrl?: Prisma.StringNullableFilter<"ProjectSection"> | string | null
   sortOrder?: Prisma.IntFilter<"ProjectSection"> | number
   isActive?: Prisma.BoolFilter<"ProjectSection"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectSection"> | Date | string
@@ -587,7 +616,8 @@ export type ProjectSectionScalarWhereInput = {
 export type ProjectSectionCreateWithoutTranslationsInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -600,7 +630,8 @@ export type ProjectSectionUncheckedCreateWithoutTranslationsInput = {
   id?: string
   projectId: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -627,7 +658,8 @@ export type ProjectSectionUpdateToOneWithWhereWithoutTranslationsInput = {
 export type ProjectSectionUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -640,7 +672,8 @@ export type ProjectSectionUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -651,7 +684,8 @@ export type ProjectSectionUncheckedUpdateWithoutTranslationsInput = {
 export type ProjectSectionCreateWithoutMediaInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -664,7 +698,8 @@ export type ProjectSectionUncheckedCreateWithoutMediaInput = {
   id?: string
   projectId: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -691,7 +726,8 @@ export type ProjectSectionUpdateToOneWithWhereWithoutMediaInput = {
 export type ProjectSectionUpdateWithoutMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,7 +740,8 @@ export type ProjectSectionUncheckedUpdateWithoutMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -715,7 +752,8 @@ export type ProjectSectionUncheckedUpdateWithoutMediaInput = {
 export type ProjectSectionCreateManyProjectInput = {
   id?: string
   variant?: $Enums.ProjectSectionVariant
-  youtubeUrl?: string | null
+  videoProvider?: $Enums.VideoProvider | null
+  videoUrl?: string | null
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -725,7 +763,8 @@ export type ProjectSectionCreateManyProjectInput = {
 export type ProjectSectionUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -737,7 +776,8 @@ export type ProjectSectionUpdateWithoutProjectInput = {
 export type ProjectSectionUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -749,7 +789,8 @@ export type ProjectSectionUncheckedUpdateWithoutProjectInput = {
 export type ProjectSectionUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variant?: Prisma.EnumProjectSectionVariantFieldUpdateOperationsInput | $Enums.ProjectSectionVariant
-  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoProvider?: Prisma.NullableEnumVideoProviderFieldUpdateOperationsInput | $Enums.VideoProvider | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -800,7 +841,8 @@ export type ProjectSectionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   id?: boolean
   projectId?: boolean
   variant?: boolean
-  youtubeUrl?: boolean
+  videoProvider?: boolean
+  videoUrl?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -815,7 +857,8 @@ export type ProjectSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   projectId?: boolean
   variant?: boolean
-  youtubeUrl?: boolean
+  videoProvider?: boolean
+  videoUrl?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -827,7 +870,8 @@ export type ProjectSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   projectId?: boolean
   variant?: boolean
-  youtubeUrl?: boolean
+  videoProvider?: boolean
+  videoUrl?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -839,14 +883,15 @@ export type ProjectSectionSelectScalar = {
   id?: boolean
   projectId?: boolean
   variant?: boolean
-  youtubeUrl?: boolean
+  videoProvider?: boolean
+  videoUrl?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "variant" | "youtubeUrl" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSection"]>
+export type ProjectSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "variant" | "videoProvider" | "videoUrl" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSection"]>
 export type ProjectSectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   translations?: boolean | Prisma.ProjectSection$translationsArgs<ExtArgs>
@@ -871,7 +916,8 @@ export type $ProjectSectionPayload<ExtArgs extends runtime.Types.Extensions.Inte
     id: string
     projectId: string
     variant: $Enums.ProjectSectionVariant
-    youtubeUrl: string | null
+    videoProvider: $Enums.VideoProvider | null
+    videoUrl: string | null
     sortOrder: number
     isActive: boolean
     createdAt: Date
@@ -1305,7 +1351,8 @@ export interface ProjectSectionFieldRefs {
   readonly id: Prisma.FieldRef<"ProjectSection", 'String'>
   readonly projectId: Prisma.FieldRef<"ProjectSection", 'String'>
   readonly variant: Prisma.FieldRef<"ProjectSection", 'ProjectSectionVariant'>
-  readonly youtubeUrl: Prisma.FieldRef<"ProjectSection", 'String'>
+  readonly videoProvider: Prisma.FieldRef<"ProjectSection", 'VideoProvider'>
+  readonly videoUrl: Prisma.FieldRef<"ProjectSection", 'String'>
   readonly sortOrder: Prisma.FieldRef<"ProjectSection", 'Int'>
   readonly isActive: Prisma.FieldRef<"ProjectSection", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ProjectSection", 'DateTime'>

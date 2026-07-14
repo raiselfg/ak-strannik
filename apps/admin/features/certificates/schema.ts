@@ -1,18 +1,21 @@
 import { z } from 'zod';
 
-const nullableText = z.union([z.string(), z.null()]).transform((value) => {
-  const normalized = value?.trim() ?? '';
-  return normalized === '' ? null : normalized;
-});
+const nullableText = z
+  .string()
+  .trim()
+  .transform((value) => value || null)
+  .nullable();
 
 export const CertificateFormSchema = z.object({
   imageId: z.uuid('Выберите изображение сертификата'),
-  year: z.number()
+  year: z
+    .number()
     .int('Год должен быть целым числом')
     .min(1900, 'Укажите корректный год')
     .max(2100, 'Укажите корректный год')
     .nullable(),
-  sortOrder: z.number()
+  sortOrder: z
+    .number()
     .int('Порядок должен быть целым числом')
     .min(0, 'Порядок не может быть отрицательным'),
   isActive: z.boolean(),

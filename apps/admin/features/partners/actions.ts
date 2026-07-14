@@ -2,50 +2,37 @@
 
 import { prisma } from '@ak-strannik/database';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { requireAdminSession } from '../../lib/require-admin-session';
-import type { ActionResult } from '../team/actions';
+import {
+  authenticate,
+  fieldErrors,
+  idSchema,
+  type ActionResult,
+} from '../../lib/action-utils';
 import { PartnerFormSchema, type PartnerFormValues } from './schema';
-
-const idSchema = z.uuid();
-
-function fieldErrors(error: z.ZodError): Record<string, string[]> {
-  return error.issues.reduce<Record<string, string[]>>((result, issue) => {
-    const key = issue.path.join('.');
-    if (key) result[key] = [...(result[key] ?? []), issue.message];
-    return result;
-  }, {});
-}
 
 function hasEnglishTranslation(values: PartnerFormValues) {
   return Boolean(
-    values.translations.en.name.trim()
-    || values.translations.en.description?.trim()
+    values.translations.en.name.trim() ||
+    values.translations.en.description?.trim()
   );
 }
 
-async function authenticate(): Promise<ActionResult | null> {
-  try {
-    await requireAdminSession();
-    return null;
-  } catch {
-    return {
-      success: false,
-      message: 'Необходимо войти в административную панель',
-    };
-  }
+async function imagesExist(values: PartnerFormValues) {
+  const ids = [
+    ...(values.logoId ? [values.logoId] : []),
+    ...values.media.map(({ mediaId }) => mediaId),
+  ];
+  if (!ids.length) return true;
+  return (
+    (await prisma.mediaAsset.count({
+      where: { id: { in: ids }, mimeType: { startsWith: 'image/' } },
+    })) === new Set(ids).size
+  );
 }
 
-async function imageExists(logoId: string | null) {
-  if (logoId === null) return true;
-  const image = await prisma.mediaAsset.findFirst({
-    where: { id: logoId, mimeType: { startsWith: 'image/' } },
-    select: { id: true },
-  });
-  return Boolean(image);
-}
-
-export async function createPartnerAction(input: PartnerFormValues): Promise<ActionResult> {
+export async function createPartnerAction(
+  input: PartnerFormValues
+): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   const parsed = PartnerFormSchema.safeParse(input);
@@ -57,8 +44,12 @@ export async function createPartnerAction(input: PartnerFormValues): Promise<Act
     };
   }
 
-  if (!await imageExists(parsed.data.logoId)) {
-    return { success: false, message: 'Selected image was not found', fieldErrors: { logoId: ['Select an existing image'] } };
+  if (!(await imagesExist(parsed.data))) {
+    return {
+      success: false,
+      message: 'Одно из выбранных изображений не найдено',
+      fieldErrors: { media: ['Одно из выбранных изображений не найдено'] },
+    };
   }
 
   try {
@@ -88,6 +79,22 @@ export async function createPartnerAction(input: PartnerFormValues): Promise<Act
           },
         });
       }
+      if (values.media.length) {
+        await tx.partnerMedia.createMany({
+          data: values.media.map((item) => ({
+            partnerId: partner.id,
+            ...item,
+          })),
+        });
+      }
+      if (values.videos.length) {
+        await tx.partnerVideo.createMany({
+          data: values.videos.map((item) => ({
+            partnerId: partner.id,
+            ...item,
+          })),
+        });
+      }
     });
     revalidatePath('/partners');
     return { success: true, message: 'Партнёр добавлен' };
@@ -97,7 +104,10 @@ export async function createPartnerAction(input: PartnerFormValues): Promise<Act
   }
 }
 
-export async function updatePartnerAction(id: string, input: PartnerFormValues): Promise<ActionResult> {
+export async function updatePartnerAction(
+  id: string,
+  input: PartnerFormValues
+): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
@@ -112,8 +122,12 @@ export async function updatePartnerAction(id: string, input: PartnerFormValues):
     };
   }
 
-  if (!await imageExists(parsed.data.logoId)) {
-    return { success: false, message: 'Selected image was not found', fieldErrors: { logoId: ['Select an existing image'] } };
+  if (!(await imagesExist(parsed.data))) {
+    return {
+      success: false,
+      message: 'Одно из выбранных изображений не найдено',
+      fieldErrors: { media: ['Одно из выбранных изображений не найдено'] },
+    };
   }
 
   try {
@@ -147,6 +161,18 @@ export async function updatePartnerAction(id: string, input: PartnerFormValues):
       } else {
         await tx.partnerTranslation.deleteMany({
           where: { partnerId: id, locale: 'en' },
+        });
+      }
+      await tx.partnerMedia.deleteMany({ where: { partnerId: id } });
+      if (values.media.length) {
+        await tx.partnerMedia.createMany({
+          data: values.media.map((item) => ({ partnerId: id, ...item })),
+        });
+      }
+      await tx.partnerVideo.deleteMany({ where: { partnerId: id } });
+      if (values.videos.length) {
+        await tx.partnerVideo.createMany({
+          data: values.videos.map((item) => ({ partnerId: id, ...item })),
         });
       }
     });

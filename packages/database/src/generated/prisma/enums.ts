@@ -57,8 +57,18 @@ export const ProjectSectionVariant = {
   split: 'split',
   gallery: 'gallery',
   slider: 'slider',
-  youtube: 'youtube',
+  video: 'video',
   quote: 'quote'
 } as const
 
 export type ProjectSectionVariant = (typeof ProjectSectionVariant)[keyof typeof ProjectSectionVariant]
+
+
+export const VideoProvider = {
+  youtube: 'youtube',
+  vk: 'vk',
+  rutube: 'rutube',
+  external: 'external'
+} as const
+
+export type VideoProvider = (typeof VideoProvider)[keyof typeof VideoProvider]

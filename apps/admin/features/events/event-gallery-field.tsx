@@ -1,7 +1,12 @@
 'use client';
 
 import { Button } from '@ak-strannik/ui/components/button';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@ak-strannik/ui/components/field';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@ak-strannik/ui/components/field';
 import { Select } from '@ak-strannik/ui/components/select';
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -64,11 +69,19 @@ export function EventGalleryField({
         >
           <option value="">Выберите изображение</option>
           {available.map((asset) => (
-            <option key={asset.id} value={asset.id}>{asset.originalName}</option>
+            <option key={asset.id} value={asset.id}>
+              {asset.originalName}
+            </option>
           ))}
         </Select>
-        <Button disabled={!selectedId} onClick={add} type="button" variant="outline">
-          <Plus />Добавить
+        <Button
+          disabled={!selectedId}
+          onClick={add}
+          type="button"
+          variant="outline"
+        >
+          <Plus />
+          Добавить
         </Button>
       </div>
       <FieldDescription>
@@ -77,23 +90,71 @@ export function EventGalleryField({
       {value.length ? (
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {value.map((item, index) => {
-            const asset = mediaOptions.find((option) => option.id === item.mediaId);
+            const asset = mediaOptions.find(
+              (option) => option.id === item.mediaId
+            );
             return (
-              <div className="space-y-2 rounded-lg border p-2" key={item.mediaId}>
+              <div
+                className="space-y-2 rounded-lg border p-2"
+                key={item.mediaId}
+              >
                 {asset ? (
-                  <MediaPreview alt={asset.alt} className="aspect-video rounded-md" url={asset.publicUrl} />
-                ) : <div className="aspect-video rounded-md bg-muted" />}
-                <p className="truncate text-xs" title={asset?.originalName}>{asset?.originalName ?? item.mediaId}</p>
+                  <MediaPreview
+                    alt={asset.alt}
+                    className="aspect-video rounded-md"
+                    url={asset.publicUrl}
+                  />
+                ) : (
+                  <div className="aspect-video rounded-md bg-muted" />
+                )}
+                <p className="truncate text-xs" title={asset?.originalName}>
+                  {asset?.originalName ?? item.mediaId}
+                </p>
                 <div className="flex gap-1">
-                  <Button aria-label="Переместить вверх" disabled={index === 0} onClick={() => move(index, -1)} size="icon-sm" type="button" variant="outline"><ArrowUp /></Button>
-                  <Button aria-label="Переместить вниз" disabled={index === value.length - 1} onClick={() => move(index, 1)} size="icon-sm" type="button" variant="outline"><ArrowDown /></Button>
-                  <Button aria-label="Удалить из галереи" className="ml-auto" onClick={() => normalize(value.filter((_, itemIndex) => itemIndex !== index))} size="icon-sm" type="button" variant="destructive"><Trash2 /></Button>
+                  <Button
+                    aria-label="Переместить вверх"
+                    disabled={index === 0}
+                    onClick={() => move(index, -1)}
+                    size="icon-sm"
+                    type="button"
+                    variant="outline"
+                  >
+                    <ArrowUp />
+                  </Button>
+                  <Button
+                    aria-label="Переместить вниз"
+                    disabled={index === value.length - 1}
+                    onClick={() => move(index, 1)}
+                    size="icon-sm"
+                    type="button"
+                    variant="outline"
+                  >
+                    <ArrowDown />
+                  </Button>
+                  <Button
+                    aria-label="Удалить из галереи"
+                    className="ml-auto"
+                    onClick={() =>
+                      normalize(
+                        value.filter((_, itemIndex) => itemIndex !== index)
+                      )
+                    }
+                    size="icon-sm"
+                    type="button"
+                    variant="destructive"
+                  >
+                    <Trash2 />
+                  </Button>
                 </div>
               </div>
             );
           })}
         </div>
-      ) : <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">Галерея пока пуста</p>}
+      ) : (
+        <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
+          Галерея пока пуста
+        </p>
+      )}
       {error ? <FieldError>{error}</FieldError> : null}
     </Field>
   );

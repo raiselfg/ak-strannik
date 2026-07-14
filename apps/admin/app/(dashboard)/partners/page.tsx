@@ -17,11 +17,11 @@ export default async function PartnersPage() {
       <div>
         <PageBreadcrumbs items={[{ label: 'Партнёры' }]} />
         <PageHeader
-          action={(
+          action={
             <Button asChild>
               <Link href="/partners/new">Добавить партнёра</Link>
             </Button>
-          )}
+          }
           description="Организации и компании, с которыми сотрудничает AK Strannik."
           title="Партнёры"
         />

@@ -2,56 +2,43 @@
 
 import { prisma } from '@ak-strannik/database';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { requireAdminSession } from '../../lib/require-admin-session';
-import type { ActionResult } from '../team/actions';
+import {
+  authenticate,
+  fieldErrors,
+  idSchema,
+  type ActionResult,
+} from '../../lib/action-utils';
 import { RentalItemFormSchema, type RentalItemFormValues } from './schema';
-
-const idSchema = z.uuid();
-
-function fieldErrors(error: z.ZodError): Record<string, string[]> {
-  return error.issues.reduce<Record<string, string[]>>((result, issue) => {
-    const key = issue.path.join('.');
-    if (key) result[key] = [...(result[key] ?? []), issue.message];
-    return result;
-  }, {});
-}
 
 function hasEnglishTranslation(values: RentalItemFormValues) {
   const translation = values.translations.en;
   return Boolean(
-    translation.title.trim()
-    || translation.description?.trim()
-    || translation.priceText?.trim()
+    translation.title.trim() ||
+    translation.description?.trim() ||
+    translation.priceText?.trim()
   );
 }
 
 function isUniqueConstraintError(error: unknown) {
-  return typeof error === 'object'
-    && error !== null
-    && 'code' in error
-    && error.code === 'P2002';
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    error.code === 'P2002'
+  );
 }
 
-async function authenticate(): Promise<ActionResult | null> {
-  try {
-    await requireAdminSession();
-    return null;
-  } catch {
-    return {
-      success: false,
-      message: 'Необходимо войти в административную панель',
-    };
-  }
-}
-
-async function imageExists(imageId: string | null) {
-  if (imageId === null) return true;
-  const image = await prisma.mediaAsset.findFirst({
-    where: { id: imageId, mimeType: { startsWith: 'image/' } },
-    select: { id: true },
-  });
-  return Boolean(image);
+async function imagesExist(values: RentalItemFormValues) {
+  const ids = [
+    ...(values.imageId ? [values.imageId] : []),
+    ...values.gallery.map(({ mediaId }) => mediaId),
+  ];
+  if (!ids.length) return true;
+  return (
+    (await prisma.mediaAsset.count({
+      where: { id: { in: ids }, mimeType: { startsWith: 'image/' } },
+    })) === new Set(ids).size
+  );
 }
 
 function slugConflictResult(): ActionResult {
@@ -81,11 +68,11 @@ export async function createRentalItemAction(
     select: { id: true },
   });
   if (slugExists) return slugConflictResult();
-  if (!await imageExists(values.imageId)) {
+  if (!(await imagesExist(values))) {
     return {
       success: false,
       message: 'Выбранное изображение не найдено',
-      fieldErrors: { imageId: ['Выбранное изображение не найдено'] },
+      fieldErrors: { gallery: ['Одно из выбранных изображений не найдено'] },
     };
   }
 
@@ -114,6 +101,14 @@ export async function createRentalItemAction(
             locale: 'en',
             ...values.translations.en,
           },
+        });
+      }
+      if (values.gallery.length) {
+        await tx.rentalItemImage.createMany({
+          data: values.gallery.map((image) => ({
+            rentalItemId: item.id,
+            ...image,
+          })),
         });
       }
     });
@@ -154,11 +149,11 @@ export async function updateRentalItemAction(
     select: { id: true },
   });
   if (slugExists) return slugConflictResult();
-  if (!await imageExists(values.imageId)) {
+  if (!(await imagesExist(values))) {
     return {
       success: false,
       message: 'Выбранное изображение не найдено',
-      fieldErrors: { imageId: ['Выбранное изображение не найдено'] },
+      fieldErrors: { gallery: ['Одно из выбранных изображений не найдено'] },
     };
   }
 
@@ -190,6 +185,12 @@ export async function updateRentalItemAction(
           where: { rentalItemId: id, locale: 'en' },
         });
       }
+      await tx.rentalItemImage.deleteMany({ where: { rentalItemId: id } });
+      if (values.gallery.length) {
+        await tx.rentalItemImage.createMany({
+          data: values.gallery.map((image) => ({ rentalItemId: id, ...image })),
+        });
+      }
     });
     revalidatePath('/rentals');
     revalidatePath(`/rentals/${id}`);
@@ -201,7 +202,9 @@ export async function updateRentalItemAction(
   }
 }
 
-export async function deleteRentalItemAction(id: string): Promise<ActionResult> {
+export async function deleteRentalItemAction(
+  id: string
+): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
   if (!idSchema.safeParse(id).success) {
@@ -212,7 +215,8 @@ export async function deleteRentalItemAction(id: string): Promise<ActionResult> 
       where: { id },
       select: { id: true },
     });
-    if (!exists) return { success: false, message: 'Позиция аренды не найдена' };
+    if (!exists)
+      return { success: false, message: 'Позиция аренды не найдена' };
     await prisma.rentalItem.delete({ where: { id } });
     revalidatePath('/rentals');
     return { success: true, message: 'Позиция аренды удалена' };

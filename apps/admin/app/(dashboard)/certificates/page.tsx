@@ -17,11 +17,11 @@ export default async function CertificatesPage() {
       <div>
         <PageBreadcrumbs items={[{ label: 'Сертификаты' }]} />
         <PageHeader
-          action={(
+          action={
             <Button asChild>
               <Link href="/certificates/new">Добавить сертификат</Link>
             </Button>
-          )}
+          }
           description="Сертификаты, дипломы, благодарственные письма и награды."
           title="Сертификаты"
         />

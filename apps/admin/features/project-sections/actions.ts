@@ -2,44 +2,28 @@
 
 import { prisma } from '@ak-strannik/database';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { requireAdminSession } from '../../lib/require-admin-session';
-import type { ActionResult } from '../team/actions';
+import {
+  authenticate,
+  fieldErrors,
+  idSchema,
+  type ActionFailure,
+  type ActionResult,
+} from '../../lib/action-utils';
 import {
   ProjectSectionFormSchema,
   type ProjectSectionFormValues,
 } from './schema';
 
-type ActionFailure = Extract<ActionResult, { success: false }>;
 type CreateSectionResult =
   | ActionFailure
   | { success: true; data: { id: string }; message?: string };
-const idSchema = z.uuid();
-
-function fieldErrors(error: z.ZodError): Record<string, string[]> {
-  return error.issues.reduce<Record<string, string[]>>((result, issue) => {
-    const key = issue.path.join('.');
-    if (key) result[key] = [...(result[key] ?? []), issue.message];
-    return result;
-  }, {});
-}
-
-function hasTranslation(
-  value: ProjectSectionFormValues['translations']['ru']
-) {
+function hasTranslation(value: ProjectSectionFormValues['translations']['ru']) {
   return Boolean(
-    value.title?.trim() || value.subtitle?.trim()
-    || value.body?.trim() || value.author?.trim()
+    value.title?.trim() ||
+    value.subtitle?.trim() ||
+    value.body?.trim() ||
+    value.author?.trim()
   );
-}
-
-async function authenticate(): Promise<ActionFailure | null> {
-  try {
-    await requireAdminSession();
-    return null;
-  } catch {
-    return { success: false, message: 'Необходимо войти в административную панель' };
-  }
 }
 
 async function validateMedia(
@@ -68,8 +52,10 @@ async function validateMedia(
   return null;
 }
 
-function youtubeFor(values: ProjectSectionFormValues) {
-  return values.variant === 'youtube' ? values.youtubeUrl : null;
+function videoFor(values: ProjectSectionFormValues) {
+  return values.variant === 'video'
+    ? { videoProvider: values.videoProvider, videoUrl: values.videoUrl }
+    : { videoProvider: null, videoUrl: null };
 }
 
 export async function createProjectSectionAction(
@@ -81,12 +67,21 @@ export async function createProjectSectionAction(
   if (!idSchema.safeParse(projectId).success) {
     return { success: false, message: 'Проект не найден' };
   }
-  if (!await prisma.project.findUnique({ where: { id: projectId }, select: { id: true } })) {
+  if (
+    !(await prisma.project.findUnique({
+      where: { id: projectId },
+      select: { id: true },
+    }))
+  ) {
     return { success: false, message: 'Проект не найден' };
   }
   const parsed = ProjectSectionFormSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, message: 'Проверьте заполненные поля', fieldErrors: fieldErrors(parsed.error) };
+    return {
+      success: false,
+      message: 'Проверьте заполненные поля',
+      fieldErrors: fieldErrors(parsed.error),
+    };
   }
   const values = parsed.data;
   const mediaError = await validateMedia(values);
@@ -98,7 +93,7 @@ export async function createProjectSectionAction(
         data: {
           projectId,
           variant: values.variant,
-          youtubeUrl: youtubeFor(values),
+          ...videoFor(values),
           sortOrder: values.sortOrder,
           isActive: values.isActive,
         },
@@ -113,7 +108,10 @@ export async function createProjectSectionAction(
       }
       if (values.media.length) {
         await tx.projectSectionMedia.createMany({
-          data: values.media.map((item) => ({ sectionId: section.id, ...item })),
+          data: values.media.map((item) => ({
+            sectionId: section.id,
+            ...item,
+          })),
         });
       }
       return section.id;
@@ -133,22 +131,38 @@ export async function updateProjectSectionAction(
 ): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
-  if (!idSchema.safeParse(projectId).success || !idSchema.safeParse(sectionId).success) {
+  if (
+    !idSchema.safeParse(projectId).success ||
+    !idSchema.safeParse(sectionId).success
+  ) {
     return { success: false, message: 'Секция не найдена' };
   }
-  if (!await prisma.project.findUnique({ where: { id: projectId }, select: { id: true } })) {
+  if (
+    !(await prisma.project.findUnique({
+      where: { id: projectId },
+      select: { id: true },
+    }))
+  ) {
     return { success: false, message: 'Проект не найден' };
   }
   const section = await prisma.projectSection.findUnique({
-    where: { id: sectionId }, select: { id: true, projectId: true },
+    where: { id: sectionId },
+    select: { id: true, projectId: true },
   });
   if (!section) return { success: false, message: 'Секция не найдена' };
   if (section.projectId !== projectId) {
-    return { success: false, message: 'Секция не принадлежит указанному проекту' };
+    return {
+      success: false,
+      message: 'Секция не принадлежит указанному проекту',
+    };
   }
   const parsed = ProjectSectionFormSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false, message: 'Проверьте заполненные поля', fieldErrors: fieldErrors(parsed.error) };
+    return {
+      success: false,
+      message: 'Проверьте заполненные поля',
+      fieldErrors: fieldErrors(parsed.error),
+    };
   }
   const values = parsed.data;
   const mediaError = await validateMedia(values);
@@ -160,7 +174,7 @@ export async function updateProjectSectionAction(
         where: { id: sectionId },
         data: {
           variant: values.variant,
-          youtubeUrl: youtubeFor(values),
+          ...videoFor(values),
           sortOrder: values.sortOrder,
           isActive: values.isActive,
         },
@@ -174,7 +188,9 @@ export async function updateProjectSectionAction(
             update: translation,
           });
         } else {
-          await tx.projectSectionTranslation.deleteMany({ where: { sectionId, locale } });
+          await tx.projectSectionTranslation.deleteMany({
+            where: { sectionId, locale },
+          });
         }
       }
       await tx.projectSectionMedia.deleteMany({ where: { sectionId } });
@@ -199,22 +215,31 @@ export async function deleteProjectSectionAction(
 ): Promise<ActionResult> {
   const authError = await authenticate();
   if (authError) return authError;
-  if (!idSchema.safeParse(projectId).success || !idSchema.safeParse(sectionId).success) {
+  if (
+    !idSchema.safeParse(projectId).success ||
+    !idSchema.safeParse(sectionId).success
+  ) {
     return { success: false, message: 'Секция не найдена' };
   }
   try {
-    if (!await prisma.project.findUnique({
-      where: { id: projectId },
-      select: { id: true },
-    })) {
+    if (
+      !(await prisma.project.findUnique({
+        where: { id: projectId },
+        select: { id: true },
+      }))
+    ) {
       return { success: false, message: 'Проект не найден' };
     }
     const section = await prisma.projectSection.findUnique({
-      where: { id: sectionId }, select: { id: true, projectId: true },
+      where: { id: sectionId },
+      select: { id: true, projectId: true },
     });
     if (!section) return { success: false, message: 'Секция не найдена' };
     if (section.projectId !== projectId) {
-      return { success: false, message: 'Секция не принадлежит указанному проекту' };
+      return {
+        success: false,
+        message: 'Секция не принадлежит указанному проекту',
+      };
     }
     await prisma.projectSection.delete({ where: { id: sectionId } });
     revalidatePath(`/projects/${projectId}`);

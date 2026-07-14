@@ -290,6 +290,23 @@ export type EnumContentStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumContentStatusFilter<$PrismaModel>
 }
 
+export type EnumVideoProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel> | $Enums.VideoProvider
+}
+
+export type EnumVideoProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumVideoProviderWithAggregatesFilter<$PrismaModel> | $Enums.VideoProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel>
+}
+
 export type EnumRentalTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.RentalType | Prisma.EnumRentalTypeFieldRefInput<$PrismaModel>
   in?: $Enums.RentalType[] | Prisma.ListEnumRentalTypeFieldRefInput<$PrismaModel>
@@ -331,6 +348,13 @@ export type EnumProjectSectionVariantFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel> | $Enums.ProjectSectionVariant
 }
 
+export type EnumVideoProviderNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel> | null
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel> | $Enums.VideoProvider | null
+}
+
 export type EnumProjectSectionVariantWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ProjectSectionVariant | Prisma.EnumProjectSectionVariantFieldRefInput<$PrismaModel>
   in?: $Enums.ProjectSectionVariant[] | Prisma.ListEnumProjectSectionVariantFieldRefInput<$PrismaModel>
@@ -339,6 +363,16 @@ export type EnumProjectSectionVariantWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel>
   _max?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel>
+}
+
+export type EnumVideoProviderNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel> | null
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumVideoProviderNullableWithAggregatesFilter<$PrismaModel> | $Enums.VideoProvider | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel>
 }
 
 export type NestedStringFilter<$PrismaModel = never> = {
@@ -626,6 +660,23 @@ export type NestedEnumContentStatusWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumContentStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumVideoProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel> | $Enums.VideoProvider
+}
+
+export type NestedEnumVideoProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumVideoProviderWithAggregatesFilter<$PrismaModel> | $Enums.VideoProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumVideoProviderFilter<$PrismaModel>
+}
+
 export type NestedEnumRentalTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.RentalType | Prisma.EnumRentalTypeFieldRefInput<$PrismaModel>
   in?: $Enums.RentalType[] | Prisma.ListEnumRentalTypeFieldRefInput<$PrismaModel>
@@ -667,6 +718,13 @@ export type NestedEnumProjectSectionVariantFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel> | $Enums.ProjectSectionVariant
 }
 
+export type NestedEnumVideoProviderNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel> | null
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel> | $Enums.VideoProvider | null
+}
+
 export type NestedEnumProjectSectionVariantWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ProjectSectionVariant | Prisma.EnumProjectSectionVariantFieldRefInput<$PrismaModel>
   in?: $Enums.ProjectSectionVariant[] | Prisma.ListEnumProjectSectionVariantFieldRefInput<$PrismaModel>
@@ -675,6 +733,16 @@ export type NestedEnumProjectSectionVariantWithAggregatesFilter<$PrismaModel = n
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel>
   _max?: Prisma.NestedEnumProjectSectionVariantFilter<$PrismaModel>
+}
+
+export type NestedEnumVideoProviderNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.VideoProvider | Prisma.EnumVideoProviderFieldRefInput<$PrismaModel> | null
+  in?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.VideoProvider[] | Prisma.ListEnumVideoProviderFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumVideoProviderNullableWithAggregatesFilter<$PrismaModel> | $Enums.VideoProvider | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumVideoProviderNullableFilter<$PrismaModel>
 }
 
 

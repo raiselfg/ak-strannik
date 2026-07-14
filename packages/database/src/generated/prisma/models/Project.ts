@@ -251,6 +251,7 @@ export type ProjectWhereInput = {
   coverImage?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.ProjectTranslationListRelationFilter
   sections?: Prisma.ProjectSectionListRelationFilter
+  events?: Prisma.EventListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type ProjectOrderByWithRelationInput = {
   coverImage?: Prisma.MediaAssetOrderByWithRelationInput
   translations?: Prisma.ProjectTranslationOrderByRelationAggregateInput
   sections?: Prisma.ProjectSectionOrderByRelationAggregateInput
+  events?: Prisma.EventOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   coverImage?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.ProjectTranslationListRelationFilter
   sections?: Prisma.ProjectSectionListRelationFilter
+  events?: Prisma.EventListRelationFilter
 }, "id" | "slug">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type ProjectCreateInput = {
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutProjectCoversInput
   translations?: Prisma.ProjectTranslationCreateNestedManyWithoutProjectInput
   sections?: Prisma.ProjectSectionCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -344,6 +348,7 @@ export type ProjectUncheckedCreateInput = {
   publishedAt?: Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
   sections?: Prisma.ProjectSectionUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -358,6 +363,7 @@ export type ProjectUpdateInput = {
   coverImage?: Prisma.MediaAssetUpdateOneWithoutProjectCoversNestedInput
   translations?: Prisma.ProjectTranslationUpdateManyWithoutProjectNestedInput
   sections?: Prisma.ProjectSectionUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -372,6 +378,7 @@ export type ProjectUncheckedUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
   sections?: Prisma.ProjectSectionUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -417,6 +424,11 @@ export type ProjectListRelationFilter = {
 
 export type ProjectOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ProjectNullableScalarRelationFilter = {
+  is?: Prisma.ProjectWhereInput | null
+  isNot?: Prisma.ProjectWhereInput | null
 }
 
 export type ProjectCountOrderByAggregateInput = {
@@ -510,6 +522,22 @@ export type ProjectUncheckedUpdateManyWithoutCoverImageNestedInput = {
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
+export type ProjectCreateNestedOneWithoutEventsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutEventsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneWithoutEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutEventsInput
+  upsert?: Prisma.ProjectUpsertWithoutEventsInput
+  disconnect?: Prisma.ProjectWhereInput | boolean
+  delete?: Prisma.ProjectWhereInput | boolean
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutEventsInput, Prisma.ProjectUpdateWithoutEventsInput>, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+}
+
 export type EnumProjectTypeFieldUpdateOperationsInput = {
   set?: $Enums.ProjectType
 }
@@ -553,6 +581,7 @@ export type ProjectCreateWithoutCoverImageInput = {
   publishedAt?: Date | string | null
   translations?: Prisma.ProjectTranslationCreateNestedManyWithoutProjectInput
   sections?: Prisma.ProjectSectionCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutCoverImageInput = {
@@ -566,6 +595,7 @@ export type ProjectUncheckedCreateWithoutCoverImageInput = {
   publishedAt?: Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
   sections?: Prisma.ProjectSectionUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutCoverImageInput = {
@@ -609,6 +639,78 @@ export type ProjectScalarWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
 }
 
+export type ProjectCreateWithoutEventsInput = {
+  id?: string
+  slug: string
+  type: $Enums.ProjectType
+  status?: $Enums.ContentStatus
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  coverImage?: Prisma.MediaAssetCreateNestedOneWithoutProjectCoversInput
+  translations?: Prisma.ProjectTranslationCreateNestedManyWithoutProjectInput
+  sections?: Prisma.ProjectSectionCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutEventsInput = {
+  id?: string
+  slug: string
+  type: $Enums.ProjectType
+  status?: $Enums.ContentStatus
+  coverImageId?: string | null
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  translations?: Prisma.ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
+  sections?: Prisma.ProjectSectionUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutEventsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+}
+
+export type ProjectUpsertWithoutEventsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutEventsInput, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutEventsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutEventsInput, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+}
+
+export type ProjectUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  coverImage?: Prisma.MediaAssetUpdateOneWithoutProjectCoversNestedInput
+  translations?: Prisma.ProjectTranslationUpdateManyWithoutProjectNestedInput
+  sections?: Prisma.ProjectSectionUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  coverImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  translations?: Prisma.ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
+  sections?: Prisma.ProjectSectionUncheckedUpdateManyWithoutProjectNestedInput
+}
+
 export type ProjectCreateWithoutTranslationsInput = {
   id?: string
   slug: string
@@ -620,6 +722,7 @@ export type ProjectCreateWithoutTranslationsInput = {
   publishedAt?: Date | string | null
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutProjectCoversInput
   sections?: Prisma.ProjectSectionCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTranslationsInput = {
@@ -633,6 +736,7 @@ export type ProjectUncheckedCreateWithoutTranslationsInput = {
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   sections?: Prisma.ProjectSectionUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTranslationsInput = {
@@ -662,6 +766,7 @@ export type ProjectUpdateWithoutTranslationsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverImage?: Prisma.MediaAssetUpdateOneWithoutProjectCoversNestedInput
   sections?: Prisma.ProjectSectionUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTranslationsInput = {
@@ -675,6 +780,7 @@ export type ProjectUncheckedUpdateWithoutTranslationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sections?: Prisma.ProjectSectionUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutSectionsInput = {
@@ -688,6 +794,7 @@ export type ProjectCreateWithoutSectionsInput = {
   publishedAt?: Date | string | null
   coverImage?: Prisma.MediaAssetCreateNestedOneWithoutProjectCoversInput
   translations?: Prisma.ProjectTranslationCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutSectionsInput = {
@@ -701,6 +808,7 @@ export type ProjectUncheckedCreateWithoutSectionsInput = {
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutSectionsInput = {
@@ -730,6 +838,7 @@ export type ProjectUpdateWithoutSectionsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   coverImage?: Prisma.MediaAssetUpdateOneWithoutProjectCoversNestedInput
   translations?: Prisma.ProjectTranslationUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutSectionsInput = {
@@ -743,6 +852,7 @@ export type ProjectUncheckedUpdateWithoutSectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyCoverImageInput = {
@@ -767,6 +877,7 @@ export type ProjectUpdateWithoutCoverImageInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.ProjectTranslationUpdateManyWithoutProjectNestedInput
   sections?: Prisma.ProjectSectionUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutCoverImageInput = {
@@ -780,6 +891,7 @@ export type ProjectUncheckedUpdateWithoutCoverImageInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   translations?: Prisma.ProjectTranslationUncheckedUpdateManyWithoutProjectNestedInput
   sections?: Prisma.ProjectSectionUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutCoverImageInput = {
@@ -801,11 +913,13 @@ export type ProjectUncheckedUpdateManyWithoutCoverImageInput = {
 export type ProjectCountOutputType = {
   translations: number
   sections: number
+  events: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | ProjectCountOutputTypeCountTranslationsArgs
   sections?: boolean | ProjectCountOutputTypeCountSectionsArgs
+  events?: boolean | ProjectCountOutputTypeCountEventsArgs
 }
 
 /**
@@ -832,6 +946,13 @@ export type ProjectCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Type
   where?: Prisma.ProjectSectionWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -846,6 +967,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   coverImage?: boolean | Prisma.Project$coverImageArgs<ExtArgs>
   translations?: boolean | Prisma.Project$translationsArgs<ExtArgs>
   sections?: boolean | Prisma.Project$sectionsArgs<ExtArgs>
+  events?: boolean | Prisma.Project$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -892,6 +1014,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   coverImage?: boolean | Prisma.Project$coverImageArgs<ExtArgs>
   translations?: boolean | Prisma.Project$translationsArgs<ExtArgs>
   sections?: boolean | Prisma.Project$sectionsArgs<ExtArgs>
+  events?: boolean | Prisma.Project$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -907,6 +1030,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     coverImage: Prisma.$MediaAssetPayload<ExtArgs> | null
     translations: Prisma.$ProjectTranslationPayload<ExtArgs>[]
     sections: Prisma.$ProjectSectionPayload<ExtArgs>[]
+    events: Prisma.$EventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1315,6 +1439,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   coverImage<T extends Prisma.Project$coverImageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$coverImageArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   translations<T extends Prisma.Project$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sections<T extends Prisma.Project$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  events<T extends Prisma.Project$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1818,6 +1943,30 @@ export type Project$sectionsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ProjectSectionScalarFieldEnum | Prisma.ProjectSectionScalarFieldEnum[]
+}
+
+/**
+ * Project.events
+ */
+export type Project$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Event
+   */
+  select?: Prisma.EventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Event
+   */
+  omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  where?: Prisma.EventWhereInput
+  orderBy?: Prisma.EventOrderByWithRelationInput | Prisma.EventOrderByWithRelationInput[]
+  cursor?: Prisma.EventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
 }
 
 /**

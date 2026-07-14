@@ -41,6 +41,7 @@ export type MediaAssetSumAggregateOutputType = {
 export type MediaAssetMinAggregateOutputType = {
   id: string | null
   objectKey: string | null
+  checksumSha256: string | null
   originalName: string | null
   mimeType: string | null
   size: number | null
@@ -53,6 +54,7 @@ export type MediaAssetMinAggregateOutputType = {
 export type MediaAssetMaxAggregateOutputType = {
   id: string | null
   objectKey: string | null
+  checksumSha256: string | null
   originalName: string | null
   mimeType: string | null
   size: number | null
@@ -65,6 +67,7 @@ export type MediaAssetMaxAggregateOutputType = {
 export type MediaAssetCountAggregateOutputType = {
   id: number
   objectKey: number
+  checksumSha256: number
   originalName: number
   mimeType: number
   size: number
@@ -91,6 +94,7 @@ export type MediaAssetSumAggregateInputType = {
 export type MediaAssetMinAggregateInputType = {
   id?: true
   objectKey?: true
+  checksumSha256?: true
   originalName?: true
   mimeType?: true
   size?: true
@@ -103,6 +107,7 @@ export type MediaAssetMinAggregateInputType = {
 export type MediaAssetMaxAggregateInputType = {
   id?: true
   objectKey?: true
+  checksumSha256?: true
   originalName?: true
   mimeType?: true
   size?: true
@@ -115,6 +120,7 @@ export type MediaAssetMaxAggregateInputType = {
 export type MediaAssetCountAggregateInputType = {
   id?: true
   objectKey?: true
+  checksumSha256?: true
   originalName?: true
   mimeType?: true
   size?: true
@@ -214,6 +220,7 @@ export type MediaAssetGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type MediaAssetGroupByOutputType = {
   id: string
   objectKey: string
+  checksumSha256: string | null
   originalName: string
   mimeType: string
   size: number | null
@@ -249,6 +256,7 @@ export type MediaAssetWhereInput = {
   NOT?: Prisma.MediaAssetWhereInput | Prisma.MediaAssetWhereInput[]
   id?: Prisma.UuidFilter<"MediaAsset"> | string
   objectKey?: Prisma.StringFilter<"MediaAsset"> | string
+  checksumSha256?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   originalName?: Prisma.StringFilter<"MediaAsset"> | string
   mimeType?: Prisma.StringFilter<"MediaAsset"> | string
   size?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
@@ -260,16 +268,19 @@ export type MediaAssetWhereInput = {
   teamMembers?: Prisma.TeamMemberListRelationFilter
   eventCovers?: Prisma.EventListRelationFilter
   eventImages?: Prisma.EventImageListRelationFilter
-  rentalItems?: Prisma.RentalItemListRelationFilter
+  rentalItemCovers?: Prisma.RentalItemListRelationFilter
+  rentalItemImages?: Prisma.RentalItemImageListRelationFilter
   projectCovers?: Prisma.ProjectListRelationFilter
   projectSectionMedia?: Prisma.ProjectSectionMediaListRelationFilter
   partnerLogos?: Prisma.PartnerListRelationFilter
+  partnerMedia?: Prisma.PartnerMediaListRelationFilter
   certificateImages?: Prisma.CertificateListRelationFilter
 }
 
 export type MediaAssetOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   objectKey?: Prisma.SortOrder
+  checksumSha256?: Prisma.SortOrderInput | Prisma.SortOrder
   originalName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   size?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,16 +292,19 @@ export type MediaAssetOrderByWithRelationInput = {
   teamMembers?: Prisma.TeamMemberOrderByRelationAggregateInput
   eventCovers?: Prisma.EventOrderByRelationAggregateInput
   eventImages?: Prisma.EventImageOrderByRelationAggregateInput
-  rentalItems?: Prisma.RentalItemOrderByRelationAggregateInput
+  rentalItemCovers?: Prisma.RentalItemOrderByRelationAggregateInput
+  rentalItemImages?: Prisma.RentalItemImageOrderByRelationAggregateInput
   projectCovers?: Prisma.ProjectOrderByRelationAggregateInput
   projectSectionMedia?: Prisma.ProjectSectionMediaOrderByRelationAggregateInput
   partnerLogos?: Prisma.PartnerOrderByRelationAggregateInput
+  partnerMedia?: Prisma.PartnerMediaOrderByRelationAggregateInput
   certificateImages?: Prisma.CertificateOrderByRelationAggregateInput
 }
 
 export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   objectKey?: string
+  checksumSha256?: string
   AND?: Prisma.MediaAssetWhereInput | Prisma.MediaAssetWhereInput[]
   OR?: Prisma.MediaAssetWhereInput[]
   NOT?: Prisma.MediaAssetWhereInput | Prisma.MediaAssetWhereInput[]
@@ -305,16 +319,19 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   teamMembers?: Prisma.TeamMemberListRelationFilter
   eventCovers?: Prisma.EventListRelationFilter
   eventImages?: Prisma.EventImageListRelationFilter
-  rentalItems?: Prisma.RentalItemListRelationFilter
+  rentalItemCovers?: Prisma.RentalItemListRelationFilter
+  rentalItemImages?: Prisma.RentalItemImageListRelationFilter
   projectCovers?: Prisma.ProjectListRelationFilter
   projectSectionMedia?: Prisma.ProjectSectionMediaListRelationFilter
   partnerLogos?: Prisma.PartnerListRelationFilter
+  partnerMedia?: Prisma.PartnerMediaListRelationFilter
   certificateImages?: Prisma.CertificateListRelationFilter
-}, "id" | "objectKey">
+}, "id" | "objectKey" | "checksumSha256">
 
 export type MediaAssetOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   objectKey?: Prisma.SortOrder
+  checksumSha256?: Prisma.SortOrderInput | Prisma.SortOrder
   originalName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   size?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -335,6 +352,7 @@ export type MediaAssetScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MediaAssetScalarWhereWithAggregatesInput | Prisma.MediaAssetScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"MediaAsset"> | string
   objectKey?: Prisma.StringWithAggregatesFilter<"MediaAsset"> | string
+  checksumSha256?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
   originalName?: Prisma.StringWithAggregatesFilter<"MediaAsset"> | string
   mimeType?: Prisma.StringWithAggregatesFilter<"MediaAsset"> | string
   size?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
@@ -347,6 +365,7 @@ export type MediaAssetScalarWhereWithAggregatesInput = {
 export type MediaAssetCreateInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -358,16 +377,19 @@ export type MediaAssetCreateInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -379,16 +401,19 @@ export type MediaAssetUncheckedCreateInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -400,16 +425,19 @@ export type MediaAssetUpdateInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -421,16 +449,19 @@ export type MediaAssetUncheckedUpdateInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateManyInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -443,6 +474,7 @@ export type MediaAssetCreateManyInput = {
 export type MediaAssetUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -455,6 +487,7 @@ export type MediaAssetUpdateManyMutationInput = {
 export type MediaAssetUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -467,6 +500,7 @@ export type MediaAssetUncheckedUpdateManyInput = {
 export type MediaAssetCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   objectKey?: Prisma.SortOrder
+  checksumSha256?: Prisma.SortOrder
   originalName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -485,6 +519,7 @@ export type MediaAssetAvgOrderByAggregateInput = {
 export type MediaAssetMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   objectKey?: Prisma.SortOrder
+  checksumSha256?: Prisma.SortOrder
   originalName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -497,6 +532,7 @@ export type MediaAssetMaxOrderByAggregateInput = {
 export type MediaAssetMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   objectKey?: Prisma.SortOrder
+  checksumSha256?: Prisma.SortOrder
   originalName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -590,20 +626,34 @@ export type MediaAssetUpdateOneRequiredWithoutEventImagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutEventImagesInput, Prisma.MediaAssetUpdateWithoutEventImagesInput>, Prisma.MediaAssetUncheckedUpdateWithoutEventImagesInput>
 }
 
-export type MediaAssetCreateNestedOneWithoutRentalItemsInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemsInput>
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemsInput
+export type MediaAssetCreateNestedOneWithoutRentalItemCoversInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemCoversInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemCoversInput
   connect?: Prisma.MediaAssetWhereUniqueInput
 }
 
-export type MediaAssetUpdateOneWithoutRentalItemsNestedInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemsInput>
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemsInput
-  upsert?: Prisma.MediaAssetUpsertWithoutRentalItemsInput
+export type MediaAssetUpdateOneWithoutRentalItemCoversNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemCoversInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemCoversInput
+  upsert?: Prisma.MediaAssetUpsertWithoutRentalItemCoversInput
   disconnect?: Prisma.MediaAssetWhereInput | boolean
   delete?: Prisma.MediaAssetWhereInput | boolean
   connect?: Prisma.MediaAssetWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutRentalItemsInput, Prisma.MediaAssetUpdateWithoutRentalItemsInput>, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutRentalItemCoversInput, Prisma.MediaAssetUpdateWithoutRentalItemCoversInput>, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemCoversInput>
+}
+
+export type MediaAssetCreateNestedOneWithoutRentalItemImagesInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemImagesInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemImagesInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+}
+
+export type MediaAssetUpdateOneRequiredWithoutRentalItemImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemImagesInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutRentalItemImagesInput
+  upsert?: Prisma.MediaAssetUpsertWithoutRentalItemImagesInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutRentalItemImagesInput, Prisma.MediaAssetUpdateWithoutRentalItemImagesInput>, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemImagesInput>
 }
 
 export type MediaAssetCreateNestedOneWithoutProjectCoversInput = {
@@ -652,6 +702,20 @@ export type MediaAssetUpdateOneWithoutPartnerLogosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutPartnerLogosInput, Prisma.MediaAssetUpdateWithoutPartnerLogosInput>, Prisma.MediaAssetUncheckedUpdateWithoutPartnerLogosInput>
 }
 
+export type MediaAssetCreateNestedOneWithoutPartnerMediaInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedCreateWithoutPartnerMediaInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutPartnerMediaInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+}
+
+export type MediaAssetUpdateOneRequiredWithoutPartnerMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedCreateWithoutPartnerMediaInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutPartnerMediaInput
+  upsert?: Prisma.MediaAssetUpsertWithoutPartnerMediaInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutPartnerMediaInput, Prisma.MediaAssetUpdateWithoutPartnerMediaInput>, Prisma.MediaAssetUncheckedUpdateWithoutPartnerMediaInput>
+}
+
 export type MediaAssetCreateNestedOneWithoutCertificateImagesInput = {
   create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutCertificateImagesInput, Prisma.MediaAssetUncheckedCreateWithoutCertificateImagesInput>
   connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutCertificateImagesInput
@@ -669,6 +733,7 @@ export type MediaAssetUpdateOneRequiredWithoutCertificateImagesNestedInput = {
 export type MediaAssetCreateWithoutTranslationsInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -679,16 +744,19 @@ export type MediaAssetCreateWithoutTranslationsInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutTranslationsInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -699,10 +767,12 @@ export type MediaAssetUncheckedCreateWithoutTranslationsInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -725,6 +795,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutTranslationsInput = {
 export type MediaAssetUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -735,16 +806,19 @@ export type MediaAssetUpdateWithoutTranslationsInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -755,16 +829,19 @@ export type MediaAssetUncheckedUpdateWithoutTranslationsInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateWithoutTeamMembersInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -775,16 +852,19 @@ export type MediaAssetCreateWithoutTeamMembersInput = {
   translations?: Prisma.MediaAssetTranslationCreateNestedManyWithoutMediaAssetInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutTeamMembersInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -795,10 +875,12 @@ export type MediaAssetUncheckedCreateWithoutTeamMembersInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedCreateNestedManyWithoutMediaAssetInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -821,6 +903,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutTeamMembersInput = {
 export type MediaAssetUpdateWithoutTeamMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -831,16 +914,19 @@ export type MediaAssetUpdateWithoutTeamMembersInput = {
   translations?: Prisma.MediaAssetTranslationUpdateManyWithoutMediaAssetNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutTeamMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -851,16 +937,19 @@ export type MediaAssetUncheckedUpdateWithoutTeamMembersInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedUpdateManyWithoutMediaAssetNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateWithoutEventCoversInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -871,16 +960,19 @@ export type MediaAssetCreateWithoutEventCoversInput = {
   translations?: Prisma.MediaAssetTranslationCreateNestedManyWithoutMediaAssetInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutEventCoversInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -891,10 +983,12 @@ export type MediaAssetUncheckedCreateWithoutEventCoversInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedCreateNestedManyWithoutMediaAssetInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -917,6 +1011,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutEventCoversInput = {
 export type MediaAssetUpdateWithoutEventCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -927,16 +1022,19 @@ export type MediaAssetUpdateWithoutEventCoversInput = {
   translations?: Prisma.MediaAssetTranslationUpdateManyWithoutMediaAssetNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutEventCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -947,16 +1045,19 @@ export type MediaAssetUncheckedUpdateWithoutEventCoversInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedUpdateManyWithoutMediaAssetNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateWithoutEventImagesInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -967,16 +1068,19 @@ export type MediaAssetCreateWithoutEventImagesInput = {
   translations?: Prisma.MediaAssetTranslationCreateNestedManyWithoutMediaAssetInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutEventImagesInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -987,10 +1091,12 @@ export type MediaAssetUncheckedCreateWithoutEventImagesInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedCreateNestedManyWithoutMediaAssetInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -1013,6 +1119,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutEventImagesInput = {
 export type MediaAssetUpdateWithoutEventImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1023,16 +1130,19 @@ export type MediaAssetUpdateWithoutEventImagesInput = {
   translations?: Prisma.MediaAssetTranslationUpdateManyWithoutMediaAssetNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutEventImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1043,16 +1153,19 @@ export type MediaAssetUncheckedUpdateWithoutEventImagesInput = {
   translations?: Prisma.MediaAssetTranslationUncheckedUpdateManyWithoutMediaAssetNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
-export type MediaAssetCreateWithoutRentalItemsInput = {
+export type MediaAssetCreateWithoutRentalItemCoversInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1064,15 +1177,18 @@ export type MediaAssetCreateWithoutRentalItemsInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
-export type MediaAssetUncheckedCreateWithoutRentalItemsInput = {
+export type MediaAssetUncheckedCreateWithoutRentalItemCoversInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1084,31 +1200,34 @@ export type MediaAssetUncheckedCreateWithoutRentalItemsInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
-export type MediaAssetCreateOrConnectWithoutRentalItemsInput = {
+export type MediaAssetCreateOrConnectWithoutRentalItemCoversInput = {
   where: Prisma.MediaAssetWhereUniqueInput
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemsInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemCoversInput>
 }
 
-export type MediaAssetUpsertWithoutRentalItemsInput = {
-  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemsInput>
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemsInput>
+export type MediaAssetUpsertWithoutRentalItemCoversInput = {
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemCoversInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemCoversInput>
   where?: Prisma.MediaAssetWhereInput
 }
 
-export type MediaAssetUpdateToOneWithWhereWithoutRentalItemsInput = {
+export type MediaAssetUpdateToOneWithWhereWithoutRentalItemCoversInput = {
   where?: Prisma.MediaAssetWhereInput
-  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemsInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemsInput>
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemCoversInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemCoversInput>
 }
 
-export type MediaAssetUpdateWithoutRentalItemsInput = {
+export type MediaAssetUpdateWithoutRentalItemCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1120,15 +1239,18 @@ export type MediaAssetUpdateWithoutRentalItemsInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
-export type MediaAssetUncheckedUpdateWithoutRentalItemsInput = {
+export type MediaAssetUncheckedUpdateWithoutRentalItemCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1140,15 +1262,18 @@ export type MediaAssetUncheckedUpdateWithoutRentalItemsInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
-export type MediaAssetCreateWithoutProjectCoversInput = {
+export type MediaAssetCreateWithoutRentalItemImagesInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1160,15 +1285,18 @@ export type MediaAssetCreateWithoutProjectCoversInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
-export type MediaAssetUncheckedCreateWithoutProjectCoversInput = {
+export type MediaAssetUncheckedCreateWithoutRentalItemImagesInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1180,9 +1308,119 @@ export type MediaAssetUncheckedCreateWithoutProjectCoversInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
+  certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
+}
+
+export type MediaAssetCreateOrConnectWithoutRentalItemImagesInput = {
+  where: Prisma.MediaAssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemImagesInput>
+}
+
+export type MediaAssetUpsertWithoutRentalItemImagesInput = {
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemImagesInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedCreateWithoutRentalItemImagesInput>
+  where?: Prisma.MediaAssetWhereInput
+}
+
+export type MediaAssetUpdateToOneWithWhereWithoutRentalItemImagesInput = {
+  where?: Prisma.MediaAssetWhereInput
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutRentalItemImagesInput, Prisma.MediaAssetUncheckedUpdateWithoutRentalItemImagesInput>
+}
+
+export type MediaAssetUpdateWithoutRentalItemImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.MediaAssetTranslationUpdateManyWithoutMediaAssetNestedInput
+  teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
+  eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
+  eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
+  partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
+  certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
+}
+
+export type MediaAssetUncheckedUpdateWithoutRentalItemImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.MediaAssetTranslationUncheckedUpdateManyWithoutMediaAssetNestedInput
+  teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
+  eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
+  eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
+  partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
+  certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type MediaAssetCreateWithoutProjectCoversInput = {
+  id?: string
+  objectKey: string
+  checksumSha256?: string | null
+  originalName: string
+  mimeType: string
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.MediaAssetTranslationCreateNestedManyWithoutMediaAssetInput
+  teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
+  eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
+  eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
+  partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
+  certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
+}
+
+export type MediaAssetUncheckedCreateWithoutProjectCoversInput = {
+  id?: string
+  objectKey: string
+  checksumSha256?: string | null
+  originalName: string
+  mimeType: string
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.MediaAssetTranslationUncheckedCreateNestedManyWithoutMediaAssetInput
+  teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
+  eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
+  eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
+  partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -1205,6 +1443,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutProjectCoversInput = {
 export type MediaAssetUpdateWithoutProjectCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1216,15 +1455,18 @@ export type MediaAssetUpdateWithoutProjectCoversInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutProjectCoversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1236,15 +1478,18 @@ export type MediaAssetUncheckedUpdateWithoutProjectCoversInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateWithoutProjectSectionMediaInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1256,15 +1501,18 @@ export type MediaAssetCreateWithoutProjectSectionMediaInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutProjectSectionMediaInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1276,9 +1524,11 @@ export type MediaAssetUncheckedCreateWithoutProjectSectionMediaInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -1301,6 +1551,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutProjectSectionMediaInput = {
 export type MediaAssetUpdateWithoutProjectSectionMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1312,15 +1563,18 @@ export type MediaAssetUpdateWithoutProjectSectionMediaInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutProjectSectionMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1332,15 +1586,18 @@ export type MediaAssetUncheckedUpdateWithoutProjectSectionMediaInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetCreateWithoutPartnerLogosInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1352,15 +1609,18 @@ export type MediaAssetCreateWithoutPartnerLogosInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
 export type MediaAssetUncheckedCreateWithoutPartnerLogosInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1372,9 +1632,11 @@ export type MediaAssetUncheckedCreateWithoutPartnerLogosInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
   certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
 }
 
@@ -1397,6 +1659,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutPartnerLogosInput = {
 export type MediaAssetUpdateWithoutPartnerLogosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1408,15 +1671,18 @@ export type MediaAssetUpdateWithoutPartnerLogosInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutPartnerLogosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1428,15 +1694,18 @@ export type MediaAssetUncheckedUpdateWithoutPartnerLogosInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
   certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
 }
 
-export type MediaAssetCreateWithoutCertificateImagesInput = {
+export type MediaAssetCreateWithoutPartnerMediaInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1448,15 +1717,18 @@ export type MediaAssetCreateWithoutCertificateImagesInput = {
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  certificateImages?: Prisma.CertificateCreateNestedManyWithoutImageInput
 }
 
-export type MediaAssetUncheckedCreateWithoutCertificateImagesInput = {
+export type MediaAssetUncheckedCreateWithoutPartnerMediaInput = {
   id?: string
   objectKey: string
+  checksumSha256?: string | null
   originalName: string
   mimeType: string
   size?: number | null
@@ -1468,10 +1740,120 @@ export type MediaAssetUncheckedCreateWithoutCertificateImagesInput = {
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
   eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
   eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
-  rentalItems?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
   projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
   partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  certificateImages?: Prisma.CertificateUncheckedCreateNestedManyWithoutImageInput
+}
+
+export type MediaAssetCreateOrConnectWithoutPartnerMediaInput = {
+  where: Prisma.MediaAssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedCreateWithoutPartnerMediaInput>
+}
+
+export type MediaAssetUpsertWithoutPartnerMediaInput = {
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedUpdateWithoutPartnerMediaInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedCreateWithoutPartnerMediaInput>
+  where?: Prisma.MediaAssetWhereInput
+}
+
+export type MediaAssetUpdateToOneWithWhereWithoutPartnerMediaInput = {
+  where?: Prisma.MediaAssetWhereInput
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutPartnerMediaInput, Prisma.MediaAssetUncheckedUpdateWithoutPartnerMediaInput>
+}
+
+export type MediaAssetUpdateWithoutPartnerMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.MediaAssetTranslationUpdateManyWithoutMediaAssetNestedInput
+  teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
+  eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
+  eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
+  projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
+  partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  certificateImages?: Prisma.CertificateUpdateManyWithoutImageNestedInput
+}
+
+export type MediaAssetUncheckedUpdateWithoutPartnerMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.MediaAssetTranslationUncheckedUpdateManyWithoutMediaAssetNestedInput
+  teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
+  eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
+  eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
+  projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
+  partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  certificateImages?: Prisma.CertificateUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type MediaAssetCreateWithoutCertificateImagesInput = {
+  id?: string
+  objectKey: string
+  checksumSha256?: string | null
+  originalName: string
+  mimeType: string
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.MediaAssetTranslationCreateNestedManyWithoutMediaAssetInput
+  teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutImageInput
+  eventCovers?: Prisma.EventCreateNestedManyWithoutCoverImageInput
+  eventImages?: Prisma.EventImageCreateNestedManyWithoutMediaInput
+  rentalItemCovers?: Prisma.RentalItemCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageCreateNestedManyWithoutMediaInput
+  projectCovers?: Prisma.ProjectCreateNestedManyWithoutCoverImageInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaCreateNestedManyWithoutMediaInput
+  partnerLogos?: Prisma.PartnerCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaCreateNestedManyWithoutMediaInput
+}
+
+export type MediaAssetUncheckedCreateWithoutCertificateImagesInput = {
+  id?: string
+  objectKey: string
+  checksumSha256?: string | null
+  originalName: string
+  mimeType: string
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.MediaAssetTranslationUncheckedCreateNestedManyWithoutMediaAssetInput
+  teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutImageInput
+  eventCovers?: Prisma.EventUncheckedCreateNestedManyWithoutCoverImageInput
+  eventImages?: Prisma.EventImageUncheckedCreateNestedManyWithoutMediaInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedCreateNestedManyWithoutImageInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedCreateNestedManyWithoutMediaInput
+  projectCovers?: Prisma.ProjectUncheckedCreateNestedManyWithoutCoverImageInput
+  projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedCreateNestedManyWithoutMediaInput
+  partnerLogos?: Prisma.PartnerUncheckedCreateNestedManyWithoutLogoInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedCreateNestedManyWithoutMediaInput
 }
 
 export type MediaAssetCreateOrConnectWithoutCertificateImagesInput = {
@@ -1493,6 +1875,7 @@ export type MediaAssetUpdateToOneWithWhereWithoutCertificateImagesInput = {
 export type MediaAssetUpdateWithoutCertificateImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1504,15 +1887,18 @@ export type MediaAssetUpdateWithoutCertificateImagesInput = {
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUpdateManyWithoutMediaNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutCertificateImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   objectKey?: Prisma.StringFieldUpdateOperationsInput | string
+  checksumSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   originalName?: Prisma.StringFieldUpdateOperationsInput | string
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1524,10 +1910,12 @@ export type MediaAssetUncheckedUpdateWithoutCertificateImagesInput = {
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutImageNestedInput
   eventCovers?: Prisma.EventUncheckedUpdateManyWithoutCoverImageNestedInput
   eventImages?: Prisma.EventImageUncheckedUpdateManyWithoutMediaNestedInput
-  rentalItems?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemCovers?: Prisma.RentalItemUncheckedUpdateManyWithoutImageNestedInput
+  rentalItemImages?: Prisma.RentalItemImageUncheckedUpdateManyWithoutMediaNestedInput
   projectCovers?: Prisma.ProjectUncheckedUpdateManyWithoutCoverImageNestedInput
   projectSectionMedia?: Prisma.ProjectSectionMediaUncheckedUpdateManyWithoutMediaNestedInput
   partnerLogos?: Prisma.PartnerUncheckedUpdateManyWithoutLogoNestedInput
+  partnerMedia?: Prisma.PartnerMediaUncheckedUpdateManyWithoutMediaNestedInput
 }
 
 
@@ -1540,10 +1928,12 @@ export type MediaAssetCountOutputType = {
   teamMembers: number
   eventCovers: number
   eventImages: number
-  rentalItems: number
+  rentalItemCovers: number
+  rentalItemImages: number
   projectCovers: number
   projectSectionMedia: number
   partnerLogos: number
+  partnerMedia: number
   certificateImages: number
 }
 
@@ -1552,10 +1942,12 @@ export type MediaAssetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   teamMembers?: boolean | MediaAssetCountOutputTypeCountTeamMembersArgs
   eventCovers?: boolean | MediaAssetCountOutputTypeCountEventCoversArgs
   eventImages?: boolean | MediaAssetCountOutputTypeCountEventImagesArgs
-  rentalItems?: boolean | MediaAssetCountOutputTypeCountRentalItemsArgs
+  rentalItemCovers?: boolean | MediaAssetCountOutputTypeCountRentalItemCoversArgs
+  rentalItemImages?: boolean | MediaAssetCountOutputTypeCountRentalItemImagesArgs
   projectCovers?: boolean | MediaAssetCountOutputTypeCountProjectCoversArgs
   projectSectionMedia?: boolean | MediaAssetCountOutputTypeCountProjectSectionMediaArgs
   partnerLogos?: boolean | MediaAssetCountOutputTypeCountPartnerLogosArgs
+  partnerMedia?: boolean | MediaAssetCountOutputTypeCountPartnerMediaArgs
   certificateImages?: boolean | MediaAssetCountOutputTypeCountCertificateImagesArgs
 }
 
@@ -1600,8 +1992,15 @@ export type MediaAssetCountOutputTypeCountEventImagesArgs<ExtArgs extends runtim
 /**
  * MediaAssetCountOutputType without action
  */
-export type MediaAssetCountOutputTypeCountRentalItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type MediaAssetCountOutputTypeCountRentalItemCoversArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RentalItemWhereInput
+}
+
+/**
+ * MediaAssetCountOutputType without action
+ */
+export type MediaAssetCountOutputTypeCountRentalItemImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RentalItemImageWhereInput
 }
 
 /**
@@ -1628,6 +2027,13 @@ export type MediaAssetCountOutputTypeCountPartnerLogosArgs<ExtArgs extends runti
 /**
  * MediaAssetCountOutputType without action
  */
+export type MediaAssetCountOutputTypeCountPartnerMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PartnerMediaWhereInput
+}
+
+/**
+ * MediaAssetCountOutputType without action
+ */
 export type MediaAssetCountOutputTypeCountCertificateImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CertificateWhereInput
 }
@@ -1636,6 +2042,7 @@ export type MediaAssetCountOutputTypeCountCertificateImagesArgs<ExtArgs extends 
 export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   objectKey?: boolean
+  checksumSha256?: boolean
   originalName?: boolean
   mimeType?: boolean
   size?: boolean
@@ -1647,10 +2054,12 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   teamMembers?: boolean | Prisma.MediaAsset$teamMembersArgs<ExtArgs>
   eventCovers?: boolean | Prisma.MediaAsset$eventCoversArgs<ExtArgs>
   eventImages?: boolean | Prisma.MediaAsset$eventImagesArgs<ExtArgs>
-  rentalItems?: boolean | Prisma.MediaAsset$rentalItemsArgs<ExtArgs>
+  rentalItemCovers?: boolean | Prisma.MediaAsset$rentalItemCoversArgs<ExtArgs>
+  rentalItemImages?: boolean | Prisma.MediaAsset$rentalItemImagesArgs<ExtArgs>
   projectCovers?: boolean | Prisma.MediaAsset$projectCoversArgs<ExtArgs>
   projectSectionMedia?: boolean | Prisma.MediaAsset$projectSectionMediaArgs<ExtArgs>
   partnerLogos?: boolean | Prisma.MediaAsset$partnerLogosArgs<ExtArgs>
+  partnerMedia?: boolean | Prisma.MediaAsset$partnerMediaArgs<ExtArgs>
   certificateImages?: boolean | Prisma.MediaAsset$certificateImagesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaAssetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mediaAsset"]>
@@ -1658,6 +2067,7 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   objectKey?: boolean
+  checksumSha256?: boolean
   originalName?: boolean
   mimeType?: boolean
   size?: boolean
@@ -1670,6 +2080,7 @@ export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   objectKey?: boolean
+  checksumSha256?: boolean
   originalName?: boolean
   mimeType?: boolean
   size?: boolean
@@ -1682,6 +2093,7 @@ export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type MediaAssetSelectScalar = {
   id?: boolean
   objectKey?: boolean
+  checksumSha256?: boolean
   originalName?: boolean
   mimeType?: boolean
   size?: boolean
@@ -1691,16 +2103,18 @@ export type MediaAssetSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "objectKey" | "originalName" | "mimeType" | "size" | "width" | "height" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
+export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "objectKey" | "checksumSha256" | "originalName" | "mimeType" | "size" | "width" | "height" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.MediaAsset$translationsArgs<ExtArgs>
   teamMembers?: boolean | Prisma.MediaAsset$teamMembersArgs<ExtArgs>
   eventCovers?: boolean | Prisma.MediaAsset$eventCoversArgs<ExtArgs>
   eventImages?: boolean | Prisma.MediaAsset$eventImagesArgs<ExtArgs>
-  rentalItems?: boolean | Prisma.MediaAsset$rentalItemsArgs<ExtArgs>
+  rentalItemCovers?: boolean | Prisma.MediaAsset$rentalItemCoversArgs<ExtArgs>
+  rentalItemImages?: boolean | Prisma.MediaAsset$rentalItemImagesArgs<ExtArgs>
   projectCovers?: boolean | Prisma.MediaAsset$projectCoversArgs<ExtArgs>
   projectSectionMedia?: boolean | Prisma.MediaAsset$projectSectionMediaArgs<ExtArgs>
   partnerLogos?: boolean | Prisma.MediaAsset$partnerLogosArgs<ExtArgs>
+  partnerMedia?: boolean | Prisma.MediaAsset$partnerMediaArgs<ExtArgs>
   certificateImages?: boolean | Prisma.MediaAsset$certificateImagesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaAssetCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1714,15 +2128,18 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
     teamMembers: Prisma.$TeamMemberPayload<ExtArgs>[]
     eventCovers: Prisma.$EventPayload<ExtArgs>[]
     eventImages: Prisma.$EventImagePayload<ExtArgs>[]
-    rentalItems: Prisma.$RentalItemPayload<ExtArgs>[]
+    rentalItemCovers: Prisma.$RentalItemPayload<ExtArgs>[]
+    rentalItemImages: Prisma.$RentalItemImagePayload<ExtArgs>[]
     projectCovers: Prisma.$ProjectPayload<ExtArgs>[]
     projectSectionMedia: Prisma.$ProjectSectionMediaPayload<ExtArgs>[]
     partnerLogos: Prisma.$PartnerPayload<ExtArgs>[]
+    partnerMedia: Prisma.$PartnerMediaPayload<ExtArgs>[]
     certificateImages: Prisma.$CertificatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     objectKey: string
+    checksumSha256: string | null
     originalName: string
     mimeType: string
     size: number | null
@@ -2128,10 +2545,12 @@ export interface Prisma__MediaAssetClient<T, Null = never, ExtArgs extends runti
   teamMembers<T extends Prisma.MediaAsset$teamMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$teamMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   eventCovers<T extends Prisma.MediaAsset$eventCoversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$eventCoversArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   eventImages<T extends Prisma.MediaAsset$eventImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$eventImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  rentalItems<T extends Prisma.MediaAsset$rentalItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$rentalItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rentalItemCovers<T extends Prisma.MediaAsset$rentalItemCoversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$rentalItemCoversArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rentalItemImages<T extends Prisma.MediaAsset$rentalItemImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$rentalItemImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectCovers<T extends Prisma.MediaAsset$projectCoversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectCoversArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectSectionMedia<T extends Prisma.MediaAsset$projectSectionMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectSectionMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSectionMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   partnerLogos<T extends Prisma.MediaAsset$partnerLogosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$partnerLogosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  partnerMedia<T extends Prisma.MediaAsset$partnerMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$partnerMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   certificateImages<T extends Prisma.MediaAsset$certificateImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$certificateImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2164,6 +2583,7 @@ export interface Prisma__MediaAssetClient<T, Null = never, ExtArgs extends runti
 export interface MediaAssetFieldRefs {
   readonly id: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly objectKey: Prisma.FieldRef<"MediaAsset", 'String'>
+  readonly checksumSha256: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly originalName: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly mimeType: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly size: Prisma.FieldRef<"MediaAsset", 'Int'>
@@ -2660,9 +3080,9 @@ export type MediaAsset$eventImagesArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * MediaAsset.rentalItems
+ * MediaAsset.rentalItemCovers
  */
-export type MediaAsset$rentalItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type MediaAsset$rentalItemCoversArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the RentalItem
    */
@@ -2681,6 +3101,30 @@ export type MediaAsset$rentalItemsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.RentalItemScalarFieldEnum | Prisma.RentalItemScalarFieldEnum[]
+}
+
+/**
+ * MediaAsset.rentalItemImages
+ */
+export type MediaAsset$rentalItemImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RentalItemImage
+   */
+  select?: Prisma.RentalItemImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RentalItemImage
+   */
+  omit?: Prisma.RentalItemImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RentalItemImageInclude<ExtArgs> | null
+  where?: Prisma.RentalItemImageWhereInput
+  orderBy?: Prisma.RentalItemImageOrderByWithRelationInput | Prisma.RentalItemImageOrderByWithRelationInput[]
+  cursor?: Prisma.RentalItemImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RentalItemImageScalarFieldEnum | Prisma.RentalItemImageScalarFieldEnum[]
 }
 
 /**
@@ -2753,6 +3197,30 @@ export type MediaAsset$partnerLogosArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.PartnerScalarFieldEnum | Prisma.PartnerScalarFieldEnum[]
+}
+
+/**
+ * MediaAsset.partnerMedia
+ */
+export type MediaAsset$partnerMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PartnerMedia
+   */
+  select?: Prisma.PartnerMediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PartnerMedia
+   */
+  omit?: Prisma.PartnerMediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PartnerMediaInclude<ExtArgs> | null
+  where?: Prisma.PartnerMediaWhereInput
+  orderBy?: Prisma.PartnerMediaOrderByWithRelationInput | Prisma.PartnerMediaOrderByWithRelationInput[]
+  cursor?: Prisma.PartnerMediaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PartnerMediaScalarFieldEnum | Prisma.PartnerMediaScalarFieldEnum[]
 }
 
 /**

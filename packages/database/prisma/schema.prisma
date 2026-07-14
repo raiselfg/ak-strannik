@@ -114,8 +114,15 @@ enum ProjectSectionVariant {
   split
   gallery
   slider
-  youtube
+  video
   quote
+}
+
+enum VideoProvider {
+  youtube
+  vk
+  rutube
+  external
 }
 
 // ============================================================
@@ -123,8 +130,12 @@ enum ProjectSectionVariant {
 // ============================================================
 
 model MediaAsset {
-  id String @id @default(uuid()) @db.Uuid
+  id        String @id @default(uuid()) @db.Uuid
   objectKey String @unique
+
+  // Используется для дедупликации при миграции и загрузке.
+  // Поле nullable, чтобы безопасно мигрировать существующие записи.
+  checksumSha256 String? @unique
 
   originalName String
   mimeType     String
@@ -137,14 +148,21 @@ model MediaAsset {
 
   translations MediaAssetTranslation[]
 
-  teamMembers         TeamMember[]          @relation("TeamMemberImage")
-  eventCovers         Event[]               @relation("EventCoverImage")
-  eventImages         EventImage[]          @relation("EventGalleryImage")
-  rentalItems         RentalItem[]          @relation("RentalItemImage")
+  teamMembers TeamMember[] @relation("TeamMemberImage")
+
+  eventCovers Event[]      @relation("EventCoverImage")
+  eventImages EventImage[] @relation("EventGalleryImage")
+
+  rentalItemCovers RentalItem[]      @relation("RentalItemCoverImage")
+  rentalItemImages RentalItemImage[] @relation("RentalItemGalleryImage")
+
   projectCovers       Project[]             @relation("ProjectCoverImage")
   projectSectionMedia ProjectSectionMedia[] @relation("ProjectSectionMediaAsset")
-  partnerLogos        Partner[]             @relation("PartnerLogo")
-  certificateImages   Certificate[]         @relation("CertificateImage")
+
+  partnerLogos Partner[]      @relation("PartnerLogo")
+  partnerMedia PartnerMedia[] @relation("PartnerPortfolioMedia")
+
+  certificateImages Certificate[] @relation("CertificateImage")
 
   @@index([mimeType])
   @@index([createdAt])
@@ -167,8 +185,9 @@ model MediaAssetTranslation {
 
 // ============================================================
 // Team
-// Используется на главной и при необходимости на странице "О нас".
-// Остальной контент этих страниц хранится статически.
+//
+// Используется для блока команды на главной.
+// Персональные страницы команды в текущую архитектуру не входят.
 // ============================================================
 
 model TeamMember {
@@ -181,7 +200,7 @@ model TeamMember {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  image MediaAsset? @relation("TeamMemberImage", fields: [imageId], references: [id], onDelete: SetNull)
+  image MediaAsset? @relation("TeamMemberImage", fields: [imageId], references: [id], onDelete: Restrict)
 
   translations TeamMemberTranslation[]
 
@@ -206,20 +225,34 @@ model TeamMemberTranslation {
 
 // ============================================================
 // Events
-// Список мероприятий и отдельные страницы мероприятий.
-// Структура страницы фиксирована:
-// cover + title + body + optional YouTube + gallery.
+//
+// Каждое смысловое мероприятие — отдельная запись.
+// Страница архива по годам формируется автоматически.
+//
+// Формат страницы:
+// cover + title + dates + location + body + videos + gallery.
 // ============================================================
 
 model Event {
   id   String @id @default(uuid()) @db.Uuid
   slug String @unique
 
-  status    ContentStatus @default(draft)
-  eventDate DateTime?
+  status ContentStatus @default(draft)
+
+  // Используется для группировки архива.
+  // Nullable для безопасной миграции старых черновиков.
+  // Для published-записей валидируется на уровне приложения.
+  eventYear Int?
+
+  // Точные даты, если они известны.
+  startDate DateTime? @db.Date
+  endDate   DateTime? @db.Date
+
+  // Событие может относиться к постоянному проекту:
+  // благотворительной программе, фестивалю, новогоднему проекту.
+  projectId String? @db.Uuid
 
   coverImageId String? @db.Uuid
-  youtubeUrl   String?
 
   sortOrder Int @default(0)
 
@@ -227,12 +260,16 @@ model Event {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
 
-  coverImage MediaAsset? @relation("EventCoverImage", fields: [coverImageId], references: [id], onDelete: SetNull)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  coverImage MediaAsset? @relation("EventCoverImage", fields: [coverImageId], references: [id], onDelete: Restrict)
 
   translations EventTranslation[]
   images       EventImage[]
+  videos       EventVideo[]
 
-  @@index([status, eventDate])
+  @@index([status, eventYear, startDate])
+  @@index([projectId])
   @@index([sortOrder])
   @@index([coverImageId])
 }
@@ -242,9 +279,19 @@ model EventTranslation {
   eventId String @db.Uuid
   locale  Locale
 
-  title          String
-  excerpt        String? @db.Text
-  body           String? @db.Text
+  title   String
+  excerpt String? @db.Text
+
+  // Хранится как Markdown.
+  body String? @db.Text
+
+  // Используется для неточной или редакционной даты:
+  // "Зимой 2024–2025 годов", "В мае 2025 года".
+  dateText String?
+
+  // Площадка, город либо произвольное описание места.
+  locationText String?
+
   seoTitle       String?
   seoDescription String? @db.Text
 
@@ -263,17 +310,33 @@ model EventImage {
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-  media MediaAsset @relation("EventGalleryImage", fields: [mediaId], references: [id], onDelete: Cascade)
+  media MediaAsset @relation("EventGalleryImage", fields: [mediaId], references: [id], onDelete: Restrict)
 
   @@unique([eventId, mediaId])
   @@index([eventId, sortOrder])
   @@index([mediaId])
 }
 
+model EventVideo {
+  id      String @id @default(uuid()) @db.Uuid
+  eventId String @db.Uuid
+
+  provider VideoProvider
+  url      String
+
+  sortOrder Int @default(0)
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, url])
+  @@index([eventId, sortOrder])
+}
+
 // ============================================================
 // Rental
-// Категории фиксированы через RentalType.
-// У позиции аренды одно основное изображение.
+//
+// Категории фиксированы.
+// У позиции есть основная обложка и необязательная галерея.
 // ============================================================
 
 model RentalItem {
@@ -289,9 +352,10 @@ model RentalItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  image MediaAsset? @relation("RentalItemImage", fields: [imageId], references: [id], onDelete: SetNull)
+  image MediaAsset? @relation("RentalItemCoverImage", fields: [imageId], references: [id], onDelete: Restrict)
 
   translations RentalItemTranslation[]
+  images       RentalItemImage[]
 
   @@index([type, isActive, sortOrder])
   @@index([imageId])
@@ -312,13 +376,30 @@ model RentalItemTranslation {
   @@index([locale])
 }
 
+model RentalItemImage {
+  id           String @id @default(uuid()) @db.Uuid
+  rentalItemId String @db.Uuid
+  mediaId      String @db.Uuid
+
+  sortOrder Int @default(0)
+
+  rentalItem RentalItem @relation(fields: [rentalItemId], references: [id], onDelete: Cascade)
+
+  media MediaAsset @relation("RentalItemGalleryImage", fields: [mediaId], references: [id], onDelete: Restrict)
+
+  @@unique([rentalItemId, mediaId])
+  @@index([rentalItemId, sortOrder])
+  @@index([mediaId])
+}
+
 // ============================================================
 // Projects
-// Сюда входят спектакли, выставки, мастер-классы,
-// концертные программы, фестивали, благотворительность и т. д.
 //
-// Только проекты имеют управляемые секции, потому что их страницы
-// действительно имеют разную последовательность контента.
+// Сюда входят спектакли, выставки, мастер-классы,
+// концертные программы, фестивали, благотворительные
+// и новогодние проекты.
+//
+// Страница проекта собирается из управляемых секций.
 // ============================================================
 
 model Project {
@@ -335,10 +416,11 @@ model Project {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
 
-  coverImage MediaAsset? @relation("ProjectCoverImage", fields: [coverImageId], references: [id], onDelete: SetNull)
+  coverImage MediaAsset? @relation("ProjectCoverImage", fields: [coverImageId], references: [id], onDelete: Restrict)
 
   translations ProjectTranslation[]
   sections     ProjectSection[]
+  events       Event[]
 
   @@index([type, status, sortOrder])
   @@index([coverImageId])
@@ -366,7 +448,9 @@ model ProjectSection {
   projectId String                @db.Uuid
   variant   ProjectSectionVariant @default(content)
 
-  youtubeUrl String?
+  // Используются только для variant = video.
+  videoProvider VideoProvider?
+  videoUrl      String?
 
   sortOrder Int     @default(0)
   isActive  Boolean @default(true)
@@ -390,7 +474,9 @@ model ProjectSectionTranslation {
 
   title    String?
   subtitle String?
-  body     String? @db.Text
+
+  // Хранится как Markdown.
+  body String? @db.Text
 
   // Используется для variant = quote.
   author String?
@@ -410,7 +496,7 @@ model ProjectSectionMedia {
 
   section ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
-  media MediaAsset @relation("ProjectSectionMediaAsset", fields: [mediaId], references: [id], onDelete: Cascade)
+  media MediaAsset @relation("ProjectSectionMediaAsset", fields: [mediaId], references: [id], onDelete: Restrict)
 
   @@unique([sectionId, mediaId])
   @@index([sectionId, sortOrder])
@@ -419,8 +505,12 @@ model ProjectSectionMedia {
 
 // ============================================================
 // Partners
-// Страница и её заголовки статичны.
-// Список партнёров загружается из БД.
+//
+// Основная карточка:
+// logo + name + description + website.
+//
+// Старое портфолио сохраняется отдельно как media/videos.
+// Новый landing может показывать только компактные карточки.
 // ============================================================
 
 model Partner {
@@ -435,9 +525,11 @@ model Partner {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  logo MediaAsset? @relation("PartnerLogo", fields: [logoId], references: [id], onDelete: SetNull)
+  logo MediaAsset? @relation("PartnerLogo", fields: [logoId], references: [id], onDelete: Restrict)
 
   translations PartnerTranslation[]
+  media        PartnerMedia[]
+  videos       PartnerVideo[]
 
   @@index([logoId])
   @@index([isActive, sortOrder])
@@ -455,6 +547,37 @@ model PartnerTranslation {
 
   @@unique([partnerId, locale])
   @@index([locale])
+}
+
+model PartnerMedia {
+  id        String @id @default(uuid()) @db.Uuid
+  partnerId String @db.Uuid
+  mediaId   String @db.Uuid
+
+  sortOrder Int @default(0)
+
+  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  media MediaAsset @relation("PartnerPortfolioMedia", fields: [mediaId], references: [id], onDelete: Restrict)
+
+  @@unique([partnerId, mediaId])
+  @@index([partnerId, sortOrder])
+  @@index([mediaId])
+}
+
+model PartnerVideo {
+  id        String @id @default(uuid()) @db.Uuid
+  partnerId String @db.Uuid
+
+  provider VideoProvider
+  url      String
+
+  sortOrder Int @default(0)
+
+  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([partnerId, url])
+  @@index([partnerId, sortOrder])
 }
 
 // ============================================================

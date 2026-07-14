@@ -97,6 +97,11 @@ export type EventTranslation = Prisma.EventTranslationModel
  */
 export type EventImage = Prisma.EventImageModel
 /**
+ * Model EventVideo
+ * 
+ */
+export type EventVideo = Prisma.EventVideoModel
+/**
  * Model RentalItem
  * 
  */
@@ -106,6 +111,11 @@ export type RentalItem = Prisma.RentalItemModel
  * 
  */
 export type RentalItemTranslation = Prisma.RentalItemTranslationModel
+/**
+ * Model RentalItemImage
+ * 
+ */
+export type RentalItemImage = Prisma.RentalItemImageModel
 /**
  * Model Project
  * 
@@ -141,6 +151,16 @@ export type Partner = Prisma.PartnerModel
  * 
  */
 export type PartnerTranslation = Prisma.PartnerTranslationModel
+/**
+ * Model PartnerMedia
+ * 
+ */
+export type PartnerMedia = Prisma.PartnerMediaModel
+/**
+ * Model PartnerVideo
+ * 
+ */
+export type PartnerVideo = Prisma.PartnerVideoModel
 /**
  * Model Certificate
  * 

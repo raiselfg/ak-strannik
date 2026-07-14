@@ -31,6 +31,8 @@ export type EventTranslationMinAggregateOutputType = {
   title: string | null
   excerpt: string | null
   body: string | null
+  dateText: string | null
+  locationText: string | null
   seoTitle: string | null
   seoDescription: string | null
 }
@@ -42,6 +44,8 @@ export type EventTranslationMaxAggregateOutputType = {
   title: string | null
   excerpt: string | null
   body: string | null
+  dateText: string | null
+  locationText: string | null
   seoTitle: string | null
   seoDescription: string | null
 }
@@ -53,6 +57,8 @@ export type EventTranslationCountAggregateOutputType = {
   title: number
   excerpt: number
   body: number
+  dateText: number
+  locationText: number
   seoTitle: number
   seoDescription: number
   _all: number
@@ -66,6 +72,8 @@ export type EventTranslationMinAggregateInputType = {
   title?: true
   excerpt?: true
   body?: true
+  dateText?: true
+  locationText?: true
   seoTitle?: true
   seoDescription?: true
 }
@@ -77,6 +85,8 @@ export type EventTranslationMaxAggregateInputType = {
   title?: true
   excerpt?: true
   body?: true
+  dateText?: true
+  locationText?: true
   seoTitle?: true
   seoDescription?: true
 }
@@ -88,6 +98,8 @@ export type EventTranslationCountAggregateInputType = {
   title?: true
   excerpt?: true
   body?: true
+  dateText?: true
+  locationText?: true
   seoTitle?: true
   seoDescription?: true
   _all?: true
@@ -172,6 +184,8 @@ export type EventTranslationGroupByOutputType = {
   title: string
   excerpt: string | null
   body: string | null
+  dateText: string | null
+  locationText: string | null
   seoTitle: string | null
   seoDescription: string | null
   _count: EventTranslationCountAggregateOutputType | null
@@ -204,6 +218,8 @@ export type EventTranslationWhereInput = {
   title?: Prisma.StringFilter<"EventTranslation"> | string
   excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
@@ -216,6 +232,8 @@ export type EventTranslationOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateText?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationText?: Prisma.SortOrderInput | Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   event?: Prisma.EventOrderByWithRelationInput
@@ -232,6 +250,8 @@ export type EventTranslationWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"EventTranslation"> | string
   excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
@@ -244,6 +264,8 @@ export type EventTranslationOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateText?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationText?: Prisma.SortOrderInput | Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EventTranslationCountOrderByAggregateInput
@@ -261,6 +283,8 @@ export type EventTranslationScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"EventTranslation"> | string
   excerpt?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
   body?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
+  dateText?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
+  locationText?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
   seoTitle?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
   seoDescription?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
 }
@@ -271,6 +295,8 @@ export type EventTranslationCreateInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
   event: Prisma.EventCreateNestedOneWithoutTranslationsInput
@@ -283,6 +309,8 @@ export type EventTranslationUncheckedCreateInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
 }
@@ -293,6 +321,8 @@ export type EventTranslationUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   event?: Prisma.EventUpdateOneRequiredWithoutTranslationsNestedInput
@@ -305,6 +335,8 @@ export type EventTranslationUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -316,6 +348,8 @@ export type EventTranslationCreateManyInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
 }
@@ -326,6 +360,8 @@ export type EventTranslationUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -337,6 +373,8 @@ export type EventTranslationUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -363,6 +401,8 @@ export type EventTranslationCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  dateText?: Prisma.SortOrder
+  locationText?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
 }
@@ -374,6 +414,8 @@ export type EventTranslationMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  dateText?: Prisma.SortOrder
+  locationText?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
 }
@@ -385,6 +427,8 @@ export type EventTranslationMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   excerpt?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  dateText?: Prisma.SortOrder
+  locationText?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
 }
@@ -437,6 +481,8 @@ export type EventTranslationCreateWithoutEventInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
 }
@@ -447,6 +493,8 @@ export type EventTranslationUncheckedCreateWithoutEventInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
 }
@@ -487,6 +535,8 @@ export type EventTranslationScalarWhereInput = {
   title?: Prisma.StringFilter<"EventTranslation"> | string
   excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
 }
@@ -497,6 +547,8 @@ export type EventTranslationCreateManyEventInput = {
   title: string
   excerpt?: string | null
   body?: string | null
+  dateText?: string | null
+  locationText?: string | null
   seoTitle?: string | null
   seoDescription?: string | null
 }
@@ -507,6 +559,8 @@ export type EventTranslationUpdateWithoutEventInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -517,6 +571,8 @@ export type EventTranslationUncheckedUpdateWithoutEventInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -527,6 +583,8 @@ export type EventTranslationUncheckedUpdateManyWithoutEventInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -540,6 +598,8 @@ export type EventTranslationSelect<ExtArgs extends runtime.Types.Extensions.Inte
   title?: boolean
   excerpt?: boolean
   body?: boolean
+  dateText?: boolean
+  locationText?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -552,6 +612,8 @@ export type EventTranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   title?: boolean
   excerpt?: boolean
   body?: boolean
+  dateText?: boolean
+  locationText?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -564,6 +626,8 @@ export type EventTranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   title?: boolean
   excerpt?: boolean
   body?: boolean
+  dateText?: boolean
+  locationText?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -576,11 +640,13 @@ export type EventTranslationSelectScalar = {
   title?: boolean
   excerpt?: boolean
   body?: boolean
+  dateText?: boolean
+  locationText?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
 }
 
-export type EventTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "locale" | "title" | "excerpt" | "body" | "seoTitle" | "seoDescription", ExtArgs["result"]["eventTranslation"]>
+export type EventTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "locale" | "title" | "excerpt" | "body" | "dateText" | "locationText" | "seoTitle" | "seoDescription", ExtArgs["result"]["eventTranslation"]>
 export type EventTranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }
@@ -603,6 +669,8 @@ export type $EventTranslationPayload<ExtArgs extends runtime.Types.Extensions.In
     title: string
     excerpt: string | null
     body: string | null
+    dateText: string | null
+    locationText: string | null
     seoTitle: string | null
     seoDescription: string | null
   }, ExtArgs["result"]["eventTranslation"]>
@@ -1035,6 +1103,8 @@ export interface EventTranslationFieldRefs {
   readonly title: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly excerpt: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly body: Prisma.FieldRef<"EventTranslation", 'String'>
+  readonly dateText: Prisma.FieldRef<"EventTranslation", 'String'>
+  readonly locationText: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly seoTitle: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly seoDescription: Prisma.FieldRef<"EventTranslation", 'String'>
 }

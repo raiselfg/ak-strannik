@@ -18,6 +18,7 @@ export async function getPartners() {
         select: { locale: true, name: true },
         where: { locale: { in: ['ru', 'en'] } },
       },
+      _count: { select: { media: true, videos: true } },
     },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
   });
@@ -25,7 +26,10 @@ export async function getPartners() {
   return partners.map((partner) => ({
     ...partner,
     logo: partner.logo
-      ? { ...partner.logo, publicUrl: getMediaPublicUrl(partner.logo.objectKey) }
+      ? {
+          ...partner.logo,
+          publicUrl: getMediaPublicUrl(partner.logo.objectKey),
+        }
       : null,
   }));
 }
@@ -43,17 +47,37 @@ export async function getPartnerById(id: string) {
       translations: {
         select: { locale: true, name: true, description: true },
       },
+      media: {
+        select: { mediaId: true, sortOrder: true },
+        orderBy: { sortOrder: 'asc' },
+      },
+      videos: {
+        select: { provider: true, url: true, sortOrder: true },
+        orderBy: { sortOrder: 'asc' },
+      },
     },
   });
 
   if (!partner) return null;
-  const ru = partner.translations.find((translation) => translation.locale === 'ru');
-  const en = partner.translations.find((translation) => translation.locale === 'en');
+  const ru = partner.translations.find(
+    (translation) => translation.locale === 'ru'
+  );
+  const en = partner.translations.find(
+    (translation) => translation.locale === 'en'
+  );
   const defaultValues: PartnerFormValues = {
     logoId: partner.logoId,
     websiteUrl: partner.websiteUrl,
     sortOrder: partner.sortOrder,
     isActive: partner.isActive,
+    media: partner.media.map((item, index) => ({
+      mediaId: item.mediaId,
+      sortOrder: index,
+    })),
+    videos: partner.videos.map((item, index) => ({
+      ...item,
+      sortOrder: index,
+    })),
     translations: {
       ru: { name: ru?.name ?? '', description: ru?.description ?? null },
       en: { name: en?.name ?? '', description: en?.description ?? null },
@@ -61,29 +85,4 @@ export async function getPartnerById(id: string) {
   };
 
   return { id: partner.id, defaultValues };
-}
-
-export async function getPartnerMediaOptions() {
-  const assets = await prisma.mediaAsset.findMany({
-    where: { mimeType: { startsWith: 'image/' } },
-    select: {
-      id: true,
-      originalName: true,
-      objectKey: true,
-      translations: {
-        where: { locale: { in: ['ru', 'en'] } },
-        select: { locale: true, alt: true },
-      },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-
-  return assets.map((asset) => ({
-    id: asset.id,
-    originalName: asset.originalName,
-    publicUrl: getMediaPublicUrl(asset.objectKey),
-    alt: asset.translations.find((item) => item.locale === 'ru')?.alt
-      ?? asset.translations.find((item) => item.locale === 'en')?.alt
-      ?? asset.originalName,
-  }));
 }

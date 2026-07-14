@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Image from 'next/image';
-import { FileText, Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
@@ -65,30 +65,6 @@ export default function Contacts() {
                   value={t('address')}
                   note={t('addressNote')}
                 />
-              </div>
-
-              <div className="grid gap-4 rounded-4xl border border-border/40 bg-background/35 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
-                <div>
-                  <p className="text-sm font-semibold text-foreground">
-                    {t('documentTitle')}
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {t('documentDescription')}
-                  </p>
-                </div>
-                <Button
-                  variant="outline"
-                  asChild
-                  className="border-gold/30 bg-gold/10 text-gold hover:bg-gold/20 hover:text-gold"
-                >
-                  <Link
-                    href={contacts.charterHref}
-                    className="flex items-center gap-2"
-                  >
-                    <FileText className="size-4" strokeWidth={1.5} />
-                    <span>{t('charter')}</span>
-                  </Link>
-                </Button>
               </div>
 
               <div className="mt-auto flex flex-col gap-4 border-t border-border/35 pt-6 sm:flex-row sm:items-end sm:justify-between">
