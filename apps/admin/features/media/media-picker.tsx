@@ -7,11 +7,16 @@ import {
   FieldError,
   FieldLabel,
 } from '@ak-strannik/ui/components/field';
-import { Input } from '@ak-strannik/ui/components/input';
 import { Select } from '@ak-strannik/ui/components/select';
-import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Plus, Trash2, Upload } from 'lucide-react';
+import { useDropzone, type Accept, type FileRejection } from 'react-dropzone';
 import { useState } from 'react';
-import { ALLOWED_MEDIA_MIME_TYPES } from './constants';
+import {
+  ALLOWED_MEDIA_MIME_TYPES,
+  MAX_MEDIA_FILE_SIZE,
+  MEDIA_EXTENSIONS,
+} from './constants';
+import { formatFileSize } from './format';
 import { MediaPreview } from './media-preview';
 
 export type MediaOption = {
@@ -29,12 +34,100 @@ export type PendingMedia = {
 
 type GalleryItem = { mediaId: string; sortOrder: number };
 
+const IMAGE_ACCEPT = Object.fromEntries(
+  ALLOWED_MEDIA_MIME_TYPES.map((mimeType) => [
+    mimeType,
+    MEDIA_EXTENSIONS[mimeType].map((extension) => `.${extension}`),
+  ])
+) as Accept;
+
 function fileToPending(file: File): PendingMedia {
   return {
     id: crypto.randomUUID(),
     file,
     previewUrl: URL.createObjectURL(file),
   };
+}
+
+function rejectionMessages(rejections: readonly FileRejection[]) {
+  const messages = new Set<string>();
+  for (const rejection of rejections) {
+    for (const error of rejection.errors) {
+      if (error.code === 'too-many-files') {
+        messages.add('Можно выбрать только одно изображение');
+      } else if (error.code === 'file-invalid-type') {
+        messages.add(`${rejection.file.name}: неподдерживаемый формат`);
+      } else if (error.code === 'file-too-large') {
+        messages.add(
+          `${rejection.file.name}: размер превышает ${formatFileSize(MAX_MEDIA_FILE_SIZE)}`
+        );
+      } else {
+        messages.add(`${rejection.file.name}: файл не принят`);
+      }
+    }
+  }
+  return [...messages];
+}
+
+function ImageDropZone({
+  id,
+  multiple,
+  onAccepted,
+}: {
+  id: string;
+  multiple: boolean;
+  onAccepted: (files: File[]) => void;
+}) {
+  const {
+    fileRejections,
+    getInputProps,
+    getRootProps,
+    isDragAccept,
+    isDragActive,
+    isDragReject,
+  } = useDropzone({
+    accept: IMAGE_ACCEPT,
+    maxSize: MAX_MEDIA_FILE_SIZE,
+    multiple,
+    onDropAccepted: onAccepted,
+  });
+  const errors = rejectionMessages(fileRejections);
+  const stateClass = isDragReject
+    ? 'border-destructive bg-destructive/5'
+    : isDragAccept
+      ? 'border-primary bg-primary/5'
+      : 'border-muted-foreground/30 hover:border-primary/60 hover:bg-muted/40';
+  const message = isDragReject
+    ? 'Некоторые файлы не подходят'
+    : isDragActive
+      ? 'Отпустите файлы здесь'
+      : multiple
+        ? 'Перетащите изображения сюда или нажмите, чтобы выбрать'
+        : 'Перетащите изображение сюда или нажмите, чтобы выбрать';
+
+  return (
+    <div className="space-y-2">
+      <div
+        {...getRootProps({
+          'aria-label': multiple
+            ? 'Добавить изображения'
+            : 'Добавить изображение',
+          className: `flex min-h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-6 text-center transition-colors ${stateClass}`,
+          role: 'button',
+        })}
+      >
+        <input {...getInputProps({ id })} />
+        <Upload className="size-6 text-muted-foreground" />
+        <p className="text-sm font-medium">{message}</p>
+        <p className="text-xs text-muted-foreground">
+          JPG, PNG, WebP или AVIF до {formatFileSize(MAX_MEDIA_FILE_SIZE)}
+        </p>
+      </div>
+      {errors.map((message) => (
+        <FieldError key={message}>{message}</FieldError>
+      ))}
+    </div>
+  );
 }
 
 export function MediaSinglePicker({
@@ -110,14 +203,10 @@ export function MediaSinglePicker({
           </option>
         ))}
       </Select>
-      <Input
-        accept={ALLOWED_MEDIA_MIME_TYPES.join(',')}
+      <ImageDropZone
         id={`${id}-upload`}
-        type="file"
-        onChange={(event) => {
-          selectFile(event.target.files?.[0] ?? null);
-          event.currentTarget.value = '';
-        }}
+        multiple={false}
+        onAccepted={(files) => selectFile(files[0] ?? null)}
       />
       {description ? <FieldDescription>{description}</FieldDescription> : null}
       {error ? <FieldError>{error}</FieldError> : null}
@@ -158,9 +247,9 @@ export function MediaGalleryPicker({
     setSelectedId('');
   }
 
-  function addFiles(files: FileList | null) {
-    if (!files?.length) return;
-    const next = Array.from(files).map(fileToPending);
+  function addFiles(files: File[]) {
+    if (!files.length) return;
+    const next = files.map(fileToPending);
     onPendingFilesChange([...pendingFiles, ...next]);
     normalize([
       ...value,
@@ -222,16 +311,7 @@ export function MediaGalleryPicker({
           Добавить
         </Button>
       </div>
-      <Input
-        accept={ALLOWED_MEDIA_MIME_TYPES.join(',')}
-        id={`${id}-upload`}
-        multiple
-        type="file"
-        onChange={(event) => {
-          addFiles(event.target.files);
-          event.currentTarget.value = '';
-        }}
-      />
+      <ImageDropZone id={`${id}-upload`} multiple onAccepted={addFiles} />
       <FieldDescription>{description}</FieldDescription>
       {value.length ? (
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
