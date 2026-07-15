@@ -3,10 +3,9 @@ export const ALLOWED_MEDIA_MIME_TYPES = [
   'image/png',
   'image/webp',
   'image/avif',
-  'image/gif',
 ] as const;
 
-export const MAX_MEDIA_FILE_SIZE = 2 * 1024 * 1024;
+export const MAX_MEDIA_FILE_SIZE = 4 * 1024 * 1024;
 
 export const MEDIA_EXTENSIONS: Record<
   (typeof ALLOWED_MEDIA_MIME_TYPES)[number],
@@ -16,5 +15,4 @@ export const MEDIA_EXTENSIONS: Record<
   'image/png': ['png'],
   'image/webp': ['webp'],
   'image/avif': ['avif'],
-  'image/gif': ['gif'],
 };

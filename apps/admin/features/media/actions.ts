@@ -29,8 +29,7 @@ const MIME_TYPES_BY_SHARP_FORMAT: Record<
   jpeg: 'image/jpeg',
   png: 'image/png',
   webp: 'image/webp',
-  avif: 'image/avif',
-  gif: 'image/gif',
+  avif: 'image/avif'
 };
 
 function extensionFor(file: File) {
