@@ -60,6 +60,10 @@ COPY --from=builder --chown=nextjs:nodejs \
     /app/apps/admin/.next/standalone ./
 
 COPY --from=builder --chown=nextjs:nodejs \
+    /app/node_modules/.pnpm/@img+sharp-libvips-linuxmusl-x64@1.3.2/node_modules/@img/sharp-libvips-linuxmusl-x64/lib/libvips-cpp.so.8.18.3 \
+    /app/node_modules/.pnpm/@img+sharp-libvips-linuxmusl-x64@1.3.2/node_modules/@img/sharp-libvips-linuxmusl-x64/lib/libvips-cpp.so.8.18.3
+
+COPY --from=builder --chown=nextjs:nodejs \
     /app/apps/admin/.next/static ./apps/admin/.next/static
 
 USER nextjs

@@ -1,7 +1,5 @@
 import { Images } from 'lucide-react';
 import type { Metadata } from 'next';
-import { connection } from 'next/server';
-import { Suspense } from 'react';
 import { EmptyState } from '../../_components/empty-state';
 import { PageBreadcrumbs } from '../../_components/page-breadcrumbs';
 import { PageHeader } from '../../_components/page-header';
@@ -11,12 +9,7 @@ import { MediaUploadDialog } from '../../../features/media/media-upload-dialog';
 
 export const metadata: Metadata = { title: 'Медиатека' };
 
-function MediaPageFallback() {
-  return <div className="h-48 animate-pulse rounded-xl border bg-card" />;
-}
-
-async function MediaPageContent() {
-  await connection();
+export default async function MediaPage() {
   const assets = await getMediaAssets();
   return (
     <div className="space-y-8">
@@ -43,13 +36,5 @@ async function MediaPageContent() {
         </div>
       )}
     </div>
-  );
-}
-
-export default function MediaPage() {
-  return (
-    <Suspense fallback={<MediaPageFallback />}>
-      <MediaPageContent />
-    </Suspense>
   );
 }
