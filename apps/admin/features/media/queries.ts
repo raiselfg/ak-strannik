@@ -1,4 +1,5 @@
 import { prisma } from '@ak-strannik/database';
+import type { Prisma } from '@ak-strannik/database';
 import { isUuid } from '../../lib/is-uuid';
 import { getMediaPublicUrl } from '../../lib/s3cloud';
 import type { MediaAssetMetadataFormValues } from './schema';
@@ -16,28 +17,71 @@ const usageSelect = {
   certificateImages: { select: { id: true } },
 } as const;
 
+const mediaAssetBaseSelect = {
+  id: true,
+  objectKey: true,
+  originalName: true,
+  mimeType: true,
+  size: true,
+  width: true,
+  height: true,
+  createdAt: true,
+  translations: { select: { locale: true, alt: true } },
+} as const;
+
+type MediaAssetBase = Prisma.MediaAssetGetPayload<{
+  select: typeof mediaAssetBaseSelect;
+}>;
+
+function mapMediaAsset(asset: MediaAssetBase, usage: string[]) {
+  const {
+    id,
+    objectKey,
+    originalName,
+    mimeType,
+    size,
+    width,
+    height,
+    createdAt,
+    translations,
+  } = asset;
+  return {
+    id,
+    objectKey,
+    originalName,
+    mimeType,
+    size,
+    width,
+    height,
+    createdAt,
+    translations,
+    publicUrl: getMediaPublicUrl(objectKey),
+    usage,
+  };
+}
+
 export async function getMediaAssets() {
-  const assets = await prisma.mediaAsset.findMany({
-    select: {
-      id: true,
-      objectKey: true,
-      checksumSha256: true,
-      originalName: true,
-      mimeType: true,
-      size: true,
-      width: true,
-      height: true,
-      createdAt: true,
-      translations: { select: { locale: true, alt: true } },
-      ...usageSelect,
-    },
-    orderBy: { createdAt: 'desc' },
-  });
-  return assets.map((asset) => ({
-    ...asset,
-    publicUrl: getMediaPublicUrl(asset.objectKey),
-    usage: getUsageLabels(asset),
-  }));
+  try {
+    const assets = await prisma.mediaAsset.findMany({
+      select: {
+        ...mediaAssetBaseSelect,
+        checksumSha256: true,
+        ...usageSelect,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return assets.map((asset) => mapMediaAsset(asset, getUsageLabels(asset)));
+  } catch (error) {
+    console.error(
+      '[media] Extended media query failed; falling back to base fields.',
+      error
+    );
+    const assets = await prisma.mediaAsset.findMany({
+      select: mediaAssetBaseSelect,
+      orderBy: { createdAt: 'desc' },
+    });
+    return assets.map((asset) => mapMediaAsset(asset, []));
+  }
 }
 
 export async function getImageMediaOptions() {
