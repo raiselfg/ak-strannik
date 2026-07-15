@@ -1,12 +1,12 @@
-import { getSessionCookie } from 'better-auth/cookies';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { auth } from './lib/auth';
 
 const PUBLIC_FILE = /\.(.*)$/;
 const AUTH_PREFIX = '/api/auth';
 const LOGIN_PATH = '/login';
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   if (
@@ -19,15 +19,13 @@ export function proxy(request: NextRequest) {
   }
 
   const isLoginRoute = pathname === LOGIN_PATH;
-  const hasSession = Boolean(
-    getSessionCookie(request, { cookiePrefix: 'strannik_auth' })
-  );
+  const session = await auth.api.getSession({ headers: request.headers });
 
-  if (hasSession && isLoginRoute) {
+  if (session?.user && isLoginRoute) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  if (!hasSession && !isLoginRoute) {
+  if (!session?.user && !isLoginRoute) {
     const loginUrl = new URL(LOGIN_PATH, request.url);
     loginUrl.searchParams.set('next', `${pathname}${search}`);
     return NextResponse.redirect(loginUrl);
