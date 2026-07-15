@@ -14,14 +14,11 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     minPasswordLength: 6,
     maxPasswordLength: 64,
-    // Accounts are provisioned out of band; public registration would grant
-    // administrative access to an untrusted user.
     disableSignUp: true,
   },
   trustedOrigins: [
     'https://admin.ak-strannik.ru',
-    'http://localhost:3001',
-    'http://localhost:3000',
+    'http://localhost:3001'
   ],
   rateLimit: {
     enabled: true,
@@ -29,11 +26,11 @@ export const auth = betterAuth({
     max: 100,
   },
   session: {
-    expiresIn: 604800, // 7 дней
-    updateAge: 86400, // обновлять каждые 24 часа
+    expiresIn: 604800, // 7d
+    updateAge: 86400, // 24h
     cookieCache: {
       enabled: true,
-      maxAge: 300, // 5 минут кэша
+      maxAge: 300, // 5min
     },
   },
   advanced: {

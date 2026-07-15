@@ -27,7 +27,6 @@ export async function proxy(request: NextRequest) {
 
   if (!session?.user && !isLoginRoute) {
     const loginUrl = new URL(LOGIN_PATH, request.url);
-    loginUrl.searchParams.set('next', `${pathname}${search}`);
     return NextResponse.redirect(loginUrl);
   }
 

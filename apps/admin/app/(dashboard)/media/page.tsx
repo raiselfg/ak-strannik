@@ -21,7 +21,7 @@ export default async function MediaPage() {
           action={<MediaUploadDialog />}
         />
       </div>
-      {assets.length ? (
+      {assets.length > 0 ? (
         <MediaAssetGrid assets={assets} />
       ) : (
         <div className="space-y-4">
