@@ -8,9 +8,10 @@ import {
   authenticate,
   fieldErrors,
   idSchema,
+  type ActionFailure,
   type ActionResult,
 } from '../../lib/action-utils';
-import { deleteObject, putObject } from '../../lib/s3cloud';
+import { deleteObject, getMediaPublicUrl, putObject } from '../../lib/s3cloud';
 import {
   ALLOWED_MEDIA_MIME_TYPES,
   MAX_MEDIA_FILE_SIZE,
@@ -29,8 +30,21 @@ const MIME_TYPES_BY_SHARP_FORMAT: Record<
   jpeg: 'image/jpeg',
   png: 'image/png',
   webp: 'image/webp',
-  avif: 'image/avif'
+  avif: 'image/avif',
 };
+
+export type UploadedMediaAsset = {
+  id: string;
+  originalName: string;
+  objectKey: string;
+  mimeType: string;
+  publicUrl: string;
+  alt: string;
+};
+
+export type UploadMediaAssetResult =
+  | { success: true; message: string; data: UploadedMediaAsset }
+  | ActionFailure;
 
 function extensionFor(file: File) {
   const type = file.type as (typeof ALLOWED_MEDIA_MIME_TYPES)[number];
@@ -42,7 +56,7 @@ function extensionFor(file: File) {
 
 export async function uploadMediaAssetAction(
   formData: FormData
-): Promise<ActionResult> {
+): Promise<UploadMediaAssetResult> {
   const authError = await authenticate();
   if (authError) return authError;
   const file = formData.get('file');
@@ -100,8 +114,14 @@ export async function uploadMediaAssetAction(
   } catch {
     return { success: false, message: 'Не удалось загрузить файл' };
   }
+  let asset: {
+    id: string;
+    originalName: string;
+    objectKey: string;
+    mimeType: string;
+  };
   try {
-    await prisma.mediaAsset.create({
+    asset = await prisma.mediaAsset.create({
       data: {
         objectKey,
         checksumSha256,
@@ -111,6 +131,7 @@ export async function uploadMediaAssetAction(
         width,
         height,
       },
+      select: { id: true, originalName: true, objectKey: true, mimeType: true },
     });
   } catch (error) {
     console.error('Failed to create media asset:', error);
@@ -122,7 +143,18 @@ export async function uploadMediaAssetAction(
     return { success: false, message: 'Не удалось загрузить файл' };
   }
   revalidatePath('/media');
-  return { success: true, message: 'Медиафайл загружен' };
+  return {
+    success: true,
+    message: 'Медиафайл загружен',
+    data: {
+      id: asset.id,
+      originalName: asset.originalName,
+      objectKey: asset.objectKey,
+      mimeType: asset.mimeType,
+      publicUrl: getMediaPublicUrl(asset.objectKey),
+      alt: asset.originalName,
+    },
+  };
 }
 
 function hasContent(value: MediaAssetMetadataFormValues['translations']['ru']) {

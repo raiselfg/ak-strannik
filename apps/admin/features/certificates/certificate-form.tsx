@@ -16,7 +16,6 @@ import {
   FieldLabel,
 } from '@ak-strannik/ui/components/field';
 import { Input } from '@ak-strannik/ui/components/input';
-import { Select } from '@ak-strannik/ui/components/select';
 import { Switch } from '@ak-strannik/ui/components/switch';
 import {
   Tabs,
@@ -36,16 +35,18 @@ import {
   useForm,
 } from 'react-hook-form';
 import { z } from 'zod';
-import { MediaPreview } from '../media/media-preview';
+import {
+  MediaSinglePicker,
+  type MediaOption,
+  type PendingMedia,
+} from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import { createCertificateAction, updateCertificateAction } from './actions';
 import { CertificateFormSchema, type CertificateFormValues } from './schema';
-
-type MediaOption = {
-  id: string;
-  originalName: string;
-  publicUrl: string;
-  alt: string;
-};
 
 type CertificateFormProps =
   | {
@@ -66,6 +67,8 @@ type CertificateFormInput = z.input<typeof CertificateFormSchema>;
 export function CertificateForm(props: CertificateFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingImage, setPendingImage] = useState<PendingMedia | null>(null);
   const form = useForm<CertificateFormInput, unknown, CertificateFormValues>({
     resolver: zodResolver(CertificateFormSchema),
     defaultValues: {
@@ -83,10 +86,23 @@ export function CertificateForm(props: CertificateFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia(pendingImage ? [pendingImage] : []);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const imageId = replacePendingId(values.imageId, upload.replacements) ?? '';
+    if (pendingImage) {
+      form.setValue('imageId', imageId);
+      URL.revokeObjectURL(pendingImage.previewUrl);
+      setPendingImage(null);
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    }
+    const nextValues = { ...values, imageId };
     const result =
       props.mode === 'create'
-        ? await createCertificateAction(values)
-        : await updateCertificateAction(props.certificateId, values);
+        ? await createCertificateAction(nextValues)
+        : await updateCertificateAction(props.certificateId, nextValues);
 
     if (!result.success) {
       for (const [name, messages] of Object.entries(result.fieldErrors ?? {})) {
@@ -114,45 +130,20 @@ export function CertificateForm(props: CertificateFormProps) {
             <Controller
               control={form.control}
               name="imageId"
-              render={({ field, fieldState }) => {
-                const selected = props.mediaOptions.find(
-                  (asset) => asset.id === field.value
-                );
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="certificate-image">
-                      Изображение *
-                    </FieldLabel>
-                    {selected ? (
-                      <MediaPreview
-                        alt={selected.alt}
-                        className="h-64 rounded-lg border"
-                        url={selected.publicUrl}
-                      />
-                    ) : null}
-                    <Select
-                      aria-invalid={fieldState.invalid}
-                      id="certificate-image"
-                      onChange={(event) => field.onChange(event.target.value)}
-                      value={field.value}
-                    >
-                      <option value="">Выберите изображение</option>
-                      {props.mediaOptions.map((asset) => (
-                        <option key={asset.id} value={asset.id}>
-                          {asset.originalName}
-                        </option>
-                      ))}
-                    </Select>
-                    <FieldDescription>
-                      Выберите изображение сертификата из существующей
-                      медиатеки.
-                    </FieldDescription>
-                    {fieldState.error?.message ? (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    ) : null}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <MediaSinglePicker
+                  description="Выберите изображение сертификата из медиатеки или загрузите новый файл."
+                  emptyLabel="Выберите изображение"
+                  error={fieldState.error?.message}
+                  id="certificate-image"
+                  label="Изображение *"
+                  mediaOptions={mediaOptions}
+                  onChange={(value) => field.onChange(value ?? '')}
+                  onPendingFileChange={setPendingImage}
+                  pendingFile={pendingImage}
+                  value={field.value || null}
+                />
+              )}
             />
 
             <Controller

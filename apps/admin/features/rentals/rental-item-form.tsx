@@ -36,7 +36,13 @@ import {
   useForm,
 } from 'react-hook-form';
 import { z } from 'zod';
-import { MediaPreview } from '../media/media-preview';
+import { MediaSinglePicker, type PendingMedia } from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  replacePendingIds,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import {
   EventGalleryField,
   type EventMediaOption,
@@ -65,6 +71,9 @@ const emptyTranslation = { title: '', description: null, priceText: null };
 export function RentalItemForm(props: RentalItemFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingImage, setPendingImage] = useState<PendingMedia | null>(null);
+  const [pendingGallery, setPendingGallery] = useState<PendingMedia[]>([]);
   const form = useForm<RentalItemFormInput, unknown, RentalItemFormValues>({
     resolver: zodResolver(RentalItemFormSchema),
     defaultValues: {
@@ -84,10 +93,33 @@ export function RentalItemForm(props: RentalItemFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia([
+      ...(pendingImage ? [pendingImage] : []),
+      ...pendingGallery,
+    ]);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const imageId = replacePendingId(values.imageId, upload.replacements);
+    const gallery = replacePendingIds(values.gallery, upload.replacements);
+    if (pendingImage) {
+      form.setValue('imageId', imageId);
+      URL.revokeObjectURL(pendingImage.previewUrl);
+      setPendingImage(null);
+    }
+    if (pendingGallery.length) {
+      form.setValue('gallery', gallery);
+      pendingGallery.forEach((file) => URL.revokeObjectURL(file.previewUrl));
+      setPendingGallery([]);
+    }
+    if (upload.assets.length)
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    const nextValues = { ...values, imageId, gallery };
     const result =
       props.mode === 'create'
-        ? await createRentalItemAction(values)
-        : await updateRentalItemAction(props.rentalItemId, values);
+        ? await createRentalItemAction(nextValues)
+        : await updateRentalItemAction(props.rentalItemId, nextValues);
     if (!result.success) {
       for (const [name, messages] of Object.entries(result.fieldErrors ?? {})) {
         form.setError(name as FieldPath<RentalItemFormInput>, {
@@ -158,44 +190,19 @@ export function RentalItemForm(props: RentalItemFormProps) {
             <Controller
               control={form.control}
               name="imageId"
-              render={({ field, fieldState }) => {
-                const selected = props.mediaOptions.find(
-                  (asset) => asset.id === field.value
-                );
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="rental-image">Изображение</FieldLabel>
-                    {selected ? (
-                      <MediaPreview
-                        alt={selected.alt}
-                        className="h-56 rounded-lg border"
-                        url={selected.publicUrl}
-                      />
-                    ) : null}
-                    <Select
-                      id="rental-image"
-                      aria-invalid={fieldState.invalid}
-                      value={field.value ?? ''}
-                      onChange={(event) =>
-                        field.onChange(event.target.value || null)
-                      }
-                    >
-                      <option value="">Без изображения</option>
-                      {props.mediaOptions.map((asset) => (
-                        <option key={asset.id} value={asset.id}>
-                          {asset.originalName}
-                        </option>
-                      ))}
-                    </Select>
-                    <FieldDescription>
-                      Основное изображение позиции аренды.
-                    </FieldDescription>
-                    {fieldState.error?.message ? (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    ) : null}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <MediaSinglePicker
+                  description="Основное изображение позиции аренды."
+                  error={fieldState.error?.message}
+                  id="rental-image"
+                  label="Изображение"
+                  mediaOptions={mediaOptions}
+                  onChange={field.onChange}
+                  onPendingFileChange={setPendingImage}
+                  pendingFile={pendingImage}
+                  value={field.value}
+                />
+              )}
             />
 
             <Field data-invalid={Boolean(form.formState.errors.sortOrder)}>
@@ -261,7 +268,9 @@ export function RentalItemForm(props: RentalItemFormProps) {
               <EventGalleryField
                 value={field.value}
                 onChange={field.onChange}
-                mediaOptions={props.mediaOptions}
+                mediaOptions={mediaOptions}
+                onPendingFilesChange={setPendingGallery}
+                pendingFiles={pendingGallery}
                 error={fieldState.error?.message}
               />
             )}

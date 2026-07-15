@@ -36,17 +36,17 @@ import {
 } from 'react-hook-form';
 import { z } from 'zod';
 import { contentStatusOptions } from '../events/constants';
-import { MediaPreview } from '../media/media-preview';
+import { MediaSinglePicker, type PendingMedia } from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import { createProjectAction, updateProjectAction } from './actions';
 import { projectTypeOptions } from './constants';
 import { ProjectFormSchema, type ProjectFormValues } from './schema';
 
-type MediaOption = {
-  id: string;
-  originalName: string;
-  publicUrl: string;
-  alt: string;
-};
+import type { MediaOption } from '../media/media-picker';
 type ProjectFormProps =
   | {
       mode: 'create';
@@ -78,6 +78,8 @@ function toDateTimeInput(value: Date | null) {
 export function ProjectForm(props: ProjectFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingCover, setPendingCover] = useState<PendingMedia | null>(null);
   const form = useForm<ProjectFormInput, unknown, ProjectFormValues>({
     resolver: zodResolver(ProjectFormSchema),
     defaultValues: {
@@ -97,8 +99,24 @@ export function ProjectForm(props: ProjectFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia(pendingCover ? [pendingCover] : []);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const coverImageId = replacePendingId(
+      values.coverImageId,
+      upload.replacements
+    );
+    if (pendingCover) {
+      form.setValue('coverImageId', coverImageId);
+      URL.revokeObjectURL(pendingCover.previewUrl);
+      setPendingCover(null);
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    }
+    const nextValues = { ...values, coverImageId };
     if (props.mode === 'create') {
-      const result = await createProjectAction(values);
+      const result = await createProjectAction(nextValues);
       if (!result.success) {
         for (const [name, messages] of Object.entries(
           result.fieldErrors ?? {}
@@ -115,7 +133,7 @@ export function ProjectForm(props: ProjectFormProps) {
       return;
     }
 
-    const result = await updateProjectAction(props.projectId, values);
+    const result = await updateProjectAction(props.projectId, nextValues);
     if (!result.success) {
       for (const [name, messages] of Object.entries(result.fieldErrors ?? {})) {
         form.setError(name as FieldPath<ProjectFormInput>, {
@@ -274,42 +292,19 @@ export function ProjectForm(props: ProjectFormProps) {
           <Controller
             control={form.control}
             name="coverImageId"
-            render={({ field, fieldState }) => {
-              const selected = props.mediaOptions.find(
-                (asset) => asset.id === field.value
-              );
-              return (
-                <Field data-invalid={fieldState.invalid}>
-                  {selected ? (
-                    <MediaPreview
-                      alt={selected.alt}
-                      className="h-64 rounded-lg border"
-                      url={selected.publicUrl}
-                    />
-                  ) : null}
-                  <FieldLabel htmlFor="project-cover">
-                    Изображение обложки
-                  </FieldLabel>
-                  <Select
-                    id="project-cover"
-                    value={field.value ?? ''}
-                    onChange={(event) =>
-                      field.onChange(event.target.value || null)
-                    }
-                  >
-                    <option value="">Без обложки</option>
-                    {props.mediaOptions.map((asset) => (
-                      <option key={asset.id} value={asset.id}>
-                        {asset.originalName}
-                      </option>
-                    ))}
-                  </Select>
-                  {fieldState.error?.message ? (
-                    <FieldError>{fieldState.error.message}</FieldError>
-                  ) : null}
-                </Field>
-              );
-            }}
+            render={({ field, fieldState }) => (
+              <MediaSinglePicker
+                description="Выберите изображение из медиатеки или загрузите новый файл."
+                error={fieldState.error?.message}
+                id="project-cover"
+                label="Изображение обложки"
+                mediaOptions={mediaOptions}
+                onChange={field.onChange}
+                onPendingFileChange={setPendingCover}
+                pendingFile={pendingCover}
+                value={field.value}
+              />
+            )}
           />
         </CardContent>
       </Card>

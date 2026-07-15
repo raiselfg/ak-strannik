@@ -16,7 +16,6 @@ import {
   FieldLabel,
 } from '@ak-strannik/ui/components/field';
 import { Input } from '@ak-strannik/ui/components/input';
-import { Select } from '@ak-strannik/ui/components/select';
 import { Switch } from '@ak-strannik/ui/components/switch';
 import {
   Tabs,
@@ -38,8 +37,17 @@ import {
 import { z } from 'zod';
 import { createTeamMemberAction, updateTeamMemberAction } from './actions';
 import { TeamMemberFormSchema, type TeamMemberFormValues } from './schema';
+import {
+  MediaSinglePicker,
+  type MediaOption,
+  type PendingMedia,
+} from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 
-type MediaOption = { id: string; originalName: string | null };
 type TeamMemberFormProps =
   | {
       mode: 'create';
@@ -59,6 +67,8 @@ const emptyTranslation = { name: '', role: null, description: null };
 export function TeamMemberForm(props: TeamMemberFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingImage, setPendingImage] = useState<PendingMedia | null>(null);
   type TeamMemberFormInput = z.input<typeof TeamMemberFormSchema>;
   const form = useForm<TeamMemberFormInput, unknown, TeamMemberFormValues>({
     resolver: zodResolver(TeamMemberFormSchema),
@@ -76,10 +86,23 @@ export function TeamMemberForm(props: TeamMemberFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia(pendingImage ? [pendingImage] : []);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const imageId = replacePendingId(values.imageId, upload.replacements);
+    if (imageId !== values.imageId) {
+      form.setValue('imageId', imageId);
+      if (pendingImage) URL.revokeObjectURL(pendingImage.previewUrl);
+      setPendingImage(null);
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    }
+    const nextValues = { ...values, imageId };
     const result =
       props.mode === 'create'
-        ? await createTeamMemberAction(values)
-        : await updateTeamMemberAction(props.teamMemberId, values);
+        ? await createTeamMemberAction(nextValues)
+        : await updateTeamMemberAction(props.teamMemberId, nextValues);
     if (!result.success) {
       if (result.fieldErrors) {
         for (const [name, messages] of Object.entries(result.fieldErrors)) {
@@ -108,32 +131,17 @@ export function TeamMemberForm(props: TeamMemberFormProps) {
               control={form.control}
               name="imageId"
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="team-member-image">
-                    Фотография
-                  </FieldLabel>
-                  <Select
-                    id="team-member-image"
-                    aria-invalid={fieldState.invalid}
-                    value={field.value ?? ''}
-                    onChange={(event) =>
-                      field.onChange(event.target.value || null)
-                    }
-                  >
-                    <option value="">Без фотографии</option>
-                    {props.mediaOptions.map((asset) => (
-                      <option key={asset.id} value={asset.id}>
-                        {asset.originalName ?? 'Без названия'}
-                      </option>
-                    ))}
-                  </Select>
-                  <FieldDescription>
-                    Выберите изображение из существующей медиатеки.
-                  </FieldDescription>
-                  {fieldState.error?.message ? (
-                    <FieldError>{fieldState.error.message}</FieldError>
-                  ) : null}
-                </Field>
+                <MediaSinglePicker
+                  description="Выберите изображение из медиатеки или загрузите новый файл. Загрузка произойдёт после сохранения формы."
+                  error={fieldState.error?.message}
+                  id="team-member-image"
+                  label="Фотография"
+                  mediaOptions={mediaOptions}
+                  onChange={field.onChange}
+                  onPendingFileChange={setPendingImage}
+                  pendingFile={pendingImage}
+                  value={field.value}
+                />
               )}
             />
             <Field data-invalid={Boolean(form.formState.errors.sortOrder)}>

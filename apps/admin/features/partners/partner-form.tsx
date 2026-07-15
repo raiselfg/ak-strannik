@@ -16,7 +16,6 @@ import {
   FieldLabel,
 } from '@ak-strannik/ui/components/field';
 import { Input } from '@ak-strannik/ui/components/input';
-import { Select } from '@ak-strannik/ui/components/select';
 import { Switch } from '@ak-strannik/ui/components/switch';
 import {
   Tabs,
@@ -36,7 +35,13 @@ import {
   useForm,
 } from 'react-hook-form';
 import { z } from 'zod';
-import { MediaPreview } from '../media/media-preview';
+import { MediaSinglePicker, type PendingMedia } from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  replacePendingIds,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import {
   EventGalleryField,
   type EventMediaOption,
@@ -67,6 +72,9 @@ const emptyTranslation = { name: '', description: null };
 export function PartnerForm(props: PartnerFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingLogo, setPendingLogo] = useState<PendingMedia | null>(null);
+  const [pendingMedia, setPendingMedia] = useState<PendingMedia[]>([]);
   const form = useForm<PartnerFormInput, unknown, PartnerFormValues>({
     resolver: zodResolver(PartnerFormSchema),
     defaultValues: {
@@ -86,10 +94,33 @@ export function PartnerForm(props: PartnerFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia([
+      ...(pendingLogo ? [pendingLogo] : []),
+      ...pendingMedia,
+    ]);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const logoId = replacePendingId(values.logoId, upload.replacements);
+    const media = replacePendingIds(values.media, upload.replacements);
+    if (pendingLogo) {
+      form.setValue('logoId', logoId);
+      URL.revokeObjectURL(pendingLogo.previewUrl);
+      setPendingLogo(null);
+    }
+    if (pendingMedia.length) {
+      form.setValue('media', media);
+      pendingMedia.forEach((file) => URL.revokeObjectURL(file.previewUrl));
+      setPendingMedia([]);
+    }
+    if (upload.assets.length)
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    const nextValues = { ...values, logoId, media };
     const result =
       props.mode === 'create'
-        ? await createPartnerAction(values)
-        : await updatePartnerAction(props.partnerId, values);
+        ? await createPartnerAction(nextValues)
+        : await updatePartnerAction(props.partnerId, nextValues);
 
     if (!result.success) {
       for (const [name, messages] of Object.entries(result.fieldErrors ?? {})) {
@@ -117,44 +148,19 @@ export function PartnerForm(props: PartnerFormProps) {
             <Controller
               control={form.control}
               name="logoId"
-              render={({ field, fieldState }) => {
-                const selected = props.mediaOptions.find(
-                  (asset) => asset.id === field.value
-                );
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="partner-logo">Логотип</FieldLabel>
-                    {selected ? (
-                      <MediaPreview
-                        alt={selected.alt}
-                        className="h-40 rounded-lg border"
-                        url={selected.publicUrl}
-                      />
-                    ) : null}
-                    <Select
-                      aria-invalid={fieldState.invalid}
-                      id="partner-logo"
-                      onChange={(event) =>
-                        field.onChange(event.target.value || null)
-                      }
-                      value={field.value ?? ''}
-                    >
-                      <option value="">Без логотипа</option>
-                      {props.mediaOptions.map((asset) => (
-                        <option key={asset.id} value={asset.id}>
-                          {asset.originalName}
-                        </option>
-                      ))}
-                    </Select>
-                    <FieldDescription>
-                      Выберите одно изображение из существующей медиатеки.
-                    </FieldDescription>
-                    {fieldState.error?.message ? (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    ) : null}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <MediaSinglePicker
+                  description="Выберите изображение из медиатеки или загрузите новый файл."
+                  error={fieldState.error?.message}
+                  id="partner-logo"
+                  label="Логотип"
+                  mediaOptions={mediaOptions}
+                  onChange={field.onChange}
+                  onPendingFileChange={setPendingLogo}
+                  pendingFile={pendingLogo}
+                  value={field.value}
+                />
+              )}
             />
 
             <Field data-invalid={Boolean(form.formState.errors.websiteUrl)}>
@@ -240,7 +246,9 @@ export function PartnerForm(props: PartnerFormProps) {
                 <EventGalleryField
                   value={field.value}
                   onChange={field.onChange}
-                  mediaOptions={props.mediaOptions}
+                  mediaOptions={mediaOptions}
+                  onPendingFilesChange={setPendingMedia}
+                  pendingFiles={pendingMedia}
                   error={fieldState.error?.message}
                 />
               )}

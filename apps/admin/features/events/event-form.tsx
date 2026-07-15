@@ -35,7 +35,13 @@ import {
   useForm,
 } from 'react-hook-form';
 import { z } from 'zod';
-import { MediaPreview } from '../media/media-preview';
+import { MediaSinglePicker, type PendingMedia } from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingId,
+  replacePendingIds,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import { VideoListField } from '../media/video-list-field';
 import { createEventAction, updateEventAction } from './actions';
 import { contentStatusOptions } from './constants';
@@ -85,6 +91,9 @@ function toDateInput(value: Date | null) {
 export function EventForm(props: EventFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingCover, setPendingCover] = useState<PendingMedia | null>(null);
+  const [pendingGallery, setPendingGallery] = useState<PendingMedia[]>([]);
   const form = useForm<EventFormInput, unknown, EventFormValues>({
     resolver: zodResolver(EventFormSchema),
     defaultValues: {
@@ -109,10 +118,36 @@ export function EventForm(props: EventFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia([
+      ...(pendingCover ? [pendingCover] : []),
+      ...pendingGallery,
+    ]);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const coverImageId = replacePendingId(
+      values.coverImageId,
+      upload.replacements
+    );
+    const gallery = replacePendingIds(values.gallery, upload.replacements);
+    if (pendingCover) {
+      form.setValue('coverImageId', coverImageId);
+      URL.revokeObjectURL(pendingCover.previewUrl);
+      setPendingCover(null);
+    }
+    if (pendingGallery.length) {
+      form.setValue('gallery', gallery);
+      pendingGallery.forEach((file) => URL.revokeObjectURL(file.previewUrl));
+      setPendingGallery([]);
+    }
+    if (upload.assets.length)
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    const nextValues = { ...values, coverImageId, gallery };
     const result =
       props.mode === 'create'
-        ? await createEventAction(values)
-        : await updateEventAction(props.eventId, values);
+        ? await createEventAction(nextValues)
+        : await updateEventAction(props.eventId, nextValues);
     if (!result.success) {
       for (const [name, messages] of Object.entries(result.fieldErrors ?? {})) {
         form.setError(name as FieldPath<EventFormInput>, {
@@ -272,40 +307,19 @@ export function EventForm(props: EventFormProps) {
             <Controller
               control={form.control}
               name="coverImageId"
-              render={({ field, fieldState }) => {
-                const selected = props.mediaOptions.find(
-                  (asset) => asset.id === field.value
-                );
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="event-cover">Обложка</FieldLabel>
-                    {selected ? (
-                      <MediaPreview
-                        alt={selected.alt}
-                        className="h-64 rounded-lg border"
-                        url={selected.publicUrl}
-                      />
-                    ) : null}
-                    <Select
-                      id="event-cover"
-                      value={field.value ?? ''}
-                      onChange={(event) =>
-                        field.onChange(event.target.value || null)
-                      }
-                    >
-                      <option value="">Без обложки</option>
-                      {props.mediaOptions.map((asset) => (
-                        <option key={asset.id} value={asset.id}>
-                          {asset.originalName}
-                        </option>
-                      ))}
-                    </Select>
-                    {fieldState.error?.message ? (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    ) : null}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <MediaSinglePicker
+                  description="Выберите изображение из медиатеки или загрузите новый файл."
+                  error={fieldState.error?.message}
+                  id="event-cover"
+                  label="Обложка"
+                  mediaOptions={mediaOptions}
+                  onChange={field.onChange}
+                  onPendingFileChange={setPendingCover}
+                  pendingFile={pendingCover}
+                  value={field.value}
+                />
+              )}
             />
             <Controller
               control={form.control}
@@ -314,7 +328,9 @@ export function EventForm(props: EventFormProps) {
                 <EventGalleryField
                   value={field.value}
                   onChange={field.onChange}
-                  mediaOptions={props.mediaOptions}
+                  mediaOptions={mediaOptions}
+                  onPendingFilesChange={setPendingGallery}
+                  pendingFiles={pendingGallery}
                   error={fieldState.error?.message}
                 />
               )}

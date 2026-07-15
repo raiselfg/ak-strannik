@@ -38,6 +38,12 @@ import {
 } from 'react-hook-form';
 import { z } from 'zod';
 import { videoProviderOptions } from '../media/video-list-field';
+import type { PendingMedia } from '../media/media-picker';
+import {
+  mergeMediaOptions,
+  replacePendingIds,
+  uploadPendingMedia,
+} from '../media/pending-upload';
 import {
   createProjectSectionAction,
   updateProjectSectionAction,
@@ -81,6 +87,8 @@ const emptyTranslation = {
 export function ProjectSectionForm(props: ProjectSectionFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [mediaOptions, setMediaOptions] = useState(props.mediaOptions);
+  const [pendingMedia, setPendingMedia] = useState<PendingMedia[]>([]);
   const form = useForm<FormInput, unknown, ProjectSectionFormValues>({
     resolver: zodResolver(ProjectSectionFormSchema),
     defaultValues: {
@@ -112,8 +120,24 @@ export function ProjectSectionForm(props: ProjectSectionFormProps) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const upload = await uploadPendingMedia(pendingMedia);
+    if (!upload.success) {
+      setFormError(upload.message);
+      return;
+    }
+    const media = replacePendingIds(values.media, upload.replacements);
+    if (pendingMedia.length) {
+      form.setValue('media', media);
+      pendingMedia.forEach((file) => URL.revokeObjectURL(file.previewUrl));
+      setPendingMedia([]);
+      setMediaOptions((current) => mergeMediaOptions(current, upload.assets));
+    }
+    const nextValues = { ...values, media };
     if (props.mode === 'create') {
-      const result = await createProjectSectionAction(props.projectId, values);
+      const result = await createProjectSectionAction(
+        props.projectId,
+        nextValues
+      );
       if (!result.success) return applyFailure(result);
       toast.success(result.message);
       router.push(`/projects/${props.projectId}`);
@@ -123,7 +147,7 @@ export function ProjectSectionForm(props: ProjectSectionFormProps) {
     const result = await updateProjectSectionAction(
       props.projectId,
       props.sectionId,
-      values
+      nextValues
     );
     if (!result.success) return applyFailure(result);
     toast.success(result.message);
@@ -303,7 +327,9 @@ export function ProjectSectionForm(props: ProjectSectionFormProps) {
               <ProjectSectionMediaField
                 value={field.value}
                 onChange={field.onChange}
-                mediaOptions={props.mediaOptions}
+                mediaOptions={mediaOptions}
+                onPendingFilesChange={setPendingMedia}
+                pendingFiles={pendingMedia}
                 error={fieldState.error?.message}
               />
             )}
