@@ -1,5 +1,6 @@
 import { Images } from 'lucide-react';
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { Suspense } from 'react';
 import { EmptyState } from '../../_components/empty-state';
 import { PageBreadcrumbs } from '../../_components/page-breadcrumbs';
@@ -15,6 +16,7 @@ function MediaPageFallback() {
 }
 
 async function MediaPageContent() {
+  await connection();
   const assets = await getMediaAssets();
   return (
     <div className="space-y-8">

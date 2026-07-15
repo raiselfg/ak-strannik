@@ -76,11 +76,16 @@ export async function getMediaAssets() {
       '[media] Extended media query failed; falling back to base fields.',
       error
     );
-    const assets = await prisma.mediaAsset.findMany({
-      select: mediaAssetBaseSelect,
-      orderBy: { createdAt: 'desc' },
-    });
-    return assets.map((asset) => mapMediaAsset(asset, []));
+    try {
+      const assets = await prisma.mediaAsset.findMany({
+        select: mediaAssetBaseSelect,
+        orderBy: { createdAt: 'desc' },
+      });
+      return assets.map((asset) => mapMediaAsset(asset, []));
+    } catch (fallbackError) {
+      console.error('[media] Base media query also failed.', fallbackError);
+      return [];
+    }
   }
 }
 
