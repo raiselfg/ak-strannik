@@ -5,15 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@ak-strannik/ui/components/card';
-import {
-  CalendarDays,
-  FolderKanban,
-  Handshake,
-  Images,
-  PackageOpen,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
+import { FolderKanban, Handshake, PackageOpen, Users } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHeader } from '../_components/page-header';
@@ -22,16 +14,16 @@ export const metadata: Metadata = { title: 'Панель управления' }
 
 const sections = [
   {
+    href: '/about',
+    title: 'О нас',
+    description: '',
+    icon: Handshake,
+  },
+  {
     href: '/projects',
     title: 'Проекты',
     description: 'Публикации, страницы проектов и их секции.',
     icon: FolderKanban,
-  },
-  {
-    href: '/events',
-    title: 'Мероприятия',
-    description: 'Афиша и материалы прошедших мероприятий.',
-    icon: CalendarDays,
   },
   {
     href: '/rentals',
@@ -44,24 +36,6 @@ const sections = [
     title: 'Команда',
     description: 'Участники команды и информация о них.',
     icon: Users,
-  },
-  {
-    href: '/partners',
-    title: 'Партнёры',
-    description: 'Логотипы и сведения о партнёрах проекта.',
-    icon: Handshake,
-  },
-  {
-    href: '/certificates',
-    title: 'Сертификаты',
-    description: 'Сертификаты и благодарственные письма.',
-    icon: ShieldCheck,
-  },
-  {
-    href: '/media',
-    title: 'Медиатека',
-    description: 'Изображения и другие медиафайлы сайта.',
-    icon: Images,
   },
 ] as const;
 

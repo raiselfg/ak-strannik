@@ -28,39 +28,21 @@ export type EventTranslationMinAggregateOutputType = {
   id: string | null
   eventId: string | null
   locale: $Enums.Locale | null
-  title: string | null
-  excerpt: string | null
-  body: string | null
-  dateText: string | null
-  locationText: string | null
-  seoTitle: string | null
-  seoDescription: string | null
+  text: string | null
 }
 
 export type EventTranslationMaxAggregateOutputType = {
   id: string | null
   eventId: string | null
   locale: $Enums.Locale | null
-  title: string | null
-  excerpt: string | null
-  body: string | null
-  dateText: string | null
-  locationText: string | null
-  seoTitle: string | null
-  seoDescription: string | null
+  text: string | null
 }
 
 export type EventTranslationCountAggregateOutputType = {
   id: number
   eventId: number
   locale: number
-  title: number
-  excerpt: number
-  body: number
-  dateText: number
-  locationText: number
-  seoTitle: number
-  seoDescription: number
+  text: number
   _all: number
 }
 
@@ -69,39 +51,21 @@ export type EventTranslationMinAggregateInputType = {
   id?: true
   eventId?: true
   locale?: true
-  title?: true
-  excerpt?: true
-  body?: true
-  dateText?: true
-  locationText?: true
-  seoTitle?: true
-  seoDescription?: true
+  text?: true
 }
 
 export type EventTranslationMaxAggregateInputType = {
   id?: true
   eventId?: true
   locale?: true
-  title?: true
-  excerpt?: true
-  body?: true
-  dateText?: true
-  locationText?: true
-  seoTitle?: true
-  seoDescription?: true
+  text?: true
 }
 
 export type EventTranslationCountAggregateInputType = {
   id?: true
   eventId?: true
   locale?: true
-  title?: true
-  excerpt?: true
-  body?: true
-  dateText?: true
-  locationText?: true
-  seoTitle?: true
-  seoDescription?: true
+  text?: true
   _all?: true
 }
 
@@ -181,13 +145,7 @@ export type EventTranslationGroupByOutputType = {
   id: string
   eventId: string
   locale: $Enums.Locale
-  title: string
-  excerpt: string | null
-  body: string | null
-  dateText: string | null
-  locationText: string | null
-  seoTitle: string | null
-  seoDescription: string | null
+  text: string
   _count: EventTranslationCountAggregateOutputType | null
   _min: EventTranslationMinAggregateOutputType | null
   _max: EventTranslationMaxAggregateOutputType | null
@@ -212,31 +170,19 @@ export type EventTranslationWhereInput = {
   AND?: Prisma.EventTranslationWhereInput | Prisma.EventTranslationWhereInput[]
   OR?: Prisma.EventTranslationWhereInput[]
   NOT?: Prisma.EventTranslationWhereInput | Prisma.EventTranslationWhereInput[]
-  id?: Prisma.UuidFilter<"EventTranslation"> | string
-  eventId?: Prisma.UuidFilter<"EventTranslation"> | string
+  id?: Prisma.StringFilter<"EventTranslation"> | string
+  eventId?: Prisma.StringFilter<"EventTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"EventTranslation"> | $Enums.Locale
-  title?: Prisma.StringFilter<"EventTranslation"> | string
-  excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
+  text?: Prisma.StringFilter<"EventTranslation"> | string
+  event?: Prisma.XOR<Prisma.EventsContentEventScalarRelationFilter, Prisma.EventsContentEventWhereInput>
 }
 
 export type EventTranslationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
-  body?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateText?: Prisma.SortOrderInput | Prisma.SortOrder
-  locationText?: Prisma.SortOrderInput | Prisma.SortOrder
-  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
-  event?: Prisma.EventOrderByWithRelationInput
+  text?: Prisma.SortOrder
+  event?: Prisma.EventsContentEventOrderByWithRelationInput
 }
 
 export type EventTranslationWhereUniqueInput = Prisma.AtLeast<{
@@ -245,29 +191,17 @@ export type EventTranslationWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EventTranslationWhereInput | Prisma.EventTranslationWhereInput[]
   OR?: Prisma.EventTranslationWhereInput[]
   NOT?: Prisma.EventTranslationWhereInput | Prisma.EventTranslationWhereInput[]
-  eventId?: Prisma.UuidFilter<"EventTranslation"> | string
+  eventId?: Prisma.StringFilter<"EventTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"EventTranslation"> | $Enums.Locale
-  title?: Prisma.StringFilter<"EventTranslation"> | string
-  excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
+  text?: Prisma.StringFilter<"EventTranslation"> | string
+  event?: Prisma.XOR<Prisma.EventsContentEventScalarRelationFilter, Prisma.EventsContentEventWhereInput>
 }, "id" | "eventId_locale">
 
 export type EventTranslationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  excerpt?: Prisma.SortOrderInput | Prisma.SortOrder
-  body?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateText?: Prisma.SortOrderInput | Prisma.SortOrder
-  locationText?: Prisma.SortOrderInput | Prisma.SortOrder
-  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  text?: Prisma.SortOrder
   _count?: Prisma.EventTranslationCountOrderByAggregateInput
   _max?: Prisma.EventTranslationMaxOrderByAggregateInput
   _min?: Prisma.EventTranslationMinOrderByAggregateInput
@@ -277,106 +211,58 @@ export type EventTranslationScalarWhereWithAggregatesInput = {
   AND?: Prisma.EventTranslationScalarWhereWithAggregatesInput | Prisma.EventTranslationScalarWhereWithAggregatesInput[]
   OR?: Prisma.EventTranslationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EventTranslationScalarWhereWithAggregatesInput | Prisma.EventTranslationScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"EventTranslation"> | string
-  eventId?: Prisma.UuidWithAggregatesFilter<"EventTranslation"> | string
+  id?: Prisma.StringWithAggregatesFilter<"EventTranslation"> | string
+  eventId?: Prisma.StringWithAggregatesFilter<"EventTranslation"> | string
   locale?: Prisma.EnumLocaleWithAggregatesFilter<"EventTranslation"> | $Enums.Locale
-  title?: Prisma.StringWithAggregatesFilter<"EventTranslation"> | string
-  excerpt?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
-  body?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
-  dateText?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
-  locationText?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
-  seoTitle?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
-  seoDescription?: Prisma.StringNullableWithAggregatesFilter<"EventTranslation"> | string | null
+  text?: Prisma.StringWithAggregatesFilter<"EventTranslation"> | string
 }
 
 export type EventTranslationCreateInput = {
   id?: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
-  event: Prisma.EventCreateNestedOneWithoutTranslationsInput
+  text: string
+  event: Prisma.EventsContentEventCreateNestedOneWithoutTranslationsInput
 }
 
 export type EventTranslationUncheckedCreateInput = {
   id?: string
   eventId: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  text: string
 }
 
 export type EventTranslationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  event?: Prisma.EventUpdateOneRequiredWithoutTranslationsNestedInput
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  event?: Prisma.EventsContentEventUpdateOneRequiredWithoutTranslationsNestedInput
 }
 
 export type EventTranslationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eventId?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventTranslationCreateManyInput = {
   id?: string
   eventId: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  text: string
 }
 
 export type EventTranslationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventTranslationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eventId?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventTranslationListRelationFilter = {
@@ -398,39 +284,21 @@ export type EventTranslationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  excerpt?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  dateText?: Prisma.SortOrder
-  locationText?: Prisma.SortOrder
-  seoTitle?: Prisma.SortOrder
-  seoDescription?: Prisma.SortOrder
+  text?: Prisma.SortOrder
 }
 
 export type EventTranslationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  excerpt?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  dateText?: Prisma.SortOrder
-  locationText?: Prisma.SortOrder
-  seoTitle?: Prisma.SortOrder
-  seoDescription?: Prisma.SortOrder
+  text?: Prisma.SortOrder
 }
 
 export type EventTranslationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  excerpt?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  dateText?: Prisma.SortOrder
-  locationText?: Prisma.SortOrder
-  seoTitle?: Prisma.SortOrder
-  seoDescription?: Prisma.SortOrder
+  text?: Prisma.SortOrder
 }
 
 export type EventTranslationCreateNestedManyWithoutEventInput = {
@@ -478,25 +346,13 @@ export type EventTranslationUncheckedUpdateManyWithoutEventNestedInput = {
 export type EventTranslationCreateWithoutEventInput = {
   id?: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  text: string
 }
 
 export type EventTranslationUncheckedCreateWithoutEventInput = {
   id?: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  text: string
 }
 
 export type EventTranslationCreateOrConnectWithoutEventInput = {
@@ -529,64 +385,34 @@ export type EventTranslationScalarWhereInput = {
   AND?: Prisma.EventTranslationScalarWhereInput | Prisma.EventTranslationScalarWhereInput[]
   OR?: Prisma.EventTranslationScalarWhereInput[]
   NOT?: Prisma.EventTranslationScalarWhereInput | Prisma.EventTranslationScalarWhereInput[]
-  id?: Prisma.UuidFilter<"EventTranslation"> | string
-  eventId?: Prisma.UuidFilter<"EventTranslation"> | string
+  id?: Prisma.StringFilter<"EventTranslation"> | string
+  eventId?: Prisma.StringFilter<"EventTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"EventTranslation"> | $Enums.Locale
-  title?: Prisma.StringFilter<"EventTranslation"> | string
-  excerpt?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  body?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  dateText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  locationText?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoTitle?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
-  seoDescription?: Prisma.StringNullableFilter<"EventTranslation"> | string | null
+  text?: Prisma.StringFilter<"EventTranslation"> | string
 }
 
 export type EventTranslationCreateManyEventInput = {
   id?: string
   locale: $Enums.Locale
-  title: string
-  excerpt?: string | null
-  body?: string | null
-  dateText?: string | null
-  locationText?: string | null
-  seoTitle?: string | null
-  seoDescription?: string | null
+  text: string
 }
 
 export type EventTranslationUpdateWithoutEventInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventTranslationUncheckedUpdateWithoutEventInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type EventTranslationUncheckedUpdateManyWithoutEventInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  locationText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -595,84 +421,54 @@ export type EventTranslationSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   eventId?: boolean
   locale?: boolean
-  title?: boolean
-  excerpt?: boolean
-  body?: boolean
-  dateText?: boolean
-  locationText?: boolean
-  seoTitle?: boolean
-  seoDescription?: boolean
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  text?: boolean
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventTranslation"]>
 
 export type EventTranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eventId?: boolean
   locale?: boolean
-  title?: boolean
-  excerpt?: boolean
-  body?: boolean
-  dateText?: boolean
-  locationText?: boolean
-  seoTitle?: boolean
-  seoDescription?: boolean
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  text?: boolean
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventTranslation"]>
 
 export type EventTranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eventId?: boolean
   locale?: boolean
-  title?: boolean
-  excerpt?: boolean
-  body?: boolean
-  dateText?: boolean
-  locationText?: boolean
-  seoTitle?: boolean
-  seoDescription?: boolean
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  text?: boolean
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventTranslation"]>
 
 export type EventTranslationSelectScalar = {
   id?: boolean
   eventId?: boolean
   locale?: boolean
-  title?: boolean
-  excerpt?: boolean
-  body?: boolean
-  dateText?: boolean
-  locationText?: boolean
-  seoTitle?: boolean
-  seoDescription?: boolean
+  text?: boolean
 }
 
-export type EventTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "locale" | "title" | "excerpt" | "body" | "dateText" | "locationText" | "seoTitle" | "seoDescription", ExtArgs["result"]["eventTranslation"]>
+export type EventTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "locale" | "text", ExtArgs["result"]["eventTranslation"]>
 export type EventTranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }
 export type EventTranslationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }
 export type EventTranslationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+  event?: boolean | Prisma.EventsContentEventDefaultArgs<ExtArgs>
 }
 
 export type $EventTranslationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EventTranslation"
   objects: {
-    event: Prisma.$EventPayload<ExtArgs>
+    event: Prisma.$EventsContentEventPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     eventId: string
     locale: $Enums.Locale
-    title: string
-    excerpt: string | null
-    body: string | null
-    dateText: string | null
-    locationText: string | null
-    seoTitle: string | null
-    seoDescription: string | null
+    text: string
   }, ExtArgs["result"]["eventTranslation"]>
   composites: {}
 }
@@ -1067,7 +863,7 @@ readonly fields: EventTranslationFieldRefs;
  */
 export interface Prisma__EventTranslationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  event<T extends Prisma.EventDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EventDefaultArgs<ExtArgs>>): Prisma.Prisma__EventClient<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  event<T extends Prisma.EventsContentEventDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EventsContentEventDefaultArgs<ExtArgs>>): Prisma.Prisma__EventsContentEventClient<runtime.Types.Result.GetResult<Prisma.$EventsContentEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1100,13 +896,7 @@ export interface EventTranslationFieldRefs {
   readonly id: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly eventId: Prisma.FieldRef<"EventTranslation", 'String'>
   readonly locale: Prisma.FieldRef<"EventTranslation", 'Locale'>
-  readonly title: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly excerpt: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly body: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly dateText: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly locationText: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly seoTitle: Prisma.FieldRef<"EventTranslation", 'String'>
-  readonly seoDescription: Prisma.FieldRef<"EventTranslation", 'String'>
+  readonly text: Prisma.FieldRef<"EventTranslation", 'String'>
 }
     
 

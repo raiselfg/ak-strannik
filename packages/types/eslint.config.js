@@ -1,3 +1,3 @@
-import { config } from '@ak-strannik/eslint-config/base'
+import { config } from '@ak-strannik/eslint-config/base';
 
-export default config
+export default config;

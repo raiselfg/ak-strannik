@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '4mb',
     },
   },
-  transpilePackages: ['@ak-strannik/ui', '@ak-strannik/database'],
+  transpilePackages: [
+    '@ak-strannik/ui',
+    '@ak-strannik/database',
+    '@ak-strannik/types',
+  ],
   output: 'standalone',
 };
 

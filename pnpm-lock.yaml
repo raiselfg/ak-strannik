@@ -108,6 +108,9 @@ importers:
       '@ak-strannik/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@ak-strannik/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@ak-strannik/ui':
         specifier: workspace:*
         version: link:../../packages/ui

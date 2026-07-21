@@ -30,7 +30,7 @@ export type TeamMemberTranslationMinAggregateOutputType = {
   locale: $Enums.Locale | null
   name: string | null
   role: string | null
-  description: string | null
+  bio: string | null
 }
 
 export type TeamMemberTranslationMaxAggregateOutputType = {
@@ -39,7 +39,7 @@ export type TeamMemberTranslationMaxAggregateOutputType = {
   locale: $Enums.Locale | null
   name: string | null
   role: string | null
-  description: string | null
+  bio: string | null
 }
 
 export type TeamMemberTranslationCountAggregateOutputType = {
@@ -48,7 +48,7 @@ export type TeamMemberTranslationCountAggregateOutputType = {
   locale: number
   name: number
   role: number
-  description: number
+  bio: number
   _all: number
 }
 
@@ -59,7 +59,7 @@ export type TeamMemberTranslationMinAggregateInputType = {
   locale?: true
   name?: true
   role?: true
-  description?: true
+  bio?: true
 }
 
 export type TeamMemberTranslationMaxAggregateInputType = {
@@ -68,7 +68,7 @@ export type TeamMemberTranslationMaxAggregateInputType = {
   locale?: true
   name?: true
   role?: true
-  description?: true
+  bio?: true
 }
 
 export type TeamMemberTranslationCountAggregateInputType = {
@@ -77,7 +77,7 @@ export type TeamMemberTranslationCountAggregateInputType = {
   locale?: true
   name?: true
   role?: true
-  description?: true
+  bio?: true
   _all?: true
 }
 
@@ -158,8 +158,8 @@ export type TeamMemberTranslationGroupByOutputType = {
   teamMemberId: string
   locale: $Enums.Locale
   name: string
-  role: string | null
-  description: string | null
+  role: string
+  bio: string
   _count: TeamMemberTranslationCountAggregateOutputType | null
   _min: TeamMemberTranslationMinAggregateOutputType | null
   _max: TeamMemberTranslationMaxAggregateOutputType | null
@@ -184,12 +184,12 @@ export type TeamMemberTranslationWhereInput = {
   AND?: Prisma.TeamMemberTranslationWhereInput | Prisma.TeamMemberTranslationWhereInput[]
   OR?: Prisma.TeamMemberTranslationWhereInput[]
   NOT?: Prisma.TeamMemberTranslationWhereInput | Prisma.TeamMemberTranslationWhereInput[]
-  id?: Prisma.UuidFilter<"TeamMemberTranslation"> | string
-  teamMemberId?: Prisma.UuidFilter<"TeamMemberTranslation"> | string
+  id?: Prisma.StringFilter<"TeamMemberTranslation"> | string
+  teamMemberId?: Prisma.StringFilter<"TeamMemberTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"TeamMemberTranslation"> | $Enums.Locale
   name?: Prisma.StringFilter<"TeamMemberTranslation"> | string
-  role?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
-  description?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
+  role?: Prisma.StringFilter<"TeamMemberTranslation"> | string
+  bio?: Prisma.StringFilter<"TeamMemberTranslation"> | string
   teamMember?: Prisma.XOR<Prisma.TeamMemberScalarRelationFilter, Prisma.TeamMemberWhereInput>
 }
 
@@ -198,8 +198,8 @@ export type TeamMemberTranslationOrderByWithRelationInput = {
   teamMemberId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  role?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
   teamMember?: Prisma.TeamMemberOrderByWithRelationInput
 }
 
@@ -209,11 +209,11 @@ export type TeamMemberTranslationWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TeamMemberTranslationWhereInput | Prisma.TeamMemberTranslationWhereInput[]
   OR?: Prisma.TeamMemberTranslationWhereInput[]
   NOT?: Prisma.TeamMemberTranslationWhereInput | Prisma.TeamMemberTranslationWhereInput[]
-  teamMemberId?: Prisma.UuidFilter<"TeamMemberTranslation"> | string
+  teamMemberId?: Prisma.StringFilter<"TeamMemberTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"TeamMemberTranslation"> | $Enums.Locale
   name?: Prisma.StringFilter<"TeamMemberTranslation"> | string
-  role?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
-  description?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
+  role?: Prisma.StringFilter<"TeamMemberTranslation"> | string
+  bio?: Prisma.StringFilter<"TeamMemberTranslation"> | string
   teamMember?: Prisma.XOR<Prisma.TeamMemberScalarRelationFilter, Prisma.TeamMemberWhereInput>
 }, "id" | "teamMemberId_locale">
 
@@ -222,8 +222,8 @@ export type TeamMemberTranslationOrderByWithAggregationInput = {
   teamMemberId?: Prisma.SortOrder
   locale?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  role?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
   _count?: Prisma.TeamMemberTranslationCountOrderByAggregateInput
   _max?: Prisma.TeamMemberTranslationMaxOrderByAggregateInput
   _min?: Prisma.TeamMemberTranslationMinOrderByAggregateInput
@@ -233,20 +233,20 @@ export type TeamMemberTranslationScalarWhereWithAggregatesInput = {
   AND?: Prisma.TeamMemberTranslationScalarWhereWithAggregatesInput | Prisma.TeamMemberTranslationScalarWhereWithAggregatesInput[]
   OR?: Prisma.TeamMemberTranslationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TeamMemberTranslationScalarWhereWithAggregatesInput | Prisma.TeamMemberTranslationScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"TeamMemberTranslation"> | string
-  teamMemberId?: Prisma.UuidWithAggregatesFilter<"TeamMemberTranslation"> | string
+  id?: Prisma.StringWithAggregatesFilter<"TeamMemberTranslation"> | string
+  teamMemberId?: Prisma.StringWithAggregatesFilter<"TeamMemberTranslation"> | string
   locale?: Prisma.EnumLocaleWithAggregatesFilter<"TeamMemberTranslation"> | $Enums.Locale
   name?: Prisma.StringWithAggregatesFilter<"TeamMemberTranslation"> | string
-  role?: Prisma.StringNullableWithAggregatesFilter<"TeamMemberTranslation"> | string | null
-  description?: Prisma.StringNullableWithAggregatesFilter<"TeamMemberTranslation"> | string | null
+  role?: Prisma.StringWithAggregatesFilter<"TeamMemberTranslation"> | string
+  bio?: Prisma.StringWithAggregatesFilter<"TeamMemberTranslation"> | string
 }
 
 export type TeamMemberTranslationCreateInput = {
   id?: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
   teamMember: Prisma.TeamMemberCreateNestedOneWithoutTranslationsInput
 }
 
@@ -255,16 +255,16 @@ export type TeamMemberTranslationUncheckedCreateInput = {
   teamMemberId: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
 }
 
 export type TeamMemberTranslationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
   teamMember?: Prisma.TeamMemberUpdateOneRequiredWithoutTranslationsNestedInput
 }
 
@@ -273,8 +273,8 @@ export type TeamMemberTranslationUncheckedUpdateInput = {
   teamMemberId?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TeamMemberTranslationCreateManyInput = {
@@ -282,16 +282,16 @@ export type TeamMemberTranslationCreateManyInput = {
   teamMemberId: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
 }
 
 export type TeamMemberTranslationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TeamMemberTranslationUncheckedUpdateManyInput = {
@@ -299,8 +299,8 @@ export type TeamMemberTranslationUncheckedUpdateManyInput = {
   teamMemberId?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TeamMemberTranslationListRelationFilter = {
@@ -324,7 +324,7 @@ export type TeamMemberTranslationCountOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type TeamMemberTranslationMaxOrderByAggregateInput = {
@@ -333,7 +333,7 @@ export type TeamMemberTranslationMaxOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type TeamMemberTranslationMinOrderByAggregateInput = {
@@ -342,7 +342,7 @@ export type TeamMemberTranslationMinOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   name?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type TeamMemberTranslationCreateNestedManyWithoutTeamMemberInput = {
@@ -391,16 +391,16 @@ export type TeamMemberTranslationCreateWithoutTeamMemberInput = {
   id?: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
 }
 
 export type TeamMemberTranslationUncheckedCreateWithoutTeamMemberInput = {
   id?: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
 }
 
 export type TeamMemberTranslationCreateOrConnectWithoutTeamMemberInput = {
@@ -433,44 +433,44 @@ export type TeamMemberTranslationScalarWhereInput = {
   AND?: Prisma.TeamMemberTranslationScalarWhereInput | Prisma.TeamMemberTranslationScalarWhereInput[]
   OR?: Prisma.TeamMemberTranslationScalarWhereInput[]
   NOT?: Prisma.TeamMemberTranslationScalarWhereInput | Prisma.TeamMemberTranslationScalarWhereInput[]
-  id?: Prisma.UuidFilter<"TeamMemberTranslation"> | string
-  teamMemberId?: Prisma.UuidFilter<"TeamMemberTranslation"> | string
+  id?: Prisma.StringFilter<"TeamMemberTranslation"> | string
+  teamMemberId?: Prisma.StringFilter<"TeamMemberTranslation"> | string
   locale?: Prisma.EnumLocaleFilter<"TeamMemberTranslation"> | $Enums.Locale
   name?: Prisma.StringFilter<"TeamMemberTranslation"> | string
-  role?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
-  description?: Prisma.StringNullableFilter<"TeamMemberTranslation"> | string | null
+  role?: Prisma.StringFilter<"TeamMemberTranslation"> | string
+  bio?: Prisma.StringFilter<"TeamMemberTranslation"> | string
 }
 
 export type TeamMemberTranslationCreateManyTeamMemberInput = {
   id?: string
   locale: $Enums.Locale
   name: string
-  role?: string | null
-  description?: string | null
+  role: string
+  bio: string
 }
 
 export type TeamMemberTranslationUpdateWithoutTeamMemberInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TeamMemberTranslationUncheckedUpdateWithoutTeamMemberInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type TeamMemberTranslationUncheckedUpdateManyWithoutTeamMemberInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -481,7 +481,7 @@ export type TeamMemberTranslationSelect<ExtArgs extends runtime.Types.Extensions
   locale?: boolean
   name?: boolean
   role?: boolean
-  description?: boolean
+  bio?: boolean
   teamMember?: boolean | Prisma.TeamMemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMemberTranslation"]>
 
@@ -491,7 +491,7 @@ export type TeamMemberTranslationSelectCreateManyAndReturn<ExtArgs extends runti
   locale?: boolean
   name?: boolean
   role?: boolean
-  description?: boolean
+  bio?: boolean
   teamMember?: boolean | Prisma.TeamMemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMemberTranslation"]>
 
@@ -501,7 +501,7 @@ export type TeamMemberTranslationSelectUpdateManyAndReturn<ExtArgs extends runti
   locale?: boolean
   name?: boolean
   role?: boolean
-  description?: boolean
+  bio?: boolean
   teamMember?: boolean | Prisma.TeamMemberDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMemberTranslation"]>
 
@@ -511,10 +511,10 @@ export type TeamMemberTranslationSelectScalar = {
   locale?: boolean
   name?: boolean
   role?: boolean
-  description?: boolean
+  bio?: boolean
 }
 
-export type TeamMemberTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teamMemberId" | "locale" | "name" | "role" | "description", ExtArgs["result"]["teamMemberTranslation"]>
+export type TeamMemberTranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teamMemberId" | "locale" | "name" | "role" | "bio", ExtArgs["result"]["teamMemberTranslation"]>
 export type TeamMemberTranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teamMember?: boolean | Prisma.TeamMemberDefaultArgs<ExtArgs>
 }
@@ -535,8 +535,8 @@ export type $TeamMemberTranslationPayload<ExtArgs extends runtime.Types.Extensio
     teamMemberId: string
     locale: $Enums.Locale
     name: string
-    role: string | null
-    description: string | null
+    role: string
+    bio: string
   }, ExtArgs["result"]["teamMemberTranslation"]>
   composites: {}
 }
@@ -966,7 +966,7 @@ export interface TeamMemberTranslationFieldRefs {
   readonly locale: Prisma.FieldRef<"TeamMemberTranslation", 'Locale'>
   readonly name: Prisma.FieldRef<"TeamMemberTranslation", 'String'>
   readonly role: Prisma.FieldRef<"TeamMemberTranslation", 'String'>
-  readonly description: Prisma.FieldRef<"TeamMemberTranslation", 'String'>
+  readonly bio: Prisma.FieldRef<"TeamMemberTranslation", 'String'>
 }
     
 

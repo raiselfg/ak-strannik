@@ -16,10 +16,7 @@ export const auth = betterAuth({
     maxPasswordLength: 64,
     disableSignUp: true,
   },
-  trustedOrigins: [
-    'https://admin.ak-strannik.ru',
-    'http://localhost:3001'
-  ],
+  trustedOrigins: ['https://admin.ak-strannik.ru', 'http://localhost:3001'],
   rateLimit: {
     enabled: true,
     window: 60,

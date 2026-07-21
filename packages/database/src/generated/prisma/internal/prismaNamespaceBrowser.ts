@@ -55,28 +55,59 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  MediaAsset: 'MediaAsset',
-  MediaAssetTranslation: 'MediaAssetTranslation',
-  TeamMember: 'TeamMember',
-  TeamMemberTranslation: 'TeamMemberTranslation',
-  Event: 'Event',
+  CharityContent: 'CharityContent',
+  CharityContentTranslation: 'CharityContentTranslation',
+  EventsContent: 'EventsContent',
+  EventsContentEvent: 'EventsContentEvent',
   EventTranslation: 'EventTranslation',
-  EventImage: 'EventImage',
-  EventVideo: 'EventVideo',
-  RentalItem: 'RentalItem',
-  RentalItemTranslation: 'RentalItemTranslation',
-  RentalItemImage: 'RentalItemImage',
-  Project: 'Project',
-  ProjectTranslation: 'ProjectTranslation',
-  ProjectSection: 'ProjectSection',
-  ProjectSectionTranslation: 'ProjectSectionTranslation',
-  ProjectSectionMedia: 'ProjectSectionMedia',
-  Partner: 'Partner',
-  PartnerTranslation: 'PartnerTranslation',
-  PartnerMedia: 'PartnerMedia',
-  PartnerVideo: 'PartnerVideo',
-  Certificate: 'Certificate',
-  CertificateTranslation: 'CertificateTranslation'
+  PartnerContent: 'PartnerContent',
+  PartnerContentTranslation: 'PartnerContentTranslation',
+  ThankYouNoteContent: 'ThankYouNoteContent',
+  ArtistContent: 'ArtistContent',
+  ArtistContentTranslation: 'ArtistContentTranslation',
+  ConcertContent: 'ConcertContent',
+  ConcertContentTranslation: 'ConcertContentTranslation',
+  ExhibitionContent: 'ExhibitionContent',
+  ExhibitionContentTranslation: 'ExhibitionContentTranslation',
+  FestivalContent: 'FestivalContent',
+  FestivalContentTranslation: 'FestivalContentTranslation',
+  FestivalEvent: 'FestivalEvent',
+  FestivalEventTranslation: 'FestivalEventTranslation',
+  FestivalNominations: 'FestivalNominations',
+  FestivalNominationsTranslation: 'FestivalNominationsTranslation',
+  FestivalJury: 'FestivalJury',
+  FestivalJuryTranslation: 'FestivalJuryTranslation',
+  FestivalJuryPerson: 'FestivalJuryPerson',
+  FestivalJuryPersonTranslation: 'FestivalJuryPersonTranslation',
+  FestivalOrganizations: 'FestivalOrganizations',
+  FestivalOrganizationsTranslation: 'FestivalOrganizationsTranslation',
+  FestivalOrganization: 'FestivalOrganization',
+  FestivalOrganizationTranslation: 'FestivalOrganizationTranslation',
+  HolidayShowContent: 'HolidayShowContent',
+  HolidayShowContentTranslation: 'HolidayShowContentTranslation',
+  MasterclassesContent: 'MasterclassesContent',
+  MasterclassesContentTranslation: 'MasterclassesContentTranslation',
+  PerformancesContent: 'PerformancesContent',
+  PerformancesContentTranslation: 'PerformancesContentTranslation',
+  PerformancePerson: 'PerformancePerson',
+  PerformancePersonTranslation: 'PerformancePersonTranslation',
+  PryalochkaOfTimeContent: 'PryalochkaOfTimeContent',
+  PryalochkaOfTimeEvent: 'PryalochkaOfTimeEvent',
+  PryalochkaOfTimeEventTranslation: 'PryalochkaOfTimeEventTranslation',
+  PryalochkaOfTimeActor: 'PryalochkaOfTimeActor',
+  PryalochkaOfTimeActorTranslation: 'PryalochkaOfTimeActorTranslation',
+  UstaContent: 'UstaContent',
+  UstaContentTranslation: 'UstaContentTranslation',
+  AttractionContent: 'AttractionContent',
+  AttractionContentTranslation: 'AttractionContentTranslation',
+  MascotCostumeContent: 'MascotCostumeContent',
+  MascotCostumeContentTranslation: 'MascotCostumeContentTranslation',
+  RequisiteContent: 'RequisiteContent',
+  RequisiteContentTranslation: 'RequisiteContentTranslation',
+  RequisiteItem: 'RequisiteItem',
+  RequisiteItemTranslation: 'RequisiteItemTranslation',
+  TeamMember: 'TeamMember',
+  TeamMemberTranslation: 'TeamMemberTranslation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -153,39 +184,558 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const MediaAssetScalarFieldEnum = {
+export const CharityContentScalarFieldEnum = {
   id: 'id',
-  objectKey: 'objectKey',
-  checksumSha256: 'checksumSha256',
-  originalName: 'originalName',
-  mimeType: 'mimeType',
-  size: 'size',
-  width: 'width',
-  height: 'height',
+  images: 'images',
+  videos: 'videos',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+export type CharityContentScalarFieldEnum = (typeof CharityContentScalarFieldEnum)[keyof typeof CharityContentScalarFieldEnum]
 
 
-export const MediaAssetTranslationScalarFieldEnum = {
+export const CharityContentTranslationScalarFieldEnum = {
   id: 'id',
-  mediaAssetId: 'mediaAssetId',
+  charityContentId: 'charityContentId',
   locale: 'locale',
-  alt: 'alt',
   title: 'title',
-  caption: 'caption'
+  text: 'text'
 } as const
 
-export type MediaAssetTranslationScalarFieldEnum = (typeof MediaAssetTranslationScalarFieldEnum)[keyof typeof MediaAssetTranslationScalarFieldEnum]
+export type CharityContentTranslationScalarFieldEnum = (typeof CharityContentTranslationScalarFieldEnum)[keyof typeof CharityContentTranslationScalarFieldEnum]
+
+
+export const EventsContentScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventsContentScalarFieldEnum = (typeof EventsContentScalarFieldEnum)[keyof typeof EventsContentScalarFieldEnum]
+
+
+export const EventsContentEventScalarFieldEnum = {
+  id: 'id',
+  eventsContentId: 'eventsContentId',
+  position: 'position',
+  images: 'images',
+  videos: 'videos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventsContentEventScalarFieldEnum = (typeof EventsContentEventScalarFieldEnum)[keyof typeof EventsContentEventScalarFieldEnum]
+
+
+export const EventTranslationScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  locale: 'locale',
+  text: 'text'
+} as const
+
+export type EventTranslationScalarFieldEnum = (typeof EventTranslationScalarFieldEnum)[keyof typeof EventTranslationScalarFieldEnum]
+
+
+export const PartnerContentScalarFieldEnum = {
+  id: 'id',
+  link: 'link',
+  images: 'images',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PartnerContentScalarFieldEnum = (typeof PartnerContentScalarFieldEnum)[keyof typeof PartnerContentScalarFieldEnum]
+
+
+export const PartnerContentTranslationScalarFieldEnum = {
+  id: 'id',
+  partnerContentId: 'partnerContentId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text'
+} as const
+
+export type PartnerContentTranslationScalarFieldEnum = (typeof PartnerContentTranslationScalarFieldEnum)[keyof typeof PartnerContentTranslationScalarFieldEnum]
+
+
+export const ThankYouNoteContentScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ThankYouNoteContentScalarFieldEnum = (typeof ThankYouNoteContentScalarFieldEnum)[keyof typeof ThankYouNoteContentScalarFieldEnum]
+
+
+export const ArtistContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  videos: 'videos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArtistContentScalarFieldEnum = (typeof ArtistContentScalarFieldEnum)[keyof typeof ArtistContentScalarFieldEnum]
+
+
+export const ArtistContentTranslationScalarFieldEnum = {
+  id: 'id',
+  artistContentId: 'artistContentId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text'
+} as const
+
+export type ArtistContentTranslationScalarFieldEnum = (typeof ArtistContentTranslationScalarFieldEnum)[keyof typeof ArtistContentTranslationScalarFieldEnum]
+
+
+export const ConcertContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  videos: 'videos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConcertContentScalarFieldEnum = (typeof ConcertContentScalarFieldEnum)[keyof typeof ConcertContentScalarFieldEnum]
+
+
+export const ConcertContentTranslationScalarFieldEnum = {
+  id: 'id',
+  concertContentId: 'concertContentId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text',
+  duration: 'duration'
+} as const
+
+export type ConcertContentTranslationScalarFieldEnum = (typeof ConcertContentTranslationScalarFieldEnum)[keyof typeof ConcertContentTranslationScalarFieldEnum]
+
+
+export const ExhibitionContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExhibitionContentScalarFieldEnum = (typeof ExhibitionContentScalarFieldEnum)[keyof typeof ExhibitionContentScalarFieldEnum]
+
+
+export const ExhibitionContentTranslationScalarFieldEnum = {
+  id: 'id',
+  exhibitionContentId: 'exhibitionContentId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type ExhibitionContentTranslationScalarFieldEnum = (typeof ExhibitionContentTranslationScalarFieldEnum)[keyof typeof ExhibitionContentTranslationScalarFieldEnum]
+
+
+export const FestivalContentScalarFieldEnum = {
+  id: 'id',
+  logo: 'logo',
+  slug: 'slug',
+  images: 'images',
+  videos: 'videos',
+  achievements: 'achievements',
+  socials: 'socials',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalContentScalarFieldEnum = (typeof FestivalContentScalarFieldEnum)[keyof typeof FestivalContentScalarFieldEnum]
+
+
+export const FestivalContentTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalContentId: 'festivalContentId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type FestivalContentTranslationScalarFieldEnum = (typeof FestivalContentTranslationScalarFieldEnum)[keyof typeof FestivalContentTranslationScalarFieldEnum]
+
+
+export const FestivalEventScalarFieldEnum = {
+  id: 'id',
+  festivalContentId: 'festivalContentId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalEventScalarFieldEnum = (typeof FestivalEventScalarFieldEnum)[keyof typeof FestivalEventScalarFieldEnum]
+
+
+export const FestivalEventTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalEventId: 'festivalEventId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text'
+} as const
+
+export type FestivalEventTranslationScalarFieldEnum = (typeof FestivalEventTranslationScalarFieldEnum)[keyof typeof FestivalEventTranslationScalarFieldEnum]
+
+
+export const FestivalNominationsScalarFieldEnum = {
+  id: 'id',
+  festivalContentId: 'festivalContentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalNominationsScalarFieldEnum = (typeof FestivalNominationsScalarFieldEnum)[keyof typeof FestivalNominationsScalarFieldEnum]
+
+
+export const FestivalNominationsTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalNominationsId: 'festivalNominationsId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text'
+} as const
+
+export type FestivalNominationsTranslationScalarFieldEnum = (typeof FestivalNominationsTranslationScalarFieldEnum)[keyof typeof FestivalNominationsTranslationScalarFieldEnum]
+
+
+export const FestivalJuryScalarFieldEnum = {
+  id: 'id',
+  festivalContentId: 'festivalContentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalJuryScalarFieldEnum = (typeof FestivalJuryScalarFieldEnum)[keyof typeof FestivalJuryScalarFieldEnum]
+
+
+export const FestivalJuryTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalJuryId: 'festivalJuryId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type FestivalJuryTranslationScalarFieldEnum = (typeof FestivalJuryTranslationScalarFieldEnum)[keyof typeof FestivalJuryTranslationScalarFieldEnum]
+
+
+export const FestivalJuryPersonScalarFieldEnum = {
+  id: 'id',
+  festivalJuryId: 'festivalJuryId',
+  position: 'position',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalJuryPersonScalarFieldEnum = (typeof FestivalJuryPersonScalarFieldEnum)[keyof typeof FestivalJuryPersonScalarFieldEnum]
+
+
+export const FestivalJuryPersonTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalJuryPersonId: 'festivalJuryPersonId',
+  locale: 'locale',
+  name: 'name',
+  position: 'position'
+} as const
+
+export type FestivalJuryPersonTranslationScalarFieldEnum = (typeof FestivalJuryPersonTranslationScalarFieldEnum)[keyof typeof FestivalJuryPersonTranslationScalarFieldEnum]
+
+
+export const FestivalOrganizationsScalarFieldEnum = {
+  id: 'id',
+  festivalContentId: 'festivalContentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalOrganizationsScalarFieldEnum = (typeof FestivalOrganizationsScalarFieldEnum)[keyof typeof FestivalOrganizationsScalarFieldEnum]
+
+
+export const FestivalOrganizationsTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalOrganizationsId: 'festivalOrganizationsId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type FestivalOrganizationsTranslationScalarFieldEnum = (typeof FestivalOrganizationsTranslationScalarFieldEnum)[keyof typeof FestivalOrganizationsTranslationScalarFieldEnum]
+
+
+export const FestivalOrganizationScalarFieldEnum = {
+  id: 'id',
+  festivalOrganizationsId: 'festivalOrganizationsId',
+  position: 'position',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FestivalOrganizationScalarFieldEnum = (typeof FestivalOrganizationScalarFieldEnum)[keyof typeof FestivalOrganizationScalarFieldEnum]
+
+
+export const FestivalOrganizationTranslationScalarFieldEnum = {
+  id: 'id',
+  festivalOrganizationId: 'festivalOrganizationId',
+  locale: 'locale',
+  name: 'name'
+} as const
+
+export type FestivalOrganizationTranslationScalarFieldEnum = (typeof FestivalOrganizationTranslationScalarFieldEnum)[keyof typeof FestivalOrganizationTranslationScalarFieldEnum]
+
+
+export const HolidayShowContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HolidayShowContentScalarFieldEnum = (typeof HolidayShowContentScalarFieldEnum)[keyof typeof HolidayShowContentScalarFieldEnum]
+
+
+export const HolidayShowContentTranslationScalarFieldEnum = {
+  id: 'id',
+  holidayShowContentId: 'holidayShowContentId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type HolidayShowContentTranslationScalarFieldEnum = (typeof HolidayShowContentTranslationScalarFieldEnum)[keyof typeof HolidayShowContentTranslationScalarFieldEnum]
+
+
+export const MasterclassesContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  videos: 'videos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MasterclassesContentScalarFieldEnum = (typeof MasterclassesContentScalarFieldEnum)[keyof typeof MasterclassesContentScalarFieldEnum]
+
+
+export const MasterclassesContentTranslationScalarFieldEnum = {
+  id: 'id',
+  masterclassesContentId: 'masterclassesContentId',
+  locale: 'locale',
+  title: 'title',
+  text: 'text'
+} as const
+
+export type MasterclassesContentTranslationScalarFieldEnum = (typeof MasterclassesContentTranslationScalarFieldEnum)[keyof typeof MasterclassesContentTranslationScalarFieldEnum]
+
+
+export const PerformancesContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  videos: 'videos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PerformancesContentScalarFieldEnum = (typeof PerformancesContentScalarFieldEnum)[keyof typeof PerformancesContentScalarFieldEnum]
+
+
+export const PerformancesContentTranslationScalarFieldEnum = {
+  id: 'id',
+  performancesContentId: 'performancesContentId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type PerformancesContentTranslationScalarFieldEnum = (typeof PerformancesContentTranslationScalarFieldEnum)[keyof typeof PerformancesContentTranslationScalarFieldEnum]
+
+
+export const PerformancePersonScalarFieldEnum = {
+  id: 'id',
+  performancesContentId: 'performancesContentId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PerformancePersonScalarFieldEnum = (typeof PerformancePersonScalarFieldEnum)[keyof typeof PerformancePersonScalarFieldEnum]
+
+
+export const PerformancePersonTranslationScalarFieldEnum = {
+  id: 'id',
+  performancePersonId: 'performancePersonId',
+  locale: 'locale',
+  name: 'name'
+} as const
+
+export type PerformancePersonTranslationScalarFieldEnum = (typeof PerformancePersonTranslationScalarFieldEnum)[keyof typeof PerformancePersonTranslationScalarFieldEnum]
+
+
+export const PryalochkaOfTimeContentScalarFieldEnum = {
+  id: 'id',
+  images: 'images',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PryalochkaOfTimeContentScalarFieldEnum = (typeof PryalochkaOfTimeContentScalarFieldEnum)[keyof typeof PryalochkaOfTimeContentScalarFieldEnum]
+
+
+export const PryalochkaOfTimeEventScalarFieldEnum = {
+  id: 'id',
+  pryalochkaOfTimeContentId: 'pryalochkaOfTimeContentId',
+  position: 'position',
+  image: 'image',
+  link: 'link',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PryalochkaOfTimeEventScalarFieldEnum = (typeof PryalochkaOfTimeEventScalarFieldEnum)[keyof typeof PryalochkaOfTimeEventScalarFieldEnum]
+
+
+export const PryalochkaOfTimeEventTranslationScalarFieldEnum = {
+  id: 'id',
+  pryalochkaOfTimeEventId: 'pryalochkaOfTimeEventId',
+  locale: 'locale',
+  text: 'text'
+} as const
+
+export type PryalochkaOfTimeEventTranslationScalarFieldEnum = (typeof PryalochkaOfTimeEventTranslationScalarFieldEnum)[keyof typeof PryalochkaOfTimeEventTranslationScalarFieldEnum]
+
+
+export const PryalochkaOfTimeActorScalarFieldEnum = {
+  id: 'id',
+  pryalochkaOfTimeContentId: 'pryalochkaOfTimeContentId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PryalochkaOfTimeActorScalarFieldEnum = (typeof PryalochkaOfTimeActorScalarFieldEnum)[keyof typeof PryalochkaOfTimeActorScalarFieldEnum]
+
+
+export const PryalochkaOfTimeActorTranslationScalarFieldEnum = {
+  id: 'id',
+  pryalochkaOfTimeActorId: 'pryalochkaOfTimeActorId',
+  locale: 'locale',
+  name: 'name',
+  text: 'text'
+} as const
+
+export type PryalochkaOfTimeActorTranslationScalarFieldEnum = (typeof PryalochkaOfTimeActorTranslationScalarFieldEnum)[keyof typeof PryalochkaOfTimeActorTranslationScalarFieldEnum]
+
+
+export const UstaContentScalarFieldEnum = {
+  id: 'id',
+  videos: 'videos',
+  images: 'images',
+  achievements: 'achievements',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UstaContentScalarFieldEnum = (typeof UstaContentScalarFieldEnum)[keyof typeof UstaContentScalarFieldEnum]
+
+
+export const UstaContentTranslationScalarFieldEnum = {
+  id: 'id',
+  ustaContentId: 'ustaContentId',
+  locale: 'locale',
+  text: 'text'
+} as const
+
+export type UstaContentTranslationScalarFieldEnum = (typeof UstaContentTranslationScalarFieldEnum)[keyof typeof UstaContentTranslationScalarFieldEnum]
+
+
+export const AttractionContentScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttractionContentScalarFieldEnum = (typeof AttractionContentScalarFieldEnum)[keyof typeof AttractionContentScalarFieldEnum]
+
+
+export const AttractionContentTranslationScalarFieldEnum = {
+  id: 'id',
+  attractionContentId: 'attractionContentId',
+  locale: 'locale',
+  text: 'text'
+} as const
+
+export type AttractionContentTranslationScalarFieldEnum = (typeof AttractionContentTranslationScalarFieldEnum)[keyof typeof AttractionContentTranslationScalarFieldEnum]
+
+
+export const MascotCostumeContentScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MascotCostumeContentScalarFieldEnum = (typeof MascotCostumeContentScalarFieldEnum)[keyof typeof MascotCostumeContentScalarFieldEnum]
+
+
+export const MascotCostumeContentTranslationScalarFieldEnum = {
+  id: 'id',
+  mascotCostumeContentId: 'mascotCostumeContentId',
+  locale: 'locale',
+  text: 'text'
+} as const
+
+export type MascotCostumeContentTranslationScalarFieldEnum = (typeof MascotCostumeContentTranslationScalarFieldEnum)[keyof typeof MascotCostumeContentTranslationScalarFieldEnum]
+
+
+export const RequisiteContentScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RequisiteContentScalarFieldEnum = (typeof RequisiteContentScalarFieldEnum)[keyof typeof RequisiteContentScalarFieldEnum]
+
+
+export const RequisiteContentTranslationScalarFieldEnum = {
+  id: 'id',
+  requisiteContentId: 'requisiteContentId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type RequisiteContentTranslationScalarFieldEnum = (typeof RequisiteContentTranslationScalarFieldEnum)[keyof typeof RequisiteContentTranslationScalarFieldEnum]
+
+
+export const RequisiteItemScalarFieldEnum = {
+  id: 'id',
+  requisiteContentId: 'requisiteContentId',
+  position: 'position',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RequisiteItemScalarFieldEnum = (typeof RequisiteItemScalarFieldEnum)[keyof typeof RequisiteItemScalarFieldEnum]
+
+
+export const RequisiteItemTranslationScalarFieldEnum = {
+  id: 'id',
+  requisiteItemId: 'requisiteItemId',
+  locale: 'locale',
+  title: 'title'
+} as const
+
+export type RequisiteItemTranslationScalarFieldEnum = (typeof RequisiteItemTranslationScalarFieldEnum)[keyof typeof RequisiteItemTranslationScalarFieldEnum]
 
 
 export const TeamMemberScalarFieldEnum = {
   id: 'id',
-  imageId: 'imageId',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
+  image: 'image',
+  links: 'links',
+  achievements: 'achievements',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -199,238 +749,10 @@ export const TeamMemberTranslationScalarFieldEnum = {
   locale: 'locale',
   name: 'name',
   role: 'role',
-  description: 'description'
+  bio: 'bio'
 } as const
 
 export type TeamMemberTranslationScalarFieldEnum = (typeof TeamMemberTranslationScalarFieldEnum)[keyof typeof TeamMemberTranslationScalarFieldEnum]
-
-
-export const EventScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  status: 'status',
-  eventYear: 'eventYear',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  projectId: 'projectId',
-  coverImageId: 'coverImageId',
-  sortOrder: 'sortOrder',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
-} as const
-
-export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
-
-
-export const EventTranslationScalarFieldEnum = {
-  id: 'id',
-  eventId: 'eventId',
-  locale: 'locale',
-  title: 'title',
-  excerpt: 'excerpt',
-  body: 'body',
-  dateText: 'dateText',
-  locationText: 'locationText',
-  seoTitle: 'seoTitle',
-  seoDescription: 'seoDescription'
-} as const
-
-export type EventTranslationScalarFieldEnum = (typeof EventTranslationScalarFieldEnum)[keyof typeof EventTranslationScalarFieldEnum]
-
-
-export const EventImageScalarFieldEnum = {
-  id: 'id',
-  eventId: 'eventId',
-  mediaId: 'mediaId',
-  sortOrder: 'sortOrder'
-} as const
-
-export type EventImageScalarFieldEnum = (typeof EventImageScalarFieldEnum)[keyof typeof EventImageScalarFieldEnum]
-
-
-export const EventVideoScalarFieldEnum = {
-  id: 'id',
-  eventId: 'eventId',
-  provider: 'provider',
-  url: 'url',
-  sortOrder: 'sortOrder'
-} as const
-
-export type EventVideoScalarFieldEnum = (typeof EventVideoScalarFieldEnum)[keyof typeof EventVideoScalarFieldEnum]
-
-
-export const RentalItemScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  type: 'type',
-  imageId: 'imageId',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type RentalItemScalarFieldEnum = (typeof RentalItemScalarFieldEnum)[keyof typeof RentalItemScalarFieldEnum]
-
-
-export const RentalItemTranslationScalarFieldEnum = {
-  id: 'id',
-  rentalItemId: 'rentalItemId',
-  locale: 'locale',
-  title: 'title',
-  description: 'description',
-  priceText: 'priceText'
-} as const
-
-export type RentalItemTranslationScalarFieldEnum = (typeof RentalItemTranslationScalarFieldEnum)[keyof typeof RentalItemTranslationScalarFieldEnum]
-
-
-export const RentalItemImageScalarFieldEnum = {
-  id: 'id',
-  rentalItemId: 'rentalItemId',
-  mediaId: 'mediaId',
-  sortOrder: 'sortOrder'
-} as const
-
-export type RentalItemImageScalarFieldEnum = (typeof RentalItemImageScalarFieldEnum)[keyof typeof RentalItemImageScalarFieldEnum]
-
-
-export const ProjectScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  type: 'type',
-  status: 'status',
-  coverImageId: 'coverImageId',
-  sortOrder: 'sortOrder',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
-} as const
-
-export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
-
-
-export const ProjectTranslationScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  locale: 'locale',
-  title: 'title',
-  subtitle: 'subtitle',
-  excerpt: 'excerpt',
-  seoTitle: 'seoTitle',
-  seoDescription: 'seoDescription'
-} as const
-
-export type ProjectTranslationScalarFieldEnum = (typeof ProjectTranslationScalarFieldEnum)[keyof typeof ProjectTranslationScalarFieldEnum]
-
-
-export const ProjectSectionScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  variant: 'variant',
-  videoProvider: 'videoProvider',
-  videoUrl: 'videoUrl',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ProjectSectionScalarFieldEnum = (typeof ProjectSectionScalarFieldEnum)[keyof typeof ProjectSectionScalarFieldEnum]
-
-
-export const ProjectSectionTranslationScalarFieldEnum = {
-  id: 'id',
-  sectionId: 'sectionId',
-  locale: 'locale',
-  title: 'title',
-  subtitle: 'subtitle',
-  body: 'body',
-  author: 'author'
-} as const
-
-export type ProjectSectionTranslationScalarFieldEnum = (typeof ProjectSectionTranslationScalarFieldEnum)[keyof typeof ProjectSectionTranslationScalarFieldEnum]
-
-
-export const ProjectSectionMediaScalarFieldEnum = {
-  id: 'id',
-  sectionId: 'sectionId',
-  mediaId: 'mediaId',
-  sortOrder: 'sortOrder'
-} as const
-
-export type ProjectSectionMediaScalarFieldEnum = (typeof ProjectSectionMediaScalarFieldEnum)[keyof typeof ProjectSectionMediaScalarFieldEnum]
-
-
-export const PartnerScalarFieldEnum = {
-  id: 'id',
-  logoId: 'logoId',
-  websiteUrl: 'websiteUrl',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PartnerScalarFieldEnum = (typeof PartnerScalarFieldEnum)[keyof typeof PartnerScalarFieldEnum]
-
-
-export const PartnerTranslationScalarFieldEnum = {
-  id: 'id',
-  partnerId: 'partnerId',
-  locale: 'locale',
-  name: 'name',
-  description: 'description'
-} as const
-
-export type PartnerTranslationScalarFieldEnum = (typeof PartnerTranslationScalarFieldEnum)[keyof typeof PartnerTranslationScalarFieldEnum]
-
-
-export const PartnerMediaScalarFieldEnum = {
-  id: 'id',
-  partnerId: 'partnerId',
-  mediaId: 'mediaId',
-  sortOrder: 'sortOrder'
-} as const
-
-export type PartnerMediaScalarFieldEnum = (typeof PartnerMediaScalarFieldEnum)[keyof typeof PartnerMediaScalarFieldEnum]
-
-
-export const PartnerVideoScalarFieldEnum = {
-  id: 'id',
-  partnerId: 'partnerId',
-  provider: 'provider',
-  url: 'url',
-  sortOrder: 'sortOrder'
-} as const
-
-export type PartnerVideoScalarFieldEnum = (typeof PartnerVideoScalarFieldEnum)[keyof typeof PartnerVideoScalarFieldEnum]
-
-
-export const CertificateScalarFieldEnum = {
-  id: 'id',
-  imageId: 'imageId',
-  year: 'year',
-  sortOrder: 'sortOrder',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
-
-
-export const CertificateTranslationScalarFieldEnum = {
-  id: 'id',
-  certificateId: 'certificateId',
-  locale: 'locale',
-  title: 'title',
-  issuer: 'issuer',
-  description: 'description'
-} as const
-
-export type CertificateTranslationScalarFieldEnum = (typeof CertificateTranslationScalarFieldEnum)[keyof typeof CertificateTranslationScalarFieldEnum]
 
 
 export const SortOrder = {

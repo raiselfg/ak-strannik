@@ -20,80 +20,54 @@ export type TeamMemberModel = runtime.Types.Result.DefaultSelection<Prisma.$Team
 
 export type AggregateTeamMember = {
   _count: TeamMemberCountAggregateOutputType | null
-  _avg: TeamMemberAvgAggregateOutputType | null
-  _sum: TeamMemberSumAggregateOutputType | null
   _min: TeamMemberMinAggregateOutputType | null
   _max: TeamMemberMaxAggregateOutputType | null
 }
 
-export type TeamMemberAvgAggregateOutputType = {
-  sortOrder: number | null
-}
-
-export type TeamMemberSumAggregateOutputType = {
-  sortOrder: number | null
-}
-
 export type TeamMemberMinAggregateOutputType = {
   id: string | null
-  imageId: string | null
-  sortOrder: number | null
-  isActive: boolean | null
+  image: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TeamMemberMaxAggregateOutputType = {
   id: string | null
-  imageId: string | null
-  sortOrder: number | null
-  isActive: boolean | null
+  image: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TeamMemberCountAggregateOutputType = {
   id: number
-  imageId: number
-  sortOrder: number
-  isActive: number
+  image: number
+  links: number
+  achievements: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
-export type TeamMemberAvgAggregateInputType = {
-  sortOrder?: true
-}
-
-export type TeamMemberSumAggregateInputType = {
-  sortOrder?: true
-}
-
 export type TeamMemberMinAggregateInputType = {
   id?: true
-  imageId?: true
-  sortOrder?: true
-  isActive?: true
+  image?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TeamMemberMaxAggregateInputType = {
   id?: true
-  imageId?: true
-  sortOrder?: true
-  isActive?: true
+  image?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TeamMemberCountAggregateInputType = {
   id?: true
-  imageId?: true
-  sortOrder?: true
-  isActive?: true
+  image?: true
+  links?: true
+  achievements?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -137,18 +111,6 @@ export type TeamMemberAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: TeamMemberAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: TeamMemberSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: TeamMemberMinAggregateInputType
@@ -179,22 +141,18 @@ export type TeamMemberGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: TeamMemberCountAggregateInputType | true
-  _avg?: TeamMemberAvgAggregateInputType
-  _sum?: TeamMemberSumAggregateInputType
   _min?: TeamMemberMinAggregateInputType
   _max?: TeamMemberMaxAggregateInputType
 }
 
 export type TeamMemberGroupByOutputType = {
   id: string
-  imageId: string | null
-  sortOrder: number
-  isActive: boolean
+  image: string
+  links: string[]
+  achievements: string[]
   createdAt: Date
   updatedAt: Date
   _count: TeamMemberCountAggregateOutputType | null
-  _avg: TeamMemberAvgAggregateOutputType | null
-  _sum: TeamMemberSumAggregateOutputType | null
   _min: TeamMemberMinAggregateOutputType | null
   _max: TeamMemberMaxAggregateOutputType | null
 }
@@ -218,24 +176,22 @@ export type TeamMemberWhereInput = {
   AND?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
   OR?: Prisma.TeamMemberWhereInput[]
   NOT?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
-  id?: Prisma.UuidFilter<"TeamMember"> | string
-  imageId?: Prisma.UuidNullableFilter<"TeamMember"> | string | null
-  sortOrder?: Prisma.IntFilter<"TeamMember"> | number
-  isActive?: Prisma.BoolFilter<"TeamMember"> | boolean
+  id?: Prisma.StringFilter<"TeamMember"> | string
+  image?: Prisma.StringFilter<"TeamMember"> | string
+  links?: Prisma.StringNullableListFilter<"TeamMember">
+  achievements?: Prisma.StringNullableListFilter<"TeamMember">
   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
-  image?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.TeamMemberTranslationListRelationFilter
 }
 
 export type TeamMemberOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  links?: Prisma.SortOrder
+  achievements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  image?: Prisma.MediaAssetOrderByWithRelationInput
   translations?: Prisma.TeamMemberTranslationOrderByRelationAggregateInput
 }
 
@@ -244,56 +200,53 @@ export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
   OR?: Prisma.TeamMemberWhereInput[]
   NOT?: Prisma.TeamMemberWhereInput | Prisma.TeamMemberWhereInput[]
-  imageId?: Prisma.UuidNullableFilter<"TeamMember"> | string | null
-  sortOrder?: Prisma.IntFilter<"TeamMember"> | number
-  isActive?: Prisma.BoolFilter<"TeamMember"> | boolean
+  image?: Prisma.StringFilter<"TeamMember"> | string
+  links?: Prisma.StringNullableListFilter<"TeamMember">
+  achievements?: Prisma.StringNullableListFilter<"TeamMember">
   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
-  image?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
   translations?: Prisma.TeamMemberTranslationListRelationFilter
 }, "id">
 
 export type TeamMemberOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  links?: Prisma.SortOrder
+  achievements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TeamMemberCountOrderByAggregateInput
-  _avg?: Prisma.TeamMemberAvgOrderByAggregateInput
   _max?: Prisma.TeamMemberMaxOrderByAggregateInput
   _min?: Prisma.TeamMemberMinOrderByAggregateInput
-  _sum?: Prisma.TeamMemberSumOrderByAggregateInput
 }
 
 export type TeamMemberScalarWhereWithAggregatesInput = {
   AND?: Prisma.TeamMemberScalarWhereWithAggregatesInput | Prisma.TeamMemberScalarWhereWithAggregatesInput[]
   OR?: Prisma.TeamMemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TeamMemberScalarWhereWithAggregatesInput | Prisma.TeamMemberScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"TeamMember"> | string
-  imageId?: Prisma.UuidNullableWithAggregatesFilter<"TeamMember"> | string | null
-  sortOrder?: Prisma.IntWithAggregatesFilter<"TeamMember"> | number
-  isActive?: Prisma.BoolWithAggregatesFilter<"TeamMember"> | boolean
+  id?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
+  image?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
+  links?: Prisma.StringNullableListFilter<"TeamMember">
+  achievements?: Prisma.StringNullableListFilter<"TeamMember">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
 }
 
 export type TeamMemberCreateInput = {
   id?: string
-  sortOrder?: number
-  isActive?: boolean
+  image: string
+  links?: Prisma.TeamMemberCreatelinksInput | string[]
+  achievements?: Prisma.TeamMemberCreateachievementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaAssetCreateNestedOneWithoutTeamMembersInput
   translations?: Prisma.TeamMemberTranslationCreateNestedManyWithoutTeamMemberInput
 }
 
 export type TeamMemberUncheckedCreateInput = {
   id?: string
-  imageId?: string | null
-  sortOrder?: number
-  isActive?: boolean
+  image: string
+  links?: Prisma.TeamMemberCreatelinksInput | string[]
+  achievements?: Prisma.TeamMemberCreateachievementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.TeamMemberTranslationUncheckedCreateNestedManyWithoutTeamMemberInput
@@ -301,19 +254,19 @@ export type TeamMemberUncheckedCreateInput = {
 
 export type TeamMemberUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaAssetUpdateOneWithoutTeamMembersNestedInput
   translations?: Prisma.TeamMemberTranslationUpdateManyWithoutTeamMemberNestedInput
 }
 
 export type TeamMemberUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.TeamMemberTranslationUncheckedUpdateManyWithoutTeamMemberNestedInput
@@ -321,73 +274,52 @@ export type TeamMemberUncheckedUpdateInput = {
 
 export type TeamMemberCreateManyInput = {
   id?: string
-  imageId?: string | null
-  sortOrder?: number
-  isActive?: boolean
+  image: string
+  links?: Prisma.TeamMemberCreatelinksInput | string[]
+  achievements?: Prisma.TeamMemberCreateachievementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TeamMemberUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TeamMemberListRelationFilter = {
-  every?: Prisma.TeamMemberWhereInput
-  some?: Prisma.TeamMemberWhereInput
-  none?: Prisma.TeamMemberWhereInput
-}
-
-export type TeamMemberOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type TeamMemberCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  links?: Prisma.SortOrder
+  achievements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type TeamMemberAvgOrderByAggregateInput = {
-  sortOrder?: Prisma.SortOrder
-}
-
 export type TeamMemberMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TeamMemberMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
-  sortOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type TeamMemberSumOrderByAggregateInput = {
-  sortOrder?: Prisma.SortOrder
 }
 
 export type TeamMemberScalarRelationFilter = {
@@ -395,54 +327,22 @@ export type TeamMemberScalarRelationFilter = {
   isNot?: Prisma.TeamMemberWhereInput
 }
 
-export type TeamMemberCreateNestedManyWithoutImageInput = {
-  create?: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput> | Prisma.TeamMemberCreateWithoutImageInput[] | Prisma.TeamMemberUncheckedCreateWithoutImageInput[]
-  connectOrCreate?: Prisma.TeamMemberCreateOrConnectWithoutImageInput | Prisma.TeamMemberCreateOrConnectWithoutImageInput[]
-  createMany?: Prisma.TeamMemberCreateManyImageInputEnvelope
-  connect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
+export type TeamMemberCreatelinksInput = {
+  set: string[]
 }
 
-export type TeamMemberUncheckedCreateNestedManyWithoutImageInput = {
-  create?: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput> | Prisma.TeamMemberCreateWithoutImageInput[] | Prisma.TeamMemberUncheckedCreateWithoutImageInput[]
-  connectOrCreate?: Prisma.TeamMemberCreateOrConnectWithoutImageInput | Prisma.TeamMemberCreateOrConnectWithoutImageInput[]
-  createMany?: Prisma.TeamMemberCreateManyImageInputEnvelope
-  connect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
+export type TeamMemberCreateachievementsInput = {
+  set: string[]
 }
 
-export type TeamMemberUpdateManyWithoutImageNestedInput = {
-  create?: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput> | Prisma.TeamMemberCreateWithoutImageInput[] | Prisma.TeamMemberUncheckedCreateWithoutImageInput[]
-  connectOrCreate?: Prisma.TeamMemberCreateOrConnectWithoutImageInput | Prisma.TeamMemberCreateOrConnectWithoutImageInput[]
-  upsert?: Prisma.TeamMemberUpsertWithWhereUniqueWithoutImageInput | Prisma.TeamMemberUpsertWithWhereUniqueWithoutImageInput[]
-  createMany?: Prisma.TeamMemberCreateManyImageInputEnvelope
-  set?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  disconnect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  delete?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  connect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  update?: Prisma.TeamMemberUpdateWithWhereUniqueWithoutImageInput | Prisma.TeamMemberUpdateWithWhereUniqueWithoutImageInput[]
-  updateMany?: Prisma.TeamMemberUpdateManyWithWhereWithoutImageInput | Prisma.TeamMemberUpdateManyWithWhereWithoutImageInput[]
-  deleteMany?: Prisma.TeamMemberScalarWhereInput | Prisma.TeamMemberScalarWhereInput[]
+export type TeamMemberUpdatelinksInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
-export type TeamMemberUncheckedUpdateManyWithoutImageNestedInput = {
-  create?: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput> | Prisma.TeamMemberCreateWithoutImageInput[] | Prisma.TeamMemberUncheckedCreateWithoutImageInput[]
-  connectOrCreate?: Prisma.TeamMemberCreateOrConnectWithoutImageInput | Prisma.TeamMemberCreateOrConnectWithoutImageInput[]
-  upsert?: Prisma.TeamMemberUpsertWithWhereUniqueWithoutImageInput | Prisma.TeamMemberUpsertWithWhereUniqueWithoutImageInput[]
-  createMany?: Prisma.TeamMemberCreateManyImageInputEnvelope
-  set?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  disconnect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  delete?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  connect?: Prisma.TeamMemberWhereUniqueInput | Prisma.TeamMemberWhereUniqueInput[]
-  update?: Prisma.TeamMemberUpdateWithWhereUniqueWithoutImageInput | Prisma.TeamMemberUpdateWithWhereUniqueWithoutImageInput[]
-  updateMany?: Prisma.TeamMemberUpdateManyWithWhereWithoutImageInput | Prisma.TeamMemberUpdateManyWithWhereWithoutImageInput[]
-  deleteMany?: Prisma.TeamMemberScalarWhereInput | Prisma.TeamMemberScalarWhereInput[]
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type TeamMemberUpdateachievementsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type TeamMemberCreateNestedOneWithoutTranslationsInput = {
@@ -459,76 +359,20 @@ export type TeamMemberUpdateOneRequiredWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeamMemberUpdateToOneWithWhereWithoutTranslationsInput, Prisma.TeamMemberUpdateWithoutTranslationsInput>, Prisma.TeamMemberUncheckedUpdateWithoutTranslationsInput>
 }
 
-export type TeamMemberCreateWithoutImageInput = {
-  id?: string
-  sortOrder?: number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  translations?: Prisma.TeamMemberTranslationCreateNestedManyWithoutTeamMemberInput
-}
-
-export type TeamMemberUncheckedCreateWithoutImageInput = {
-  id?: string
-  sortOrder?: number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  translations?: Prisma.TeamMemberTranslationUncheckedCreateNestedManyWithoutTeamMemberInput
-}
-
-export type TeamMemberCreateOrConnectWithoutImageInput = {
-  where: Prisma.TeamMemberWhereUniqueInput
-  create: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput>
-}
-
-export type TeamMemberCreateManyImageInputEnvelope = {
-  data: Prisma.TeamMemberCreateManyImageInput | Prisma.TeamMemberCreateManyImageInput[]
-  skipDuplicates?: boolean
-}
-
-export type TeamMemberUpsertWithWhereUniqueWithoutImageInput = {
-  where: Prisma.TeamMemberWhereUniqueInput
-  update: Prisma.XOR<Prisma.TeamMemberUpdateWithoutImageInput, Prisma.TeamMemberUncheckedUpdateWithoutImageInput>
-  create: Prisma.XOR<Prisma.TeamMemberCreateWithoutImageInput, Prisma.TeamMemberUncheckedCreateWithoutImageInput>
-}
-
-export type TeamMemberUpdateWithWhereUniqueWithoutImageInput = {
-  where: Prisma.TeamMemberWhereUniqueInput
-  data: Prisma.XOR<Prisma.TeamMemberUpdateWithoutImageInput, Prisma.TeamMemberUncheckedUpdateWithoutImageInput>
-}
-
-export type TeamMemberUpdateManyWithWhereWithoutImageInput = {
-  where: Prisma.TeamMemberScalarWhereInput
-  data: Prisma.XOR<Prisma.TeamMemberUpdateManyMutationInput, Prisma.TeamMemberUncheckedUpdateManyWithoutImageInput>
-}
-
-export type TeamMemberScalarWhereInput = {
-  AND?: Prisma.TeamMemberScalarWhereInput | Prisma.TeamMemberScalarWhereInput[]
-  OR?: Prisma.TeamMemberScalarWhereInput[]
-  NOT?: Prisma.TeamMemberScalarWhereInput | Prisma.TeamMemberScalarWhereInput[]
-  id?: Prisma.UuidFilter<"TeamMember"> | string
-  imageId?: Prisma.UuidNullableFilter<"TeamMember"> | string | null
-  sortOrder?: Prisma.IntFilter<"TeamMember"> | number
-  isActive?: Prisma.BoolFilter<"TeamMember"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
-}
-
 export type TeamMemberCreateWithoutTranslationsInput = {
   id?: string
-  sortOrder?: number
-  isActive?: boolean
+  image: string
+  links?: Prisma.TeamMemberCreatelinksInput | string[]
+  achievements?: Prisma.TeamMemberCreateachievementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaAssetCreateNestedOneWithoutTeamMembersInput
 }
 
 export type TeamMemberUncheckedCreateWithoutTranslationsInput = {
   id?: string
-  imageId?: string | null
-  sortOrder?: number
-  isActive?: boolean
+  image: string
+  links?: Prisma.TeamMemberCreatelinksInput | string[]
+  achievements?: Prisma.TeamMemberCreateachievementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -551,52 +395,18 @@ export type TeamMemberUpdateToOneWithWhereWithoutTranslationsInput = {
 
 export type TeamMemberUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaAssetUpdateOneWithoutTeamMembersNestedInput
 }
 
 export type TeamMemberUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TeamMemberCreateManyImageInput = {
-  id?: string
-  sortOrder?: number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TeamMemberUpdateWithoutImageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  translations?: Prisma.TeamMemberTranslationUpdateManyWithoutTeamMemberNestedInput
-}
-
-export type TeamMemberUncheckedUpdateWithoutImageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  translations?: Prisma.TeamMemberTranslationUncheckedUpdateManyWithoutTeamMemberNestedInput
-}
-
-export type TeamMemberUncheckedUpdateManyWithoutImageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  links?: Prisma.TeamMemberUpdatelinksInput | string[]
+  achievements?: Prisma.TeamMemberUpdateachievementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -634,69 +444,60 @@ export type TeamMemberCountOutputTypeCountTranslationsArgs<ExtArgs extends runti
 
 export type TeamMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  imageId?: boolean
-  sortOrder?: boolean
-  isActive?: boolean
+  image?: boolean
+  links?: boolean
+  achievements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
   translations?: boolean | Prisma.TeamMember$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.TeamMemberCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
 export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  imageId?: boolean
-  sortOrder?: boolean
-  isActive?: boolean
+  image?: boolean
+  links?: boolean
+  achievements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
 export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  imageId?: boolean
-  sortOrder?: boolean
-  isActive?: boolean
+  image?: boolean
+  links?: boolean
+  achievements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
 export type TeamMemberSelectScalar = {
   id?: boolean
-  imageId?: boolean
-  sortOrder?: boolean
-  isActive?: boolean
+  image?: boolean
+  links?: boolean
+  achievements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "imageId" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
+export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "image" | "links" | "achievements" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
 export type TeamMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
   translations?: boolean | Prisma.TeamMember$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.TeamMemberCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type TeamMemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
-}
-export type TeamMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.TeamMember$imageArgs<ExtArgs>
-}
+export type TeamMemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TeamMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TeamMemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TeamMember"
   objects: {
-    image: Prisma.$MediaAssetPayload<ExtArgs> | null
     translations: Prisma.$TeamMemberTranslationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    imageId: string | null
-    sortOrder: number
-    isActive: boolean
+    image: string
+    links: string[]
+    achievements: string[]
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["teamMember"]>
@@ -1093,7 +894,6 @@ readonly fields: TeamMemberFieldRefs;
  */
 export interface Prisma__TeamMemberClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  image<T extends Prisma.TeamMember$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamMember$imageArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   translations<T extends Prisma.TeamMember$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamMember$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1125,9 +925,9 @@ export interface Prisma__TeamMemberClient<T, Null = never, ExtArgs extends runti
  */
 export interface TeamMemberFieldRefs {
   readonly id: Prisma.FieldRef<"TeamMember", 'String'>
-  readonly imageId: Prisma.FieldRef<"TeamMember", 'String'>
-  readonly sortOrder: Prisma.FieldRef<"TeamMember", 'Int'>
-  readonly isActive: Prisma.FieldRef<"TeamMember", 'Boolean'>
+  readonly image: Prisma.FieldRef<"TeamMember", 'String'>
+  readonly links: Prisma.FieldRef<"TeamMember", 'String[]'>
+  readonly achievements: Prisma.FieldRef<"TeamMember", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
 }
@@ -1384,10 +1184,6 @@ export type TeamMemberCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.TeamMemberCreateManyInput | Prisma.TeamMemberCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeamMemberIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1458,10 +1254,6 @@ export type TeamMemberUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many TeamMembers to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeamMemberIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1528,25 +1320,6 @@ export type TeamMemberDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many TeamMembers to delete.
    */
   limit?: number
-}
-
-/**
- * TeamMember.image
- */
-export type TeamMember$imageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MediaAsset
-   */
-  select?: Prisma.MediaAssetSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MediaAsset
-   */
-  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MediaAssetInclude<ExtArgs> | null
-  where?: Prisma.MediaAssetWhereInput
 }
 
 /**

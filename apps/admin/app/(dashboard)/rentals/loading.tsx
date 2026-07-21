@@ -1,8 +1,0 @@
-export default function RentalsLoading() {
-  return (
-    <div className="space-y-8">
-      <div className="h-24 animate-pulse rounded-xl bg-muted" />
-      <div className="h-80 animate-pulse rounded-xl bg-muted" />
-    </div>
-  );
-}

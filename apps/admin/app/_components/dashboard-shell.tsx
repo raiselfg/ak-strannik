@@ -174,7 +174,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-[1440px] p-4 sm:p-6 lg:p-8">
+        <main className="mx-auto w-full max-w-360 p-4 sm:p-6 lg:p-8">
           <Suspense
             fallback={
               <div className="h-48 animate-pulse rounded-xl border bg-card" />

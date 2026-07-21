@@ -62,15 +62,260 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model MediaAsset
+ * Model CharityContent
  * 
  */
-export type MediaAsset = Prisma.MediaAssetModel
+export type CharityContent = Prisma.CharityContentModel
 /**
- * Model MediaAssetTranslation
+ * Model CharityContentTranslation
  * 
  */
-export type MediaAssetTranslation = Prisma.MediaAssetTranslationModel
+export type CharityContentTranslation = Prisma.CharityContentTranslationModel
+/**
+ * Model EventsContent
+ * 
+ */
+export type EventsContent = Prisma.EventsContentModel
+/**
+ * Model EventsContentEvent
+ * 
+ */
+export type EventsContentEvent = Prisma.EventsContentEventModel
+/**
+ * Model EventTranslation
+ * 
+ */
+export type EventTranslation = Prisma.EventTranslationModel
+/**
+ * Model PartnerContent
+ * 
+ */
+export type PartnerContent = Prisma.PartnerContentModel
+/**
+ * Model PartnerContentTranslation
+ * 
+ */
+export type PartnerContentTranslation = Prisma.PartnerContentTranslationModel
+/**
+ * Model ThankYouNoteContent
+ * 
+ */
+export type ThankYouNoteContent = Prisma.ThankYouNoteContentModel
+/**
+ * Model ArtistContent
+ * 
+ */
+export type ArtistContent = Prisma.ArtistContentModel
+/**
+ * Model ArtistContentTranslation
+ * 
+ */
+export type ArtistContentTranslation = Prisma.ArtistContentTranslationModel
+/**
+ * Model ConcertContent
+ * 
+ */
+export type ConcertContent = Prisma.ConcertContentModel
+/**
+ * Model ConcertContentTranslation
+ * 
+ */
+export type ConcertContentTranslation = Prisma.ConcertContentTranslationModel
+/**
+ * Model ExhibitionContent
+ * 
+ */
+export type ExhibitionContent = Prisma.ExhibitionContentModel
+/**
+ * Model ExhibitionContentTranslation
+ * 
+ */
+export type ExhibitionContentTranslation = Prisma.ExhibitionContentTranslationModel
+/**
+ * Model FestivalContent
+ * 
+ */
+export type FestivalContent = Prisma.FestivalContentModel
+/**
+ * Model FestivalContentTranslation
+ * 
+ */
+export type FestivalContentTranslation = Prisma.FestivalContentTranslationModel
+/**
+ * Model FestivalEvent
+ * 
+ */
+export type FestivalEvent = Prisma.FestivalEventModel
+/**
+ * Model FestivalEventTranslation
+ * 
+ */
+export type FestivalEventTranslation = Prisma.FestivalEventTranslationModel
+/**
+ * Model FestivalNominations
+ * 
+ */
+export type FestivalNominations = Prisma.FestivalNominationsModel
+/**
+ * Model FestivalNominationsTranslation
+ * 
+ */
+export type FestivalNominationsTranslation = Prisma.FestivalNominationsTranslationModel
+/**
+ * Model FestivalJury
+ * 
+ */
+export type FestivalJury = Prisma.FestivalJuryModel
+/**
+ * Model FestivalJuryTranslation
+ * 
+ */
+export type FestivalJuryTranslation = Prisma.FestivalJuryTranslationModel
+/**
+ * Model FestivalJuryPerson
+ * 
+ */
+export type FestivalJuryPerson = Prisma.FestivalJuryPersonModel
+/**
+ * Model FestivalJuryPersonTranslation
+ * 
+ */
+export type FestivalJuryPersonTranslation = Prisma.FestivalJuryPersonTranslationModel
+/**
+ * Model FestivalOrganizations
+ * 
+ */
+export type FestivalOrganizations = Prisma.FestivalOrganizationsModel
+/**
+ * Model FestivalOrganizationsTranslation
+ * 
+ */
+export type FestivalOrganizationsTranslation = Prisma.FestivalOrganizationsTranslationModel
+/**
+ * Model FestivalOrganization
+ * 
+ */
+export type FestivalOrganization = Prisma.FestivalOrganizationModel
+/**
+ * Model FestivalOrganizationTranslation
+ * 
+ */
+export type FestivalOrganizationTranslation = Prisma.FestivalOrganizationTranslationModel
+/**
+ * Model HolidayShowContent
+ * 
+ */
+export type HolidayShowContent = Prisma.HolidayShowContentModel
+/**
+ * Model HolidayShowContentTranslation
+ * 
+ */
+export type HolidayShowContentTranslation = Prisma.HolidayShowContentTranslationModel
+/**
+ * Model MasterclassesContent
+ * 
+ */
+export type MasterclassesContent = Prisma.MasterclassesContentModel
+/**
+ * Model MasterclassesContentTranslation
+ * 
+ */
+export type MasterclassesContentTranslation = Prisma.MasterclassesContentTranslationModel
+/**
+ * Model PerformancesContent
+ * 
+ */
+export type PerformancesContent = Prisma.PerformancesContentModel
+/**
+ * Model PerformancesContentTranslation
+ * 
+ */
+export type PerformancesContentTranslation = Prisma.PerformancesContentTranslationModel
+/**
+ * Model PerformancePerson
+ * 
+ */
+export type PerformancePerson = Prisma.PerformancePersonModel
+/**
+ * Model PerformancePersonTranslation
+ * 
+ */
+export type PerformancePersonTranslation = Prisma.PerformancePersonTranslationModel
+/**
+ * Model PryalochkaOfTimeContent
+ * 
+ */
+export type PryalochkaOfTimeContent = Prisma.PryalochkaOfTimeContentModel
+/**
+ * Model PryalochkaOfTimeEvent
+ * 
+ */
+export type PryalochkaOfTimeEvent = Prisma.PryalochkaOfTimeEventModel
+/**
+ * Model PryalochkaOfTimeEventTranslation
+ * 
+ */
+export type PryalochkaOfTimeEventTranslation = Prisma.PryalochkaOfTimeEventTranslationModel
+/**
+ * Model PryalochkaOfTimeActor
+ * 
+ */
+export type PryalochkaOfTimeActor = Prisma.PryalochkaOfTimeActorModel
+/**
+ * Model PryalochkaOfTimeActorTranslation
+ * 
+ */
+export type PryalochkaOfTimeActorTranslation = Prisma.PryalochkaOfTimeActorTranslationModel
+/**
+ * Model UstaContent
+ * 
+ */
+export type UstaContent = Prisma.UstaContentModel
+/**
+ * Model UstaContentTranslation
+ * 
+ */
+export type UstaContentTranslation = Prisma.UstaContentTranslationModel
+/**
+ * Model AttractionContent
+ * 
+ */
+export type AttractionContent = Prisma.AttractionContentModel
+/**
+ * Model AttractionContentTranslation
+ * 
+ */
+export type AttractionContentTranslation = Prisma.AttractionContentTranslationModel
+/**
+ * Model MascotCostumeContent
+ * 
+ */
+export type MascotCostumeContent = Prisma.MascotCostumeContentModel
+/**
+ * Model MascotCostumeContentTranslation
+ * 
+ */
+export type MascotCostumeContentTranslation = Prisma.MascotCostumeContentTranslationModel
+/**
+ * Model RequisiteContent
+ * 
+ */
+export type RequisiteContent = Prisma.RequisiteContentModel
+/**
+ * Model RequisiteContentTranslation
+ * 
+ */
+export type RequisiteContentTranslation = Prisma.RequisiteContentTranslationModel
+/**
+ * Model RequisiteItem
+ * 
+ */
+export type RequisiteItem = Prisma.RequisiteItemModel
+/**
+ * Model RequisiteItemTranslation
+ * 
+ */
+export type RequisiteItemTranslation = Prisma.RequisiteItemTranslationModel
 /**
  * Model TeamMember
  * 
@@ -81,93 +326,3 @@ export type TeamMember = Prisma.TeamMemberModel
  * 
  */
 export type TeamMemberTranslation = Prisma.TeamMemberTranslationModel
-/**
- * Model Event
- * 
- */
-export type Event = Prisma.EventModel
-/**
- * Model EventTranslation
- * 
- */
-export type EventTranslation = Prisma.EventTranslationModel
-/**
- * Model EventImage
- * 
- */
-export type EventImage = Prisma.EventImageModel
-/**
- * Model EventVideo
- * 
- */
-export type EventVideo = Prisma.EventVideoModel
-/**
- * Model RentalItem
- * 
- */
-export type RentalItem = Prisma.RentalItemModel
-/**
- * Model RentalItemTranslation
- * 
- */
-export type RentalItemTranslation = Prisma.RentalItemTranslationModel
-/**
- * Model RentalItemImage
- * 
- */
-export type RentalItemImage = Prisma.RentalItemImageModel
-/**
- * Model Project
- * 
- */
-export type Project = Prisma.ProjectModel
-/**
- * Model ProjectTranslation
- * 
- */
-export type ProjectTranslation = Prisma.ProjectTranslationModel
-/**
- * Model ProjectSection
- * 
- */
-export type ProjectSection = Prisma.ProjectSectionModel
-/**
- * Model ProjectSectionTranslation
- * 
- */
-export type ProjectSectionTranslation = Prisma.ProjectSectionTranslationModel
-/**
- * Model ProjectSectionMedia
- * 
- */
-export type ProjectSectionMedia = Prisma.ProjectSectionMediaModel
-/**
- * Model Partner
- * 
- */
-export type Partner = Prisma.PartnerModel
-/**
- * Model PartnerTranslation
- * 
- */
-export type PartnerTranslation = Prisma.PartnerTranslationModel
-/**
- * Model PartnerMedia
- * 
- */
-export type PartnerMedia = Prisma.PartnerMediaModel
-/**
- * Model PartnerVideo
- * 
- */
-export type PartnerVideo = Prisma.PartnerVideoModel
-/**
- * Model Certificate
- * 
- */
-export type Certificate = Prisma.CertificateModel
-/**
- * Model CertificateTranslation
- * 
- */
-export type CertificateTranslation = Prisma.CertificateTranslationModel

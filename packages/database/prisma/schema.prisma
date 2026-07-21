@@ -7,9 +7,10 @@ datasource db {
   provider = "postgresql"
 }
 
-// ============================================================
-// Better Auth
-// ============================================================
+enum Locale {
+  ru
+  en
+}
 
 model User {
   id            String   @id
@@ -74,547 +75,686 @@ model Verification {
   @@map("verification")
 }
 
-// ============================================================
-// Enums
-// ============================================================
+model CharityContent {
+  id           String                      @id @default(uuid())
+  images       String[]                    @default([])
+  videos       String[]                    @default([])
+  translations CharityContentTranslation[]
 
-enum Locale {
-  ru
-  en
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-enum ContentStatus {
-  draft
-  published
-  archived
+model CharityContentTranslation {
+  id               String  @id @default(uuid())
+  charityContentId String
+  locale           Locale
+  title            String
+  text             String?
+
+  charityContent CharityContent @relation(fields: [charityContentId], references: [id], onDelete: Cascade)
+
+  @@unique([charityContentId, locale])
+  @@index([locale])
+  @@index([charityContentId])
 }
 
-enum RentalType {
-  mascot
-  attraction
-  props
-}
-
-enum ProjectType {
-  musical
-  singer
-  exhibition
-  newYearShow
-  masterClass
-  performance
-  artist
-  concertProgram
-  festival
-  charity
-  other
-}
-
-enum ProjectSectionVariant {
-  content
-  split
-  gallery
-  slider
-  video
-  quote
-}
-
-enum VideoProvider {
-  youtube
-  vk
-  rutube
-  external
-}
-
-// ============================================================
-// Media
-// ============================================================
-
-model MediaAsset {
-  id        String @id @default(uuid()) @db.Uuid
-  objectKey String @unique
-
-  // Используется для дедупликации при миграции и загрузке.
-  // Поле nullable, чтобы безопасно мигрировать существующие записи.
-  checksumSha256 String? @unique
-
-  originalName String
-  mimeType     String
-  size         Int?
-  width        Int?
-  height       Int?
+model EventsContent {
+  id     String               @id @default(uuid())
+  year   String
+  events EventsContentEvent[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  translations MediaAssetTranslation[]
-
-  teamMembers TeamMember[] @relation("TeamMemberImage")
-
-  eventCovers Event[]      @relation("EventCoverImage")
-  eventImages EventImage[] @relation("EventGalleryImage")
-
-  rentalItemCovers RentalItem[]      @relation("RentalItemCoverImage")
-  rentalItemImages RentalItemImage[] @relation("RentalItemGalleryImage")
-
-  projectCovers       Project[]             @relation("ProjectCoverImage")
-  projectSectionMedia ProjectSectionMedia[] @relation("ProjectSectionMediaAsset")
-
-  partnerLogos Partner[]      @relation("PartnerLogo")
-  partnerMedia PartnerMedia[] @relation("PartnerPortfolioMedia")
-
-  certificateImages Certificate[] @relation("CertificateImage")
-
-  @@index([mimeType])
-  @@index([createdAt])
+  @@index([year])
 }
 
-model MediaAssetTranslation {
-  id           String @id @default(uuid()) @db.Uuid
-  mediaAssetId String @db.Uuid
-  locale       Locale
+model EventsContentEvent {
+  id              String             @id @default(uuid())
+  eventsContentId String
+  position        Int
+  images          String[]           @default([])
+  videos          String[]           @default([])
+  translations    EventTranslation[]
 
-  alt     String?
-  title   String?
-  caption String? @db.Text
-
-  mediaAsset MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
-
-  @@unique([mediaAssetId, locale])
-  @@index([locale])
-}
-
-// ============================================================
-// Team
-//
-// Используется для блока команды на главной.
-// Персональные страницы команды в текущую архитектуру не входят.
-// ============================================================
-
-model TeamMember {
-  id      String  @id @default(uuid()) @db.Uuid
-  imageId String? @db.Uuid
-
-  sortOrder Int     @default(0)
-  isActive  Boolean @default(true)
+  eventsContent EventsContent @relation(fields: [eventsContentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  image MediaAsset? @relation("TeamMemberImage", fields: [imageId], references: [id], onDelete: Restrict)
-
-  translations TeamMemberTranslation[]
-
-  @@index([imageId])
-  @@index([isActive, sortOrder])
-}
-
-model TeamMemberTranslation {
-  id           String @id @default(uuid()) @db.Uuid
-  teamMemberId String @db.Uuid
-  locale       Locale
-
-  name        String
-  role        String?
-  description String? @db.Text
-
-  teamMember TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
-
-  @@unique([teamMemberId, locale])
-  @@index([locale])
-}
-
-// ============================================================
-// Events
-//
-// Каждое смысловое мероприятие — отдельная запись.
-// Страница архива по годам формируется автоматически.
-//
-// Формат страницы:
-// cover + title + dates + location + body + videos + gallery.
-// ============================================================
-
-model Event {
-  id   String @id @default(uuid()) @db.Uuid
-  slug String @unique
-
-  status ContentStatus @default(draft)
-
-  // Используется для группировки архива.
-  // Nullable для безопасной миграции старых черновиков.
-  // Для published-записей валидируется на уровне приложения.
-  eventYear Int?
-
-  // Точные даты, если они известны.
-  startDate DateTime? @db.Date
-  endDate   DateTime? @db.Date
-
-  // Событие может относиться к постоянному проекту:
-  // благотворительной программе, фестивалю, новогоднему проекту.
-  projectId String? @db.Uuid
-
-  coverImageId String? @db.Uuid
-
-  sortOrder Int @default(0)
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  publishedAt DateTime?
-
-  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
-
-  coverImage MediaAsset? @relation("EventCoverImage", fields: [coverImageId], references: [id], onDelete: Restrict)
-
-  translations EventTranslation[]
-  images       EventImage[]
-  videos       EventVideo[]
-
-  @@index([status, eventYear, startDate])
-  @@index([projectId])
-  @@index([sortOrder])
-  @@index([coverImageId])
+  @@unique([eventsContentId, position])
+  @@index([eventsContentId])
 }
 
 model EventTranslation {
-  id      String @id @default(uuid()) @db.Uuid
-  eventId String @db.Uuid
+  id      String @id @default(uuid())
+  eventId String
   locale  Locale
+  text    String
 
-  title   String
-  excerpt String? @db.Text
-
-  // Хранится как Markdown.
-  body String? @db.Text
-
-  // Используется для неточной или редакционной даты:
-  // "Зимой 2024–2025 годов", "В мае 2025 года".
-  dateText String?
-
-  // Площадка, город либо произвольное описание места.
-  locationText String?
-
-  seoTitle       String?
-  seoDescription String? @db.Text
-
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event EventsContentEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([eventId, locale])
   @@index([locale])
 }
 
-model EventImage {
-  id      String @id @default(uuid()) @db.Uuid
-  eventId String @db.Uuid
-  mediaId String @db.Uuid
+model PartnerContent {
+  id           String                      @id @default(uuid())
+  link         String?
+  images       String[]                    @default([])
+  translations PartnerContentTranslation[]
 
-  sortOrder Int @default(0)
-
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-
-  media MediaAsset @relation("EventGalleryImage", fields: [mediaId], references: [id], onDelete: Restrict)
-
-  @@unique([eventId, mediaId])
-  @@index([eventId, sortOrder])
-  @@index([mediaId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model EventVideo {
-  id      String @id @default(uuid()) @db.Uuid
-  eventId String @db.Uuid
+model PartnerContentTranslation {
+  id               String  @id @default(uuid())
+  partnerContentId String
+  locale           Locale
+  title            String
+  text             String?
 
-  provider VideoProvider
-  url      String
+  partnerContent PartnerContent @relation(fields: [partnerContentId], references: [id], onDelete: Cascade)
 
-  sortOrder Int @default(0)
-
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, url])
-  @@index([eventId, sortOrder])
+  @@unique([partnerContentId, locale])
+  @@index([locale])
+  @@index([partnerContentId])
 }
 
-// ============================================================
-// Rental
-//
-// Категории фиксированы.
-// У позиции есть основная обложка и необязательная галерея.
-// ============================================================
+model ThankYouNoteContent {
+  id    String @id @default(uuid())
+  image String
 
-model RentalItem {
-  id   String     @id @default(uuid()) @db.Uuid
-  slug String     @unique
-  type RentalType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
-  imageId String? @db.Uuid
+model ArtistContent {
+  id           String                     @id @default(uuid())
+  images       String[]                   @default([])
+  videos       String[]                   @default([])
+  translations ArtistContentTranslation[]
 
-  sortOrder Int     @default(0)
-  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ArtistContentTranslation {
+  id              String  @id @default(uuid())
+  artistContentId String
+  locale          Locale
+  title           String?
+  text            String?
+
+  artistContent ArtistContent @relation(fields: [artistContentId], references: [id], onDelete: Cascade)
+
+  @@unique([artistContentId, locale])
+  @@index([artistContentId])
+  @@index([locale])
+}
+
+model ConcertContent {
+  id           String                      @id @default(uuid())
+  images       String[]                    @default([])
+  videos       String[]                    @default([])
+  translations ConcertContentTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ConcertContentTranslation {
+  id               String  @id @default(uuid())
+  concertContentId String
+  locale           Locale
+  title            String?
+  text             String?
+  duration         String?
+
+  concertContent ConcertContent @relation(fields: [concertContentId], references: [id], onDelete: Cascade)
+
+  @@unique([concertContentId, locale])
+  @@index([concertContentId])
+  @@index([locale])
+}
+
+model ExhibitionContent {
+  id           String                         @id @default(uuid())
+  images       String[]                       @default([])
+  translations ExhibitionContentTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExhibitionContentTranslation {
+  id                  String @id @default(uuid())
+  exhibitionContentId String
+  locale              Locale
+  title               String
+
+  exhibitionContent ExhibitionContent @relation(fields: [exhibitionContentId], references: [id], onDelete: Cascade)
+
+  @@unique([exhibitionContentId, locale])
+  @@index([exhibitionContentId])
+  @@index([locale])
+}
+
+model FestivalContent {
+  id   String @id @default(uuid())
+  logo String
+  slug String @unique
+
+  images       String[] @default([])
+  videos       String[] @default([])
+  achievements String[] @default([])
+  socials      String[] @default([])
+
+  translations  FestivalContentTranslation[]
+  events        FestivalEvent[]
+  nominations   FestivalNominations?
+  jury          FestivalJury?
+  organizations FestivalOrganizations?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FestivalContentTranslation {
+  id                String @id @default(uuid())
+  festivalContentId String
+  locale            Locale
+  title             String
+
+  festivalContent FestivalContent @relation(fields: [festivalContentId], references: [id], onDelete: Cascade)
+
+  @@unique([festivalContentId, locale])
+  @@index([festivalContentId])
+  @@index([locale])
+}
+
+model FestivalEvent {
+  id                String @id @default(uuid())
+  festivalContentId String
+  position          Int
+
+  festivalContent FestivalContent @relation(fields: [festivalContentId], references: [id], onDelete: Cascade)
+
+  translations FestivalEventTranslation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  image MediaAsset? @relation("RentalItemCoverImage", fields: [imageId], references: [id], onDelete: Restrict)
-
-  translations RentalItemTranslation[]
-  images       RentalItemImage[]
-
-  @@index([type, isActive, sortOrder])
-  @@index([imageId])
+  @@unique([festivalContentId, position])
+  @@index([festivalContentId])
 }
 
-model RentalItemTranslation {
-  id           String @id @default(uuid()) @db.Uuid
-  rentalItemId String @db.Uuid
-  locale       Locale
+model FestivalEventTranslation {
+  id              String @id @default(uuid())
+  festivalEventId String
+  locale          Locale
+  title           String
+  text            String
 
-  title       String
-  description String? @db.Text
-  priceText   String?
+  festivalEvent FestivalEvent @relation(fields: [festivalEventId], references: [id], onDelete: Cascade)
 
-  rentalItem RentalItem @relation(fields: [rentalItemId], references: [id], onDelete: Cascade)
-
-  @@unique([rentalItemId, locale])
+  @@unique([festivalEventId, locale])
+  @@index([festivalEventId])
   @@index([locale])
 }
 
-model RentalItemImage {
-  id           String @id @default(uuid()) @db.Uuid
-  rentalItemId String @db.Uuid
-  mediaId      String @db.Uuid
+model FestivalNominations {
+  id                String @id @default(uuid())
+  festivalContentId String @unique
 
-  sortOrder Int @default(0)
+  festivalContent FestivalContent @relation(fields: [festivalContentId], references: [id], onDelete: Cascade)
 
-  rentalItem RentalItem @relation(fields: [rentalItemId], references: [id], onDelete: Cascade)
+  translations FestivalNominationsTranslation[]
 
-  media MediaAsset @relation("RentalItemGalleryImage", fields: [mediaId], references: [id], onDelete: Restrict)
-
-  @@unique([rentalItemId, mediaId])
-  @@index([rentalItemId, sortOrder])
-  @@index([mediaId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// ============================================================
-// Projects
-//
-// Сюда входят спектакли, выставки, мастер-классы,
-// концертные программы, фестивали, благотворительные
-// и новогодние проекты.
-//
-// Страница проекта собирается из управляемых секций.
-// ============================================================
+model FestivalNominationsTranslation {
+  id                    String @id @default(uuid())
+  festivalNominationsId String
+  locale                Locale
+  title                 String
+  text                  String
 
-model Project {
-  id   String      @id @default(uuid()) @db.Uuid
-  slug String      @unique
-  type ProjectType
+  festivalNominations FestivalNominations @relation(fields: [festivalNominationsId], references: [id], onDelete: Cascade)
 
-  status ContentStatus @default(draft)
-
-  coverImageId String? @db.Uuid
-  sortOrder    Int     @default(0)
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  publishedAt DateTime?
-
-  coverImage MediaAsset? @relation("ProjectCoverImage", fields: [coverImageId], references: [id], onDelete: Restrict)
-
-  translations ProjectTranslation[]
-  sections     ProjectSection[]
-  events       Event[]
-
-  @@index([type, status, sortOrder])
-  @@index([coverImageId])
+  @@unique([festivalNominationsId, locale])
+  @@index([festivalNominationsId])
+  @@index([locale])
 }
 
-model ProjectTranslation {
-  id        String @id @default(uuid()) @db.Uuid
-  projectId String @db.Uuid
-  locale    Locale
+model FestivalJury {
+  id                String @id @default(uuid())
+  festivalContentId String @unique
 
+  festivalContent FestivalContent @relation(fields: [festivalContentId], references: [id], onDelete: Cascade)
+
+  translations FestivalJuryTranslation[]
+  persons      FestivalJuryPerson[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FestivalJuryTranslation {
+  id             String @id @default(uuid())
+  festivalJuryId String
+  locale         Locale
   title          String
-  subtitle       String?
-  excerpt        String? @db.Text
-  seoTitle       String?
-  seoDescription String? @db.Text
 
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  festivalJury FestivalJury @relation(fields: [festivalJuryId], references: [id], onDelete: Cascade)
 
-  @@unique([projectId, locale])
+  @@unique([festivalJuryId, locale])
+  @@index([festivalJuryId])
   @@index([locale])
 }
 
-model ProjectSection {
-  id        String                @id @default(uuid()) @db.Uuid
-  projectId String                @db.Uuid
-  variant   ProjectSectionVariant @default(content)
+model FestivalJuryPerson {
+  id             String @id @default(uuid())
+  festivalJuryId String
+  position       Int
+  image          String
 
-  // Используются только для variant = video.
-  videoProvider VideoProvider?
-  videoUrl      String?
+  festivalJury FestivalJury @relation(fields: [festivalJuryId], references: [id], onDelete: Cascade)
 
-  sortOrder Int     @default(0)
-  isActive  Boolean @default(true)
+  translations FestivalJuryPersonTranslation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  translations ProjectSectionTranslation[]
-  media        ProjectSectionMedia[]
-
-  @@index([projectId, sortOrder])
-  @@index([variant])
+  @@unique([festivalJuryId, position])
+  @@index([festivalJuryId])
 }
 
-model ProjectSectionTranslation {
-  id        String @id @default(uuid()) @db.Uuid
-  sectionId String @db.Uuid
-  locale    Locale
+model FestivalJuryPersonTranslation {
+  id                   String @id @default(uuid())
+  festivalJuryPersonId String
+  locale               Locale
+  name                 String
+  position             String
 
-  title    String?
-  subtitle String?
+  festivalJuryPerson FestivalJuryPerson @relation(fields: [festivalJuryPersonId], references: [id], onDelete: Cascade)
 
-  // Хранится как Markdown.
-  body String? @db.Text
-
-  // Используется для variant = quote.
-  author String?
-
-  section ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-
-  @@unique([sectionId, locale])
+  @@unique([festivalJuryPersonId, locale])
+  @@index([festivalJuryPersonId])
   @@index([locale])
 }
 
-model ProjectSectionMedia {
-  id        String @id @default(uuid()) @db.Uuid
-  sectionId String @db.Uuid
-  mediaId   String @db.Uuid
+model FestivalOrganizations {
+  id                String @id @default(uuid())
+  festivalContentId String @unique
 
-  sortOrder Int @default(0)
+  festivalContent FestivalContent @relation(fields: [festivalContentId], references: [id], onDelete: Cascade)
 
-  section ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  translations  FestivalOrganizationsTranslation[]
+  organizations FestivalOrganization[]
 
-  media MediaAsset @relation("ProjectSectionMediaAsset", fields: [mediaId], references: [id], onDelete: Restrict)
-
-  @@unique([sectionId, mediaId])
-  @@index([sectionId, sortOrder])
-  @@index([mediaId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// ============================================================
-// Partners
-//
-// Основная карточка:
-// logo + name + description + website.
-//
-// Старое портфолио сохраняется отдельно как media/videos.
-// Новый landing может показывать только компактные карточки.
-// ============================================================
+model FestivalOrganizationsTranslation {
+  id                      String @id @default(uuid())
+  festivalOrganizationsId String
+  locale                  Locale
+  title                   String
 
-model Partner {
-  id     String  @id @default(uuid()) @db.Uuid
-  logoId String? @db.Uuid
+  festivalOrganizations FestivalOrganizations @relation(fields: [festivalOrganizationsId], references: [id], onDelete: Cascade)
 
-  websiteUrl String?
+  @@unique([festivalOrganizationsId, locale])
+  @@index([festivalOrganizationsId])
+  @@index([locale])
+}
 
-  sortOrder Int     @default(0)
-  isActive  Boolean @default(true)
+model FestivalOrganization {
+  id                      String @id @default(uuid())
+  festivalOrganizationsId String
+  position                Int
+  value                   String
+
+  festivalOrganizations FestivalOrganizations @relation(fields: [festivalOrganizationsId], references: [id], onDelete: Cascade)
+
+  translations FestivalOrganizationTranslation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  logo MediaAsset? @relation("PartnerLogo", fields: [logoId], references: [id], onDelete: Restrict)
-
-  translations PartnerTranslation[]
-  media        PartnerMedia[]
-  videos       PartnerVideo[]
-
-  @@index([logoId])
-  @@index([isActive, sortOrder])
+  @@unique([festivalOrganizationsId, position])
+  @@index([festivalOrganizationsId])
 }
 
-model PartnerTranslation {
-  id        String @id @default(uuid()) @db.Uuid
-  partnerId String @db.Uuid
-  locale    Locale
+model FestivalOrganizationTranslation {
+  id                     String @id @default(uuid())
+  festivalOrganizationId String
+  locale                 Locale
+  name                   String
 
-  name        String
-  description String? @db.Text
+  festivalOrganization FestivalOrganization @relation(fields: [festivalOrganizationId], references: [id], onDelete: Cascade)
 
-  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
-
-  @@unique([partnerId, locale])
+  @@unique([festivalOrganizationId, locale])
+  @@index([festivalOrganizationId])
   @@index([locale])
 }
 
-model PartnerMedia {
-  id        String @id @default(uuid()) @db.Uuid
-  partnerId String @db.Uuid
-  mediaId   String @db.Uuid
+model HolidayShowContent {
+  id           String                          @id @default(uuid())
+  images       String[]                        @default([])
+  translations HolidayShowContentTranslation[]
 
-  sortOrder Int @default(0)
-
-  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
-
-  media MediaAsset @relation("PartnerPortfolioMedia", fields: [mediaId], references: [id], onDelete: Restrict)
-
-  @@unique([partnerId, mediaId])
-  @@index([partnerId, sortOrder])
-  @@index([mediaId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model PartnerVideo {
-  id        String @id @default(uuid()) @db.Uuid
-  partnerId String @db.Uuid
+model HolidayShowContentTranslation {
+  id                   String @id @default(uuid())
+  holidayShowContentId String
+  locale               Locale
+  title                String
 
-  provider VideoProvider
-  url      String
+  holidayShowContent HolidayShowContent @relation(fields: [holidayShowContentId], references: [id], onDelete: Cascade)
 
-  sortOrder Int @default(0)
-
-  partner Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
-
-  @@unique([partnerId, url])
-  @@index([partnerId, sortOrder])
+  @@unique([holidayShowContentId, locale])
+  @@index([holidayShowContentId])
+  @@index([locale])
 }
 
-// ============================================================
-// Certificates / благодарственные письма
-// ============================================================
+model MasterclassesContent {
+  id           String                            @id @default(uuid())
+  images       String[]                          @default([])
+  videos       String[]                          @default([])
+  translations MasterclassesContentTranslation[]
 
-model Certificate {
-  id      String @id @default(uuid()) @db.Uuid
-  imageId String @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
-  year      Int?
-  sortOrder Int     @default(0)
-  isActive  Boolean @default(true)
+model MasterclassesContentTranslation {
+  id                     String  @id @default(uuid())
+  masterclassesContentId String
+  locale                 Locale
+  title                  String
+  text                   String?
+
+  masterclassesContent MasterclassesContent @relation(fields: [masterclassesContentId], references: [id], onDelete: Cascade)
+
+  @@unique([masterclassesContentId, locale])
+  @@index([masterclassesContentId])
+  @@index([locale])
+}
+
+model PerformancesContent {
+  id           String                           @id @default(uuid())
+  images       String[]                         @default([])
+  videos       String[]                         @default([])
+  translations PerformancesContentTranslation[]
+  persons      PerformancePerson[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PerformancesContentTranslation {
+  id                    String @id @default(uuid())
+  performancesContentId String
+  locale                Locale
+  title                 String
+
+  performancesContent PerformancesContent @relation(fields: [performancesContentId], references: [id], onDelete: Cascade)
+
+  @@unique([performancesContentId, locale])
+  @@index([performancesContentId])
+  @@index([locale])
+}
+
+model PerformancePerson {
+  id                    String                         @id @default(uuid())
+  performancesContentId String
+  position              Int
+  translations          PerformancePersonTranslation[]
+
+  performancesContent PerformancesContent @relation(fields: [performancesContentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  image MediaAsset @relation("CertificateImage", fields: [imageId], references: [id], onDelete: Restrict)
-
-  translations CertificateTranslation[]
-
-  @@index([imageId])
-  @@index([isActive, sortOrder])
-  @@index([year])
+  @@unique([performancesContentId, position])
+  @@index([performancesContentId])
 }
 
-model CertificateTranslation {
-  id            String @id @default(uuid()) @db.Uuid
-  certificateId String @db.Uuid
+model PerformancePersonTranslation {
+  id                  String @id @default(uuid())
+  performancePersonId String
+  locale              Locale
+  name                String
+
+  performancePerson PerformancePerson @relation(fields: [performancePersonId], references: [id], onDelete: Cascade)
+
+  @@unique([performancePersonId, locale])
+  @@index([performancePersonId])
+  @@index([locale])
+}
+
+model PryalochkaOfTimeContent {
+  id     String   @id @default(uuid())
+  images String[] @default([])
+
+  events PryalochkaOfTimeEvent[]
+  actors PryalochkaOfTimeActor[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PryalochkaOfTimeEvent {
+  id                        String  @id @default(uuid())
+  pryalochkaOfTimeContentId String
+  position                  Int
+  image                     String
+  link                      String?
+
+  pryalochkaOfTimeContent PryalochkaOfTimeContent @relation(fields: [pryalochkaOfTimeContentId], references: [id], onDelete: Cascade)
+
+  translations PryalochkaOfTimeEventTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pryalochkaOfTimeContentId, position])
+  @@index([pryalochkaOfTimeContentId])
+}
+
+model PryalochkaOfTimeEventTranslation {
+  id                      String @id @default(uuid())
+  pryalochkaOfTimeEventId String
+  locale                  Locale
+  text                    String
+
+  pryalochkaOfTimeEvent PryalochkaOfTimeEvent @relation(fields: [pryalochkaOfTimeEventId], references: [id], onDelete: Cascade)
+
+  @@unique([pryalochkaOfTimeEventId, locale])
+  @@index([pryalochkaOfTimeEventId])
+  @@index([locale])
+}
+
+model PryalochkaOfTimeActor {
+  id                        String @id @default(uuid())
+  pryalochkaOfTimeContentId String
+  position                  Int
+
+  pryalochkaOfTimeContent PryalochkaOfTimeContent @relation(fields: [pryalochkaOfTimeContentId], references: [id], onDelete: Cascade)
+
+  translations PryalochkaOfTimeActorTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pryalochkaOfTimeContentId, position])
+  @@index([pryalochkaOfTimeContentId])
+}
+
+model PryalochkaOfTimeActorTranslation {
+  id                      String @id @default(uuid())
+  pryalochkaOfTimeActorId String
+  locale                  Locale
+  name                    String
+  text                    String
+
+  pryalochkaOfTimeActor PryalochkaOfTimeActor @relation(fields: [pryalochkaOfTimeActorId], references: [id], onDelete: Cascade)
+
+  @@unique([pryalochkaOfTimeActorId, locale])
+  @@index([pryalochkaOfTimeActorId])
+  @@index([locale])
+}
+
+model UstaContent {
+  id           String                   @id @default(uuid())
+  videos       String[]                 @default([])
+  images       String[]                 @default([])
+  achievements String[]                 @default([])
+  translations UstaContentTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UstaContentTranslation {
+  id            String @id @default(uuid())
+  ustaContentId String
   locale        Locale
+  text          String
 
-  title       String?
-  issuer      String?
-  description String? @db.Text
+  ustaContent UstaContent @relation(fields: [ustaContentId], references: [id], onDelete: Cascade)
 
-  certificate Certificate @relation(fields: [certificateId], references: [id], onDelete: Cascade)
+  @@unique([ustaContentId, locale])
+  @@index([ustaContentId])
+  @@index([locale])
+}
 
-  @@unique([certificateId, locale])
+model AttractionContent {
+  id           String                         @id @default(uuid())
+  image        String
+  translations AttractionContentTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AttractionContentTranslation {
+  id                  String @id @default(uuid())
+  attractionContentId String
+  locale              Locale
+  text                String
+
+  attractionContent AttractionContent @relation(fields: [attractionContentId], references: [id], onDelete: Cascade)
+
+  @@unique([attractionContentId, locale])
+  @@index([attractionContentId])
+  @@index([locale])
+}
+
+model MascotCostumeContent {
+  id           String                            @id @default(uuid())
+  image        String
+  translations MascotCostumeContentTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MascotCostumeContentTranslation {
+  id                     String @id @default(uuid())
+  mascotCostumeContentId String
+  locale                 Locale
+  text                   String
+
+  mascotCostumeContent MascotCostumeContent @relation(fields: [mascotCostumeContentId], references: [id], onDelete: Cascade)
+
+  @@unique([mascotCostumeContentId, locale])
+  @@index([mascotCostumeContentId])
+  @@index([locale])
+}
+
+model RequisiteContent {
+  id           String                        @id @default(uuid())
+  translations RequisiteContentTranslation[]
+  requisites   RequisiteItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RequisiteContentTranslation {
+  id                 String  @id @default(uuid())
+  requisiteContentId String
+  locale             Locale
+  title              String?
+
+  requisiteContent RequisiteContent @relation(fields: [requisiteContentId], references: [id], onDelete: Cascade)
+
+  @@unique([requisiteContentId, locale])
+  @@index([requisiteContentId])
+  @@index([locale])
+}
+
+model RequisiteItem {
+  id                 String                     @id @default(uuid())
+  requisiteContentId String
+  position           Int
+  image              String
+  translations       RequisiteItemTranslation[]
+
+  requisiteContent RequisiteContent @relation(fields: [requisiteContentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([requisiteContentId, position])
+  @@index([requisiteContentId])
+}
+
+model RequisiteItemTranslation {
+  id              String  @id @default(uuid())
+  requisiteItemId String
+  locale          Locale
+  title           String?
+
+  requisiteItem RequisiteItem @relation(fields: [requisiteItemId], references: [id], onDelete: Cascade)
+
+  @@unique([requisiteItemId, locale])
+  @@index([requisiteItemId])
+  @@index([locale])
+}
+
+model TeamMember {
+  id           String                  @id @default(uuid())
+  image        String
+  links        String[]                @default([])
+  achievements String[]                @default([])
+  translations TeamMemberTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMemberTranslation {
+  id           String @id @default(uuid())
+  teamMemberId String
+  locale       Locale
+  name         String
+  role         String
+  bio          String
+
+  teamMember TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([teamMemberId, locale])
+  @@index([teamMemberId])
   @@index([locale])
 }
