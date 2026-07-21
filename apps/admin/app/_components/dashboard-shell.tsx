@@ -10,15 +10,11 @@ import {
   SheetTrigger,
 } from '@ak-strannik/ui/components/sheet';
 import {
-  CalendarDays,
   FolderKanban,
   Handshake,
-  Home,
-  Images,
   LogOut,
   Menu,
   PackageOpen,
-  ShieldCheck,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -27,14 +23,10 @@ import { Suspense, type ReactNode } from 'react';
 import { authClient } from '../../lib/auth-client';
 
 const navigation = [
-  { href: '/', label: 'Главная', icon: Home },
+  { href: '/about', label: 'О нас', icon: Handshake },
   { href: '/projects', label: 'Проекты', icon: FolderKanban },
-  { href: '/events', label: 'Мероприятия', icon: CalendarDays },
-  { href: '/rentals', label: 'Аренда', icon: PackageOpen },
+  { href: '/rental', label: 'Аренда', icon: PackageOpen },
   { href: '/team', label: 'Команда', icon: Users },
-  { href: '/partners', label: 'Партнёры', icon: Handshake },
-  { href: '/certificates', label: 'Сертификаты', icon: ShieldCheck },
-  { href: '/media', label: 'Медиатека', icon: Images },
 ] as const;
 
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
@@ -43,8 +35,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav aria-label="Основная навигация" className="grid gap-1">
       {navigation.map(({ href, label, icon: Icon }) => {
-        const active =
-          href === '/' ? pathname === href : pathname.startsWith(href);
+        const active = pathname.startsWith(href);
 
         return (
           <Link

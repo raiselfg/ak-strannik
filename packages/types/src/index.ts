@@ -1,4 +1,4 @@
-export * from './forms/login-form.schema';
+export * from './forms/index';
 export * from './common/index';
 export * from './charity/index';
 export * from './events/index';

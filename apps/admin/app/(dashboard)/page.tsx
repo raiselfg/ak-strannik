@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -16,7 +15,7 @@ const sections = [
   {
     href: '/about',
     title: 'О нас',
-    description: '',
+    description: 'Благотворительность, события, партнёры и благодарности.',
     icon: Handshake,
   },
   {
@@ -26,7 +25,7 @@ const sections = [
     icon: FolderKanban,
   },
   {
-    href: '/rentals',
+    href: '/rental',
     title: 'Аренда',
     description: 'Каталог костюмов, аттракционов и реквизита.',
     icon: PackageOpen,
@@ -64,20 +63,6 @@ export default function DashboardPage() {
           </Link>
         ))}
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Последние изменения</CardTitle>
-          <CardDescription>
-            Здесь появится история изменений после подключения данных.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border border-dashed px-4 py-10 text-center text-sm text-muted-foreground">
-            Изменений пока нет
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
