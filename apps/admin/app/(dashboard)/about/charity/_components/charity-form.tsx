@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  createPartnerContentDtoSchema,
-  type CreatePartnerContentDto,
+  createCharityContentDtoSchema,
+  type CreateCharityContentDto,
 } from '@ak-strannik/types';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
@@ -12,9 +12,9 @@ import {
   CardTitle,
 } from '@ak-strannik/ui/components/card';
 import {
-  Field,
   FieldError,
   FieldGroup,
+  Field,
   FieldLabel,
 } from '@ak-strannik/ui/components/field';
 import { Input } from '@ak-strannik/ui/components/input';
@@ -32,28 +32,29 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import {
-  createPartnerContent,
-  updatePartnerContent,
-} from '../_actions/partner.actions';
 import { ImagesField } from '../../../../_components/images-field';
+import { VideoUrlsField } from '../../../../_components/video-urls-field';
+import {
+  createCharityContent,
+  updateCharityContent,
+} from '../_actions/charity.actions';
 
-export function PartnerForm({
+export function CharityForm({
+  charityId,
   initialValues,
-  partnerId,
 }: {
-  initialValues: CreatePartnerContentDto;
-  partnerId?: string;
+  charityId?: string;
+  initialValues: CreateCharityContentDto;
 }) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const form = useForm<
-    z.input<typeof createPartnerContentDtoSchema>,
+    z.input<typeof createCharityContentDtoSchema>,
     undefined,
-    CreatePartnerContentDto
+    CreateCharityContentDto
   >({
-    resolver: zodResolver(createPartnerContentDtoSchema),
+    resolver: zodResolver(createCharityContentDtoSchema),
     defaultValues: initialValues,
   });
   const { fields } = useFieldArray({
@@ -61,21 +62,17 @@ export function PartnerForm({
     name: 'translations',
   });
   const images = useWatch({ control: form.control, name: 'images' }) ?? [];
+  const videos = useWatch({ control: form.control, name: 'videos' }) ?? [];
   const isSubmitting = form.formState.isSubmitting;
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
-    const result = partnerId
-      ? await updatePartnerContent(partnerId, values)
-      : await createPartnerContent(values);
-
-    if (!result.success) {
-      setFormError(result.message);
-      return;
-    }
-
+    const result = charityId
+      ? await updateCharityContent(charityId, values)
+      : await createCharityContent(values);
+    if (!result.success) return setFormError(result.message);
     toast.success(result.message);
-    router.push('/about/partners');
+    router.push('/about/charity');
     router.refresh();
   });
 
@@ -87,23 +84,11 @@ export function PartnerForm({
         </CardHeader>
         <CardContent>
           <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="partner-link">Ссылка</FieldLabel>
-              <Input
-                aria-invalid={Boolean(form.formState.errors.link)}
-                id="partner-link"
-                placeholder="https://example.com"
-                {...form.register('link')}
-              />
-              {form.formState.errors.link?.message ? (
-                <FieldError>{form.formState.errors.link.message}</FieldError>
-              ) : null}
-            </Field>
             <ImagesField
               disabled={isSubmitting}
               images={images}
-              onChange={(nextImages) =>
-                form.setValue('images', nextImages, {
+              onChange={(value) =>
+                form.setValue('images', value, {
                   shouldDirty: true,
                   shouldValidate: true,
                 })
@@ -112,6 +97,19 @@ export function PartnerForm({
             />
             {form.formState.errors.images?.message ? (
               <FieldError>{form.formState.errors.images.message}</FieldError>
+            ) : null}
+            <VideoUrlsField
+              disabled={isSubmitting || uploading}
+              videos={videos}
+              onChange={(value) =>
+                form.setValue('videos', value, {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                })
+              }
+            />
+            {form.formState.errors.videos?.message ? (
+              <FieldError>{form.formState.errors.videos.message}</FieldError>
             ) : null}
           </FieldGroup>
         </CardContent>
@@ -135,14 +133,14 @@ export function PartnerForm({
                 />
                 <FieldGroup>
                   <Field>
-                    <FieldLabel htmlFor={`partner-title-${translation.locale}`}>
+                    <FieldLabel htmlFor={`charity-title-${translation.locale}`}>
                       Название
                     </FieldLabel>
                     <Input
                       aria-invalid={Boolean(
                         form.formState.errors.translations?.[index]?.title
                       )}
-                      id={`partner-title-${translation.locale}`}
+                      id={`charity-title-${translation.locale}`}
                       {...form.register(`translations.${index}.title`)}
                     />
                     {form.formState.errors.translations?.[index]?.title
@@ -156,14 +154,14 @@ export function PartnerForm({
                     ) : null}
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor={`partner-text-${translation.locale}`}>
+                    <FieldLabel htmlFor={`charity-text-${translation.locale}`}>
                       Текст
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(
                         form.formState.errors.translations?.[index]?.text
                       )}
-                      id={`partner-text-${translation.locale}`}
+                      id={`charity-text-${translation.locale}`}
                       {...form.register(`translations.${index}.text`)}
                     />
                     {form.formState.errors.translations?.[index]?.text
@@ -196,7 +194,7 @@ export function PartnerForm({
           type="button"
           variant="outline"
         >
-          <Link href="/about/partners">Отменить</Link>
+          <Link href="/about/charity">Отменить</Link>
         </Button>
         <Button disabled={isSubmitting || uploading} type="submit">
           {isSubmitting ? 'Сохранение…' : 'Сохранить'}

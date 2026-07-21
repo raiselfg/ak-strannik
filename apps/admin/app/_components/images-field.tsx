@@ -10,7 +10,8 @@ import {
 import { ArrowDown, ArrowUp, ImagePlus, Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { uploadPartnerImage } from '../_actions/upload-image.action';
+import { uploadImage } from '../_actions/upload-image.action';
+import { MediaImage } from './media-image';
 
 const maxImageSize = 4 * 1024 * 1024;
 
@@ -39,7 +40,7 @@ export function ImagesField({
         for (const file of files) {
           const formData = new FormData();
           formData.set('file', file);
-          const result = await uploadPartnerImage(formData);
+          const result = await uploadImage(formData);
           if (!result.success) {
             setError(result.message);
             continue;
@@ -121,11 +122,11 @@ export function ImagesField({
               className="overflow-hidden rounded-xl border bg-card"
               key={`${url}-${index}`}
             >
-              <div
-                aria-label={`Изображение ${index + 1}`}
-                className="aspect-video bg-muted bg-cover bg-center"
-                role="img"
-                style={{ backgroundImage: `url(${JSON.stringify(url)})` }}
+              <MediaImage
+                alt={`Изображение ${index + 1}`}
+                className="aspect-video w-full"
+                fit="cover"
+                src={url}
               />
               <div className="flex items-center justify-between gap-2 p-2">
                 <span className="truncate text-xs text-muted-foreground">

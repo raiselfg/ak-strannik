@@ -2,10 +2,10 @@
 
 import { Prisma, prisma } from '@ak-strannik/database';
 import {
-  createPartnerContentDtoSchema,
-  type CreatePartnerContentDto,
-  updatePartnerContentDtoSchema,
-  type UpdatePartnerContentDto,
+  createCharityContentDtoSchema,
+  type CreateCharityContentDto,
+  updateCharityContentDtoSchema,
+  type UpdateCharityContentDto,
 } from '@ak-strannik/types';
 import { revalidatePath } from 'next/cache';
 import {
@@ -17,36 +17,32 @@ import {
 } from '../../../../../lib/action-utils';
 import { validateRequiredLocales } from '../../../../../lib/validate-required-locales';
 
-const partnersPath = '/about/partners';
+const charityPath = '/about/charity';
 
 function handleDatabaseError(error: unknown): ActionFailure {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === 'P2002') {
-      return {
-        success: false,
-        message: 'Партнёр с такими данными уже существует',
-      };
+      return { success: false, message: 'Такая запись уже существует' };
     }
-
     if (error.code === 'P2025') {
-      return { success: false, message: 'Партнёр не найден' };
+      return { success: false, message: 'Благотворительный проект не найден' };
     }
   }
 
-  console.error('[PartnerContent] mutation failed', error);
+  console.error('[CharityContent] mutation failed', error);
   return {
     success: false,
     message: 'Не удалось сохранить изменения. Попробуйте ещё раз',
   };
 }
 
-export async function createPartnerContent(
-  input: CreatePartnerContentDto
+export async function createCharityContent(
+  input: CreateCharityContentDto
 ): Promise<ActionResult> {
   const authFailure = await authenticate();
   if (authFailure) return authFailure;
 
-  const parsed = createPartnerContentDtoSchema.safeParse(input);
+  const parsed = createCharityContentDtoSchema.safeParse(input);
   if (!parsed.success) {
     return {
       success: false,
@@ -54,15 +50,14 @@ export async function createPartnerContent(
       fieldErrors: fieldErrors(parsed.error),
     };
   }
-
   const localeFailure = validateRequiredLocales(parsed.data.translations);
   if (localeFailure) return localeFailure;
 
   try {
-    await prisma.partnerContent.create({
+    await prisma.charityContent.create({
       data: {
-        link: parsed.data.link,
         images: parsed.data.images,
+        videos: parsed.data.videos,
         translations: {
           create: parsed.data.translations.map((translation) => ({
             locale: translation.locale,
@@ -72,22 +67,22 @@ export async function createPartnerContent(
         },
       },
     });
-    revalidatePath(partnersPath);
-    return { success: true, message: 'Партнёр создан' };
+    revalidatePath(charityPath);
+    return { success: true, message: 'Благотворительный проект создан' };
   } catch (error) {
     return handleDatabaseError(error);
   }
 }
 
-export async function updatePartnerContent(
+export async function updateCharityContent(
   id: string,
-  input: UpdatePartnerContentDto
+  input: UpdateCharityContentDto
 ): Promise<ActionResult> {
   const authFailure = await authenticate();
   if (authFailure) return authFailure;
 
   const parsedId = idSchema.safeParse(id);
-  const parsed = updatePartnerContentDtoSchema.safeParse(input);
+  const parsed = updateCharityContentDtoSchema.safeParse(input);
   if (!parsedId.success || !parsed.success) {
     return {
       success: false,
@@ -95,7 +90,6 @@ export async function updatePartnerContent(
       fieldErrors: parsed.success ? undefined : fieldErrors(parsed.error),
     };
   }
-
   const localeFailure = validateRequiredLocales(parsed.data.translations);
   if (localeFailure) return localeFailure;
 
@@ -117,61 +111,57 @@ export async function updatePartnerContent(
 
   try {
     await prisma.$transaction(async (transaction) => {
-      await transaction.partnerContent.update({
+      await transaction.charityContent.update({
         where: { id: parsedId.data },
         data: {
-          link: parsed.data.link,
           images: parsed.data.images,
+          videos: parsed.data.videos,
         },
       });
 
       for (const translation of translations) {
         const { locale, text, title } = translation;
         if (!locale || !title) {
-          throw new Error('Validated partner translation is incomplete');
+          throw new Error('Validated charity translation is incomplete');
         }
-
-        await transaction.partnerContentTranslation.upsert({
+        await transaction.charityContentTranslation.upsert({
           where: {
-            partnerContentId_locale: {
-              partnerContentId: parsedId.data,
+            charityContentId_locale: {
+              charityContentId: parsedId.data,
               locale,
             },
           },
           create: {
-            partnerContentId: parsedId.data,
+            charityContentId: parsedId.data,
             locale,
             title,
             text,
           },
-          update: {
-            title,
-            text,
-          },
+          update: { title, text },
         });
       }
     });
-    revalidatePath(partnersPath);
-    revalidatePath(`${partnersPath}/${parsedId.data}/edit`);
-    return { success: true, message: 'Партнёр обновлён' };
+    revalidatePath(charityPath);
+    revalidatePath(`${charityPath}/${parsedId.data}/edit`);
+    return { success: true, message: 'Благотворительный проект обновлён' };
   } catch (error) {
     return handleDatabaseError(error);
   }
 }
 
-export async function deletePartnerContent(id: string): Promise<ActionResult> {
+export async function deleteCharityContent(id: string): Promise<ActionResult> {
   const authFailure = await authenticate();
   if (authFailure) return authFailure;
 
   const parsedId = idSchema.safeParse(id);
   if (!parsedId.success) {
-    return { success: false, message: 'Некорректный идентификатор партнёра' };
+    return { success: false, message: 'Некорректный идентификатор записи' };
   }
 
   try {
-    await prisma.partnerContent.delete({ where: { id: parsedId.data } });
-    revalidatePath(partnersPath);
-    return { success: true, message: 'Партнёр удалён' };
+    await prisma.charityContent.delete({ where: { id: parsedId.data } });
+    revalidatePath(charityPath);
+    return { success: true, message: 'Благотворительный проект удалён' };
   } catch (error) {
     return handleDatabaseError(error);
   }

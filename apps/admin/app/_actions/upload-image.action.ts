@@ -1,9 +1,9 @@
 'use server';
 
 import { randomUUID } from 'node:crypto';
-import type { ActionResult } from '../../../../../lib/action-utils';
-import { authenticate } from '../../../../../lib/action-utils';
-import { getMediaPublicUrl, putObject } from '../../../../../lib/s3cloud';
+import type { ActionResult } from '../../lib/action-utils';
+import { authenticate } from '../../lib/action-utils';
+import { getMediaPublicUrl, putObject } from '../../lib/s3cloud';
 
 const maxImageSize = 4 * 1024 * 1024;
 
@@ -12,7 +12,7 @@ function fileExtension(file: File) {
   return extension && /^[a-z0-9]{1,10}$/.test(extension) ? extension : 'image';
 }
 
-export async function uploadPartnerImage(
+export async function uploadImage(
   formData: FormData
 ): Promise<ActionResult<{ url: string }>> {
   const authFailure = await authenticate();
@@ -33,7 +33,7 @@ export async function uploadPartnerImage(
   }
 
   try {
-    const objectKey = `partners/${randomUUID()}.${fileExtension(file)}`;
+    const objectKey = `media/${randomUUID()}.${fileExtension(file)}`;
     const body = Buffer.from(await file.arrayBuffer());
     await putObject(objectKey, body, file.type);
     return {
@@ -41,7 +41,7 @@ export async function uploadPartnerImage(
       data: { url: getMediaPublicUrl(objectKey) },
     };
   } catch (error) {
-    console.error('[PartnerContent] image upload failed', error);
+    console.error('[Media] image upload failed', error);
     return {
       success: false,
       message: 'Не удалось загрузить изображение. Попробуйте ещё раз',
