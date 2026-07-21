@@ -7,7 +7,9 @@ export type ActionFailure = {
   fieldErrors?: Record<string, string[]>;
 };
 
-export type ActionResult = { success: true; message?: string } | ActionFailure;
+export type ActionResult<T = never> =
+  | { success: true; message?: string; data?: T }
+  | ActionFailure;
 
 export const idSchema = z.uuid();
 
