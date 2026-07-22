@@ -41,6 +41,28 @@ import {
 } from '../_actions/performances.actions';
 import { PerformancePersonSection } from './performance-person-section';
 
+function removeIdsForCreate(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeIdsForCreate);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== 'id')
+      .map(([key, nestedValue]) => [key, removeIdsForCreate(nestedValue)])
+  );
+}
+
+function removeEmptyIds(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeEmptyIds);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key, nestedValue]) => key !== 'id' || nestedValue !== '')
+      .map(([key, nestedValue]) => [key, removeEmptyIds(nestedValue)])
+  );
+}
+
 export function PerformancesContentForm({
   contentId,
   initialValues,
@@ -56,7 +78,14 @@ export function PerformancesContentForm({
     undefined,
     UpdatePerformancesContentDto
   >({
-    resolver: zodResolver(updatePerformancesContentDtoSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updatePerformancesContentDtoSchema)(
+        removeEmptyIds(values) as z.input<
+          typeof updatePerformancesContentDtoSchema
+        >,
+        context,
+        options
+      ),
     defaultValues: initialValues,
   });
   const { append, fields, move, remove } = useFieldArray({
@@ -69,37 +98,41 @@ export function PerformancesContentForm({
     useWatch({ control: form.control, name: 'translations' }) ?? [];
   const isSubmitting = form.formState.isSubmitting;
 
-  const submit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const normalized: UpdatePerformancesContentDto = {
-      ...values,
-      persons: (values.persons ?? []).map((person, position) => ({
-        ...person,
-        position,
-      })),
-    };
-    const result = contentId
-      ? await updatePerformancesContent(contentId, normalized)
-      : await (async () => {
-          const createInput =
-            createPerformancesContentDtoSchema.safeParse(normalized);
-          if (!createInput.success) {
-            return {
-              success: false as const,
-              message: 'Проверьте заполнение формы',
-            };
-          }
-          return createPerformancesContent(createInput.data);
-        })();
+  const submit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const normalized: UpdatePerformancesContentDto = {
+        ...values,
+        persons: (values.persons ?? []).map((person, position) => ({
+          ...person,
+          position,
+        })),
+      };
+      const result = contentId
+        ? await updatePerformancesContent(contentId, normalized)
+        : await (async () => {
+            const createInput = createPerformancesContentDtoSchema.safeParse(
+              removeIdsForCreate(normalized)
+            );
+            if (!createInput.success) {
+              return {
+                success: false as const,
+                message: 'Проверьте заполнение формы',
+              };
+            }
+            return createPerformancesContent(createInput.data);
+          })();
 
-    if (!result.success) {
-      setFormError(result.message);
-      return;
-    }
-    toast.success(result.message);
-    router.push('/projects/performances');
-    router.refresh();
-  });
+      if (!result.success) {
+        setFormError(result.message);
+        return;
+      }
+      toast.success(result.message);
+      router.push('/projects/performances');
+      router.refresh();
+    },
+    () => setFormError('Проверьте заполнение обязательных полей')
+  );
 
   return (
     <form className="space-y-6" onSubmit={submit}>
