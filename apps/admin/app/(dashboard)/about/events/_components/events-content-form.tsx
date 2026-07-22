@@ -61,33 +61,49 @@ export function EventsContentForm({
     setUploadCount((count) => Math.max(0, count + (active ? 1 : -1)));
   }
 
-  const onSubmit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const normalized: UpdateEventsContentDto = {
-      year: values.year,
-      events: (values.events ?? []).map((event, position) => ({
-        ...event,
-        position,
-      })),
-    };
+  const onSubmit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const normalized: UpdateEventsContentDto = {
+        year: values.year,
+        events: (values.events ?? []).map((event, position) => ({
+          ...event,
+          position,
+        })),
+      };
 
-    let result;
-    if (contentId) {
-      result = await updateEventsContent(contentId, normalized);
-    } else {
-      const createInput = createEventsContentDtoSchema.safeParse(normalized);
-      if (!createInput.success) {
-        setFormError('Проверьте заполнение всех событий');
-        return;
+      let result;
+      if (contentId) {
+        result = await updateEventsContent(contentId, normalized);
+      } else {
+        // The edit DTO contains optional database IDs. Do not pass those IDs to
+        // the strict create schema, even when their values are undefined.
+        const createInput = createEventsContentDtoSchema.safeParse({
+          year: normalized.year,
+          events: (normalized.events ?? []).map((event) => ({
+            position: event.position,
+            images: event.images,
+            videos: event.videos,
+            translations: (event.translations ?? []).map((translation) => ({
+              locale: translation.locale,
+              text: translation.text,
+            })),
+          })),
+        });
+        if (!createInput.success) {
+          setFormError('Проверьте заполнение всех событий');
+          return;
+        }
+        result = await createEventsContent(createInput.data);
       }
-      result = await createEventsContent(createInput.data);
-    }
 
-    if (!result.success) return setFormError(result.message);
-    toast.success(result.message);
-    router.push('/about/events');
-    router.refresh();
-  });
+      if (!result.success) return setFormError(result.message);
+      toast.success(result.message);
+      router.push('/about/events');
+      router.refresh();
+    },
+    () => setFormError('Проверьте поля, отмеченные красным')
+  );
 
   return (
     <form className="space-y-6" onSubmit={onSubmit}>
