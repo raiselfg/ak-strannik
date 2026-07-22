@@ -43,6 +43,28 @@ function nullableTitle(value: string | null | undefined): string | null {
   return value === '' || value == null ? null : value;
 }
 
+function removeIdsForCreate(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeIdsForCreate);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== 'id')
+      .map(([key, nestedValue]) => [key, removeIdsForCreate(nestedValue)])
+  );
+}
+
+function removeEmptyIds(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeEmptyIds);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key, nestedValue]) => key !== 'id' || nestedValue !== '')
+      .map(([key, nestedValue]) => [key, removeEmptyIds(nestedValue)])
+  );
+}
+
 export function RequisiteContentForm({
   contentId,
   initialValues,
@@ -58,7 +80,14 @@ export function RequisiteContentForm({
     undefined,
     UpdateRequisiteContentDto
   >({
-    resolver: zodResolver(updateRequisiteContentDtoSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updateRequisiteContentDtoSchema)(
+        removeEmptyIds(values) as z.input<
+          typeof updateRequisiteContentDtoSchema
+        >,
+        context,
+        options
+      ),
     defaultValues: initialValues,
   });
   const { append, fields, move, remove } = useFieldArray({
@@ -72,43 +101,47 @@ export function RequisiteContentForm({
   const trackUpload = (active: boolean) =>
     setUploadCount((count) => (active ? count + 1 : Math.max(0, count - 1)));
 
-  const submit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const normalized: UpdateRequisiteContentDto = {
-      ...values,
-      translations: (values.translations ?? []).map((translation) => ({
-        ...translation,
-        title: nullableTitle(translation.title),
-      })),
-      requisites: (values.requisites ?? []).map((requisite, position) => ({
-        ...requisite,
-        position,
-        translations: (requisite.translations ?? []).map((translation) => ({
+  const submit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const normalized: UpdateRequisiteContentDto = {
+        ...values,
+        translations: (values.translations ?? []).map((translation) => ({
           ...translation,
           title: nullableTitle(translation.title),
         })),
-      })),
-    };
-    const result = contentId
-      ? await updateRequisiteContent(contentId, normalized)
-      : await (async () => {
-          const createInput =
-            createRequisiteContentDtoSchema.safeParse(normalized);
-          if (!createInput.success)
-            return {
-              success: false as const,
-              message: 'Проверьте заполнение формы',
-            };
-          return createRequisiteContent(createInput.data);
-        })();
-    if (!result.success) {
-      setFormError(result.message);
-      return;
-    }
-    toast.success(result.message);
-    router.push('/rental/requisite');
-    router.refresh();
-  });
+        requisites: (values.requisites ?? []).map((requisite, position) => ({
+          ...requisite,
+          position,
+          translations: (requisite.translations ?? []).map((translation) => ({
+            ...translation,
+            title: nullableTitle(translation.title),
+          })),
+        })),
+      };
+      const result = contentId
+        ? await updateRequisiteContent(contentId, normalized)
+        : await (async () => {
+            const createInput = createRequisiteContentDtoSchema.safeParse(
+              removeIdsForCreate(normalized)
+            );
+            if (!createInput.success)
+              return {
+                success: false as const,
+                message: 'Проверьте заполнение формы',
+              };
+            return createRequisiteContent(createInput.data);
+          })();
+      if (!result.success) {
+        setFormError(result.message);
+        return;
+      }
+      toast.success(result.message);
+      router.push('/rental/requisite');
+      router.refresh();
+    },
+    () => setFormError('Проверьте заполнение обязательных полей')
+  );
 
   return (
     <form className="space-y-6" onSubmit={submit}>

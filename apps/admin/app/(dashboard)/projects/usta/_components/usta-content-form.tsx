@@ -36,6 +36,28 @@ import { ImagesField } from '../../../../_components/images-field';
 import { VideoUrlsField } from '../../../../_components/video-urls-field';
 import { createUstaContent, updateUstaContent } from '../_actions/usta.actions';
 
+function removeIdsForCreate(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeIdsForCreate);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== 'id')
+      .map(([key, nestedValue]) => [key, removeIdsForCreate(nestedValue)])
+  );
+}
+
+function removeEmptyIds(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeEmptyIds);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key, nestedValue]) => key !== 'id' || nestedValue !== '')
+      .map(([key, nestedValue]) => [key, removeEmptyIds(nestedValue)])
+  );
+}
+
 export function UstaContentForm({
   contentId,
   initialValues,
@@ -51,7 +73,12 @@ export function UstaContentForm({
     undefined,
     UpdateUstaContentDto
   >({
-    resolver: zodResolver(updateUstaContentDtoSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updateUstaContentDtoSchema)(
+        removeEmptyIds(values) as z.input<typeof updateUstaContentDtoSchema>,
+        context,
+        options
+      ),
     defaultValues: initialValues,
   });
   const videos = useWatch({ control: form.control, name: 'videos' }) ?? [];
@@ -65,27 +92,32 @@ export function UstaContentForm({
   const trackUpload = (active: boolean) =>
     setUploadCount((count) => (active ? count + 1 : Math.max(0, count - 1)));
 
-  const submit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const result = contentId
-      ? await updateUstaContent(contentId, values)
-      : await (async () => {
-          const createInput = createUstaContentDtoSchema.safeParse(values);
-          if (!createInput.success)
-            return {
-              success: false as const,
-              message: 'Проверьте заполнение формы',
-            };
-          return createUstaContent(createInput.data);
-        })();
-    if (!result.success) {
-      setFormError(result.message);
-      return;
-    }
-    toast.success(result.message);
-    router.push('/projects/usta');
-    router.refresh();
-  });
+  const submit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const result = contentId
+        ? await updateUstaContent(contentId, values)
+        : await (async () => {
+            const createInput = createUstaContentDtoSchema.safeParse(
+              removeIdsForCreate(values)
+            );
+            if (!createInput.success)
+              return {
+                success: false as const,
+                message: 'Проверьте заполнение формы',
+              };
+            return createUstaContent(createInput.data);
+          })();
+      if (!result.success) {
+        setFormError(result.message);
+        return;
+      }
+      toast.success(result.message);
+      router.push('/projects/usta');
+      router.refresh();
+    },
+    () => setFormError('Проверьте заполнение обязательных полей')
+  );
 
   return (
     <form className="space-y-6" onSubmit={submit}>

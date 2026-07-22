@@ -29,6 +29,28 @@ import {
 import { PryalochkaActorSection } from './pryalochka-actor-section';
 import { PryalochkaEventSection } from './pryalochka-event-section';
 
+function removeIdsForCreate(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeIdsForCreate);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== 'id')
+      .map(([key, nestedValue]) => [key, removeIdsForCreate(nestedValue)])
+  );
+}
+
+function removeEmptyIds(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeEmptyIds);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key, nestedValue]) => key !== 'id' || nestedValue !== '')
+      .map(([key, nestedValue]) => [key, removeEmptyIds(nestedValue)])
+  );
+}
+
 export function PryalochkaOfTimeForm({
   contentId,
   initialValues,
@@ -44,7 +66,14 @@ export function PryalochkaOfTimeForm({
     undefined,
     UpdatePryalochkaOfTimeContentDto
   >({
-    resolver: zodResolver(updatePryalochkaOfTimeContentDtoSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updatePryalochkaOfTimeContentDtoSchema)(
+        removeEmptyIds(values) as z.input<
+          typeof updatePryalochkaOfTimeContentDtoSchema
+        >,
+        context,
+        options
+      ),
     defaultValues: initialValues,
   });
   const events = useFieldArray({ control: form.control, name: 'events' });
@@ -55,35 +84,39 @@ export function PryalochkaOfTimeForm({
   const trackUpload = (active: boolean) =>
     setUploadCount((count) => Math.max(0, count + (active ? 1 : -1)));
 
-  const submit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const normalized: UpdatePryalochkaOfTimeContentDto = {
-      images: values.images ?? [],
-      events: (values.events ?? []).map((event, position) => ({
-        ...event,
-        link: event.link?.trim() ? event.link : null,
-        position,
-      })),
-      actors: (values.actors ?? []).map((actor, position) => ({
-        ...actor,
-        position,
-      })),
-    };
-    let result;
-    if (contentId)
-      result = await updatePryalochkaOfTimeContent(contentId, normalized);
-    else {
-      const parsed =
-        createPryalochkaOfTimeContentDtoSchema.safeParse(normalized);
-      if (!parsed.success)
-        return setFormError('Проверьте заполнение событий и актёров');
-      result = await createPryalochkaOfTimeContent(parsed.data);
-    }
-    if (!result.success) return setFormError(result.message);
-    toast.success(result.message);
-    router.push('/projects/pryalochka-of-time');
-    router.refresh();
-  });
+  const submit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const normalized: UpdatePryalochkaOfTimeContentDto = {
+        images: values.images ?? [],
+        events: (values.events ?? []).map((event, position) => ({
+          ...event,
+          link: event.link?.trim() ? event.link : null,
+          position,
+        })),
+        actors: (values.actors ?? []).map((actor, position) => ({
+          ...actor,
+          position,
+        })),
+      };
+      let result;
+      if (contentId)
+        result = await updatePryalochkaOfTimeContent(contentId, normalized);
+      else {
+        const parsed = createPryalochkaOfTimeContentDtoSchema.safeParse(
+          removeIdsForCreate(normalized)
+        );
+        if (!parsed.success)
+          return setFormError('Проверьте заполнение событий и актёров');
+        result = await createPryalochkaOfTimeContent(parsed.data);
+      }
+      if (!result.success) return setFormError(result.message);
+      toast.success(result.message);
+      router.push('/projects/pryalochka-of-time');
+      router.refresh();
+    },
+    () => setFormError('Проверьте заполнение обязательных полей')
+  );
 
   return (
     <form className="space-y-8" onSubmit={submit}>
