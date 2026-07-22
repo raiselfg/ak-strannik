@@ -1,22 +1,21 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
-import { getActiveTeamMembers } from '@/features/team/queries';
 import type { Locale } from '@/i18n/routing';
 
 export async function TeamSection({ locale }: { locale: Locale }) {
-  let members;
-  try {
-    members = await getActiveTeamMembers(locale);
-  } catch (error) {
-    const errorCode = getErrorCode(error);
-    console.error(
-      `[team] Failed to load active team members${errorCode ? ` (${errorCode})` : ''}`
-    );
-    return null;
-  }
+  // let members;
+  // try {
+  //   members = await getActiveTeamMembers(locale);
+  // } catch (error) {
+  //   const errorCode = getErrorCode(error);
+  //   console.error(
+  //     `[team] Failed to load active team members${errorCode ? ` (${errorCode})` : ''}`
+  //   );
+  //   return null;
+  // }
 
-  if (members.length === 0) return null;
+  // if (members.length === 0) return null;
 
   const t = await getTranslations('HomeSections.team');
 
@@ -35,7 +34,7 @@ export async function TeamSection({ locale }: { locale: Locale }) {
             {t('quote')}
           </p>
         </div>
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {/*<ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {members.map((member) => (
             <li
               key={member.id}
@@ -69,7 +68,7 @@ export async function TeamSection({ locale }: { locale: Locale }) {
               </div>
             </li>
           ))}
-        </ul>
+        </ul>*/}
       </div>
     </section>
   );
