@@ -46,6 +46,28 @@ import { FestivalJurySection } from './festival-jury-section';
 import { FestivalNominationsSection } from './festival-nominations-section';
 import { FestivalOrganizationsSection } from './festival-organizations-section';
 
+function removeIdsForCreate(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeIdsForCreate);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== 'id')
+      .map(([key, nestedValue]) => [key, removeIdsForCreate(nestedValue)])
+  );
+}
+
+function removeEmptyIds(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeEmptyIds);
+  if (value === null || typeof value !== 'object') return value;
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key, nestedValue]) => key !== 'id' || nestedValue !== '')
+      .map(([key, nestedValue]) => [key, removeEmptyIds(nestedValue)])
+  );
+}
+
 export function FestivalContentForm({
   contentId,
   initialValues,
@@ -61,7 +83,14 @@ export function FestivalContentForm({
     undefined,
     UpdateFestivalContentDto
   >({
-    resolver: zodResolver(updateFestivalContentDtoSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updateFestivalContentDtoSchema)(
+        removeEmptyIds(values) as z.input<
+          typeof updateFestivalContentDtoSchema
+        >,
+        context,
+        options
+      ),
     defaultValues: initialValues,
   });
   const events = useFieldArray({ control: form.control, name: 'events' });
@@ -78,54 +107,58 @@ export function FestivalContentForm({
   const trackUpload = (active: boolean) =>
     setUploadCount((count) => (active ? count + 1 : Math.max(0, count - 1)));
 
-  const submit = form.handleSubmit(async (values) => {
-    setFormError(null);
-    const normalized: UpdateFestivalContentDto = {
-      ...values,
-      events: (values.events ?? []).map((event, position) => ({
-        ...event,
-        position,
-      })),
-      jury: values.jury
-        ? {
-            ...values.jury,
-            persons: (values.jury.persons ?? []).map((person, position) => ({
-              ...person,
-              position,
-            })),
-          }
-        : values.jury,
-      organizations: values.organizations
-        ? {
-            ...values.organizations,
-            organizations: (values.organizations.organizations ?? []).map(
-              (item, position) => ({ ...item, position })
-            ),
-          }
-        : values.organizations,
-    };
-    const result = contentId
-      ? await updateFestivalContent(contentId, normalized)
-      : await (async () => {
-          const createInput =
-            createFestivalContentDtoSchema.safeParse(normalized);
-          if (!createInput.success)
-            return {
-              success: false as const,
-              message: 'Проверьте заполнение формы',
-            };
-          return createFestivalContent(createInput.data);
-        })();
-    if (!result.success) {
-      const slugError = result.fieldErrors?.slug?.[0];
-      if (slugError) form.setError('slug', { message: slugError });
-      setFormError(result.message);
-      return;
-    }
-    toast.success(result.message);
-    router.push('/projects/festival');
-    router.refresh();
-  });
+  const submit = form.handleSubmit(
+    async (values) => {
+      setFormError(null);
+      const normalized: UpdateFestivalContentDto = {
+        ...values,
+        events: (values.events ?? []).map((event, position) => ({
+          ...event,
+          position,
+        })),
+        jury: values.jury
+          ? {
+              ...values.jury,
+              persons: (values.jury.persons ?? []).map((person, position) => ({
+                ...person,
+                position,
+              })),
+            }
+          : values.jury,
+        organizations: values.organizations
+          ? {
+              ...values.organizations,
+              organizations: (values.organizations.organizations ?? []).map(
+                (item, position) => ({ ...item, position })
+              ),
+            }
+          : values.organizations,
+      };
+      const result = contentId
+        ? await updateFestivalContent(contentId, normalized)
+        : await (async () => {
+            const createInput = createFestivalContentDtoSchema.safeParse(
+              removeIdsForCreate(normalized)
+            );
+            if (!createInput.success)
+              return {
+                success: false as const,
+                message: 'Проверьте заполнение формы',
+              };
+            return createFestivalContent(createInput.data);
+          })();
+      if (!result.success) {
+        const slugError = result.fieldErrors?.slug?.[0];
+        if (slugError) form.setError('slug', { message: slugError });
+        setFormError(result.message);
+        return;
+      }
+      toast.success(result.message);
+      router.push('/projects/festival');
+      router.refresh();
+    },
+    () => setFormError('Проверьте заполнение обязательных полей')
+  );
 
   return (
     <form className="space-y-6" onSubmit={submit}>

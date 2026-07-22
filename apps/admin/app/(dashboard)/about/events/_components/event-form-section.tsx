@@ -57,6 +57,10 @@ export function EventFormSection({
 }) {
   const images =
     useWatch({ control: form.control, name: `events.${index}.images` }) ?? [];
+  const eventId = useWatch({
+    control: form.control,
+    name: `events.${index}.id`,
+  });
   const videos =
     useWatch({ control: form.control, name: `events.${index}.videos` }) ?? [];
   const translations =
@@ -101,7 +105,9 @@ export function EventFormSection({
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        <input type="hidden" {...form.register(`events.${index}.id`)} />
+        {eventId ? (
+          <input type="hidden" {...form.register(`events.${index}.id`)} />
+        ) : null}
         <input
           type="hidden"
           {...form.register(`events.${index}.position`, {
@@ -153,12 +159,14 @@ export function EventFormSection({
                   translation.locale ?? (translationIndex === 0 ? 'ru' : 'en')
                 }
               >
-                <input
-                  type="hidden"
-                  {...form.register(
-                    `events.${index}.translations.${translationIndex}.id`
-                  )}
-                />
+                {translation.id ? (
+                  <input
+                    type="hidden"
+                    {...form.register(
+                      `events.${index}.translations.${translationIndex}.id`
+                    )}
+                  />
+                ) : null}
                 <input
                   type="hidden"
                   {...form.register(
