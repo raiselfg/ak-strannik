@@ -1,12 +1,26 @@
 import { Prisma, prisma } from '@ak-strannik/database';
+type MasterclassesListItem = Prisma.MasterclassesContentGetPayload<{
+  select: {
+    id: true;
+    images: true;
+    translations: { select: { locale: true; title: true } };
+  };
+}>;
 type RecordWithTranslations = Prisma.MasterclassesContentGetPayload<{
   include: { translations: true };
 }>;
 export async function getMasterclassesContents(): Promise<
-  RecordWithTranslations[]
+  MasterclassesListItem[]
 > {
   return prisma.masterclassesContent.findMany({
-    include: { translations: true },
+    select: {
+      id: true,
+      images: true,
+      translations: {
+        where: { locale: 'ru' },
+        select: { locale: true, title: true },
+      },
+    },
     orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
   });
 }

@@ -67,9 +67,16 @@ export function CharityForm({
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const normalized: CreateCharityContentDto = {
+      ...values,
+      translations: values.translations.map((translation) => ({
+        ...translation,
+        text: translation.text?.trim() ? translation.text : null,
+      })),
+    };
     const result = charityId
-      ? await updateCharityContent(charityId, values)
-      : await createCharityContent(values);
+      ? await updateCharityContent(charityId, normalized)
+      : await createCharityContent(normalized);
     if (!result.success) return setFormError(result.message);
     toast.success(result.message);
     router.push('/about/charity');

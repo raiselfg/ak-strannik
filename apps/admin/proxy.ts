@@ -7,7 +7,7 @@ const AUTH_PREFIX = '/api/auth';
 const LOGIN_PATH = '/login';
 
 export async function proxy(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
   if (
     pathname.startsWith(AUTH_PREFIX) ||

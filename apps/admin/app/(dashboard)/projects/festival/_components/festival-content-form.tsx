@@ -117,6 +117,8 @@ export function FestivalContentForm({
           return createFestivalContent(createInput.data);
         })();
     if (!result.success) {
+      const slugError = result.fieldErrors?.slug?.[0];
+      if (slugError) form.setError('slug', { message: slugError });
       setFormError(result.message);
       return;
     }

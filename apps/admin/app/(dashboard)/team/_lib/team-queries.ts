@@ -1,10 +1,26 @@
 import { Prisma, prisma } from '@ak-strannik/database';
+type TeamMemberListItem = Prisma.TeamMemberGetPayload<{
+  select: {
+    id: true;
+    image: true;
+    translations: {
+      select: { locale: true; name: true; role: true; bio: true };
+    };
+  };
+}>;
 type RecordWithTranslations = Prisma.TeamMemberGetPayload<{
   include: { translations: true };
 }>;
-export async function getTeamMembers(): Promise<RecordWithTranslations[]> {
+export async function getTeamMembers(): Promise<TeamMemberListItem[]> {
   return prisma.teamMember.findMany({
-    include: { translations: true },
+    select: {
+      id: true,
+      image: true,
+      translations: {
+        where: { locale: 'ru' },
+        select: { locale: true, name: true, role: true, bio: true },
+      },
+    },
     orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
   });
 }

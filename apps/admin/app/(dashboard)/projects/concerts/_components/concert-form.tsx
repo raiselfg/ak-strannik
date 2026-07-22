@@ -64,9 +64,18 @@ export function ConcertForm({
   const isSubmitting = form.formState.isSubmitting;
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const normalized: CreateConcertContentDto = {
+      ...values,
+      translations: values.translations.map((translation) => ({
+        ...translation,
+        title: translation.title?.trim() ? translation.title : null,
+        text: translation.text?.trim() ? translation.text : null,
+        duration: translation.duration?.trim() ? translation.duration : null,
+      })),
+    };
     const result = concertId
-      ? await updateConcertContent(concertId, values)
-      : await createConcertContent(values);
+      ? await updateConcertContent(concertId, normalized)
+      : await createConcertContent(normalized);
     if (!result.success) return setFormError(result.message);
     toast.success(result.message);
     router.push('/projects/concerts');

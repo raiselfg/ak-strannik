@@ -64,9 +64,16 @@ export function MasterclassesForm({
   const isSubmitting = form.formState.isSubmitting;
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const normalized: CreateMasterclassesContentDto = {
+      ...values,
+      translations: values.translations.map((translation) => ({
+        ...translation,
+        text: translation.text?.trim() ? translation.text : null,
+      })),
+    };
     const result = masterclassId
-      ? await updateMasterclassesContent(masterclassId, values)
-      : await createMasterclassesContent(values);
+      ? await updateMasterclassesContent(masterclassId, normalized)
+      : await createMasterclassesContent(normalized);
     if (!result.success) return setFormError(result.message);
     toast.success(result.message);
     router.push('/projects/masterclasses');

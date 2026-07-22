@@ -67,9 +67,17 @@ export function ArtistForm({
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const normalized: CreateArtistContentDto = {
+      ...values,
+      translations: values.translations.map((translation) => ({
+        ...translation,
+        title: translation.title?.trim() ? translation.title : null,
+        text: translation.text?.trim() ? translation.text : null,
+      })),
+    };
     const result = artistId
-      ? await updateArtistContent(artistId, values)
-      : await createArtistContent(values);
+      ? await updateArtistContent(artistId, normalized)
+      : await createArtistContent(normalized);
     if (!result.success) return setFormError(result.message);
     toast.success(result.message);
     router.push('/projects/artists');

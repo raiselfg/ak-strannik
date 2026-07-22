@@ -65,9 +65,17 @@ export function PartnerForm({
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
+    const normalized: CreatePartnerContentDto = {
+      ...values,
+      link: values.link?.trim() ? values.link : null,
+      translations: values.translations.map((translation) => ({
+        ...translation,
+        text: translation.text?.trim() ? translation.text : null,
+      })),
+    };
     const result = partnerId
-      ? await updatePartnerContent(partnerId, values)
-      : await createPartnerContent(values);
+      ? await updatePartnerContent(partnerId, normalized)
+      : await createPartnerContent(normalized);
 
     if (!result.success) {
       setFormError(result.message);

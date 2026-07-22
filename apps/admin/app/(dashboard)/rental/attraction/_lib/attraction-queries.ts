@@ -1,12 +1,24 @@
 import { Prisma, prisma } from '@ak-strannik/database';
+type AttractionListItem = Prisma.AttractionContentGetPayload<{
+  select: {
+    id: true;
+    image: true;
+    translations: { select: { locale: true; text: true } };
+  };
+}>;
 type RecordWithTranslations = Prisma.AttractionContentGetPayload<{
   include: { translations: true };
 }>;
-export async function getAttractionContents(): Promise<
-  RecordWithTranslations[]
-> {
+export async function getAttractionContents(): Promise<AttractionListItem[]> {
   return prisma.attractionContent.findMany({
-    include: { translations: true },
+    select: {
+      id: true,
+      image: true,
+      translations: {
+        where: { locale: 'ru' },
+        select: { locale: true, text: true },
+      },
+    },
     orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
   });
 }
