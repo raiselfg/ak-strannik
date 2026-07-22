@@ -1,9 +1,10 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { auth } from '../../lib/auth';
 import { LoginForm } from './login-form';
 
-export default async function LoginPage() {
+async function LoginContent() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -19,5 +20,13 @@ export default async function LoginPage() {
         <LoginForm />
       </section>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
   );
 }
