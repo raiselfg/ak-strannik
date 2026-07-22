@@ -48,9 +48,6 @@ next-env.d.ts
 
 #ai
 .agents
-
-# environment-specific legacy import artifacts
-.tmp/legacy-media/
-packages/database/prisma/legacy-media-map.json
+.codex
 
 .tokensave
