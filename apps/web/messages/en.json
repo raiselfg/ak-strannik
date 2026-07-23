@@ -158,7 +158,11 @@
     "aboutEvents": {
       "title": "Events",
       "eyebrow": "About",
-      "description": "We are preparing the Academy of Wanderings event calendar: festivals, meetings, concerts and family events."
+      "description": "We are preparing the Academy of Wanderings event calendar: festivals, meetings, concerts and family events.",
+      "eventLabel": "Event {number}",
+      "yearEmpty": "No materials are available in the selected language for this year yet.",
+      "imageAlt": "{year}, event {event} — image {number}",
+      "videoTitle": "{year}, event {event} — video {number}"
     },
     "aboutPartners": {
       "title": "Partners",
@@ -205,7 +209,10 @@
     "projectsPerformances": {
       "title": "Performances",
       "eyebrow": "Projects",
-      "description": "A page about performances, interactive productions and stage formats from the Academy."
+      "description": "A page about performances, interactive productions and stage formats from the Academy.",
+      "personsTitle": "Participants",
+      "imageAlt": "{title} — image {number}",
+      "videoTitle": "{title} — video {number}"
     },
     "projectsMasterclasses": {
       "title": "Workshops and classes for children",
@@ -240,6 +247,15 @@
       "title": "Prop rental",
       "eyebrow": "Rental",
       "description": "We are preparing a prop catalog for performances, photo shoots, festivals and themed events."
+    },
+    "rentalRequisite": {
+      "title": "Prop rental",
+      "eyebrow": "Rental",
+      "description": "We are preparing a prop catalog for performances, photo shoots, festivals and themed events.",
+      "groupFallback": "Prop group {number}",
+      "itemFallback": "Prop item {number}",
+      "groupEmpty": "No available items have been published in this group yet.",
+      "imageAlt": "{group}: {item} — image {number}"
     },
     "rentAttraction": {
       "title": "Attraction rental",
