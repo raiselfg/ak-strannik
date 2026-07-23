@@ -187,7 +187,21 @@
     "projectsFestival": {
       "title": "Festivals",
       "eyebrow": "Projects",
-      "description": "A page about Academy of Wanderings festival programs — from concept and script to full production."
+      "description": "A page about Academy of Wanderings festival programs — from concept and script to full production.",
+      "empty": "No festivals have been published yet.",
+      "cardImageAlt": "{title} — festival cover",
+      "readMore": "Learn more",
+      "detailDescription": "An Academy of Wanderings festival: program, participants, organizers and project materials.",
+      "logoAlt": "{title} — logo",
+      "programTitle": "Program",
+      "imagesTitle": "Gallery",
+      "imageAlt": "{title} — image {number}",
+      "achievementsTitle": "Achievements",
+      "achievementAlt": "{title} — achievement {number}",
+      "videosTitle": "Videos",
+      "videoTitle": "{title} — video {number}",
+      "socialsTitle": "Links",
+      "externalLink": "Open link"
     },
     "projectsConcerts": {
       "title": "Concert programs",

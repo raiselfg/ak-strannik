@@ -187,7 +187,21 @@
     "projectsFestival": {
       "title": "Фестивали",
       "eyebrow": "Проекты",
-      "description": "Готовим страницу о фестивальных программах Академии Странствий — от идеи и сценария до полного проведения."
+      "description": "Готовим страницу о фестивальных программах Академии Странствий — от идеи и сценария до полного проведения.",
+      "empty": "Фестивали пока не опубликованы.",
+      "cardImageAlt": "{title} — обложка фестиваля",
+      "readMore": "Подробнее",
+      "detailDescription": "Фестиваль Академии Странствий: программа, участники, организаторы и материалы проекта.",
+      "logoAlt": "{title} — логотип",
+      "programTitle": "Программа",
+      "imagesTitle": "Галерея",
+      "imageAlt": "{title} — изображение {number}",
+      "achievementsTitle": "Достижения",
+      "achievementAlt": "{title} — достижение {number}",
+      "videosTitle": "Видео",
+      "videoTitle": "{title} — видео {number}",
+      "socialsTitle": "Ссылки",
+      "externalLink": "Открыть ссылку"
     },
     "projectsConcerts": {
       "title": "Концертные программы",
