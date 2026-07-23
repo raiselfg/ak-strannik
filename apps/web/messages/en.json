@@ -170,7 +170,9 @@
     "aboutCharity": {
       "title": "Charity",
       "eyebrow": "About",
-      "description": "A section about charitable initiatives, family programs and social projects is in preparation."
+      "description": "A section about charitable initiatives, family programs and social projects is in preparation.",
+      "imageAlt": "{title} — image {number}",
+      "videoTitle": "{title} — video {number}"
     },
     "aboutThankYouNotes": {
       "title": "Letters of thanks",
@@ -186,12 +188,19 @@
     "projectsConcerts": {
       "title": "Concert programs",
       "eyebrow": "Projects",
-      "description": "We are preparing descriptions of concert programs, performance formats and opportunities for venues."
+      "description": "We are preparing descriptions of concert programs, performance formats and opportunities for venues.",
+      "recordFallback": "Concert program {number}",
+      "imageAlt": "{title} — image {number}",
+      "videoTitle": "{title} — video {number}",
+      "durationLabel": "Duration"
     },
     "projectsArtists": {
       "title": "Artists",
       "eyebrow": "Projects",
-      "description": "This section will feature artists, ensembles and participants in creative programs."
+      "description": "This section will feature artists, ensembles and participants in creative programs.",
+      "recordFallback": "Creative project {number}",
+      "imageAlt": "{title} — image {number}",
+      "videoTitle": "{title} — video {number}"
     },
     "projectsPerformances": {
       "title": "Performances",
@@ -201,7 +210,9 @@
     "projectsMasterclasses": {
       "title": "Workshops and classes for children",
       "eyebrow": "Projects",
-      "description": "This page will include children’s classes, workshops and creative programs for family audiences."
+      "description": "This page will include children’s classes, workshops and creative programs for family audiences.",
+      "imageAlt": "{title} — image {number}",
+      "videoTitle": "{title} — video {number}"
     },
     "projectsHolidayShows": {
       "title": "New Year shows",
