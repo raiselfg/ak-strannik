@@ -236,12 +236,24 @@
     "projectsUsta": {
       "title": "Usta",
       "eyebrow": "Projects",
-      "description": "A page for the Usta project — about craft, tradition, costume and a living cultural environment."
+      "description": "A page for the Usta project — about craft, tradition, costume and a living cultural environment.",
+      "empty": "No materials for the Usta project have been published yet.",
+      "imageAlt": "Usta project — image {number}",
+      "achievementsTitle": "Achievements",
+      "achievementAlt": "Usta project — achievement {number}",
+      "videoTitle": "Usta project — video {number}"
     },
     "projectsPryalochkaOfTime": {
       "title": "Musical tale Pryalochka of Time",
       "eyebrow": "Projects",
-      "description": "A description of the musical tale, program cast and production terms will appear here soon."
+      "description": "A description of the musical tale, program cast and production terms will appear here soon.",
+      "empty": "No materials for the musical tale have been published yet.",
+      "imageAlt": "Pryalochka of Time — image {number}",
+      "eventsTitle": "Events",
+      "eventLabel": "Event {number}",
+      "eventImageAlt": "Pryalochka of Time — event {number}",
+      "eventLinkLabel": "Learn more",
+      "actorsTitle": "Participants"
     },
     "rentRequisite": {
       "title": "Prop rental",
