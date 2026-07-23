@@ -148,7 +148,12 @@
       "pending": "Materials for this section are still being prepared. Contact us to clarify the details — we will tell you about available formats and possibilities.",
       "contactCta": "Contact us",
       "homeCta": "Back to home",
-      "notFoundTitle": "Page not found"
+      "notFoundTitle": "Page not found",
+      "empty": "No materials have been published yet.",
+      "imageUnavailable": "Image unavailable",
+      "errorTitle": "Unable to load the page",
+      "errorDescription": "Please try loading the materials again.",
+      "retry": "Try again"
     },
     "aboutEvents": {
       "title": "Events",
@@ -158,7 +163,9 @@
     "aboutPartners": {
       "title": "Partners",
       "eyebrow": "About",
-      "description": "A section about the partners who help the Academy of Wanderings create cultural projects."
+      "description": "A section about the partners who help the Academy of Wanderings create cultural projects.",
+      "imageAlt": "{title} — image {number}",
+      "website": "Partner website"
     },
     "aboutCharity": {
       "title": "Charity",
@@ -168,7 +175,8 @@
     "aboutThankYouNotes": {
       "title": "Letters of thanks",
       "eyebrow": "About",
-      "description": "This page will include letters of thanks, organizational feedback and confirmations of completed projects."
+      "description": "This page will include letters of thanks, organizational feedback and confirmations of completed projects.",
+      "imageAlt": "Letter of thanks {number}"
     },
     "projectsFestival": {
       "title": "Festivals",
@@ -198,12 +206,14 @@
     "projectsHolidayShows": {
       "title": "New Year shows",
       "eyebrow": "Projects",
-      "description": "A section about holiday performances, interactive activities and traveling New Year programs."
+      "description": "A section about holiday performances, interactive activities and traveling New Year programs.",
+      "imageAlt": "{title} — image {number}"
     },
     "projectsExhibitions": {
       "title": "Exhibitions",
       "eyebrow": "Projects",
-      "description": "We are preparing information about exhibition projects, displays and artistic formats."
+      "description": "We are preparing information about exhibition projects, displays and artistic formats.",
+      "imageAlt": "{title} — image {number}"
     },
     "projectsUsta": {
       "title": "Usta",
@@ -229,6 +239,18 @@
       "title": "Mascot costume rental",
       "eyebrow": "Rental",
       "description": "A section with mascot costumes, characters and rental terms for celebrations and promotional events."
+    },
+    "rentalAttraction": {
+      "title": "Attraction rental",
+      "eyebrow": "Rental",
+      "description": "This page includes information about attractions and interactive zones for traveling events.",
+      "imageAlt": "Attraction rental — image {number}"
+    },
+    "rentalMascotCostume": {
+      "title": "Mascot costume rental",
+      "eyebrow": "Rental",
+      "description": "A section with mascot costumes and characters for celebrations and promotional events.",
+      "imageAlt": "Mascot costume rental — image {number}"
     },
     "charter": {
       "title": "Organization charter",

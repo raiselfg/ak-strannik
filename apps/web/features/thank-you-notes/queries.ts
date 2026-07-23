@@ -22,3 +22,13 @@ export async function getLatestThankYouNotes(): Promise<PublicThankYouNote[]> {
     select: thankYouNoteSelect,
   });
 }
+
+export async function getThankYouNotes(): Promise<PublicThankYouNote[]> {
+  'use cache';
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
+
+  return prisma.thankYouNoteContent.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: thankYouNoteSelect,
+  });
+}
