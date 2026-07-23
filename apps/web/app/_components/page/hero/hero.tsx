@@ -17,7 +17,7 @@ export function Hero() {
         sizes="100vw"
         className="-z-20 object-cover object-center"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/55 to-background/15" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-t from-background via-background/55 to-background/15" />
       <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(ellipse_at_bottom,var(--color-gold)/0.18,transparent_62%)]" />
 
       <div className="container mx-auto">

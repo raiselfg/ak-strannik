@@ -1,5 +1,9 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+
+import { getLatestThankYouNotes } from '@/features/thank-you-notes/queries';
 
 const stats = [
   { key: 'participants', value: '40 000' },
@@ -19,20 +23,13 @@ const projects = [
   'pryalochka',
 ] as const;
 
-const letters = [
-  '/blag-1.webp',
-  '/blag-2.webp',
-  '/blag-3.webp',
-  '/blag-4.webp',
-  '/blag-5.webp',
-  '/blag-6.webp',
-] as const;
-
 export function AboutSections() {
   return (
     <>
       <AchievementsSection />
-      <LettersSection />
+      <Suspense fallback={null}>
+        <LettersSection />
+      </Suspense>
     </>
   );
 }
@@ -94,8 +91,18 @@ function AchievementsSection() {
   );
 }
 
-function LettersSection() {
-  const t = useTranslations('HomeSections.letters');
+async function LettersSection() {
+  let letters;
+  try {
+    letters = await getLatestThankYouNotes();
+  } catch {
+    console.error('[thank-you-notes] Failed to load latest notes');
+    return null;
+  }
+
+  if (letters.length === 0) return null;
+
+  const t = await getTranslations('HomeSections.letters');
 
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8">
@@ -115,15 +122,15 @@ function LettersSection() {
         <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {letters.map((letter, index) => (
             <li
-              key={letter}
+              key={letter.id}
               className="group overflow-hidden rounded-4xl border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/30 backdrop-blur-sm"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-muted">
+              <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
                 <Image
-                  src={letter}
+                  src={letter.image}
                   alt={t('letterAlt', { number: index + 1 })}
                   fill
-                  sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 90vw"
+                  sizes="(min-width: 1280px) 18vw, (min-width: 768px) 30vw, 70vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>

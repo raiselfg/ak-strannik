@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Geist_Mono, Inter } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
@@ -12,12 +12,7 @@ import { Header } from '../_components/layout/header/header';
 
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
-  variable: '--font-sans',
-});
-
-const fontMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-inter',
 });
 
 const Contacts = dynamic(
@@ -63,15 +58,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   setRequestLocale(locale);
 
   return (
-    <html
-      lang={locale}
-      className={cn(
-        'antialiased',
-        fontMono.variable,
-        'font-sans',
-        inter.variable
-      )}
-    >
+    <html lang={locale} className={cn('font-sans antialiased', inter.variable)}>
       <body className="relative flex flex-col gap-4">
         <NextIntlClientProvider>
           <Header />

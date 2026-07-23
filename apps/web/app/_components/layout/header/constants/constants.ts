@@ -55,11 +55,11 @@ export const navGroups = [
     ],
   },
   {
-    labelKey: 'groups.rent',
+    labelKey: 'groups.rental',
     links: [
-      { labelKey: 'links.requisite', href: '/rent/requisite' },
-      { labelKey: 'links.attraction', href: '/rent/attraction' },
-      { labelKey: 'links.mascotCostume', href: '/rent/mascot-costume' },
+      { labelKey: 'links.requisite', href: '/rental/requisite' },
+      { labelKey: 'links.attraction', href: '/rental/attraction' },
+      { labelKey: 'links.mascotCostume', href: '/rental/mascot-costume' },
     ],
   },
 ] as const satisfies readonly NavGroup[];

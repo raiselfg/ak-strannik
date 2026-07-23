@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
 
 import { Button } from '@ak-strannik/ui/components/button';
-import { Link } from '@/i18n/navigation';
 import VkIcon from '@/app/_components/layout/icons/vk-icon';
 import YoutubeIcon from '@/app/_components/layout/icons/yt-icon';
 import {
@@ -153,7 +152,7 @@ function ContactRow({ icon, label, value, href, note }: ContactRowProps) {
   return (
     <>
       {href ? (
-        <Link
+        <a
           href={href}
           className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40"
         >
@@ -167,7 +166,7 @@ function ContactRow({ icon, label, value, href, note }: ContactRowProps) {
 
             <div className="mt-1 flex flex-col">{content}</div>
           </div>
-        </Link>
+        </a>
       ) : (
         <div className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40">
           <div className="border-gold/25 bg-gold/10 text-gold flex size-11 items-center justify-center rounded-full border">

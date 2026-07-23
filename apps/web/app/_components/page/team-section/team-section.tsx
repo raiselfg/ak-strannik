@@ -1,21 +1,20 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
+import { getTeamMembers } from '@/features/team/queries';
 import type { Locale } from '@/i18n/routing';
+import { Link } from '@/i18n/navigation';
 
 export async function TeamSection({ locale }: { locale: Locale }) {
-  // let members;
-  // try {
-  //   members = await getActiveTeamMembers(locale);
-  // } catch (error) {
-  //   const errorCode = getErrorCode(error);
-  //   console.error(
-  //     `[team] Failed to load active team members${errorCode ? ` (${errorCode})` : ''}`
-  //   );
-  //   return null;
-  // }
+  let members;
+  try {
+    members = await getTeamMembers(locale);
+  } catch {
+    console.error('[team] Failed to load team members');
+    return null;
+  }
 
-  // if (members.length === 0) return null;
+  if (members.length === 0) return null;
 
   const t = await getTranslations('HomeSections.team');
 
@@ -34,50 +33,36 @@ export async function TeamSection({ locale }: { locale: Locale }) {
             {t('quote')}
           </p>
         </div>
-        {/*<ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {members.map((member) => (
-            <li
-              key={member.id}
-              className="group rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1"
-            >
-              {member.image ? (
+            <li key={member.id}>
+              <Link
+                href={`/team/${member.slug}`}
+                className="group block h-full rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
+              >
                 <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
                   <Image
-                    src={member.image.url}
-                    alt={member.image.alt}
-                    title={member.image.title ?? undefined}
+                    src={member.image}
+                    alt={member.name}
                     fill
                     sizes="(min-width: 1024px) 18vw, (min-width: 640px) 45vw, 90vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-background/75 to-transparent" />
                 </div>
-              ) : null}
-              <div className="px-2 pt-4 text-center">
-                <h3 className="text-xl leading-tight font-semibold">
-                  {member.name}
-                </h3>
-                {member.role ? (
-                  <p className="text-gold mt-2 text-sm">{member.role}</p>
-                ) : null}
-                {member.description ? (
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {member.description}
-                  </p>
-                ) : null}
-              </div>
+                <div className="px-2 pt-4 text-center">
+                  <h3 className="text-xl leading-tight font-semibold">
+                    {member.name}
+                  </h3>
+                  {member.role ? (
+                    <p className="text-gold mt-2 text-sm">{member.role}</p>
+                  ) : null}
+                </div>
+              </Link>
             </li>
           ))}
-        </ul>*/}
+        </ul>
       </div>
     </section>
   );
-}
-
-function getErrorCode(error: unknown) {
-  if (typeof error !== 'object' || error === null || !('code' in error)) {
-    return null;
-  }
-
-  return typeof error.code === 'string' ? error.code : null;
 }

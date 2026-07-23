@@ -16,7 +16,7 @@
     "groups": {
       "about": "About",
       "projects": "Projects",
-      "rent": "Rental"
+      "rental": "Rental"
     },
     "links": {
       "events": "Events",
@@ -129,6 +129,19 @@
     "unavailableDescription": "Add NEXT_PUBLIC_YANDEX_MAPS_API_KEY to enable the directions map.",
     "hint": "Academy of Wanderings",
     "balloon": "Nevsky Prospect, 111/3"
+  },
+  "TeamDetail": {
+    "eyebrow": "Academy team",
+    "linksTitle": "Links",
+    "linkLabel": "Link {number}",
+    "achievementsEyebrow": "Gallery",
+    "achievementsTitle": "Achievements",
+    "achievementAlt": "{name} — achievement {number}",
+    "error": {
+      "title": "Unable to load the page",
+      "description": "Please try loading the team member information again.",
+      "retry": "Try again"
+    }
   },
   "Pages": {
     "common": {
