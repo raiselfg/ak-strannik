@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { connection } from 'next/server';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 import '@/app/globals.css';
 import { cn } from '@ak-strannik/ui/lib/utils';
@@ -68,14 +69,17 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   }
 
   setRequestLocale(locale);
-  await connection();
 
   return (
     <html lang={locale} className={cn('font-sans antialiased', inter.variable)}>
       <body className="relative flex flex-col gap-4">
         <NextIntlClientProvider>
           <Header />
-          <main>{children}</main>
+          <main>
+            <Suspense fallback={null}>
+              <RuntimePage>{children}</RuntimePage>
+            </Suspense>
+          </main>
           <footer>
             <Contacts />
           </footer>
@@ -83,4 +87,9 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       </body>
     </html>
   );
+}
+
+async function RuntimePage({ children }: { children: React.ReactNode }) {
+  await connection();
+  return children;
 }
