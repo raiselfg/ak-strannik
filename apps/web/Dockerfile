@@ -17,8 +17,6 @@ COPY --from=pruner /app/out/full/packages/database/prisma ./packages/database/pr
 RUN pnpm install --frozen-lockfile
 COPY --from=pruner /app/out/full/ ./
 
-ARG NEXT_PUBLIC_YANDEX_MAPS_API_KEY
-ENV NEXT_PUBLIC_YANDEX_MAPS_API_KEY=$NEXT_PUBLIC_YANDEX_MAPS_API_KEY
 RUN pnpm turbo run build --filter=@ak-strannik/web
 
 FROM node:22-alpine AS runner
