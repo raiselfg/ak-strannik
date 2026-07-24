@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Inter } from 'next/font/google';
@@ -67,6 +68,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   }
 
   setRequestLocale(locale);
+  await connection();
 
   return (
     <html lang={locale} className={cn('font-sans antialiased', inter.variable)}>
