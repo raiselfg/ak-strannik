@@ -3,9 +3,7 @@ import Image from 'next/image';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
-import NextLink from 'next/link';
 
-import { Button } from '@ak-strannik/ui/components/button';
 import VkIcon from '@/app/_components/layout/icons/vk-icon';
 import YoutubeIcon from '@/app/_components/layout/icons/yt-icon';
 import {
@@ -193,16 +191,16 @@ interface SocialLinkProps {
 
 function SocialLink({ href, label, children }: SocialLinkProps) {
   return (
-    <NextLink
+    <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label={label}
       className="hover:border-gold/45 flex items-center justify-center rounded-4xl transition-transform hover:-translate-y-0.5"
     >
-      <Button variant="ghost" size="icon" className="cursor-pointer">
+      <span className="inline-flex size-9 items-center justify-center">
         {children}
-      </Button>
-    </NextLink>
+      </span>
+    </a>
   );
 }

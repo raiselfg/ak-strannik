@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentMediaSection } from '@/app/_components/content/content-media-section';
-import { ContentPageHeader } from '@/app/_components/content/content-page-header';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getCharities } from '@/features/charity/queries';
 import { routing, type Locale } from '@/i18n/routing';
@@ -41,11 +40,6 @@ async function CharityContent({ params }: PageProps) {
     <article className="relative overflow-hidden px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
       <div className="container mx-auto">
-        <ContentPageHeader
-          eyebrow={t('eyebrow')}
-          title={t('title')}
-          description={t('description')}
-        />
         {records.length === 0 ? (
           <ContentEmptyState message={common('empty')} />
         ) : (

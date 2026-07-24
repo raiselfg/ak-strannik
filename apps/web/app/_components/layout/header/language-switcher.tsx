@@ -10,14 +10,25 @@ const languages = [
   { locale: 'en', label: 'EN' },
 ] as const;
 
-export function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  mobile?: boolean;
+  onNavigate?: () => void;
+}
+
+export function LanguageSwitcher({
+  mobile = false,
+  onNavigate,
+}: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
   const t = useTranslations('Navigation');
 
   return (
     <nav
-      className="hidden items-center gap-1 rounded-full border border-border/50 bg-background/30 px-3 py-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase sm:flex"
+      className={cn(
+        'items-center gap-1 rounded-full border border-border/50 bg-background/30 px-3 py-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase',
+        mobile ? 'flex min-h-11 justify-center' : 'hidden sm:flex'
+      )}
       aria-label={t('languageLabel')}
     >
       {languages.map((language, index) => (
@@ -26,7 +37,8 @@ export function LanguageSwitcher() {
           <Link
             href={pathname}
             locale={language.locale}
-            aria-current={locale === language.locale ? 'true' : undefined}
+            aria-current={locale === language.locale ? 'page' : undefined}
+            onClick={onNavigate}
             className={cn(
               'rounded-sm transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none',
               locale === language.locale && 'text-foreground'

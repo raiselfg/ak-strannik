@@ -149,6 +149,7 @@
       "contactCta": "Contact us",
       "homeCta": "Back to home",
       "notFoundTitle": "Page not found",
+      "notFoundDescription": "The requested page does not exist or is no longer available.",
       "empty": "No materials have been published yet.",
       "imageUnavailable": "Image unavailable",
       "errorTitle": "Unable to load the page",

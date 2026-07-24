@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { Button } from '@ak-strannik/ui/components/button';
 import {
@@ -18,6 +18,7 @@ import { cn } from '@ak-strannik/ui/lib/utils';
 import { Link } from '@/i18n/navigation';
 
 import { MobileNavigationList } from './nav-menu';
+import { LanguageSwitcher } from './language-switcher';
 
 interface Props {
   className?: string;
@@ -44,7 +45,7 @@ export function MobileNavMenu({ className }: Props) {
           </Button>
         </SheetTrigger>
 
-        <SheetContent className="w-[min(88vw,24rem)] gap-6 border-border/50 bg-background/95 px-5 py-6 backdrop-blur-xl sm:max-w-sm">
+        <SheetContent className="max-h-dvh w-[min(88vw,24rem)] gap-6 overflow-y-auto border-border/50 bg-background/95 px-5 py-6 backdrop-blur-xl sm:max-w-sm">
           <SheetHeader className="p-0 pr-10 text-left">
             <Link
               href="/"
@@ -68,13 +69,34 @@ export function MobileNavMenu({ className }: Props) {
             </SheetDescription>
           </SheetHeader>
 
-          <MobileNavigationList onItemClick={() => setIsOpen(false)} />
+          <Suspense
+            fallback={
+              <div aria-hidden="true" className="min-h-96 animate-pulse" />
+            }
+          >
+            <MobileNavigationList onItemClick={() => setIsOpen(false)} />
+          </Suspense>
 
-          <div className="mt-auto rounded-3xl border border-border/50 bg-muted/30 p-3 text-sm text-muted-foreground">
-            {navigation('siteLanguage')}:{' '}
-            <span className="font-medium text-foreground">
-              {locale.toUpperCase()}
+          <div className="mt-auto grid gap-3 rounded-3xl border border-border/50 bg-muted/30 p-3 text-sm text-muted-foreground">
+            <span>
+              {navigation('siteLanguage')}:{' '}
+              <span className="font-medium text-foreground">
+                {locale.toUpperCase()}
+              </span>
             </span>
+            <Suspense
+              fallback={
+                <div
+                  aria-hidden="true"
+                  className="h-11 rounded-full border border-border/50 bg-background/30"
+                />
+              }
+            >
+              <LanguageSwitcher
+                mobile
+                onNavigate={() => setIsOpen(false)}
+              />
+            </Suspense>
           </div>
         </SheetContent>
       </Sheet>

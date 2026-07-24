@@ -43,8 +43,19 @@ export async function generateMetadata({
   });
 
   return {
-    title: t('title'),
+    title: {
+      default: t('title'),
+      template: `%s — ${t('title')}`,
+    },
     description: t('description'),
+    applicationName: t('title'),
+    openGraph: {
+      type: 'website',
+      locale: validLocale === 'ru' ? 'ru_RU' : 'en_US',
+      siteName: t('title'),
+      title: t('title'),
+      description: t('description'),
+    },
   };
 }
 

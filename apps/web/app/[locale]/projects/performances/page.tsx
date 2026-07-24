@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentImageGallery } from '@/app/_components/content/content-image-gallery';
-import { ContentPageHeader } from '@/app/_components/content/content-page-header';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
 import { getPerformances } from '@/features/performances/queries';
@@ -33,11 +32,6 @@ export default async function Page({ params }: PageProps) {
   return (
     <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
       <div className="container mx-auto">
-        <ContentPageHeader
-          eyebrow={t('eyebrow')}
-          title={t('title')}
-          description={t('description')}
-        />
         <Suspense fallback={<ContentPageSkeleton embedded />}>
           <PerformancesContent locale={locale} />
         </Suspense>

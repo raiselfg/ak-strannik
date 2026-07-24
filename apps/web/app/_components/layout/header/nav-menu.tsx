@@ -1,6 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
-import NextLink from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { ExternalLink } from 'lucide-react';
 
 import {
@@ -13,7 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@ak-strannik/ui/components/navigation-menu';
 import { cn } from '@ak-strannik/ui/lib/utils';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 
 import {
   contactNavLink,
@@ -37,14 +38,15 @@ interface HeaderLinkProps {
   className?: string;
   onClick?: () => void;
   children?: ReactNode;
+  ariaCurrent?: 'page';
 }
 
 interface DesktopNavLinkProps extends HeaderLinkProps {
-  locale: string;
+  active: boolean;
 }
 
 export function NavMenu({ className }: NavMenuProps) {
-  const locale = useLocale();
+  const pathname = usePathname();
   const t = useTranslations('Navigation');
 
   return (
@@ -57,14 +59,21 @@ export function NavMenu({ className }: NavMenuProps) {
           <DesktopNavLink
             link={homeNavLink}
             label={t(homeNavLink.labelKey)}
-            locale={locale}
+            active={isLinkActive(pathname, homeNavLink)}
             className={navigationMenuTriggerStyle()}
           />
         </NavigationMenuItem>
 
         {navGroups.map((item) => (
           <NavigationMenuItem key={item.labelKey}>
-            <NavigationMenuTrigger>{t(item.labelKey)}</NavigationMenuTrigger>
+            <NavigationMenuTrigger
+              className={cn(
+                item.links.some((link) => isLinkActive(pathname, link)) &&
+                  'bg-gold/15 text-gold'
+              )}
+            >
+              {t(item.labelKey)}
+            </NavigationMenuTrigger>
             <NavigationMenuContent className="min-w-72 p-2">
               <ul className="grid gap-1">
                 {item.links.map((link) => {
@@ -75,7 +84,7 @@ export function NavMenu({ className }: NavMenuProps) {
                       <DesktopNavLink
                         link={link}
                         label={label}
-                        locale={locale}
+                        active={isLinkActive(pathname, link)}
                         className="min-h-10 min-w-64 justify-between rounded-2xl px-3 py-2.5 font-medium"
                       >
                         <span>{label}</span>
@@ -95,7 +104,7 @@ export function NavMenu({ className }: NavMenuProps) {
           <DesktopNavLink
             link={contactNavLink}
             label={t(contactNavLink.labelKey)}
-            locale={locale}
+            active={false}
             className={navigationMenuTriggerStyle()}
           />
         </NavigationMenuItem>
@@ -109,6 +118,7 @@ export function MobileNavigationList({
   onItemClick,
 }: MobileNavigationListProps) {
   const t = useTranslations('Navigation');
+  const pathname = usePathname();
 
   return (
     <nav
@@ -119,11 +129,13 @@ export function MobileNavigationList({
         <MobileNavLink
           link={homeNavLink}
           label={t(homeNavLink.labelKey)}
+          active={isLinkActive(pathname, homeNavLink)}
           onClick={onItemClick}
         />
         <MobileNavLink
           link={contactNavLink}
           label={t(contactNavLink.labelKey)}
+          active={false}
           onClick={onItemClick}
         />
       </div>
@@ -139,6 +151,7 @@ export function MobileNavigationList({
                 <MobileNavLink
                   link={link}
                   label={t(link.labelKey)}
+                  active={isLinkActive(pathname, link)}
                   onClick={onItemClick}
                 />
               </li>
@@ -153,32 +166,54 @@ export function MobileNavigationList({
 function DesktopNavLink({
   link,
   label,
-  locale,
+  active,
   className,
   children = label,
 }: DesktopNavLinkProps) {
-  const externalProps = isExternalLink(link)
-    ? { target: '_blank', rel: 'noreferrer' }
-    : undefined;
+  if (isExternalLink(link)) {
+    return (
+      <NavigationMenuLink asChild>
+        <a
+          href={link.href}
+          className={className}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      </NavigationMenuLink>
+    );
+  }
 
   return (
-    <NavigationMenuLink
-      href={getLocalizedHref(link, locale)}
-      className={className}
-      {...externalProps}
-    >
-      {children}
+    <NavigationMenuLink asChild active={active}>
+      <Link
+        href={link.href}
+        className={cn(className, active && 'text-gold')}
+        aria-current={active ? 'page' : undefined}
+      >
+        {children}
+      </Link>
     </NavigationMenuLink>
   );
 }
 
-function MobileNavLink({ link, label, onClick }: HeaderLinkProps) {
+function MobileNavLink({
+  link,
+  label,
+  onClick,
+  active = false,
+}: HeaderLinkProps & { active?: boolean }) {
   return (
     <HeaderLink
       link={link}
       label={label}
       onClick={onClick}
-      className="flex min-h-11 items-center justify-between rounded-2xl px-3 py-2.5 text-base font-medium transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
+      className={cn(
+        'flex min-h-11 items-center justify-between rounded-2xl px-3 py-2.5 text-base font-medium transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none',
+        active && 'bg-gold/15 text-gold'
+      )}
+      ariaCurrent={active ? 'page' : undefined}
     >
       <span>{label}</span>
       {isExternalLink(link) && (
@@ -194,37 +229,43 @@ function HeaderLink({
   className,
   onClick,
   children = label,
+  ariaCurrent,
 }: HeaderLinkProps) {
   if (isExternalLink(link)) {
     return (
-      <NextLink
+      <a
         href={link.href}
         className={className}
         onClick={onClick}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         {children}
-      </NextLink>
+      </a>
     );
   }
 
   return (
-    <Link href={link.href} className={className} onClick={onClick}>
+    <Link
+      href={link.href}
+      className={className}
+      onClick={onClick}
+      aria-current={ariaCurrent}
+    >
       {children}
     </Link>
   );
 }
 
-function getLocalizedHref(link: NavLink, locale: string) {
-  if (isExternalLink(link) || locale === 'ru') return link.href;
-  if (link.href === '/') return '/en';
-  if (link.href.startsWith('/#')) return `/en${link.href.slice(1)}`;
-  if (link.href.startsWith('/')) return `/en${link.href}`;
-
-  return link.href;
-}
-
 function isExternalLink(link: NavLink) {
   return link.external === true;
+}
+
+function isLinkActive(pathname: string, link: NavLink) {
+  if (link.external || link.href.includes('#')) return false;
+  if (link.href === '/') return pathname === '/';
+  if (link.href === '/projects/festival') {
+    return pathname === link.href || pathname.startsWith(`${link.href}/`);
+  }
+  return pathname === link.href;
 }

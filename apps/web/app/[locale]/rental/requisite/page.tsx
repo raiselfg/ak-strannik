@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
-import { ContentPageHeader } from '@/app/_components/content/content-page-header';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getRequisiteGroups } from '@/features/requisite/queries';
 import { routing, type Locale } from '@/i18n/routing';
@@ -31,11 +30,6 @@ export default async function Page({ params }: PageProps) {
   return (
     <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
       <div className="container mx-auto">
-        <ContentPageHeader
-          eyebrow={t('eyebrow')}
-          title={t('title')}
-          description={t('description')}
-        />
         <Suspense fallback={<ContentPageSkeleton embedded />}>
           <RequisiteContent locale={locale} />
         </Suspense>

@@ -18,15 +18,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale: rawLocale, slug } = await params;
   const locale = getLocale(rawLocale);
-  const [festival, metadata, page] = await Promise.all([
+  const [festival, page] = await Promise.all([
     getFestivalBySlug(locale, slug),
-    getTranslations({ locale, namespace: 'Metadata' }),
     getTranslations({ locale, namespace: 'Pages.projectsFestival' }),
   ]);
 
   if (!festival) return {};
   return {
-    title: `${festival.title} — ${metadata('title')}`,
+    title: festival.title,
     description: truncateDescription(page('detailDescription')),
   };
 }

@@ -32,7 +32,7 @@ export async function generateMetadata({
     member.bio.trim() || member.role.trim() || metadata('description');
 
   return {
-    title: `${member.name} — ${metadata('title')}`,
+    title: member.name,
     description: truncateDescription(descriptionSource),
   };
 }

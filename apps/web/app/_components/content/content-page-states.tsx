@@ -19,7 +19,7 @@ export function ContentPageError({
         <div className="mx-auto max-w-2xl rounded-4xl border border-border/45 bg-card/45 p-8 text-center shadow-xl shadow-background/25 backdrop-blur-sm">
           <h1 className="font-hand text-4xl font-bold sm:text-5xl">{title}</h1>
           <p className="mt-4 text-muted-foreground">{description}</p>
-          <Button className="mt-7" onClick={reset}>
+          <Button type="button" className="mt-7" onClick={reset}>
             {retry}
           </Button>
         </div>
