@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import Image from 'next/image';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -46,6 +47,7 @@ export default function TeamMemberPage({ params }: PageProps) {
 }
 
 async function TeamMemberContent({ params }: PageProps) {
+  await connection();
   const { locale: rawLocale, slug } = await params;
   const locale = getValidLocale(rawLocale);
   setRequestLocale(locale);

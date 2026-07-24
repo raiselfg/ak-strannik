@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -40,6 +41,7 @@ export default async function Page({ params }: PageProps) {
 }
 
 async function FestivalListContent({ locale }: { locale: Locale }) {
+  await connection();
   const [festivals, t, common] = await Promise.all([
     getFestivals(locale),
     getTranslations('Pages.projectsFestival'),

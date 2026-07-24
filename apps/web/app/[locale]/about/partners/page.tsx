@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -28,6 +29,7 @@ export default function Page({ params }: PageProps) {
 }
 
 async function PartnersContent({ params }: PageProps) {
+  await connection();
   const locale = getLocale((await params).locale);
   setRequestLocale(locale);
   const [partners, t, common] = await Promise.all([

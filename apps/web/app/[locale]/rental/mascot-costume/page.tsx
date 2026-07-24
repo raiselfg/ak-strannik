@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -31,6 +32,7 @@ export default function Page({ params }: PageProps) {
 }
 
 async function MascotCostumeContent({ params }: PageProps) {
+  await connection();
   const locale = getLocale((await params).locale);
   setRequestLocale(locale);
   const [records, t, common] = await Promise.all([

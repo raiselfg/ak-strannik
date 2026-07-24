@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { connection } from 'next/server';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -92,6 +93,7 @@ function AchievementsSection() {
 }
 
 async function LettersSection() {
+  await connection();
   let letters;
   try {
     letters = await getLatestThankYouNotes();

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -39,6 +40,7 @@ export default function Page({ params }: PageProps) {
 }
 
 async function FestivalContent({ params }: PageProps) {
+  await connection();
   const { locale: rawLocale, slug } = await params;
   const locale = getLocale(rawLocale);
   setRequestLocale(locale);

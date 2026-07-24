@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { connection } from 'next/server';
 import { getTranslations } from 'next-intl/server';
 
 import { getTeamMembers } from '@/features/team/queries';
@@ -6,6 +7,7 @@ import type { Locale } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
 
 export async function TeamSection({ locale }: { locale: Locale }) {
+  await connection();
   let members;
   try {
     members = await getTeamMembers(locale);
