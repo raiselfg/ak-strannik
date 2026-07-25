@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
+import { ExternalLink } from 'lucide-react';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -45,39 +46,54 @@ async function PartnersContent({ params }: PageProps) {
         {partners.length === 0 ? (
           <ContentEmptyState message={common('empty')} />
         ) : (
-          <ul className="grid gap-6 lg:grid-cols-2">
-            {partners.map((partner) => (
+          <ul className="grid gap-5">
+            {partners.map((partner, partnerIndex) => (
               <li
                 key={partner.id}
-                className="rounded-4xl border border-border/45 bg-card/45 p-4 shadow-xl shadow-background/25 backdrop-blur-sm sm:p-6"
+                className="group hover:border-gold/30 relative overflow-hidden rounded-4xl border border-border/45 bg-card/55 shadow-xl shadow-background/25 backdrop-blur-sm transition-colors"
               >
-                <ContentImageGallery
-                  images={partner.images}
-                  alt={(index) =>
-                    t('imageAlt', {
-                      title: partner.title,
-                      number: index + 1,
-                    })
-                  }
-                  emptyLabel={common('imageUnavailable')}
-                  compact
-                />
-                <h2 className="mt-6 text-2xl font-semibold">{partner.title}</h2>
-                {partner.text ? (
-                  <p className="mt-4 leading-7 whitespace-pre-line text-muted-foreground">
-                    {partner.text}
-                  </p>
-                ) : null}
-                {partner.link ? (
-                  <a
-                    href={partner.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gold border-gold/30 hover:bg-gold/10 mt-6 inline-flex min-h-11 items-center rounded-full border px-5 py-2 font-medium transition-colors"
-                  >
-                    {t('website')}
-                  </a>
-                ) : null}
+                <div>
+                  <div className="p-6 sm:p-8 lg:p-10">
+                    <h2 className="mt-4 text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">
+                      {partner.title}
+                    </h2>
+                    {partner.text ? (
+                      <p className="mt-5 max-w-2xl leading-7 whitespace-pre-line text-muted-foreground">
+                        {partner.text}
+                      </p>
+                    ) : null}
+                    {partner.link ? (
+                      <a
+                        href={partner.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-gold mt-8 inline-flex min-h-11 w-fit items-center gap-2 border-b border-border pb-1 font-medium transition-colors"
+                      >
+                        {t('website')}
+                        <ExternalLink
+                          aria-hidden="true"
+                          className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        />
+                      </a>
+                    ) : null}
+                  </div>
+
+                  <div className="relative border-t border-border/35 bg-muted/20 p-3 sm:p-4">
+                    <div className="bg-gold/10 absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="relative">
+                      <ContentImageGallery
+                        images={partner.images}
+                        alt={(index) =>
+                          t('imageAlt', {
+                            title: partner.title,
+                            number: index + 1,
+                          })
+                        }
+                        emptyLabel={common('imageUnavailable')}
+                      />
+                    </div>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>

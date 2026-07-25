@@ -57,6 +57,7 @@ async function FestivalContent({ params }: PageProps) {
     <FestivalDetailContent
       festival={festival}
       labels={{
+        eyebrow: t('title'),
         logoAlt: t('logoAlt', { title: festival.title }),
         programTitle: t('programTitle'),
         imagesTitle: t('imagesTitle'),
@@ -71,7 +72,6 @@ async function FestivalContent({ params }: PageProps) {
         videosTitle: t('videosTitle'),
         videoTitle: (index) =>
           t('videoTitle', { title: festival.title, number: index + 1 }),
-        socialsTitle: t('socialsTitle'),
         externalLink: t('externalLink'),
         imageUnavailable: common('imageUnavailable'),
       }}

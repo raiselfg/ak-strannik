@@ -47,7 +47,7 @@ async function ThankYouNotesContent({ params }: PageProps) {
         {notes.length === 0 ? (
           <ContentEmptyState message={common('empty')} />
         ) : (
-          <ul className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {notes.map((note, index) => (
               <li
                 key={note.id}
@@ -57,6 +57,7 @@ async function ThankYouNotesContent({ params }: PageProps) {
                   src={note.image}
                   alt={t('imageAlt', { number: index + 1 })}
                   emptyLabel={common('imageUnavailable')}
+                  portrait
                 />
               </li>
             ))}

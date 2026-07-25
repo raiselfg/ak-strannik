@@ -24,6 +24,7 @@ export function FestivalListCard({
           src={festival.cover}
           alt={imageAlt}
           emptyLabel={imageUnavailable}
+          contain
         />
         <div className="p-4 sm:p-5">
           <h2 className="text-2xl font-semibold">{festival.title}</h2>

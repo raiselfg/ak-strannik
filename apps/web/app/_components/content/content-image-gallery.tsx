@@ -5,6 +5,7 @@ type ContentImageGalleryProps = {
   alt: (index: number) => string;
   emptyLabel: string;
   compact?: boolean;
+  portrait?: boolean;
 };
 
 export function ContentImageGallery({
@@ -12,6 +13,7 @@ export function ContentImageGallery({
   alt,
   emptyLabel,
   compact = false,
+  portrait = false,
 }: ContentImageGalleryProps) {
   const renderableImages = images.filter(isRenderableImageUrl);
 
@@ -24,13 +26,17 @@ export function ContentImageGallery({
       className={
         compact
           ? 'grid grid-cols-2 gap-3'
-          : 'grid gap-4 sm:grid-cols-2 xl:grid-cols-3'
+          : 'grid gap-4 sm:grid-cols-2 xl:grid-cols-4'
       }
     >
       {renderableImages.map((image, index) => (
         <li
           key={`${image}-${index}`}
-          className="relative aspect-4/3 overflow-hidden rounded-3xl bg-muted"
+          className={`relative ${
+            portrait
+              ? 'aspect-210/237'
+              : 'aspect-4/3 overflow-hidden rounded-3xl'
+          }`}
         >
           <Image
             src={image}
@@ -41,7 +47,7 @@ export function ContentImageGallery({
                 ? '(min-width: 1280px) 18vw, (min-width: 640px) 35vw, 45vw'
                 : '(min-width: 1280px) 25vw, (min-width: 640px) 42vw, 90vw'
             }
-            className="object-cover"
+            className={portrait ? 'object-contain' : 'object-cover'}
           />
         </li>
       ))}
@@ -53,31 +59,49 @@ export function ContentImage({
   src,
   alt,
   emptyLabel,
+  portrait = false,
+  contain = false,
 }: {
   src: string;
   alt: string;
   emptyLabel: string;
+  portrait?: boolean;
+  contain?: boolean;
 }) {
   if (!isRenderableImageUrl(src)) {
-    return <ImagePlaceholder label={emptyLabel} />;
+    return <ImagePlaceholder label={emptyLabel} portrait={portrait} />;
   }
 
   return (
-    <div className="relative aspect-4/3 overflow-hidden rounded-3xl bg-muted">
+    <div
+      className={`relative overflow-hidden rounded-3xl bg-muted ${
+        portrait ? 'aspect-4/5' : 'aspect-4/3'
+      }`}
+    >
       <Image
         src={src}
         alt={alt}
         fill
         sizes="(min-width: 1024px) 42vw, 90vw"
-        className="object-cover"
+        className={contain ? 'object-contain p-6 sm:p-8' : 'object-cover'}
       />
     </div>
   );
 }
 
-function ImagePlaceholder({ label }: { label: string }) {
+function ImagePlaceholder({
+  label,
+  portrait = false,
+}: {
+  label: string;
+  portrait?: boolean;
+}) {
   return (
-    <div className="flex aspect-4/3 items-center justify-center rounded-3xl border border-border/35 bg-muted/35 px-5 text-center text-sm text-muted-foreground">
+    <div
+      className={`flex items-center justify-center rounded-3xl border border-border/35 bg-muted/35 px-5 text-center text-sm text-muted-foreground ${
+        portrait ? 'aspect-4/5' : 'aspect-4/3'
+      }`}
+    >
       {label}
     </div>
   );

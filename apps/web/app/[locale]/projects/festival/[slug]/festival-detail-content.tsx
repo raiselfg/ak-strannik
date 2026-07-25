@@ -5,8 +5,10 @@ import {
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
 import type { PublicFestivalDetail } from '@/features/festival/queries';
 import { getVideoEmbed } from '@/lib/media/get-video-embed';
+import { ExternalLink } from 'lucide-react';
 
 type DetailLabels = {
+  eyebrow: string;
   logoAlt: string;
   programTitle: string;
   imagesTitle: string;
@@ -15,7 +17,6 @@ type DetailLabels = {
   achievementAlt: (index: number) => string;
   videosTitle: string;
   videoTitle: (index: number) => string;
-  socialsTitle: string;
   externalLink: string;
   imageUnavailable: string;
 };
@@ -35,21 +36,45 @@ export function FestivalDetailContent({
   );
 
   return (
-    <article className="relative overflow-hidden px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="relative overflow-hidden px-4 pt-32 pb-24 sm:px-6 sm:pt-40 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
-      <div className="container mx-auto space-y-16">
-        <header className="grid gap-8 lg:grid-cols-[minmax(16rem,0.65fr)_1.35fr] lg:items-center">
-          <div className="rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25">
-            <ContentImage
-              src={festival.logo}
-              alt={labels.logoAlt}
-              emptyLabel={labels.imageUnavailable}
-            />
-          </div>
-          <div>
-            <h1 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
-              {festival.title}
-            </h1>
+      <div className="container mx-auto space-y-24">
+        <header className="relative overflow-hidden rounded-[2.5rem] border border-border/45 bg-card/55 shadow-2xl shadow-background/30 backdrop-blur-sm">
+          <div className="bg-gold/10 absolute -top-32 -left-32 size-80 rounded-full blur-3xl" />
+          <div className="relative grid lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-stretch">
+            <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
+              <p className="text-gold text-xs font-semibold tracking-[0.28em] uppercase">
+                {labels.eyebrow}
+              </p>
+              <h1 className="font-hand mt-5 max-w-4xl text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl lg:text-8xl">
+                {festival.title}
+              </h1>
+              {socialLinks.length > 0 ? (
+                <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3">
+                  {socialLinks.map((href, index) => (
+                    <li key={`${href}-${index}`}>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-gold inline-flex items-center gap-2 border-b border-border pb-1 font-medium transition-colors"
+                      >
+                        {labels.externalLink} {index + 1}
+                        <ExternalLink aria-hidden="true" className="size-4" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+            <div className="border-t border-border/35 bg-background/25 p-4 lg:border-t-0 lg:border-l">
+              <ContentImage
+                src={festival.logo}
+                alt={labels.logoAlt}
+                emptyLabel={labels.imageUnavailable}
+                contain
+              />
+            </div>
           </div>
         </header>
 
@@ -58,13 +83,13 @@ export function FestivalDetailContent({
             <h2 className="font-hand text-4xl font-bold sm:text-5xl">
               {labels.programTitle}
             </h2>
-            <ol className="mt-7 grid gap-5 md:grid-cols-2">
-              {festival.events.map((event) => (
-                <li
-                  key={event.id}
-                  className="rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/25"
-                >
-                  <h3 className="text-xl font-semibold">{event.title}</h3>
+            <ol className="mt-8 grid gap-px overflow-hidden rounded-4xl border border-border/45 bg-border/45 md:grid-cols-2">
+              {festival.events.map((event, eventIndex) => (
+                <li key={event.id} className="bg-card p-6 sm:p-8">
+                  <p className="text-gold/80 text-xs font-semibold tracking-[0.2em]">
+                    {String(eventIndex + 1).padStart(2, '0')}
+                  </p>
+                  <h3 className="mt-4 text-xl font-semibold">{event.title}</h3>
                   <p className="mt-4 leading-8 whitespace-pre-line text-muted-foreground">
                     {event.text}
                   </p>
@@ -170,13 +195,21 @@ export function FestivalDetailContent({
             <h2 className="font-hand text-4xl font-bold sm:text-5xl">
               {labels.achievementsTitle}
             </h2>
-            <div className="mt-7">
-              <ContentImageGallery
-                images={festival.achievements}
-                alt={labels.achievementAlt}
-                emptyLabel={labels.imageUnavailable}
-              />
-            </div>
+            <ul className="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {festival.achievements.map((achievement, index) => (
+                <li
+                  key={`${achievement}-${index}`}
+                  className="rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25"
+                >
+                  <ContentImage
+                    src={achievement}
+                    alt={labels.achievementAlt(index)}
+                    emptyLabel={labels.imageUnavailable}
+                    portrait
+                  />
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 
@@ -191,28 +224,6 @@ export function FestivalDetailContent({
                 title={labels.videoTitle}
               />
             </div>
-          </section>
-        ) : null}
-
-        {socialLinks.length > 0 ? (
-          <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {labels.socialsTitle}
-            </h2>
-            <ul className="mt-6 flex flex-wrap gap-3">
-              {socialLinks.map((href, index) => (
-                <li key={`${href}-${index}`}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gold border-gold/30 hover:bg-gold/10 inline-flex min-h-11 items-center rounded-full border px-5 py-2 font-medium transition-colors"
-                  >
-                    {labels.externalLink} {index + 1}
-                  </a>
-                </li>
-              ))}
-            </ul>
           </section>
         ) : null}
       </div>

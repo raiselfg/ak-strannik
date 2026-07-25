@@ -26,31 +26,33 @@ export function PryalochkaEventList({
   return (
     <section>
       <h2 className="font-hand text-4xl font-bold sm:text-5xl">{title}</h2>
-      <ol className="mt-7 space-y-6">
+      <ol className="mt-8 space-y-8">
         {events.map((event, index) => {
           const link = getSafeLink(event.link);
           return (
             <li
               key={event.id}
-              className="grid gap-6 rounded-4xl border border-border/45 bg-card/45 p-4 shadow-xl shadow-background/25 sm:p-6 lg:grid-cols-[minmax(16rem,0.8fr)_1.2fr] lg:items-center"
+              className="grid overflow-hidden rounded-[2.5rem] border border-border/45 bg-card/55 shadow-2xl shadow-background/25 lg:grid-cols-[minmax(18rem,0.85fr)_1.15fr] lg:items-stretch"
             >
-              <ContentImage
-                src={event.image}
-                alt={imageAlt(index)}
-                emptyLabel={imageUnavailable}
-              />
-              <div>
-                <p className="text-gold mb-3 text-sm font-semibold tracking-[0.18em] uppercase">
+              <div className={index % 2 === 1 ? 'lg:order-2' : undefined}>
+                <ContentImage
+                  src={event.image}
+                  alt={imageAlt(index)}
+                  emptyLabel={imageUnavailable}
+                />
+              </div>
+              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                <p className="text-gold mb-5 text-xs font-semibold tracking-[0.22em] uppercase">
                   {eventLabel(index)}
                 </p>
-                <p className="leading-8 whitespace-pre-line text-muted-foreground">
+                <p className="text-lg leading-8 whitespace-pre-line text-muted-foreground">
                   {event.text}
                 </p>
                 {link ? (
                   link.kind === 'internal' ? (
                     <Link
                       href={link.href}
-                      className="text-gold border-gold/30 hover:bg-gold/10 mt-5 inline-flex min-h-11 items-center rounded-full border px-5 py-2 font-medium transition-colors"
+                      className="text-gold border-gold/30 hover:bg-gold/10 mt-7 inline-flex min-h-11 w-fit items-center rounded-full border px-5 py-2 font-medium transition-colors"
                     >
                       {linkLabel}
                     </Link>
@@ -59,7 +61,7 @@ export function PryalochkaEventList({
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gold border-gold/30 hover:bg-gold/10 mt-5 inline-flex min-h-11 items-center rounded-full border px-5 py-2 font-medium transition-colors"
+                      className="text-gold border-gold/30 hover:bg-gold/10 mt-7 inline-flex min-h-11 w-fit items-center rounded-full border px-5 py-2 font-medium transition-colors"
                     >
                       {linkLabel}
                     </a>

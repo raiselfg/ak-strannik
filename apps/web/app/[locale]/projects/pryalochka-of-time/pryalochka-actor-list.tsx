@@ -12,13 +12,16 @@ export function PryalochkaActorList({
   return (
     <section>
       <h2 className="font-hand text-4xl font-bold sm:text-5xl">{title}</h2>
-      <ol className="mt-7 grid gap-5 md:grid-cols-2">
-        {actors.map((actor) => (
+      <ol className="mt-8 grid gap-px overflow-hidden rounded-[2.5rem] border border-border/45 bg-border/45 md:grid-cols-2">
+        {actors.map((actor, index) => (
           <li
             key={actor.id}
-            className="rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/25"
+            className="bg-card p-7 sm:p-9"
           >
-            <h3 className="text-xl font-semibold">{actor.name}</h3>
+            <p className="text-gold/60 font-hand text-4xl leading-none font-bold">
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <h3 className="mt-5 text-2xl font-semibold">{actor.name}</h3>
             <p className="mt-4 leading-8 whitespace-pre-line text-muted-foreground">
               {actor.text}
             </p>

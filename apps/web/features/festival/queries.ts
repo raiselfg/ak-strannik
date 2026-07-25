@@ -10,7 +10,6 @@ const listSelect = {
   id: true,
   slug: true,
   logo: true,
-  images: true,
   translations: {
     select: { locale: true, title: true },
   },
@@ -240,7 +239,7 @@ function mapFestivalCard(
         id: record.id,
         slug: record.slug,
         title: translation.title,
-        cover: record.images[0] || record.logo,
+        cover: record.logo,
       }
     : null;
 }

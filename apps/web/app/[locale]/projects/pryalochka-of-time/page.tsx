@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentImageGallery } from '@/app/_components/content/content-image-gallery';
+import { ContentPageHero } from '@/app/_components/content/content-page-hero';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getPryalochkaContent } from '@/features/pryalochka-of-time/queries';
 import { routing, type Locale } from '@/i18n/routing';
@@ -31,8 +32,14 @@ export default async function Page({ params }: PageProps) {
   const t = await getTranslations('Pages.projectsPryalochkaOfTime');
 
   return (
-    <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="relative overflow-hidden px-4 pt-32 pb-24 sm:px-6 sm:pt-40 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
       <div className="container mx-auto">
+        <ContentPageHero
+          eyebrow={t('eyebrow')}
+          title={t('title')}
+          description={t('description')}
+        />
         <Suspense fallback={<ContentPageSkeleton embedded />}>
           <PryalochkaContent locale={locale} />
         </Suspense>
@@ -54,13 +61,15 @@ async function PryalochkaContent({ locale }: { locale: Locale }) {
   }
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-24">
       {content.images.length > 0 ? (
-        <ContentImageGallery
-          images={content.images}
-          alt={(index) => t('imageAlt', { number: index + 1 })}
-          emptyLabel={common('imageUnavailable')}
-        />
+        <section className="rounded-[2.5rem] border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/25 sm:p-5">
+          <ContentImageGallery
+            images={content.images}
+            alt={(index) => t('imageAlt', { number: index + 1 })}
+            emptyLabel={common('imageUnavailable')}
+          />
+        </section>
       ) : null}
       <PryalochkaEventList
         events={content.events}
