@@ -8,15 +8,11 @@ type SafeLink =
 
 export function PryalochkaEventList({
   events,
-  title,
-  eventLabel,
   imageAlt,
   linkLabel,
   imageUnavailable,
 }: {
   events: PublicPryalochkaEvent[];
-  title: string;
-  eventLabel: (index: number) => string;
   imageAlt: (index: number) => string;
   linkLabel: string;
   imageUnavailable: string;
@@ -25,7 +21,6 @@ export function PryalochkaEventList({
 
   return (
     <section>
-      <h2 className="font-hand text-4xl font-bold sm:text-5xl">{title}</h2>
       <ol className="mt-8 space-y-8">
         {events.map((event, index) => {
           const link = getSafeLink(event.link);
@@ -42,9 +37,6 @@ export function PryalochkaEventList({
                 />
               </div>
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-                <p className="text-gold mb-5 text-xs font-semibold tracking-[0.22em] uppercase">
-                  {eventLabel(index)}
-                </p>
                 <p className="text-lg leading-8 whitespace-pre-line text-muted-foreground">
                   {event.text}
                 </p>

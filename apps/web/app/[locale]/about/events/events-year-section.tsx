@@ -4,14 +4,12 @@ import type { PublicEventsYear } from '@/features/events/queries';
 
 export function EventsYearSection({
   group,
-  eventLabel,
   emptyMessage,
   imageAlt,
   videoTitle,
   imageUnavailable,
 }: {
   group: PublicEventsYear;
-  eventLabel: (index: number) => string;
   emptyMessage: string;
   imageAlt: (eventIndex: number, imageIndex: number) => string;
   videoTitle: (eventIndex: number, videoIndex: number) => string;
@@ -33,9 +31,6 @@ export function EventsYearSection({
               key={event.id}
               className="rounded-4xl border border-border/40 bg-background/30 p-4 sm:p-6"
             >
-              <p className="text-gold mb-4 text-sm font-semibold tracking-[0.18em] uppercase">
-                {eventLabel(eventIndex)}
-              </p>
               <p className="leading-8 whitespace-pre-line text-muted-foreground">
                 {event.text}
               </p>

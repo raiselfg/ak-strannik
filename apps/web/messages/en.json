@@ -161,6 +161,8 @@
       "eyebrow": "About",
       "description": "We are preparing the Academy of Wanderings event calendar: festivals, meetings, concerts and family events.",
       "eventLabel": "Event {number}",
+      "filterLabel": "Filter events by year",
+      "allYears": "All years",
       "yearEmpty": "No materials are available in the selected language for this year yet.",
       "imageAlt": "{year}, event {event} — image {number}",
       "videoTitle": "{year}, event {event} — video {number}"
@@ -208,6 +210,7 @@
       "title": "Concert programs",
       "eyebrow": "Projects",
       "description": "We are preparing descriptions of concert programs, performance formats and opportunities for venues.",
+      "intro": "Our team creates unique themed concert programs. We combine modern lighting, sound and video with the work of talented artists, set designers and performers. As a result, the programs receive high praise from audiences and professionals.",
       "recordFallback": "Concert program {number}",
       "imageAlt": "{title} — image {number}",
       "videoTitle": "{title} — video {number}",
@@ -256,7 +259,8 @@
       "imageAlt": "Usta project — image {number}",
       "achievementsTitle": "Achievements",
       "achievementAlt": "Usta project — achievement {number}",
-      "videoTitle": "Usta project — video {number}"
+      "videoTitle": "Usta project — video {number}",
+      "vkLink": "Usta community on VK"
     },
     "projectsPryalochkaOfTime": {
       "title": "Musical tale Pryalochka of Time",
@@ -268,7 +272,11 @@
       "eventLabel": "Event {number}",
       "eventImageAlt": "Pryalochka of Time — event {number}",
       "eventLinkLabel": "Learn more",
-      "actorsTitle": "Participants"
+      "actorsTitle": "Participants",
+      "followUs": "Follow our news on social media:",
+      "vkLink": "VK community",
+      "telegramLink": "Telegram channel",
+      "dzenLink": "Dzen channel"
     },
     "rentRequisite": {
       "title": "Prop rental",
@@ -282,7 +290,8 @@
       "groupFallback": "Prop group {number}",
       "itemFallback": "Prop item {number}",
       "groupEmpty": "No available items have been published in this group yet.",
-      "imageAlt": "{group}: {item} — image {number}"
+      "imageAlt": "{group}: {item} — image {number}",
+      "contactNotice": "For prices and dimensions, email us at ak-strannik@mail.ru"
     },
     "rentAttraction": {
       "title": "Attraction rental",
@@ -298,13 +307,15 @@
       "title": "Attraction rental",
       "eyebrow": "Rental",
       "description": "This page includes information about attractions and interactive zones for traveling events.",
-      "imageAlt": "Attraction rental — image {number}"
+      "imageAlt": "Attraction rental — image {number}",
+      "contactNotice": "For pricing and reservations, email us at ak-strannik@mail.ru"
     },
     "rentalMascotCostume": {
       "title": "Mascot costume rental",
       "eyebrow": "Rental",
       "description": "A section with mascot costumes and characters for celebrations and promotional events.",
-      "imageAlt": "Mascot costume rental — image {number}"
+      "imageAlt": "Mascot costume rental — image {number}",
+      "contactNotice": "For costume sizes, pricing and availability, email us at ak-strannik@mail.ru"
     },
     "charter": {
       "title": "Organization charter",

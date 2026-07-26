@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
+import { ExternalLink } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
-import { ContentImageGallery } from '@/app/_components/content/content-image-gallery';
+import {
+  ContentImage,
+  ContentImageGallery,
+} from '@/app/_components/content/content-image-gallery';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
 import { getUstaContent } from '@/features/usta/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
+import type { Locale } from '@/i18n/routing';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -24,12 +29,10 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);
   setRequestLocale(locale);
-  const t = await getTranslations('Pages.projectsUsta');
-
   return (
-    <article className="relative overflow-hidden px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="content-page">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
-      <div className="container mx-auto">
+      <div className="content-page__container">
         <Suspense fallback={<ContentPageSkeleton embedded />}>
           <UstaContent locale={locale} />
         </Suspense>
@@ -52,9 +55,22 @@ async function UstaContent({ locale }: { locale: Locale }) {
 
   return (
     <div className="space-y-12">
-      <p className="max-w-4xl text-lg leading-8 whitespace-pre-line text-muted-foreground">
+      <h2 className="content-page__title">{t('title')}</h2>
+      <p className="mx-auto text-lg leading-8 whitespace-pre-line text-muted-foreground">
         {content.text}
       </p>
+      <Link
+        href="https://vk.com/ustiamuza"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group hover:border-gold/45 hover:bg-gold/10 hover:text-gold inline-flex min-h-11 w-fit items-center gap-2 rounded-full border border-border/50 bg-card/45 px-5 py-2.5 font-medium shadow-lg shadow-background/20 transition-[color,background-color,border-color,transform] duration-300 hover:-translate-y-0.5 focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none motion-reduce:transform-none"
+      >
+        <span>{t('vkLink')}</span>
+        <ExternalLink
+          aria-hidden="true"
+          className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none"
+        />
+      </Link>
 
       {content.images.length > 0 ? (
         <ContentImageGallery
@@ -66,16 +82,22 @@ async function UstaContent({ locale }: { locale: Locale }) {
 
       {content.achievements.length > 0 ? (
         <section>
-          <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-            {t('achievementsTitle')}
-          </h2>
-          <div className="mt-7">
-            <ContentImageGallery
-              images={content.achievements}
-              alt={(index) => t('achievementAlt', { number: index + 1 })}
-              emptyLabel={common('imageUnavailable')}
-            />
-          </div>
+          <h2 className="content-page__title">{t('achievementsTitle')}</h2>
+          <ul className="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {content.achievements.map((achievement, index) => (
+              <li
+                key={`${achievement}-${index}`}
+                className="rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25"
+              >
+                <ContentImage
+                  src={achievement}
+                  alt={t('achievementAlt', { number: index + 1 })}
+                  emptyLabel={common('imageUnavailable')}
+                  portrait
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       ) : null}
 
@@ -85,8 +107,4 @@ async function UstaContent({ locale }: { locale: Locale }) {
       />
     </div>
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }

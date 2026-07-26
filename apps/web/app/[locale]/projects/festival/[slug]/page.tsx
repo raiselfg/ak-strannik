@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getFestivalBySlug } from '@/features/festival/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
 import { FestivalDetailContent } from './festival-detail-content';
 
 type PageProps = {
@@ -77,10 +76,6 @@ async function FestivalContent({ params }: PageProps) {
       }}
     />
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }
 
 function truncateDescription(value: string): string {

@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getEvents } from '@/features/events/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
+import type { Locale } from '@/i18n/routing';
+import { EventsYearFilter } from './events-year-filter';
 import { EventsYearSection } from './events-year-section';
 
-type PageProps = { params: Promise<{ locale: string }> };
+type PageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ year?: string | string[] }>;
+};
 
 export async function generateMetadata({
   params,
@@ -20,24 +24,33 @@ export async function generateMetadata({
   return { title: t('title'), description: t('description') };
 }
 
-export default async function Page({ params }: PageProps) {
-  const locale = getLocale((await params).locale);
+export default async function Page({ params, searchParams }: PageProps) {
+  const [{ locale: localeParam }, { year }] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+  const locale = getLocale(localeParam);
+  const selectedYear = Array.isArray(year) ? year[0] : year;
   setRequestLocale(locale);
-  const t = await getTranslations('Pages.aboutEvents');
-
   return (
-    <article className="relative overflow-hidden px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="content-page">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
-      <div className="container mx-auto">
+      <div className="content-page__container">
         <Suspense fallback={<ContentPageSkeleton embedded />}>
-          <EventsContent locale={locale} />
+          <EventsContent locale={locale} selectedYear={selectedYear} />
         </Suspense>
       </div>
     </article>
   );
 }
 
-async function EventsContent({ locale }: { locale: Locale }) {
+async function EventsContent({
+  locale,
+  selectedYear,
+}: {
+  locale: Locale;
+  selectedYear?: string;
+}) {
   await connection();
   const [groups, t, common] = await Promise.all([
     getEvents(locale),
@@ -49,13 +62,26 @@ async function EventsContent({ locale }: { locale: Locale }) {
     return <ContentEmptyState message={common('empty')} />;
   }
 
+  const activeYear = groups.some((group) => group.year === selectedYear)
+    ? selectedYear
+    : undefined;
+  const visibleGroups = activeYear
+    ? groups.filter((group) => group.year === activeYear)
+    : groups;
+
   return (
     <div className="space-y-8">
-      {groups.map((group) => (
+      <h2 className="content-page__title">{t('title')}</h2>
+      <EventsYearFilter
+        years={groups.map((group) => group.year)}
+        activeYear={activeYear}
+        label={t('filterLabel')}
+        allYearsLabel={t('allYears')}
+      />
+      {visibleGroups.map((group) => (
         <EventsYearSection
           key={group.id}
           group={group}
-          eventLabel={(index) => t('eventLabel', { number: index + 1 })}
           emptyMessage={t('yearEmpty')}
           imageAlt={(eventIndex, imageIndex) =>
             t('imageAlt', {
@@ -76,8 +102,4 @@ async function EventsContent({ locale }: { locale: Locale }) {
       ))}
     </div>
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }

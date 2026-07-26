@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
@@ -8,7 +7,7 @@ import { ContentEmptyState } from '@/app/_components/content/content-empty-state
 import { ContentImage } from '@/app/_components/content/content-image-gallery';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getThankYouNotes } from '@/features/thank-you-notes/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -42,8 +41,9 @@ async function ThankYouNotesContent({ params }: PageProps) {
   ]);
 
   return (
-    <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
-      <div className="container mx-auto">
+    <article className="content-page">
+      <div className="content-page__container">
+        <h2 className="content-page__title">{t('title')}</h2>
         {notes.length === 0 ? (
           <ContentEmptyState message={common('empty')} />
         ) : (
@@ -66,8 +66,4 @@ async function ThankYouNotesContent({ params }: PageProps) {
       </div>
     </article>
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }

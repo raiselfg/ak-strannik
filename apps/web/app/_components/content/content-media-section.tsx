@@ -26,11 +26,6 @@ export function ContentMediaSection({
     <section className="rounded-4xl border border-border/45 bg-card/45 p-5 shadow-xl shadow-background/25 backdrop-blur-sm sm:p-7">
       <div className="mb-6">
         <h2 className="text-2xl font-semibold sm:text-3xl">{title}</h2>
-        {meta?.value.trim() ? (
-          <p className="border-gold/25 bg-gold/10 text-gold mt-4 inline-flex rounded-full border px-4 py-1.5 text-sm font-medium">
-            {meta.label}: {meta.value}
-          </p>
-        ) : null}
         {text?.trim() ? (
           <p className="mt-5 leading-8 whitespace-pre-line text-muted-foreground">
             {text}
@@ -48,6 +43,11 @@ export function ContentMediaSection({
         ) : null}
         <ContentVideoGallery videos={videos} title={videoTitle} />
       </div>
+      {meta?.value.trim() ? (
+        <p className="border-gold/25 bg-gold/10 text-gold mt-4 inline-flex rounded-full border px-4 py-1.5 text-sm font-medium">
+          {meta.value}
+        </p>
+      ) : null}
     </section>
   );
 }

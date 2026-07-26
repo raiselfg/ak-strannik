@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
+import {
+  ContentContactNotice,
+  ContentPage,
+  ContentPageHeader,
+  type ContentPageProps as PageProps,
+} from '@/app/_components/content/content-page';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { getRequisiteGroups } from '@/features/requisite/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
+import type { Locale } from '@/i18n/routing';
 import { RequisiteGroup } from './requisite-group';
-
-type PageProps = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({
   params,
@@ -27,15 +31,13 @@ export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);
   setRequestLocale(locale);
   const t = await getTranslations('Pages.rentalRequisite');
-
   return (
-    <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
-      <div className="container mx-auto">
-        <Suspense fallback={<ContentPageSkeleton embedded />}>
-          <RequisiteContent locale={locale} />
-        </Suspense>
-      </div>
-    </article>
+    <ContentPage>
+      <ContentPageHeader title={t('title')} />
+      <Suspense fallback={<ContentPageSkeleton embedded />}>
+        <RequisiteContent locale={locale} />
+      </Suspense>
+    </ContentPage>
   );
 }
 
@@ -74,10 +76,7 @@ async function RequisiteContent({ locale }: { locale: Locale }) {
           />
         );
       })}
+      <ContentContactNotice>{t('contactNotice')}</ContentContactNotice>
     </div>
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }

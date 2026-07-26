@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { connection } from 'next/server';
-import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
@@ -9,7 +8,8 @@ import { ContentImageGallery } from '@/app/_components/content/content-image-gal
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
 import { getPerformances } from '@/features/performances/queries';
-import { routing, type Locale } from '@/i18n/routing';
+import { getLocale } from '@/i18n/get-locale';
+import type { Locale } from '@/i18n/routing';
 import { PerformancePersonList } from './performance-person-list';
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -29,10 +29,10 @@ export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);
   setRequestLocale(locale);
   const t = await getTranslations('Pages.projectsPerformances');
-
   return (
-    <article className="px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
-      <div className="container mx-auto">
+    <article className="content-page">
+      <div className="content-page__container">
+        <h2 className="content-page__title">{t('title')}</h2>
         <Suspense fallback={<ContentPageSkeleton embedded />}>
           <PerformancesContent locale={locale} />
         </Suspense>
@@ -92,8 +92,4 @@ async function PerformancesContent({ locale }: { locale: Locale }) {
       ))}
     </div>
   );
-}
-
-function getLocale(locale: string): Locale {
-  return hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
 }

@@ -36,7 +36,7 @@ export function FestivalDetailContent({
   );
 
   return (
-    <article className="relative overflow-hidden px-4 pt-32 pb-24 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="content-page">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
       <div className="container mx-auto space-y-24">
         <header className="relative overflow-hidden rounded-[2.5rem] border border-border/45 bg-card/55 shadow-2xl shadow-background/30 backdrop-blur-sm">
@@ -46,7 +46,7 @@ export function FestivalDetailContent({
               <p className="text-gold text-xs font-semibold tracking-[0.28em] uppercase">
                 {labels.eyebrow}
               </p>
-              <h1 className="font-hand mt-5 max-w-4xl text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl lg:text-8xl">
+              <h1 className="font-hand mt-5 max-w-4xl text-3xl leading-[1.1] font-bold tracking-[0.5px] sm:text-7xl lg:text-8xl">
                 {festival.title}
               </h1>
               {socialLinks.length > 0 ? (
@@ -78,17 +78,24 @@ export function FestivalDetailContent({
           </div>
         </header>
 
+        {festival.images.length > 0 ? (
+          <section>
+            <h2 className="content-page__title">{labels.imagesTitle}</h2>
+            <div className="mt-7">
+              <ContentImageGallery
+                images={festival.images}
+                alt={labels.imageAlt}
+                emptyLabel={labels.imageUnavailable}
+              />
+            </div>
+          </section>
+        ) : null}
+
         {festival.events.length > 0 ? (
           <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {labels.programTitle}
-            </h2>
             <ol className="mt-8 grid gap-px overflow-hidden rounded-4xl border border-border/45 bg-border/45 md:grid-cols-2">
-              {festival.events.map((event, eventIndex) => (
+              {festival.events.map((event) => (
                 <li key={event.id} className="bg-card p-6 sm:p-8">
-                  <p className="text-gold/80 text-xs font-semibold tracking-[0.2em]">
-                    {String(eventIndex + 1).padStart(2, '0')}
-                  </p>
                   <h3 className="mt-4 text-xl font-semibold">{event.title}</h3>
                   <p className="mt-4 leading-8 whitespace-pre-line text-muted-foreground">
                     {event.text}
@@ -101,7 +108,7 @@ export function FestivalDetailContent({
 
         {festival.nominations ? (
           <section className="rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/25 sm:p-8">
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
+            <h2 className="content-page__title">
               {festival.nominations.title}
             </h2>
             <p className="mt-5 leading-8 whitespace-pre-line text-muted-foreground">
@@ -112,9 +119,7 @@ export function FestivalDetailContent({
 
         {festival.jury ? (
           <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {festival.jury.title}
-            </h2>
+            <h2 className="content-page__title">{festival.jury.title}</h2>
             {festival.jury.persons.length > 0 ? (
               <ul className="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {festival.jury.persons.map((person) => (
@@ -140,7 +145,7 @@ export function FestivalDetailContent({
 
         {festival.organizations ? (
           <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
+            <h2 className="content-page__title">
               {festival.organizations.title}
             </h2>
             {festival.organizations.items.length > 0 ? (
@@ -175,26 +180,9 @@ export function FestivalDetailContent({
           </section>
         ) : null}
 
-        {festival.images.length > 0 ? (
-          <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {labels.imagesTitle}
-            </h2>
-            <div className="mt-7">
-              <ContentImageGallery
-                images={festival.images}
-                alt={labels.imageAlt}
-                emptyLabel={labels.imageUnavailable}
-              />
-            </div>
-          </section>
-        ) : null}
-
         {festival.achievements.length > 0 ? (
           <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {labels.achievementsTitle}
-            </h2>
+            <h2 className="content-page__title">{labels.achievementsTitle}</h2>
             <ul className="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
               {festival.achievements.map((achievement, index) => (
                 <li
@@ -215,9 +203,7 @@ export function FestivalDetailContent({
 
         {hasValidVideos ? (
           <section>
-            <h2 className="font-hand text-4xl font-bold sm:text-5xl">
-              {labels.videosTitle}
-            </h2>
+            <h2 className="content-page__title">{labels.videosTitle}</h2>
             <div className="mt-7">
               <ContentVideoGallery
                 videos={festival.videos}
