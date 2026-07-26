@@ -61,6 +61,25 @@ export function EventsContentForm({
     setUploadCount((count) => Math.max(0, count + (active ? 1 : -1)));
   }
 
+  function addEvent() {
+    const index = fields.length;
+
+    append(
+      {
+        position: index,
+        images: [],
+        videos: [],
+        translations: [
+          { locale: 'ru', text: '' },
+          { locale: 'en', text: '' },
+        ],
+      },
+      {
+        focusName: `events.${index}.translations.0.text`,
+      }
+    );
+  }
+
   const onSubmit = form.handleSubmit(
     async (values) => {
       setFormError(null);
@@ -134,17 +153,7 @@ export function EventsContentForm({
         </div>
         <Button
           disabled={isSubmitting || uploading}
-          onClick={() =>
-            append({
-              position: fields.length,
-              images: [],
-              videos: [],
-              translations: [
-                { locale: 'ru', text: '' },
-                { locale: 'en', text: '' },
-              ],
-            })
-          }
+          onClick={addEvent}
           type="button"
         >
           <Plus />
@@ -178,9 +187,18 @@ export function EventsContentForm({
         <FieldError>{form.formState.errors.events.message}</FieldError>
       ) : null}
       {formError ? <FieldError>{formError}</FieldError> : null}
-      <div className="flex justify-end gap-3">
+      <div className="sticky bottom-4 z-10 flex flex-wrap justify-end gap-3 rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
         <Button asChild disabled={isSubmitting || uploading} variant="outline">
           <Link href="/about/events">Отменить</Link>
+        </Button>
+        <Button
+          disabled={isSubmitting || uploading}
+          onClick={addEvent}
+          type="button"
+          variant="outline"
+        >
+          <Plus />
+          Добавить событие
         </Button>
         <Button disabled={isSubmitting || uploading} type="submit">
           {isSubmitting ? 'Сохранение…' : 'Сохранить'}
