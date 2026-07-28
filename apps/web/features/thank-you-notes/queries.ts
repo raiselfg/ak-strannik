@@ -17,7 +17,7 @@ export async function getLatestThankYouNotes(): Promise<PublicThankYouNote[]> {
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   return prisma.thankYouNoteContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     take: 6,
     select: thankYouNoteSelect,
   });
@@ -28,7 +28,7 @@ export async function getThankYouNotes(): Promise<PublicThankYouNote[]> {
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   return prisma.thankYouNoteContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: thankYouNoteSelect,
   });
 }

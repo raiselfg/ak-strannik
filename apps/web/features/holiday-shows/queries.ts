@@ -25,7 +25,7 @@ export async function getHolidayShows(
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   const records = await prisma.holidayShowContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: {
       ...select,
       translations: {

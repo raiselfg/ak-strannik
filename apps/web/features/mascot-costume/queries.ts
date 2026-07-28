@@ -25,7 +25,7 @@ export async function getMascotCostumes(
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   const records = await prisma.mascotCostumeContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: {
       ...select,
       translations: {

@@ -33,7 +33,7 @@ export async function getConcerts(locale: AppLocale): Promise<PublicConcert[]> {
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   const records = await prisma.concertContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: {
       ...select,
       translations: {

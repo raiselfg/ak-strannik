@@ -51,7 +51,7 @@ export async function getPerformances(
 
   const localeFilter = { locale: { in: getRequestedLocales(locale) } };
   const records = await prisma.performancesContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: {
       ...select,
       translations: { ...select.translations, where: localeFilter },

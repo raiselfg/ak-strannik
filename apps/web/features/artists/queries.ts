@@ -28,7 +28,7 @@ export async function getArtists(locale: AppLocale): Promise<PublicArtist[]> {
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   const records = await prisma.artistContent.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
     select: {
       ...select,
       translations: {

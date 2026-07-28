@@ -49,10 +49,8 @@ async function ConcertsContent({ params }: PageProps) {
           <ContentEmptyState message={common('empty')} />
         ) : (
           <div className="space-y-8">
-            {records.map((record, recordIndex) => {
-              const title =
-                record.title?.trim() ||
-                t('recordFallback', { number: recordIndex + 1 });
+            {records.map((record) => {
+              const title = record.title?.trim() || '';
               return (
                 <ContentMediaSection
                   key={record.id}
