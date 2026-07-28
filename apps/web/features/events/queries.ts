@@ -46,7 +46,6 @@ export async function getEvents(
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
 
   const records = await prisma.eventsContent.findMany({
-    orderBy: { year: 'desc' },
     select: {
       ...select,
       events: {
@@ -62,7 +61,29 @@ export async function getEvents(
     },
   });
 
-  return records.map((record) => mapEventsYear(record, locale));
+  return records
+    .map((record) => mapEventsYear(record, locale))
+    .sort(compareEventsYears);
+}
+
+function compareEventsYears(
+  first: PublicEventsYear,
+  second: PublicEventsYear
+): number {
+  const firstYear = Number(first.year);
+  const secondYear = Number(second.year);
+  const firstIsYear = Number.isInteger(firstYear);
+  const secondIsYear = Number.isInteger(secondYear);
+
+  if (firstIsYear && secondIsYear) {
+    return secondYear - firstYear;
+  }
+
+  if (firstIsYear !== secondIsYear) {
+    return firstIsYear ? -1 : 1;
+  }
+
+  return first.year.localeCompare(second.year);
 }
 
 function mapEventsYear(
