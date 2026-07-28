@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import Image from 'next/image';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -6,6 +5,7 @@ import dynamic from 'next/dynamic';
 
 import VkIcon from '@/app/_components/layout/icons/vk-icon';
 import YoutubeIcon from '@/app/_components/layout/icons/yt-icon';
+import { ContactRow, SocialLink } from './contact-link';
 import {
   contacts,
   MAP_CENTER,
@@ -126,81 +126,5 @@ export default function Contacts() {
         </div>
       </div>
     </section>
-  );
-}
-
-interface ContactRowProps {
-  icon: ReactNode;
-  label: string;
-  value: string;
-  href?: string;
-  note?: string;
-}
-
-function ContactRow({ icon, label, value, href, note }: ContactRowProps) {
-  const content = (
-    <>
-      <span className="text-base font-semibold text-foreground sm:text-lg">
-        {value}
-      </span>
-      {note && <span className="text-sm text-muted-foreground">{note}</span>}
-    </>
-  );
-
-  return (
-    <>
-      {href ? (
-        <a
-          href={href}
-          className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40"
-        >
-          <div className="border-gold/25 bg-gold/10 text-gold flex size-11 items-center justify-center rounded-full border">
-            {icon}
-          </div>
-          <div className="min-w-0">
-            <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-              {label}
-            </p>
-
-            <div className="mt-1 flex flex-col">{content}</div>
-          </div>
-        </a>
-      ) : (
-        <div className="group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40">
-          <div className="border-gold/25 bg-gold/10 text-gold flex size-11 items-center justify-center rounded-full border">
-            {icon}
-          </div>
-          <div className="min-w-0">
-            <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-              {label}
-            </p>
-
-            <div className="mt-1 flex flex-col">{content}</div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
-interface SocialLinkProps {
-  href: string;
-  label: string;
-  children: ReactNode;
-}
-
-function SocialLink({ href, label, children }: SocialLinkProps) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="hover:border-gold/45 flex items-center justify-center rounded-4xl transition-transform hover:-translate-y-0.5"
-    >
-      <span className="inline-flex size-9 items-center justify-center">
-        {children}
-      </span>
-    </a>
   );
 }

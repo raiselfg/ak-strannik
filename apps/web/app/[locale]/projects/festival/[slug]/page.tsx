@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
+import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';

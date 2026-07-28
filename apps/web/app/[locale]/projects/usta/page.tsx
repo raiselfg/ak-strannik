@@ -1,6 +1,5 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
 import { connection } from 'next/server';
+import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -12,19 +11,15 @@ import {
 } from '@/app/_components/content/content-image-gallery';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
+import {
+  createPageMetadata,
+  type LocalizedPageProps as PageProps,
+} from '@/app/_lib/localized-page';
 import { getUstaContent } from '@/features/usta/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 
-type PageProps = { params: Promise<{ locale: string }> };
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({ locale, namespace: 'Pages.projectsUsta' });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata('Pages.projectsUsta');
 
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);

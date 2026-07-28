@@ -83,7 +83,7 @@ function LogoLink() {
         alt=""
         height={56}
         width={56}
-        priority
+        loading="eager"
         className="size-12 sm:size-14"
       />
     </Link>

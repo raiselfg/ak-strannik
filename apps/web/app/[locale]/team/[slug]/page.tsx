@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';

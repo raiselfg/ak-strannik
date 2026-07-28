@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { connection } from 'next/server';
+import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
 import { getTeamMembers } from '@/features/team/queries';

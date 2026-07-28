@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { connection } from 'next/server';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';

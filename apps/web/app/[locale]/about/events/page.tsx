@@ -1,28 +1,24 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
-import { getEvents } from '@/features/events/queries';
+import {
+  createPageMetadata,
+  type LocalizedPageProps,
+} from '@/app/_lib/localized-page';
+import { getEvents, getEventYears } from '@/features/events/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 import { EventsYearFilter } from './events-year-filter';
 import { EventsYearSection } from './events-year-section';
 
-type PageProps = {
-  params: Promise<{ locale: string }>;
+type PageProps = LocalizedPageProps & {
   searchParams: Promise<{ year?: string | string[] }>;
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({ locale, namespace: 'Pages.aboutEvents' });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata('Pages.aboutEvents');
 
 export default async function Page({ params, searchParams }: PageProps) {
   const [{ locale: localeParam }, { year }] = await Promise.all([
@@ -52,8 +48,15 @@ async function EventsContent({
   selectedYear?: string;
 }) {
   await connection();
-  const [groups, t, common] = await Promise.all([
-    getEvents(locale),
+  const yearFilter =
+    selectedYear === 'all'
+      ? undefined
+      : selectedYear && /^\d{4}$/.test(selectedYear)
+        ? selectedYear
+        : null;
+  const [groups, years, t, common] = await Promise.all([
+    getEvents(locale, yearFilter),
+    getEventYears(),
     getTranslations('Pages.aboutEvents'),
     getTranslations('Pages.common'),
   ]);
@@ -62,23 +65,18 @@ async function EventsContent({
     return <ContentEmptyState message={common('empty')} />;
   }
 
-  const activeYear = groups.some((group) => group.year === selectedYear)
-    ? selectedYear
-    : undefined;
-  const visibleGroups = activeYear
-    ? groups.filter((group) => group.year === activeYear)
-    : groups;
+  const activeYear = yearFilter === undefined ? undefined : groups[0]?.year;
 
   return (
     <div className="space-y-8">
       <h2 className="content-page__title">{t('title')}</h2>
       <EventsYearFilter
-        years={groups.map((group) => group.year)}
+        years={years}
         activeYear={activeYear}
         label={t('filterLabel')}
         allYearsLabel={t('allYears')}
       />
-      {visibleGroups.map((group) => (
+      {groups.map((group) => (
         <EventsYearSection
           key={group.id}
           group={group}

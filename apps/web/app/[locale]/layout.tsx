@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Inter } from 'next/font/google';
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 import '@/app/globals.css';
-import { cn } from '@ak-strannik/ui/lib/utils';
 import { routing, type Locale } from '@/i18n/routing';
 import { Header } from '../_components/layout/header/header';
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-inter',
-});
 
 const Contacts = dynamic(
   () => import('@/app/_components/layout/footer/contacts')
@@ -67,11 +64,23 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   }
 
   setRequestLocale(locale);
+  const messages = await getMessages();
+  const clientMessages = {
+    Metadata: messages.Metadata,
+    Navigation: messages.Navigation,
+    Map: messages.Map,
+    Pages: {
+      common: messages.Pages.common,
+    },
+    TeamDetail: {
+      error: messages.TeamDetail.error,
+    },
+  };
 
   return (
-    <html lang={locale} className={cn('font-sans antialiased', inter.variable)}>
+    <html lang={locale} className="font-sans antialiased">
       <body className="relative flex flex-col gap-4">
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={clientMessages}>
           <Header />
           <main>{children}</main>
           <footer>

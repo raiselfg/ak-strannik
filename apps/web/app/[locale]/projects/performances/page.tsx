@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -6,24 +5,19 @@ import { Suspense } from 'react';
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentImageGallery } from '@/app/_components/content/content-image-gallery';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
+import {
+  createPageMetadata,
+  type LocalizedPageProps as PageProps,
+} from '@/app/_lib/localized-page';
 import { ContentVideoGallery } from '@/app/_components/content/content-video-gallery';
 import { getPerformances } from '@/features/performances/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 import { PerformancePersonList } from './performance-person-list';
 
-type PageProps = { params: Promise<{ locale: string }> };
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'Pages.projectsPerformances',
-  });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata(
+  'Pages.projectsPerformances'
+);
 
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);

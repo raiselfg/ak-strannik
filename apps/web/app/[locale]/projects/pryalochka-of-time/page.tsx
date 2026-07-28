@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -6,6 +5,10 @@ import { Suspense } from 'react';
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentImageGallery } from '@/app/_components/content/content-image-gallery';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
+import {
+  createPageMetadata,
+  type LocalizedPageProps as PageProps,
+} from '@/app/_lib/localized-page';
 import { getPryalochkaContent } from '@/features/pryalochka-of-time/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
@@ -13,24 +16,15 @@ import { PryalochkaActorList } from './pryalochka-actor-list';
 import { PryalochkaEventList } from './pryalochka-event-list';
 import Link from 'next/link';
 
-type PageProps = { params: Promise<{ locale: string }> };
-
 const LINKS = [
   { labelKey: 'vkLink' as const, url: 'https://vk.com/spinneroftime' },
   { labelKey: 'telegramLink' as const, url: 'https://t.me/+1GlC5EaCM7g4NjA6' },
   { labelKey: 'dzenLink' as const, url: 'https://dzen.ru/usta?share_to=link' },
 ];
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'Pages.projectsPryalochkaOfTime',
-  });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata(
+  'Pages.projectsPryalochkaOfTime'
+);
 
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);

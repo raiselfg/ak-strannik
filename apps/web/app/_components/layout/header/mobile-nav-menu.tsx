@@ -92,10 +92,7 @@ export function MobileNavMenu({ className }: Props) {
                 />
               }
             >
-              <LanguageSwitcher
-                mobile
-                onNavigate={() => setIsOpen(false)}
-              />
+              <LanguageSwitcher mobile onNavigate={() => setIsOpen(false)} />
             </Suspense>
           </div>
         </SheetContent>

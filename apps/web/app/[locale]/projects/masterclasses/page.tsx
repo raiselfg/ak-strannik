@@ -1,26 +1,24 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentMediaSection } from '@/app/_components/content/content-media-section';
+import {
+  ContentPage,
+  ContentPageHeader,
+} from '@/app/_components/content/content-page';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
+import {
+  createPageMetadata,
+  type LocalizedPageProps as PageProps,
+} from '@/app/_lib/localized-page';
 import { getMasterclasses } from '@/features/masterclasses/queries';
 import { getLocale } from '@/i18n/get-locale';
 
-type PageProps = { params: Promise<{ locale: string }> };
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'Pages.projectsMasterclasses',
-  });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata(
+  'Pages.projectsMasterclasses'
+);
 
 export default function Page({ params }: PageProps) {
   return (
@@ -41,37 +39,36 @@ async function MasterclassesContent({ params }: PageProps) {
   ]);
 
   return (
-    <article className="content-page">
-      <div className="content-page__container">
-        {records.length === 0 ? (
-          <ContentEmptyState message={common('empty')} />
-        ) : (
-          <div className="space-y-8">
-            {records.map((record) => (
-              <ContentMediaSection
-                key={record.id}
-                title={record.title}
-                text={record.text}
-                images={record.images}
-                videos={record.videos}
-                imageAlt={(index) =>
-                  t('imageAlt', {
-                    title: record.title,
-                    number: index + 1,
-                  })
-                }
-                videoTitle={(index) =>
-                  t('videoTitle', {
-                    title: record.title,
-                    number: index + 1,
-                  })
-                }
-                imageUnavailable={common('imageUnavailable')}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </article>
+    <ContentPage>
+      <ContentPageHeader title={t('title')} />
+      {records.length === 0 ? (
+        <ContentEmptyState message={common('empty')} />
+      ) : (
+        <div className="space-y-8">
+          {records.map((record) => (
+            <ContentMediaSection
+              key={record.id}
+              title={record.title}
+              text={record.text}
+              images={record.images}
+              videos={record.videos}
+              imageAlt={(index) =>
+                t('imageAlt', {
+                  title: record.title,
+                  number: index + 1,
+                })
+              }
+              videoTitle={(index) =>
+                t('videoTitle', {
+                  title: record.title,
+                  number: index + 1,
+                })
+              }
+              imageUnavailable={common('imageUnavailable')}
+            />
+          ))}
+        </div>
+      )}
+    </ContentPage>
   );
 }

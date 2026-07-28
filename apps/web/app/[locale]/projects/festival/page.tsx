@@ -1,27 +1,19 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
+import {
+  createPageMetadata,
+  type LocalizedPageProps as PageProps,
+} from '@/app/_lib/localized-page';
 import { getFestivals } from '@/features/festival/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 import { FestivalListCard } from './festival-list-card';
 
-type PageProps = { params: Promise<{ locale: string }> };
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'Pages.projectsFestival',
-  });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata('Pages.projectsFestival');
 
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);

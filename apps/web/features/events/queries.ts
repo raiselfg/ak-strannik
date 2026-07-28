@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { Locale, Prisma, prisma } from '@ak-strannik/database';
-import { cacheLife } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import type { Locale as AppLocale } from '@/i18n/routing';
 import { getLocalizedTranslation } from '@/lib/content/get-localized-translation';
@@ -40,12 +40,17 @@ export type PublicEventsYear = {
 };
 
 export async function getEvents(
-  locale: AppLocale
+  locale: AppLocale,
+  year: string | null | undefined
 ): Promise<PublicEventsYear[]> {
   'use cache';
   cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
+  cacheTag('events', `events:${locale}`, `events:${year ?? 'latest'}`);
 
   const records = await prisma.eventsContent.findMany({
+    where: year ? { year } : undefined,
+    orderBy: year === null ? { year: 'desc' } : undefined,
+    take: year === null ? 1 : undefined,
     select: {
       ...select,
       events: {
@@ -66,12 +71,28 @@ export async function getEvents(
     .sort(compareEventsYears);
 }
 
+export async function getEventYears(): Promise<string[]> {
+  'use cache';
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 });
+  cacheTag('events', 'event-years');
+
+  const records = await prisma.eventsContent.findMany({
+    select: { year: true },
+  });
+
+  return records.map(({ year }) => year).sort(compareYearValues);
+}
+
 function compareEventsYears(
   first: PublicEventsYear,
   second: PublicEventsYear
 ): number {
-  const firstYear = Number(first.year);
-  const secondYear = Number(second.year);
+  return compareYearValues(first.year, second.year);
+}
+
+function compareYearValues(first: string, second: string): number {
+  const firstYear = Number(first);
+  const secondYear = Number(second);
   const firstIsYear = Number.isInteger(firstYear);
   const secondIsYear = Number.isInteger(secondYear);
 
@@ -83,7 +104,7 @@ function compareEventsYears(
     return firstIsYear ? -1 : 1;
   }
 
-  return first.year.localeCompare(second.year);
+  return first.localeCompare(second);
 }
 
 function mapEventsYear(

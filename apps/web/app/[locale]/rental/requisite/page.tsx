@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
@@ -11,21 +10,13 @@ import {
   type ContentPageProps as PageProps,
 } from '@/app/_components/content/content-page';
 import { ContentPageSkeleton } from '@/app/_components/content/content-page-skeleton';
+import { createPageMetadata } from '@/app/_lib/localized-page';
 import { getRequisiteGroups } from '@/features/requisite/queries';
 import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 import { RequisiteGroup } from './requisite-group';
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const locale = getLocale((await params).locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'Pages.rentalRequisite',
-  });
-  return { title: t('title'), description: t('description') };
-}
+export const generateMetadata = createPageMetadata('Pages.rentalRequisite');
 
 export default async function Page({ params }: PageProps) {
   const locale = getLocale((await params).locale);

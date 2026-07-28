@@ -16,7 +16,7 @@ export function EventsYearSection({
   imageUnavailable: string;
 }) {
   return (
-    <section className="rounded-4xl border border-border/45 bg-card/35 p-5 shadow-xl shadow-background/25 sm:p-8">
+    <section className="event-year-section rounded-4xl border border-border/45 bg-card/35 p-5 shadow-xl shadow-background/25 sm:p-8">
       <h2 className="font-hand text-gold text-4xl font-bold sm:text-5xl">
         {group.year}
       </h2>

@@ -15,7 +15,10 @@ export function EventsYearFilter({
     <nav aria-label={label}>
       <ul className="flex flex-wrap gap-2">
         <li>
-          <YearFilterLink href="/about/events" active={!activeYear}>
+          <YearFilterLink
+            href={{ pathname: '/about/events', query: { year: 'all' } }}
+            active={!activeYear}
+          >
             {allYearsLabel}
           </YearFilterLink>
         </li>
