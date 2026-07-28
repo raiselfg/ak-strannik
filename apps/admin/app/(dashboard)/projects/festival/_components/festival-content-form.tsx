@@ -68,6 +68,21 @@ function removeEmptyIds(value: unknown): unknown {
   );
 }
 
+function hasOptionalBlockContent(
+  block:
+    | {
+        id?: string;
+        translations?: unknown[];
+        items?: unknown[];
+      }
+    | null
+    | undefined
+): boolean {
+  return Boolean(
+    block?.id || block?.translations?.length || block?.items?.length
+  );
+}
+
 export function FestivalContentForm({
   contentId,
   initialValues,
@@ -110,13 +125,31 @@ export function FestivalContentForm({
   const submit = form.handleSubmit(
     async (values) => {
       setFormError(null);
+      const hasJury = hasOptionalBlockContent(
+        values.jury
+          ? {
+              id: values.jury.id,
+              translations: values.jury.translations,
+              items: values.jury.persons,
+            }
+          : values.jury
+      );
+      const hasOrganizations = hasOptionalBlockContent(
+        values.organizations
+          ? {
+              id: values.organizations.id,
+              translations: values.organizations.translations,
+              items: values.organizations.organizations,
+            }
+          : values.organizations
+      );
       const normalized: UpdateFestivalContentDto = {
         ...values,
         events: (values.events ?? []).map((event, position) => ({
           ...event,
           position,
         })),
-        jury: values.jury
+        jury: values.jury && hasJury
           ? {
               ...values.jury,
               persons: (values.jury.persons ?? []).map((person, position) => ({
@@ -124,15 +157,15 @@ export function FestivalContentForm({
                 position,
               })),
             }
-          : values.jury,
-        organizations: values.organizations
+          : null,
+        organizations: values.organizations && hasOrganizations
           ? {
               ...values.organizations,
               organizations: (values.organizations.organizations ?? []).map(
                 (item, position) => ({ ...item, position })
               ),
             }
-          : values.organizations,
+          : null,
       };
       const result = contentId
         ? await updateFestivalContent(contentId, normalized)
