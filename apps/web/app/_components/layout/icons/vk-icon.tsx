@@ -2,7 +2,13 @@ import { SVGProps } from 'react';
 
 export default function VKIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={48} height={48} {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      className="size-full"
+      aria-hidden="true"
+      {...props}
+    >
       <path
         fill="#1976d2"
         d="M42 37a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5V11a5 5 0 0 1 5-5h26a5 5 0 0 1 5 5v26z"
