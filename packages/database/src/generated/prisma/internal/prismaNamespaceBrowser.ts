@@ -107,6 +107,8 @@ export const ModelName = {
   RequisiteItem: 'RequisiteItem',
   RequisiteItemTranslation: 'RequisiteItemTranslation',
   TeamMember: 'TeamMember',
+  TeamMemberLink: 'TeamMemberLink',
+  TeamMemberLinkTranslation: 'TeamMemberLinkTranslation',
   TeamMemberTranslation: 'TeamMemberTranslation'
 } as const
 
@@ -734,13 +736,32 @@ export type RequisiteItemTranslationScalarFieldEnum = (typeof RequisiteItemTrans
 export const TeamMemberScalarFieldEnum = {
   id: 'id',
   image: 'image',
-  links: 'links',
   achievements: 'achievements',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
+
+
+export const TeamMemberLinkScalarFieldEnum = {
+  id: 'id',
+  teamMemberId: 'teamMemberId',
+  position: 'position',
+  href: 'href'
+} as const
+
+export type TeamMemberLinkScalarFieldEnum = (typeof TeamMemberLinkScalarFieldEnum)[keyof typeof TeamMemberLinkScalarFieldEnum]
+
+
+export const TeamMemberLinkTranslationScalarFieldEnum = {
+  id: 'id',
+  teamMemberLinkId: 'teamMemberLinkId',
+  locale: 'locale',
+  label: 'label'
+} as const
+
+export type TeamMemberLinkTranslationScalarFieldEnum = (typeof TeamMemberLinkTranslationScalarFieldEnum)[keyof typeof TeamMemberLinkTranslationScalarFieldEnum]
 
 
 export const TeamMemberTranslationScalarFieldEnum = {

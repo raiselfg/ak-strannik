@@ -19,7 +19,16 @@ const teamCardSelect = {
 const teamDetailSelect = {
   id: true,
   image: true,
-  links: true,
+  links: {
+    orderBy: { position: 'asc' },
+    select: {
+      href: true,
+      translations: {
+        where: { locale: { in: [Locale.ru, Locale.en] } },
+        select: { locale: true, label: true },
+      },
+    },
+  },
   achievements: true,
   translations: {
     where: { locale: { in: [Locale.ru, Locale.en] } },
@@ -45,7 +54,7 @@ export type PublicTeamMemberCard = {
 
 export type PublicTeamMemberDetail = PublicTeamMemberCard & {
   bio: string;
-  links: string[];
+  links: Array<{ label: string; href: string }>;
   achievements: string[];
 };
 
@@ -173,7 +182,15 @@ function mapTeamMemberDetail(
   return {
     ...card,
     bio: translation.bio,
-    links: record.links,
+    links: record.links.flatMap((link) => {
+      const linkTranslation = getLocalizedTranslation(
+        link.translations,
+        toDatabaseLocale(locale)
+      );
+      return linkTranslation
+        ? [{ label: linkTranslation.label, href: link.href }]
+        : [];
+    }),
     achievements: record.achievements,
   };
 }

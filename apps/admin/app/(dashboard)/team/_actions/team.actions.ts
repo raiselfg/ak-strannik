@@ -47,8 +47,14 @@ export async function createTeamMember(
     await prisma.teamMember.create({
       data: {
         image: parsed.data.image,
-        links: parsed.data.links,
         achievements: parsed.data.achievements,
+        links: {
+          create: parsed.data.links.map((link, position) => ({
+            href: link.href,
+            position,
+            translations: { create: link.translations },
+          })),
+        },
         translations: {
           create: parsed.data.translations.map(
             ({ bio, locale, name, role }) => ({ bio, locale, name, role })
@@ -92,8 +98,17 @@ export async function updateTeamMember(
         where: { id: parsedId.data },
         data: {
           image: parsed.data.image,
-          links: parsed.data.links,
           achievements: parsed.data.achievements,
+          links: parsed.data.links
+            ? {
+                deleteMany: {},
+                create: parsed.data.links.map((link, position) => ({
+                  href: link.href,
+                  position,
+                  translations: { create: link.translations },
+                })),
+              }
+            : undefined,
         },
       });
       for (const translation of translations) {

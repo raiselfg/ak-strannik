@@ -57,7 +57,7 @@ async function TeamMemberContent({ params }: PageProps) {
 
   const t = await getTranslations('TeamDetail');
   const links = member.links
-    .map((href, index) => getExternalLink(href, index + 1))
+    .map((link, index) => getExternalLink(link, index + 1))
     .filter((link): link is ExternalLink => link !== null);
 
   return (
@@ -87,8 +87,7 @@ async function TeamMemberContent({ params }: PageProps) {
                         rel="noopener noreferrer"
                         className="hover:border-gold/45 hover:text-gold inline-flex min-h-11 items-center rounded-full border border-border/50 bg-background/30 px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
                       >
-                        {link.hostname ||
-                          t('linkLabel', { number: link.index })}
+                        {link.label}
                       </a>
                     </li>
                   ))}
@@ -157,18 +156,21 @@ async function TeamMemberContent({ params }: PageProps) {
 
 type ExternalLink = {
   href: string;
-  hostname: string;
+  label: string;
   index: number;
 };
 
-function getExternalLink(href: string, index: number): ExternalLink | null {
+function getExternalLink(
+  link: { label: string; href: string },
+  index: number
+): ExternalLink | null {
   try {
-    const url = new URL(href);
+    const url = new URL(link.href);
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
 
     return {
       href: url.toString(),
-      hostname: url.hostname.replace(/^www\./, ''),
+      label: link.label,
       index,
     };
   } catch {

@@ -298,6 +298,16 @@ export type RequisiteItemTranslation = Prisma.RequisiteItemTranslationModel
  */
 export type TeamMember = Prisma.TeamMemberModel
 /**
+ * Model TeamMemberLink
+ * 
+ */
+export type TeamMemberLink = Prisma.TeamMemberLinkModel
+/**
+ * Model TeamMemberLinkTranslation
+ * 
+ */
+export type TeamMemberLinkTranslation = Prisma.TeamMemberLinkTranslationModel
+/**
  * Model TeamMemberTranslation
  * 
  */

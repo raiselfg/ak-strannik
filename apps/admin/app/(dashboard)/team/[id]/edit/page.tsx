@@ -17,7 +17,21 @@ export default async function EditTeamMemberPage({
   const en = member.translations.find((item) => item.locale === 'en');
   const initialValues: CreateTeamMemberDto = {
     image: member.image,
-    links: member.links,
+    links: member.links.map((link) => ({
+      href: link.href,
+      translations: [
+        {
+          locale: 'ru',
+          label:
+            link.translations.find((item) => item.locale === 'ru')?.label ?? '',
+        },
+        {
+          locale: 'en',
+          label:
+            link.translations.find((item) => item.locale === 'en')?.label ?? '',
+        },
+      ],
+    })),
     achievements: member.achievements,
     translations: [
       {

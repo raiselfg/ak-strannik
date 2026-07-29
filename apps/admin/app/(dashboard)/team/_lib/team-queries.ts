@@ -9,7 +9,10 @@ type TeamMemberListItem = Prisma.TeamMemberGetPayload<{
   };
 }>;
 type RecordWithTranslations = Prisma.TeamMemberGetPayload<{
-  include: { translations: true };
+  include: {
+    translations: true;
+    links: { include: { translations: true } };
+  };
 }>;
 export async function getTeamMembers(): Promise<TeamMemberListItem[]> {
   return prisma.teamMember.findMany({
@@ -29,6 +32,12 @@ export async function getTeamMember(
 ): Promise<RecordWithTranslations | null> {
   return prisma.teamMember.findUnique({
     where: { id },
-    include: { translations: true },
+    include: {
+      translations: true,
+      links: {
+        include: { translations: true },
+        orderBy: { position: 'asc' },
+      },
+    },
   });
 }

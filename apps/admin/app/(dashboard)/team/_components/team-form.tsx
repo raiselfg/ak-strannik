@@ -33,7 +33,6 @@ import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 import { ImagesField } from '../../../_components/images-field';
 import { SingleImageField } from '../../../_components/single-image-field';
-import { StringListField } from '../../../_components/string-list-field';
 import { createTeamMember, updateTeamMember } from '../_actions/team.actions';
 export function TeamForm({
   initialValues,
@@ -53,12 +52,19 @@ export function TeamForm({
     resolver: zodResolver(createTeamMemberDtoSchema),
     defaultValues: initialValues,
   });
-  const { fields } = useFieldArray({
+  const { fields: translationFields } = useFieldArray({
     control: form.control,
     name: 'translations',
   });
+  const {
+    append: appendLink,
+    fields: linkFields,
+    remove: removeLink,
+  } = useFieldArray({
+    control: form.control,
+    name: 'links',
+  });
   const image = useWatch({ control: form.control, name: 'image' }) ?? '';
-  const links = useWatch({ control: form.control, name: 'links' }) ?? [];
   const achievements =
     useWatch({ control: form.control, name: 'achievements' }) ?? [];
   const isSubmitting = form.formState.isSubmitting;
@@ -98,20 +104,6 @@ export function TeamForm({
             {form.formState.errors.image?.message ? (
               <FieldError>{form.formState.errors.image.message}</FieldError>
             ) : null}
-            <StringListField
-              description="Ссылки на страницы и социальные сети."
-              disabled={isSubmitting || uploading}
-              error={form.formState.errors.links?.message}
-              label="Ссылки"
-              onChange={(value) =>
-                form.setValue('links', value, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
-              placeholder="https://…"
-              values={links}
-            />
             <ImagesField
               disabled={isSubmitting}
               images={achievements}
@@ -132,6 +124,103 @@ export function TeamForm({
         </CardContent>
       </Card>
       <Card>
+        <CardHeader className="flex-row items-center justify-between">
+          <CardTitle>Ссылки</CardTitle>
+          <Button
+            disabled={isSubmitting || uploading}
+            onClick={() =>
+              appendLink({
+                href: '',
+                translations: [
+                  { locale: 'ru', label: '' },
+                  { locale: 'en', label: '' },
+                ],
+              })
+            }
+            type="button"
+            variant="outline"
+          >
+            Добавить ссылку
+          </Button>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          {linkFields.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Ссылки пока не добавлены.
+            </p>
+          ) : null}
+          {linkFields.map((link, linkIndex) => (
+            <div className="space-y-4 rounded-lg border p-4" key={link.id}>
+              <div className="flex items-end gap-3">
+                <Field className="flex-1">
+                  <FieldLabel htmlFor={`team-link-${linkIndex}`}>
+                    URL
+                  </FieldLabel>
+                  <Input
+                    aria-invalid={Boolean(
+                      form.formState.errors.links?.[linkIndex]?.href
+                    )}
+                    id={`team-link-${linkIndex}`}
+                    placeholder="https://…"
+                    {...form.register(`links.${linkIndex}.href`)}
+                  />
+                  {form.formState.errors.links?.[linkIndex]?.href?.message ? (
+                    <FieldError>
+                      {form.formState.errors.links[linkIndex]?.href?.message}
+                    </FieldError>
+                  ) : null}
+                </Field>
+                <Button
+                  disabled={isSubmitting}
+                  onClick={() => removeLink(linkIndex)}
+                  type="button"
+                  variant="outline"
+                >
+                  Удалить
+                </Button>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {link.translations.map((translation, translationIndex) => (
+                  <Field key={translation.locale}>
+                    <input
+                      type="hidden"
+                      {...form.register(
+                        `links.${linkIndex}.translations.${translationIndex}.locale`
+                      )}
+                    />
+                    <FieldLabel
+                      htmlFor={`team-link-${linkIndex}-${translation.locale}`}
+                    >
+                      Подпись ({translation.locale.toUpperCase()})
+                    </FieldLabel>
+                    <Input
+                      aria-invalid={Boolean(
+                        form.formState.errors.links?.[linkIndex]
+                          ?.translations?.[translationIndex]?.label
+                      )}
+                      id={`team-link-${linkIndex}-${translation.locale}`}
+                      {...form.register(
+                        `links.${linkIndex}.translations.${translationIndex}.label`
+                      )}
+                    />
+                    {form.formState.errors.links?.[linkIndex]?.translations?.[
+                      translationIndex
+                    ]?.label?.message ? (
+                      <FieldError>
+                        {
+                          form.formState.errors.links[linkIndex]
+                            ?.translations?.[translationIndex]?.label?.message
+                        }
+                      </FieldError>
+                    ) : null}
+                  </Field>
+                ))}
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+      <Card>
         <CardHeader>
           <CardTitle>Переводы</CardTitle>
         </CardHeader>
@@ -141,7 +230,7 @@ export function TeamForm({
               <TabsTrigger value="ru">Русский</TabsTrigger>
               <TabsTrigger value="en">English</TabsTrigger>
             </TabsList>
-            {fields.map((translation, index) => (
+            {translationFields.map((translation, index) => (
               <TabsContent key={translation.id} value={translation.locale}>
                 <input
                   type="hidden"

@@ -18,11 +18,30 @@ export const teamMemberTranslationSchema = z
   })
   .strict();
 
+export const teamMemberLinkTranslationSchema = z
+  .object({
+    id: idSchema,
+    teamMemberLinkId: idSchema,
+    locale: localeSchema,
+    label: nonEmptyStringSchema,
+  })
+  .strict();
+
+export const teamMemberLinkSchema = z
+  .object({
+    id: idSchema,
+    teamMemberId: idSchema,
+    position: z.number().int().nonnegative(),
+    href: z.url(),
+    translations: z.array(teamMemberLinkTranslationSchema),
+  })
+  .strict();
+
 export const teamMemberSchema = z
   .object({
     id: idSchema,
     image: nonEmptyStringSchema,
-    links: stringArraySchema,
+    links: z.array(teamMemberLinkSchema),
     achievements: stringArraySchema,
     translations: z.array(teamMemberTranslationSchema),
     createdAt: dateTimeSchema,

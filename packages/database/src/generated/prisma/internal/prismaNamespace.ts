@@ -440,6 +440,8 @@ export const ModelName = {
   RequisiteItem: 'RequisiteItem',
   RequisiteItemTranslation: 'RequisiteItemTranslation',
   TeamMember: 'TeamMember',
+  TeamMemberLink: 'TeamMemberLink',
+  TeamMemberLinkTranslation: 'TeamMemberLinkTranslation',
   TeamMemberTranslation: 'TeamMemberTranslation'
 } as const
 
@@ -456,7 +458,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "charityContent" | "charityContentTranslation" | "eventsContent" | "eventsContentEvent" | "eventTranslation" | "partnerContent" | "partnerContentTranslation" | "thankYouNoteContent" | "artistContent" | "artistContentTranslation" | "concertContent" | "concertContentTranslation" | "exhibitionContent" | "exhibitionContentTranslation" | "festivalContent" | "festivalContentTranslation" | "festivalEvent" | "festivalEventTranslation" | "festivalNominations" | "festivalNominationsTranslation" | "festivalJury" | "festivalJuryTranslation" | "festivalJuryPerson" | "festivalJuryPersonTranslation" | "festivalOrganizations" | "festivalOrganizationsTranslation" | "festivalOrganization" | "festivalOrganizationTranslation" | "holidayShowContent" | "holidayShowContentTranslation" | "masterclassesContent" | "masterclassesContentTranslation" | "performancesContent" | "performancesContentTranslation" | "performancePerson" | "performancePersonTranslation" | "pryalochkaOfTimeContent" | "pryalochkaOfTimeEvent" | "pryalochkaOfTimeEventTranslation" | "pryalochkaOfTimeActor" | "pryalochkaOfTimeActorTranslation" | "ustaContent" | "ustaContentTranslation" | "attractionContent" | "attractionContentTranslation" | "mascotCostumeContent" | "mascotCostumeContentTranslation" | "requisiteContent" | "requisiteContentTranslation" | "requisiteItem" | "requisiteItemTranslation" | "teamMember" | "teamMemberTranslation"
+    modelProps: "user" | "session" | "account" | "verification" | "charityContent" | "charityContentTranslation" | "eventsContent" | "eventsContentEvent" | "eventTranslation" | "partnerContent" | "partnerContentTranslation" | "thankYouNoteContent" | "artistContent" | "artistContentTranslation" | "concertContent" | "concertContentTranslation" | "exhibitionContent" | "exhibitionContentTranslation" | "festivalContent" | "festivalContentTranslation" | "festivalEvent" | "festivalEventTranslation" | "festivalNominations" | "festivalNominationsTranslation" | "festivalJury" | "festivalJuryTranslation" | "festivalJuryPerson" | "festivalJuryPersonTranslation" | "festivalOrganizations" | "festivalOrganizationsTranslation" | "festivalOrganization" | "festivalOrganizationTranslation" | "holidayShowContent" | "holidayShowContentTranslation" | "masterclassesContent" | "masterclassesContentTranslation" | "performancesContent" | "performancesContentTranslation" | "performancePerson" | "performancePersonTranslation" | "pryalochkaOfTimeContent" | "pryalochkaOfTimeEvent" | "pryalochkaOfTimeEventTranslation" | "pryalochkaOfTimeActor" | "pryalochkaOfTimeActorTranslation" | "ustaContent" | "ustaContentTranslation" | "attractionContent" | "attractionContentTranslation" | "mascotCostumeContent" | "mascotCostumeContentTranslation" | "requisiteContent" | "requisiteContentTranslation" | "requisiteItem" | "requisiteItemTranslation" | "teamMember" | "teamMemberLink" | "teamMemberLinkTranslation" | "teamMemberTranslation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4604,6 +4606,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TeamMemberLink: {
+      payload: Prisma.$TeamMemberLinkPayload<ExtArgs>
+      fields: Prisma.TeamMemberLinkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TeamMemberLinkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TeamMemberLinkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        findFirst: {
+          args: Prisma.TeamMemberLinkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TeamMemberLinkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        findMany: {
+          args: Prisma.TeamMemberLinkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>[]
+        }
+        create: {
+          args: Prisma.TeamMemberLinkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        createMany: {
+          args: Prisma.TeamMemberLinkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TeamMemberLinkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>[]
+        }
+        delete: {
+          args: Prisma.TeamMemberLinkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        update: {
+          args: Prisma.TeamMemberLinkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        deleteMany: {
+          args: Prisma.TeamMemberLinkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TeamMemberLinkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TeamMemberLinkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>[]
+        }
+        upsert: {
+          args: Prisma.TeamMemberLinkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkPayload>
+        }
+        aggregate: {
+          args: Prisma.TeamMemberLinkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTeamMemberLink>
+        }
+        groupBy: {
+          args: Prisma.TeamMemberLinkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamMemberLinkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TeamMemberLinkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamMemberLinkCountAggregateOutputType> | number
+        }
+      }
+    }
+    TeamMemberLinkTranslation: {
+      payload: Prisma.$TeamMemberLinkTranslationPayload<ExtArgs>
+      fields: Prisma.TeamMemberLinkTranslationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TeamMemberLinkTranslationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TeamMemberLinkTranslationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        findFirst: {
+          args: Prisma.TeamMemberLinkTranslationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TeamMemberLinkTranslationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        findMany: {
+          args: Prisma.TeamMemberLinkTranslationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>[]
+        }
+        create: {
+          args: Prisma.TeamMemberLinkTranslationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        createMany: {
+          args: Prisma.TeamMemberLinkTranslationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TeamMemberLinkTranslationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>[]
+        }
+        delete: {
+          args: Prisma.TeamMemberLinkTranslationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        update: {
+          args: Prisma.TeamMemberLinkTranslationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        deleteMany: {
+          args: Prisma.TeamMemberLinkTranslationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TeamMemberLinkTranslationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TeamMemberLinkTranslationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>[]
+        }
+        upsert: {
+          args: Prisma.TeamMemberLinkTranslationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamMemberLinkTranslationPayload>
+        }
+        aggregate: {
+          args: Prisma.TeamMemberLinkTranslationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTeamMemberLinkTranslation>
+        }
+        groupBy: {
+          args: Prisma.TeamMemberLinkTranslationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamMemberLinkTranslationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TeamMemberLinkTranslationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamMemberLinkTranslationCountAggregateOutputType> | number
+        }
+      }
+    }
     TeamMemberTranslation: {
       payload: Prisma.$TeamMemberTranslationPayload<ExtArgs>
       fields: Prisma.TeamMemberTranslationFieldRefs
@@ -5325,13 +5475,32 @@ export type RequisiteItemTranslationScalarFieldEnum = (typeof RequisiteItemTrans
 export const TeamMemberScalarFieldEnum = {
   id: 'id',
   image: 'image',
-  links: 'links',
   achievements: 'achievements',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
+
+
+export const TeamMemberLinkScalarFieldEnum = {
+  id: 'id',
+  teamMemberId: 'teamMemberId',
+  position: 'position',
+  href: 'href'
+} as const
+
+export type TeamMemberLinkScalarFieldEnum = (typeof TeamMemberLinkScalarFieldEnum)[keyof typeof TeamMemberLinkScalarFieldEnum]
+
+
+export const TeamMemberLinkTranslationScalarFieldEnum = {
+  id: 'id',
+  teamMemberLinkId: 'teamMemberLinkId',
+  locale: 'locale',
+  label: 'label'
+} as const
+
+export type TeamMemberLinkTranslationScalarFieldEnum = (typeof TeamMemberLinkTranslationScalarFieldEnum)[keyof typeof TeamMemberLinkTranslationScalarFieldEnum]
 
 
 export const TeamMemberTranslationScalarFieldEnum = {
@@ -5618,6 +5787,8 @@ export type GlobalOmitConfig = {
   requisiteItem?: Prisma.RequisiteItemOmit
   requisiteItemTranslation?: Prisma.RequisiteItemTranslationOmit
   teamMember?: Prisma.TeamMemberOmit
+  teamMemberLink?: Prisma.TeamMemberLinkOmit
+  teamMemberLinkTranslation?: Prisma.TeamMemberLinkTranslationOmit
   teamMemberTranslation?: Prisma.TeamMemberTranslationOmit
 }
 
