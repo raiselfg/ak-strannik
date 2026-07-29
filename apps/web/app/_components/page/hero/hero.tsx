@@ -8,7 +8,7 @@ export function Hero() {
   const t = useTranslations('Hero');
 
   return (
-    <section className="relative isolate flex min-h-svh items-end overflow-hidden px-4 pt-28 pb-8 sm:px-6 sm:pt-36 sm:pb-14 lg:min-h-screen lg:px-8 lg:pb-20">
+    <section className="relative isolate flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-8 sm:px-6 sm:pt-36 sm:pb-14 lg:min-h-screen lg:items-end lg:px-8 lg:pb-20">
       <Image
         src="/ship-crop.avif"
         alt=""

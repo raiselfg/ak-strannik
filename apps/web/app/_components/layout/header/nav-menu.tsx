@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Home, MessageCircle } from 'lucide-react';
 
 import {
   NavigationMenu,
@@ -12,7 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@ak-strannik/ui/components/navigation-menu';
 import { cn } from '@ak-strannik/ui/lib/utils';
-import { usePathname } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 
 import { contactNavLink, homeNavLink, navGroups } from './constants/constants';
 import {
@@ -96,6 +96,52 @@ export function NavMenu({ className }: NavMenuProps) {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
+  );
+}
+
+export function CompactNavMenu({ className }: NavMenuProps) {
+  const pathname = usePathname();
+  const t = useTranslations('Navigation');
+
+  const links = [
+    {
+      link: homeNavLink,
+      label: t(homeNavLink.labelKey),
+      icon: Home,
+      active: isLinkActive(pathname, homeNavLink),
+    },
+    {
+      link: contactNavLink,
+      label: t(contactNavLink.labelKey),
+      icon: MessageCircle,
+      active: false,
+    },
+  ];
+
+  return (
+    <nav
+      aria-label={t('mobileAriaLabel')}
+      className={cn(
+        'flex shrink-0 items-center gap-1 rounded-full border border-border/50 bg-background/30 p-1 xl:hidden',
+        className
+      )}
+    >
+      {links.map(({ link, label, icon: Icon, active }) => (
+        <Link
+          key={link.labelKey}
+          href={link.href}
+          aria-current={active ? 'page' : undefined}
+          aria-label={label}
+          className={cn(
+            'flex h-8 items-center justify-center gap-2 rounded-full px-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none sm:px-3',
+            active && 'bg-gold/15 text-gold'
+          )}
+        >
+          <Icon aria-hidden="true" className="size-4 shrink-0" />
+          <span className="hidden sm:inline">{label}</span>
+        </Link>
+      ))}
+    </nav>
   );
 }
 
