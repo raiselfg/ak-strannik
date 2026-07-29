@@ -3,6 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 
 import { AboutSections } from '../_components/page/about-sections/about-sections';
 import { Hero } from '../_components/page/hero/hero';
+import { LandingReveal } from '../_components/page/landing-reveal';
 import { TeamSection } from '../_components/page/team-section/team-section';
 import { routing, type Locale } from '@/i18n/routing';
 
@@ -21,6 +22,7 @@ export default async function Page({ params }: PageProps) {
   setRequestLocale(locale);
   return (
     <>
+      <LandingReveal />
       <Hero />
       <Suspense fallback={null}>
         <TeamSection locale={locale} />

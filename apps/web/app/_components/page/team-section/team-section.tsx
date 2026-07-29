@@ -23,8 +23,16 @@ export async function TeamSection({ locale }: { locale: Locale }) {
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
       <div className="via-gold/50 absolute inset-x-0 top-0 -z-10 h-px bg-linear-to-r from-transparent to-transparent" />
+      <div
+        aria-hidden="true"
+        className="bg-gold/10 absolute top-1/4 -right-48 -z-10 size-[30rem] rounded-full blur-3xl will-change-transform motion-safe:animate-soft-pulse"
+      />
+      <div
+        aria-hidden="true"
+        className="bg-ink-3/70 absolute bottom-0 -left-52 -z-10 size-[34rem] rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift-reverse"
+      />
       <div className="container mx-auto">
-        <div className="mb-12 max-w-3xl">
+        <div data-reveal className="mb-12 max-w-3xl">
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
@@ -36,11 +44,15 @@ export async function TeamSection({ locale }: { locale: Locale }) {
           </p>
         </div>
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {members.map((member) => (
-            <li key={member.id}>
+          {members.map((member, index) => (
+            <li
+              key={member.id}
+              data-reveal
+              data-reveal-order={(index % 3) + 1}
+            >
               <Link
                 href={`/team/${member.slug}`}
-                className="group block h-full rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
+                className="landing-card group block h-full rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
               >
                 <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
                   <Image

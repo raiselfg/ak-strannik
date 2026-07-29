@@ -41,8 +41,16 @@ function AchievementsSection() {
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,var(--color-gold)/0.14,transparent_30%),radial-gradient(circle_at_80%_10%,var(--color-ink-3),transparent_28%)]" />
+      <div
+        aria-hidden="true"
+        className="bg-gold/10 absolute top-24 -left-40 -z-10 size-[28rem] rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift"
+      />
+      <div
+        aria-hidden="true"
+        className="bg-ink-3/60 absolute right-1/4 bottom-1/3 -z-10 size-96 rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift-reverse"
+      />
       <div className="container mx-auto">
-        <div className="mb-12 max-w-3xl">
+        <div data-reveal className="mb-12 max-w-3xl">
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
@@ -52,10 +60,12 @@ function AchievementsSection() {
         </div>
 
         <dl className="grid gap-4 md:grid-cols-3">
-          {stats.map((stat) => (
+          {stats.map((stat, index) => (
             <div
               key={stat.key}
-              className="rounded-4xl border border-border/45 bg-background/35 p-6 shadow-xl shadow-background/20 backdrop-blur-sm"
+              data-reveal
+              data-reveal-order={index + 1}
+              className="landing-card rounded-4xl border border-border/45 bg-background/35 p-6 shadow-xl shadow-background/20 backdrop-blur-sm"
             >
               <dt className="text-sm leading-6 text-muted-foreground">
                 {t(`stats.${stat.key}`)}
@@ -68,7 +78,10 @@ function AchievementsSection() {
         </dl>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/20 backdrop-blur-sm sm:p-8">
+          <div
+            data-reveal
+            className="landing-card rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/20 backdrop-blur-sm sm:p-8"
+          >
             <h3 className="text-2xl font-semibold">{t('projectsTitle')}</h3>
             <p className="mt-4 leading-7 text-muted-foreground">{t('intro')}</p>
             <p className="mt-5 leading-7 text-muted-foreground">
@@ -80,7 +93,8 @@ function AchievementsSection() {
             {projects.map((project) => (
               <li
                 key={project}
-                className="before:text-gold rounded-3xl border border-border/40 bg-background/35 px-5 py-4 leading-7 text-muted-foreground shadow-lg shadow-background/10 backdrop-blur-sm before:mr-3 before:content-['✦']"
+                data-reveal
+                className="landing-card before:text-gold rounded-3xl border border-border/40 bg-background/35 px-5 py-4 leading-7 text-muted-foreground shadow-lg shadow-background/10 backdrop-blur-sm before:mr-3 before:content-['✦']"
               >
                 {t(`projects.${project}`)}
               </li>
@@ -107,9 +121,17 @@ async function LettersSection() {
   const t = await getTranslations('HomeSections.letters');
 
   return (
-    <section className="px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+      <div
+        aria-hidden="true"
+        className="bg-ink-3/65 absolute right-1/4 bottom-0 -z-10 size-[28rem] rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift-reverse"
+      />
+      <div
+        aria-hidden="true"
+        className="bg-gold/10 absolute top-1/4 -right-44 -z-10 size-96 rounded-full blur-3xl will-change-transform motion-safe:animate-soft-pulse"
+      />
       <div className="container mx-auto">
-        <div className="mb-12 max-w-3xl">
+        <div data-reveal className="mb-12 max-w-3xl">
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
@@ -125,7 +147,9 @@ async function LettersSection() {
           {letters.map((letter, index) => (
             <li
               key={letter.id}
-              className="group overflow-hidden rounded-4xl border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/30 backdrop-blur-sm"
+              data-reveal
+              data-reveal-order={(index % 3) + 1}
+              className="landing-card group overflow-hidden rounded-4xl border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/30 backdrop-blur-sm"
             >
               <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
                 <Image

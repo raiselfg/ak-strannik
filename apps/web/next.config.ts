@@ -6,6 +6,9 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const nextConfig: NextConfig = {
   cacheComponents: true,
   reactCompiler: true,
+  experimental: {
+    globalNotFound: true,
+  },
   images: {
     formats: ['image/avif'],
     qualities: [50, 75],

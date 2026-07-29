@@ -66,9 +66,57 @@
     ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     sans-serif;
 
-  /* Анимации hero */
+  /* Мягкое движение света на лендинге */
   --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
   --animate-float: float 9s ease-in-out infinite;
+  --animate-ambient-drift: ambient-drift 18s ease-in-out infinite alternate;
+  --animate-ambient-drift-reverse: ambient-drift-reverse 22s ease-in-out
+    infinite alternate;
+  --animate-soft-pulse: soft-pulse 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -0.75rem, 0);
+  }
+}
+
+@keyframes ambient-drift {
+  0% {
+    opacity: 0.45;
+    transform: translate3d(-4%, -3%, 0) scale(0.94);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translate3d(7%, 6%, 0) scale(1.08);
+  }
+}
+
+@keyframes ambient-drift-reverse {
+  0% {
+    opacity: 0.3;
+    transform: translate3d(5%, -5%, 0) scale(1.06);
+  }
+  100% {
+    opacity: 0.65;
+    transform: translate3d(-7%, 7%, 0) scale(0.92);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04);
+  }
 }
 
 :root {
@@ -180,5 +228,83 @@
   .event-year-section {
     content-visibility: auto;
     contain-intrinsic-size: auto 50rem;
+  }
+
+  .landing-card {
+    @apply relative isolate transition-[transform,border-color,box-shadow] duration-500 ease-out;
+  }
+
+  .landing-card::after {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    content: '';
+    background: linear-gradient(
+      125deg,
+      color-mix(in oklab, var(--gold) 28%, transparent),
+      transparent 36% 68%,
+      color-mix(in oklab, var(--ink-3) 72%, transparent)
+    );
+    opacity: 0;
+    filter: blur(14px);
+    transition: opacity 500ms ease;
+  }
+
+  .landing-card:hover,
+  .landing-card:focus-within {
+    border-color: color-mix(in oklab, var(--gold) 35%, transparent);
+    box-shadow:
+      0 24px 70px color-mix(in oklab, var(--ink) 52%, transparent),
+      inset 0 1px 0 color-mix(in oklab, var(--gold) 15%, transparent);
+    transform: translateY(-0.25rem);
+  }
+
+  .landing-card:hover::after,
+  .landing-card:focus-within::after {
+    opacity: 0.42;
+  }
+
+  [data-reveal][data-reveal-state='pending'] {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0) scale(0.985);
+  }
+
+  [data-reveal][data-reveal-state='visible'] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+      opacity 800ms var(--ease-reveal),
+      transform 900ms var(--ease-reveal);
+    transition-delay: calc(var(--reveal-order, 0) * 90ms);
+  }
+
+  [data-reveal-order='1'] {
+    --reveal-order: 1;
+  }
+
+  [data-reveal-order='2'] {
+    --reveal-order: 2;
+  }
+
+  [data-reveal-order='3'] {
+    --reveal-order: 3;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-card {
+      transition-duration: 0.01ms;
+    }
+
+    .landing-card:hover,
+    .landing-card:focus-within {
+      transform: none;
+    }
+
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
   }
 }
