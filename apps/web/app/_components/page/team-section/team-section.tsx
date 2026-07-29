@@ -25,14 +25,18 @@ export async function TeamSection({ locale }: { locale: Locale }) {
       <div className="via-gold/50 absolute inset-x-0 top-0 -z-10 h-px bg-linear-to-r from-transparent to-transparent" />
       <div
         aria-hidden="true"
-        className="bg-gold/10 absolute top-1/4 -right-48 -z-10 size-[30rem] rounded-full blur-3xl will-change-transform motion-safe:animate-soft-pulse"
+        className="bg-gold/10 motion-safe:animate-soft-pulse absolute top-1/4 -right-48 -z-10 size-[30rem] rounded-full blur-3xl will-change-transform"
       />
       <div
         aria-hidden="true"
-        className="bg-ink-3/70 absolute bottom-0 -left-52 -z-10 size-[34rem] rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift-reverse"
+        className="bg-ink-3/70 motion-safe:animate-ambient-drift-reverse absolute bottom-0 -left-52 -z-10 size-[34rem] rounded-full blur-3xl will-change-transform"
       />
       <div className="container mx-auto">
-        <div data-reveal className="mb-12 max-w-3xl">
+        <div
+          data-reveal
+          data-reveal-state="pending"
+          className="mb-12 max-w-3xl"
+        >
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
@@ -48,6 +52,7 @@ export async function TeamSection({ locale }: { locale: Locale }) {
             <li
               key={member.id}
               data-reveal
+              data-reveal-state="pending"
               data-reveal-order={(index % 3) + 1}
             >
               <Link

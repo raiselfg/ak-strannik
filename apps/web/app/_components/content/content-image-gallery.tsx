@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ImageLightbox } from './image-lightbox';
 
 type ContentImageGalleryProps = {
   images: string[];
@@ -30,25 +31,26 @@ export function ContentImageGallery({
       }
     >
       {renderableImages.map((image, index) => (
-        <li
-          key={`${image}-${index}`}
-          className={`relative ${
-            portrait
-              ? 'aspect-210/237'
-              : 'aspect-4/3 overflow-hidden rounded-3xl'
-          }`}
-        >
-          <Image
+        <li key={`${image}-${index}`} className="relative">
+          <ImageLightbox
             src={image}
             alt={alt(index)}
-            fill
-            sizes={
-              compact
-                ? '(min-width: 1280px) 18vw, (min-width: 640px) 35vw, 45vw'
-                : '(min-width: 1280px) 25vw, (min-width: 640px) 42vw, 90vw'
-            }
-            className={portrait ? 'object-contain' : 'object-cover'}
-          />
+            className={`w-full ${
+              portrait ? 'aspect-210/237' : 'aspect-4/3 rounded-3xl'
+            }`}
+          >
+            <Image
+              src={image}
+              alt={alt(index)}
+              fill
+              sizes={
+                compact
+                  ? '(min-width: 1280px) 18vw, (min-width: 640px) 35vw, 45vw'
+                  : '(min-width: 1280px) 25vw, (min-width: 640px) 42vw, 90vw'
+              }
+              className={`${portrait ? 'object-contain' : 'object-cover'} transition-transform duration-300 group-hover/lightbox:scale-[1.02]`}
+            />
+          </ImageLightbox>
         </li>
       ))}
     </ul>
@@ -73,8 +75,10 @@ export function ContentImage({
   }
 
   return (
-    <div
-      className={`relative overflow-hidden rounded-3xl bg-muted ${
+    <ImageLightbox
+      src={src}
+      alt={alt}
+      className={`w-full rounded-3xl bg-muted ${
         portrait ? 'aspect-4/5' : 'aspect-4/3'
       }`}
     >
@@ -83,9 +87,11 @@ export function ContentImage({
         alt={alt}
         fill
         sizes="(min-width: 1024px) 42vw, 90vw"
-        className={contain ? 'object-contain p-6 sm:p-8' : 'object-cover'}
+        className={`${
+          contain ? 'object-contain p-6 sm:p-8' : 'object-cover'
+        } transition-transform duration-300 group-hover/lightbox:scale-[1.02]`}
       />
-    </div>
+    </ImageLightbox>
   );
 }
 

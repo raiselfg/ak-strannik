@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { ImageLightbox } from '@/app/_components/content/image-lightbox';
 import { getTeamMemberBySlug } from '@/features/team/queries';
 import { routing, type Locale } from '@/i18n/routing';
 import { TeamMemberPageSkeleton } from './team-member-page-skeleton';
@@ -132,7 +133,14 @@ async function TeamMemberContent({ params }: PageProps) {
                   key={`${image}-${index}`}
                   className="overflow-hidden rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 backdrop-blur-sm"
                 >
-                  <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
+                  <ImageLightbox
+                    src={image}
+                    alt={t('achievementAlt', {
+                      name: member.name,
+                      number: index + 1,
+                    })}
+                    className="aspect-4/5 w-full rounded-3xl bg-muted"
+                  >
                     <Image
                       src={image}
                       alt={t('achievementAlt', {
@@ -141,9 +149,9 @@ async function TeamMemberContent({ params }: PageProps) {
                       })}
                       fill
                       sizes="(min-width: 1280px) 30vw, (min-width: 640px) 45vw, 90vw"
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover/lightbox:scale-[1.02]"
                     />
-                  </div>
+                  </ImageLightbox>
                 </li>
               ))}
             </ul>

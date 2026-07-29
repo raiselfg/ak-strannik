@@ -7,13 +7,12 @@ const REVEAL_SELECTOR = '[data-reveal]';
 export function LandingReveal() {
   useEffect(() => {
     const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
+      '(prefers-reduced-motion: reduce)'
     ).matches;
 
     if (reducedMotion) return;
 
-    const elements =
-      document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
+    const elements = document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,11 +26,10 @@ export function LandingReveal() {
       {
         rootMargin: '0px 0px -8% 0px',
         threshold: 0.12,
-      },
+      }
     );
 
     elements.forEach((element) => {
-      element.setAttribute('data-reveal-state', 'pending');
       observer.observe(element);
     });
 

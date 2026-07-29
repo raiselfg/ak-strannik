@@ -21,24 +21,25 @@ export function Hero() {
       <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-[radial-gradient(ellipse_at_bottom,var(--color-gold)/0.18,transparent_62%)]" />
       <div
         aria-hidden="true"
-        className="bg-gold/18 absolute -top-28 -right-32 -z-10 size-96 rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift sm:size-[34rem]"
+        className="bg-gold/18 motion-safe:animate-ambient-drift absolute -top-28 -right-32 -z-10 size-96 rounded-full blur-3xl will-change-transform sm:size-[34rem]"
       />
       <div
         aria-hidden="true"
-        className="bg-ink-3/75 absolute top-1/4 -left-40 -z-10 size-96 rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift-reverse"
+        className="bg-ink-3/75 motion-safe:animate-ambient-drift-reverse absolute top-1/4 -left-40 -z-10 size-96 rounded-full blur-3xl will-change-transform"
       />
       <div
         aria-hidden="true"
-        className="bg-gold/10 absolute right-1/4 bottom-16 -z-10 size-72 rounded-full blur-3xl will-change-transform motion-safe:animate-soft-pulse"
+        className="bg-gold/10 motion-safe:animate-soft-pulse absolute right-1/4 bottom-16 -z-10 size-72 rounded-full blur-3xl will-change-transform"
       />
       <div
         aria-hidden="true"
-        className="bg-ink-3/60 absolute top-10 left-1/3 -z-10 size-64 rounded-full blur-3xl will-change-transform motion-safe:animate-ambient-drift"
+        className="bg-ink-3/60 motion-safe:animate-ambient-drift absolute top-10 left-1/3 -z-10 size-64 rounded-full blur-3xl will-change-transform"
       />
 
       <div className="container mx-auto">
         <div
           data-reveal
+          data-reveal-state="pending"
           className="landing-card max-w-4xl rounded-4xl border border-border/40 bg-background/35 p-5 shadow-2xl shadow-background/40 backdrop-blur-md sm:p-8 lg:p-10"
         >
           <p className="text-gold mb-4 text-sm font-semibold tracking-[0.28em] uppercase">

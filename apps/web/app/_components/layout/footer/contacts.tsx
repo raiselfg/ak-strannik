@@ -89,13 +89,13 @@ export default function Contacts() {
                   </p>
                   <div className="flex gap-3">
                     <SocialLink href={contacts.socials.vk} label={t('vkLabel')}>
-                      <VkIcon className="size-12" />
+                      <VkIcon />
                     </SocialLink>
                     <SocialLink
                       href={contacts.socials.youtube}
                       label={t('youtubeLabel')}
                     >
-                      <YoutubeIcon className="size-12" />
+                      <YoutubeIcon />
                     </SocialLink>
                   </div>
                 </div>

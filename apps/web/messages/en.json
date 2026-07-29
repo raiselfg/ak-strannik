@@ -153,6 +153,9 @@
       "notFoundEyebrow": "Error 404 · Course lost",
       "empty": "No materials have been published yet.",
       "imageUnavailable": "Image unavailable",
+      "openImage": "Open image “{alt}”",
+      "imageViewer": "Viewing image “{alt}”",
+      "closeImage": "Close image",
       "errorTitle": "Unable to load the page",
       "errorDescription": "Please try loading the materials again.",
       "retry": "Try again"
