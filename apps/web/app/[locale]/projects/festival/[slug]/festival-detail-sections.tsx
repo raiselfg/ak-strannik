@@ -1,66 +1,49 @@
 import { ExternalLink } from 'lucide-react';
 
-import { ContentImage } from '@/app/_components/content/content-image-gallery';
 import type { PublicFestivalDetail } from '@/features/festival/queries';
 import { getSafeExternalUrl } from '@/lib/url/get-safe-external-url';
 
 type FestivalHeaderProps = {
-  festival: Pick<PublicFestivalDetail, 'title' | 'logo' | 'socials'>;
+  festival: Pick<PublicFestivalDetail, 'title' | 'socials'>;
   eyebrow: string;
-  logoAlt: string;
   externalLinkLabel: string;
-  imageUnavailable: string;
 };
 
 export function FestivalDetailHeader({
   festival,
   eyebrow,
-  logoAlt,
   externalLinkLabel,
-  imageUnavailable,
 }: FestivalHeaderProps) {
   const socialLinks = festival.socials
     .map(getSafeExternalUrl)
     .filter((link): link is string => link !== null);
 
   return (
-    <header className="relative overflow-hidden rounded-[2.5rem] border border-border/45 bg-card/55 shadow-2xl shadow-background/30 backdrop-blur-sm">
-      <div className="bg-gold/10 absolute -top-32 -left-32 size-80 rounded-full blur-3xl" />
-      <div className="relative grid lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-stretch">
-        <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-          <p className="text-gold text-xs font-semibold tracking-[0.28em] uppercase">
-            {eyebrow}
-          </p>
-          <h1 className="font-hand mt-5 max-w-4xl text-3xl leading-[1.1] font-bold tracking-[0.5px] sm:text-7xl lg:text-8xl">
-            {festival.title}
-          </h1>
-          {socialLinks.length > 0 ? (
-            <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3">
-              {socialLinks.map((href, index) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-gold inline-flex items-center gap-2 border-b border-border pb-1 font-medium transition-colors"
-                  >
-                    {externalLinkLabel} {index + 1}
-                    <ExternalLink aria-hidden="true" className="size-4" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-        <div className="border-t border-border/35 bg-background/25 p-4 lg:border-t-0 lg:border-l">
-          <ContentImage
-            src={festival.logo}
-            alt={logoAlt}
-            emptyLabel={imageUnavailable}
-            contain
-          />
-        </div>
-      </div>
+    <header className="relative max-w-5xl border-l-2 border-gold/60 py-3 pl-5 sm:py-5 sm:pl-8">
+      <div className="bg-gold/10 absolute top-1/2 left-0 -z-10 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
+      <p className="text-gold text-xs font-semibold tracking-[0.28em] uppercase">
+        {eyebrow}
+      </p>
+      <h1 className="font-hand mt-4 max-w-4xl text-4xl leading-[1.05] font-bold tracking-[0.5px] text-balance sm:text-5xl lg:text-6xl">
+        {festival.title}
+      </h1>
+      {socialLinks.length > 0 ? (
+        <ul className="mt-7 flex flex-wrap gap-3">
+          {socialLinks.map((href, index) => (
+            <li key={href}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:border-gold/50 hover:bg-gold/10 hover:text-gold inline-flex min-h-10 items-center gap-2 rounded-full border border-border/60 bg-card/35 px-4 py-2 text-sm font-medium transition-colors"
+              >
+                {externalLinkLabel} {index + 1}
+                <ExternalLink aria-hidden="true" className="size-3.5" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </header>
   );
 }

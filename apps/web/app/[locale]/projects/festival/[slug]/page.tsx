@@ -57,7 +57,6 @@ async function FestivalContent({ params }: PageProps) {
       festival={festival}
       labels={{
         eyebrow: t('title'),
-        logoAlt: t('logoAlt', { title: festival.title }),
         programTitle: t('programTitle'),
         imagesTitle: t('imagesTitle'),
         imageAlt: (index) =>

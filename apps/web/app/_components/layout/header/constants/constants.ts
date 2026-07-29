@@ -16,14 +16,17 @@ export const homeNavLink = {
 
 export const contactNavLink = {
   labelKey: 'contacts',
-  href: '/#contacts',
+  href: '#contacts',
 } as const satisfies NavLink;
 
 export const navGroups = [
   {
     labelKey: 'groups.about',
     links: [
-      { labelKey: 'links.events', href: '/about/events' },
+      {
+        labelKey: 'links.events',
+        href: '/about/events?year=2025',
+      },
       { labelKey: 'links.partners', href: '/about/partners' },
       { labelKey: 'links.charity', href: '/about/charity' },
       { labelKey: 'links.thankYouNotes', href: '/about/thank-you-notes' },

@@ -14,10 +14,10 @@ export function FestivalListCard({
   readMore: string;
 }) {
   return (
-    <li>
+    <li className="h-full">
       <Link
         href={`/projects/festival/${festival.slug}`}
-        className="group hover:border-gold/40 block rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 transition-colors focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
+        className="group hover:border-gold/40 flex h-full flex-col rounded-4xl border border-border/45 bg-card/45 p-3 shadow-xl shadow-background/25 transition-colors focus-visible:ring-3 focus-visible:ring-ring/40 focus-visible:outline-none"
         aria-label={`${festival.title} — ${readMore}`}
       >
         <ContentImage
@@ -26,9 +26,13 @@ export function FestivalListCard({
           emptyLabel={imageUnavailable}
           contain
         />
-        <div className="p-4 sm:p-5">
-          <h2 className="text-2xl font-semibold">{festival.title}</h2>
-          <p className="text-gold mt-3 text-sm font-medium">{readMore}</p>
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
+          <h2 className="line-clamp-2 min-h-14 text-2xl leading-7 font-semibold">
+            {festival.title}
+          </h2>
+          <p className="text-gold mt-auto pt-4 text-sm font-medium">
+            {readMore}
+          </p>
         </div>
       </Link>
     </li>

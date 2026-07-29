@@ -2,13 +2,10 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 
-import { Link, usePathname } from '@/i18n/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import { cn } from '@ak-strannik/ui/lib/utils';
 
-const languages = [
-  { locale: 'ru', label: 'RU' },
-  { locale: 'en', label: 'EN' },
-] as const;
+const languages = ['ru', 'en'] as const;
 
 interface LanguageSwitcherProps {
   mobile?: boolean;
@@ -21,33 +18,38 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslations('Navigation');
+  const nextLocale = locale === 'ru' ? 'en' : 'ru';
+
+  function switchLanguage() {
+    router.replace(pathname, { locale: nextLocale });
+    onNavigate?.();
+  }
 
   return (
-    <nav
+    <button
+      type="button"
+      onClick={switchLanguage}
       className={cn(
-        'items-center gap-1 rounded-full border border-border/50 bg-background/30 px-3 py-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase',
-        mobile ? 'flex min-h-11 justify-center' : 'hidden sm:flex'
+        'h-9 items-center justify-center gap-1 rounded-full border border-border/50 bg-background/30 px-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase transition-colors hover:border-border hover:bg-background/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none',
+        mobile ? 'flex' : 'hidden sm:flex'
       )}
       aria-label={t('languageLabel')}
     >
       {languages.map((language, index) => (
-        <span key={language.locale} className="contents">
+        <span key={language} className="contents">
           {index > 0 && <span aria-hidden="true">/</span>}
-          <Link
-            href={pathname}
-            locale={language.locale}
-            aria-current={locale === language.locale ? 'page' : undefined}
-            onClick={onNavigate}
+          <span
             className={cn(
-              'rounded-sm transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none',
-              locale === language.locale && 'text-foreground'
+              'transition-colors',
+              locale === language && 'text-foreground'
             )}
           >
-            {language.label}
-          </Link>
+            {language.toUpperCase()}
+          </span>
         </span>
       ))}
-    </nav>
+    </button>
   );
 }

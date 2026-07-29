@@ -12,7 +12,6 @@ import {
 
 type DetailLabels = {
   eyebrow: string;
-  logoAlt: string;
   programTitle: string;
   imagesTitle: string;
   imageAlt: (index: number) => string;
@@ -42,9 +41,7 @@ export function FestivalDetailContent({
         <FestivalDetailHeader
           festival={festival}
           eyebrow={labels.eyebrow}
-          logoAlt={labels.logoAlt}
           externalLinkLabel={labels.externalLink}
-          imageUnavailable={labels.imageUnavailable}
         />
 
         {festival.images.length > 0 ? (
