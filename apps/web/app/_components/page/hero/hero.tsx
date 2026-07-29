@@ -8,7 +8,7 @@ export function Hero() {
   const t = useTranslations('Hero');
 
   return (
-    <section className="relative isolate flex min-h-screen items-end overflow-hidden px-4 pt-32 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+    <section className="relative isolate flex min-h-svh items-end overflow-hidden px-4 pt-28 pb-8 sm:px-6 sm:pt-36 sm:pb-14 lg:min-h-screen lg:px-8 lg:pb-20">
       <Image
         src="/ship-crop.avif"
         alt=""
@@ -40,19 +40,19 @@ export function Hero() {
         <div
           data-reveal
           data-reveal-state="pending"
-          className="landing-card max-w-4xl rounded-4xl border border-border/40 bg-background/35 p-5 shadow-2xl shadow-background/40 backdrop-blur-md sm:p-8 lg:p-10"
+          className="landing-card max-w-4xl rounded-3xl border border-border/40 bg-background/45 p-4 shadow-2xl shadow-background/40 backdrop-blur-md sm:rounded-4xl sm:p-8 lg:p-10"
         >
-          <p className="text-gold mb-4 text-sm font-semibold tracking-[0.28em] uppercase">
+          <p className="text-gold mb-3 text-xs font-semibold tracking-[0.2em] uppercase sm:mb-4 sm:text-sm sm:tracking-[0.28em]">
             {t('eyebrow')}
           </p>
-          <h1 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] text-foreground sm:text-7xl lg:text-8xl">
+          <h1 className="font-hand text-[clamp(2.5rem,13vw,4.5rem)] leading-[0.92] font-bold tracking-[0.5px] text-balance text-foreground lg:text-8xl">
             {t('title')}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-xl sm:leading-8">
             {t('description')}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 min-[420px]:flex-row sm:mt-8">
             <Button asChild size="lg">
               <Link href="/#contacts">{t('contactCta')}</Link>
             </Button>

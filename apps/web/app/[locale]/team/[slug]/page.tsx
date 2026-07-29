@@ -62,11 +62,11 @@ async function TeamMemberContent({ params }: PageProps) {
     .filter((link): link is ExternalLink => link !== null);
 
   return (
-    <article className="relative overflow-hidden px-4 pt-36 pb-20 sm:px-6 sm:pt-40 lg:px-8">
+    <article className="relative overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-20 lg:px-8 lg:pt-40">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_15%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_85%_35%,var(--color-ink-3),transparent_32%)]" />
-      <div className="container mx-auto">
-        <div className="grid gap-8 lg:grid-cols-[minmax(18rem,0.75fr)_1.25fr] lg:items-start">
-          <div className="overflow-hidden rounded-4xl border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/30 backdrop-blur-sm">
+      <div className="container mx-auto min-w-0">
+        <div className="grid gap-6 lg:grid-cols-[minmax(18rem,0.75fr)_1.25fr] lg:items-start lg:gap-8">
+          <div className="overflow-hidden rounded-3xl border border-border/45 bg-card/45 p-3 shadow-2xl shadow-background/30 backdrop-blur-sm sm:rounded-4xl">
             <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-muted">
               <Image
                 src={member.image}
@@ -97,11 +97,11 @@ async function TeamMemberContent({ params }: PageProps) {
             ) : null}
           </div>
 
-          <div className="rounded-4xl border border-border/45 bg-background/35 p-6 shadow-xl shadow-background/20 backdrop-blur-md sm:p-8 lg:p-10">
+          <div className="rounded-3xl border border-border/45 bg-background/35 p-5 shadow-xl shadow-background/20 backdrop-blur-md sm:rounded-4xl sm:p-8 lg:p-10">
             <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
               {t('eyebrow')}
             </p>
-            <h1 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+            <h1 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] text-balance sm:text-7xl sm:leading-[0.9]">
               {member.name}
             </h1>
             {member.role ? (
@@ -110,7 +110,7 @@ async function TeamMemberContent({ params }: PageProps) {
               </p>
             ) : null}
             {member.bio ? (
-              <p className="mt-7 text-lg leading-8 whitespace-pre-line text-muted-foreground">
+              <p className="mt-5 text-base leading-7 whitespace-pre-line text-muted-foreground sm:mt-7 sm:text-lg sm:leading-8">
                 {member.bio}
               </p>
             ) : null}
@@ -118,16 +118,16 @@ async function TeamMemberContent({ params }: PageProps) {
         </div>
 
         {member.achievements.length > 0 ? (
-          <section className="mt-16">
-            <div className="mb-10 max-w-3xl">
+          <section className="mt-12 sm:mt-16">
+            <div className="mb-8 max-w-3xl sm:mb-10">
               <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
                 {t('achievementsEyebrow')}
               </p>
-              <h2 className="font-hand text-4xl leading-none font-bold sm:text-6xl">
+              <h2 className="font-hand text-3xl leading-tight font-bold text-balance sm:text-6xl sm:leading-none">
                 {t('achievementsTitle')}
               </h2>
             </div>
-            <ul className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <ul className="grid gap-4 min-[480px]:grid-cols-2 sm:gap-5 xl:grid-cols-4">
               {member.achievements.map((image, index) => (
                 <li
                   key={`${image}-${index}`}

@@ -180,7 +180,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply min-w-0 bg-background text-foreground;
     font-family: var(--font-sans), sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
@@ -189,6 +189,7 @@
   html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
+    text-size-adjust: 100%;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -200,7 +201,7 @@
 
 @layer components {
   .content-page {
-    @apply relative overflow-hidden px-4 pt-32 pb-24 sm:px-6 sm:pt-40 lg:px-8;
+    @apply relative overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-20 lg:px-8 lg:pt-40 lg:pb-24;
   }
 
   .content-page::before {
@@ -218,11 +219,11 @@
   }
 
   .content-page__container {
-    @apply container mx-auto;
+    @apply container mx-auto min-w-0;
   }
 
   .content-page__title {
-    @apply font-hand mb-10 text-4xl font-bold tracking-wide sm:text-5xl lg:text-6xl;
+    @apply font-hand mb-8 text-3xl leading-tight font-bold tracking-wide text-balance sm:mb-10 sm:text-5xl lg:text-6xl;
   }
 
   .event-year-section {

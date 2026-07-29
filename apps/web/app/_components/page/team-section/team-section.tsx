@@ -21,7 +21,7 @@ export async function TeamSection({ locale }: { locale: Locale }) {
   const t = await getTranslations('HomeSections.team');
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="via-gold/50 absolute inset-x-0 top-0 -z-10 h-px bg-linear-to-r from-transparent to-transparent" />
       <div
         aria-hidden="true"
@@ -35,19 +35,19 @@ export async function TeamSection({ locale }: { locale: Locale }) {
         <div
           data-reveal
           data-reveal-state="pending"
-          className="mb-12 max-w-3xl"
+          className="mb-8 max-w-3xl sm:mb-12"
         >
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
-          <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+          <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] text-balance sm:text-7xl sm:leading-[0.9]">
             {t('title')}
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground italic sm:text-xl">
+          <p className="mt-4 text-base text-muted-foreground italic sm:mt-5 sm:text-xl">
             {t('quote')}
           </p>
         </div>
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <ul className="grid gap-4 min-[480px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
           {members.map((member, index) => (
             <li
               key={member.id}

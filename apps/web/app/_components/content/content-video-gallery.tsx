@@ -12,11 +12,11 @@ export function ContentVideoGallery({
   if (embeds.length === 0) return null;
 
   return (
-    <ul className="grid gap-4 md:grid-cols-2">
+    <ul className="grid gap-3 sm:gap-4 lg:grid-cols-2">
       {embeds.map((embed, index) => (
         <li
           key={`${embed.src}-${index}`}
-          className="aspect-video overflow-hidden rounded-3xl border border-border/40 bg-muted/30"
+          className="aspect-video overflow-hidden rounded-2xl border border-border/40 bg-muted/30 sm:rounded-3xl"
         >
           <iframe
             src={embed.src}

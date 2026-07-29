@@ -21,13 +21,13 @@ export function PryalochkaEventList({
 
   return (
     <section>
-      <ol className="mt-8 space-y-8">
+      <ol className="mt-6 space-y-6 sm:mt-8 sm:space-y-8">
         {events.map((event, index) => {
           const link = getSafeLink(event.link);
           return (
             <li
               key={event.id}
-              className="grid overflow-hidden rounded-[2.5rem] border border-border/45 bg-card/55 shadow-2xl shadow-background/25 lg:grid-cols-[minmax(18rem,0.85fr)_1.15fr] lg:items-stretch"
+              className="grid overflow-hidden rounded-3xl border border-border/45 bg-card/55 shadow-2xl shadow-background/25 sm:rounded-[2.5rem] lg:grid-cols-[minmax(18rem,0.85fr)_1.15fr] lg:items-stretch"
             >
               <div className={index % 2 === 1 ? 'lg:order-2' : undefined}>
                 <ContentImage
@@ -36,8 +36,8 @@ export function PryalochkaEventList({
                   emptyLabel={imageUnavailable}
                 />
               </div>
-              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-                <p className="text-lg leading-8 whitespace-pre-line text-muted-foreground">
+              <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">
+                <p className="text-base leading-7 whitespace-pre-line text-muted-foreground sm:text-lg sm:leading-8">
                   {event.text}
                 </p>
                 {link ? (

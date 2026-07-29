@@ -39,7 +39,7 @@ function AchievementsSection() {
   const t = useTranslations('HomeSections.achievements');
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,var(--color-gold)/0.14,transparent_30%),radial-gradient(circle_at_80%_10%,var(--color-ink-3),transparent_28%)]" />
       <div
         aria-hidden="true"
@@ -53,40 +53,40 @@ function AchievementsSection() {
         <div
           data-reveal
           data-reveal-state="pending"
-          className="mb-12 max-w-3xl"
+          className="mb-8 max-w-3xl sm:mb-12"
         >
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
-          <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+          <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] text-balance sm:text-7xl sm:leading-[0.9]">
             {t('title')}
           </h2>
         </div>
 
-        <dl className="grid gap-4 md:grid-cols-3">
+        <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat, index) => (
             <div
               key={stat.key}
               data-reveal
               data-reveal-state="pending"
               data-reveal-order={index + 1}
-              className="landing-card rounded-4xl border border-border/45 bg-background/35 p-6 shadow-xl shadow-background/20 backdrop-blur-sm"
+              className="landing-card rounded-3xl border border-border/45 bg-background/35 p-5 shadow-xl shadow-background/20 backdrop-blur-sm sm:rounded-4xl sm:p-6"
             >
               <dt className="text-sm leading-6 text-muted-foreground">
                 {t(`stats.${stat.key}`)}
               </dt>
-              <dd className="text-gold mt-3 text-5xl leading-none font-light tracking-tight sm:text-6xl">
+              <dd className="text-gold mt-3 text-4xl leading-none font-light tracking-tight sm:text-6xl">
                 {stat.value}
               </dd>
             </div>
           ))}
         </dl>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-10">
           <div
             data-reveal
             data-reveal-state="pending"
-            className="landing-card rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/20 backdrop-blur-sm sm:p-8"
+            className="landing-card rounded-3xl border border-border/45 bg-card/45 p-5 shadow-xl shadow-background/20 backdrop-blur-sm sm:rounded-4xl sm:p-8"
           >
             <h3 className="text-2xl font-semibold">{t('projectsTitle')}</h3>
             <p className="mt-4 leading-7 text-muted-foreground">{t('intro')}</p>
@@ -128,7 +128,7 @@ async function LettersSection() {
   const t = await getTranslations('HomeSections.letters');
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div
         aria-hidden="true"
         className="bg-ink-3/65 motion-safe:animate-ambient-drift-reverse absolute right-1/4 bottom-0 -z-10 size-[28rem] rounded-full blur-3xl will-change-transform"
@@ -141,15 +141,15 @@ async function LettersSection() {
         <div
           data-reveal
           data-reveal-state="pending"
-          className="mb-12 max-w-3xl"
+          className="mb-8 max-w-3xl sm:mb-12"
         >
           <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
             {t('eyebrow')}
           </p>
-          <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+          <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] text-balance sm:text-7xl sm:leading-[0.9]">
             {t('title')}
           </h2>
-          <p className="mt-5 text-lg leading-8 text-muted-foreground">
+          <p className="mt-4 text-base leading-7 text-muted-foreground sm:mt-5 sm:text-lg sm:leading-8">
             {t('description')}
           </p>
         </div>

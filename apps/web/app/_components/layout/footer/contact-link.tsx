@@ -10,7 +10,7 @@ type ContactRowProps = {
 
 export function ContactRow(props: ContactRowProps) {
   const className =
-    'group hover:border-gold/35 grid grid-cols-[2.75rem_1fr] gap-4 rounded-4xl border border-border/35 bg-background/25 p-4 transition-colors hover:bg-background/40';
+    'group hover:border-gold/35 grid grid-cols-[2.75rem_minmax(0,1fr)] gap-3 rounded-3xl border border-border/35 bg-background/25 p-3 transition-colors hover:bg-background/40 sm:gap-4 sm:rounded-4xl sm:p-4';
   const content = <ContactRowContent {...props} />;
 
   return props.href ? (
@@ -33,7 +33,7 @@ function ContactRowContent({ icon, label, value, note }: ContactRowProps) {
           {label}
         </p>
         <div className="mt-1 flex flex-col">
-          <span className="text-base font-semibold text-foreground sm:text-lg">
+          <span className="text-base font-semibold break-words text-foreground sm:text-lg">
             {value}
           </span>
           {note ? (

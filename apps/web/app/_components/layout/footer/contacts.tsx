@@ -22,23 +22,23 @@ export default function Contacts() {
   return (
     <section
       id="contacts"
-      className="relative overflow-hidden px-4 pt-20 pb-8 sm:px-6 lg:px-8"
+      className="relative overflow-hidden px-4 pt-14 pb-4 sm:px-6 sm:pt-20 sm:pb-8 lg:px-8"
     >
       <div className="via-gold/60 absolute inset-x-0 top-0 -z-10 h-px bg-linear-to-r from-transparent to-transparent" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_15%_10%,var(--color-gold)/0.12,transparent_30%),linear-gradient(180deg,transparent,var(--color-ink)_70%)]" />
 
       <div className="container mx-auto">
-        <div className="overflow-hidden rounded-[2rem] border border-border/45 bg-card/45 shadow-2xl shadow-background/35 backdrop-blur-md lg:rounded-[3rem]">
+        <div className="overflow-hidden rounded-3xl border border-border/45 bg-card/45 shadow-2xl shadow-background/35 backdrop-blur-md sm:rounded-[2rem] lg:rounded-[3rem]">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="flex flex-col gap-10 p-6 sm:p-8 lg:p-10">
+            <div className="flex flex-col gap-8 p-5 sm:gap-10 sm:p-8 lg:p-10">
               <div>
                 <p className="text-gold mb-3 text-sm font-semibold tracking-[0.28em] uppercase">
                   {t('eyebrow')}
                 </p>
-                <h2 className="font-hand text-5xl leading-[0.9] font-bold tracking-[0.5px] sm:text-7xl">
+                <h2 className="font-hand text-4xl leading-[0.95] font-bold tracking-[0.5px] text-balance sm:text-7xl sm:leading-[0.9]">
                   {t('title')}
                 </h2>
-                <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
+                <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:mt-5 sm:text-lg sm:leading-8">
                   {t('description')}
                 </p>
               </div>
@@ -103,7 +103,7 @@ export default function Contacts() {
             </div>
 
             <div className="border-t border-border/45 bg-background/25 p-3 lg:border-t-0 lg:border-l">
-              <div className="relative h-full min-h-110 overflow-hidden rounded-[1.5rem] border border-border/45 bg-muted/20 lg:rounded-[2.25rem]">
+              <div className="relative h-full min-h-80 overflow-hidden rounded-[1.25rem] border border-border/45 bg-muted/20 sm:min-h-96 sm:rounded-[1.5rem] lg:min-h-110 lg:rounded-[2.25rem]">
                 <div className="flex items-center justify-between gap-4 p-4">
                   <div>
                     <p className="text-gold text-xs font-semibold tracking-[0.22em] uppercase">
@@ -116,7 +116,7 @@ export default function Contacts() {
                   <MapPin className="text-gold size-5" strokeWidth={1.5} />
                 </div>
                 <YandexMap
-                  className="h-full min-h-110 w-full"
+                  className="h-full min-h-72 w-full sm:min-h-88 lg:min-h-110"
                   apiKey={YANDEX_MAPS_API_KEY}
                   center={MAP_CENTER}
                 />

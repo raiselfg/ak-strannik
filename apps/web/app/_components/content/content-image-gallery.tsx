@@ -26,8 +26,8 @@ export function ContentImageGallery({
     <ul
       className={
         compact
-          ? 'grid grid-cols-3 gap-3'
-          : 'grid gap-4 sm:grid-cols-2 xl:grid-cols-3'
+          ? 'grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3'
+          : 'grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3'
       }
     >
       {renderableImages.map((image, index) => (
@@ -36,7 +36,9 @@ export function ContentImageGallery({
             src={image}
             alt={alt(index)}
             className={`w-full ${
-              portrait ? 'aspect-210/237' : 'aspect-4/3 rounded-3xl'
+              portrait
+                ? 'aspect-210/237'
+                : 'aspect-4/3 rounded-2xl sm:rounded-3xl'
             }`}
           >
             <Image
@@ -78,7 +80,7 @@ export function ContentImage({
     <ImageLightbox
       src={src}
       alt={alt}
-      className={`w-full rounded-3xl bg-muted ${
+      className={`w-full rounded-2xl bg-muted sm:rounded-3xl ${
         portrait ? 'aspect-4/5' : 'aspect-4/3'
       }`}
     >
@@ -104,7 +106,7 @@ function ImagePlaceholder({
 }) {
   return (
     <div
-      className={`flex items-center justify-center rounded-3xl border border-border/35 bg-muted/35 px-5 text-center text-sm text-muted-foreground ${
+      className={`flex items-center justify-center rounded-2xl border border-border/35 bg-muted/35 px-4 text-center text-sm text-muted-foreground sm:rounded-3xl sm:px-5 ${
         portrait ? 'aspect-4/5' : 'aspect-4/3'
       }`}
     >

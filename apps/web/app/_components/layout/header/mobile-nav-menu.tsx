@@ -31,7 +31,7 @@ export function MobileNavMenu({ className }: Props) {
   const metadata = useTranslations('Metadata');
 
   return (
-    <div className={cn('md:hidden', className)}>
+    <div className={cn('xl:hidden', className)}>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button
@@ -45,7 +45,7 @@ export function MobileNavMenu({ className }: Props) {
           </Button>
         </SheetTrigger>
 
-        <SheetContent className="max-h-dvh w-[min(88vw,24rem)] gap-6 overflow-y-auto border-border/50 bg-background/95 px-5 py-6 backdrop-blur-xl sm:max-w-sm">
+        <SheetContent className="max-h-dvh w-[min(92vw,24rem)] gap-6 overflow-y-auto border-border/50 bg-background/95 px-4 py-5 backdrop-blur-xl sm:max-w-sm sm:px-5 sm:py-6">
           <SheetHeader className="p-0 pr-10 text-left">
             <Link
               href="/"

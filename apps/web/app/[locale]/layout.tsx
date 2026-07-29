@@ -79,10 +79,10 @@ export default async function RootLayout({ children, params }: LayoutProps) {
 
   return (
     <html lang={locale} className="font-sans antialiased">
-      <body className="relative flex flex-col gap-4">
+      <body className="relative flex min-h-dvh min-w-0 flex-col">
         <NextIntlClientProvider messages={clientMessages}>
           <Header />
-          <main>{children}</main>
+          <main className="min-w-0 flex-1">{children}</main>
           <footer>
             <Contacts />
           </footer>

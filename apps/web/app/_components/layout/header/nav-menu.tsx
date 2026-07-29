@@ -38,7 +38,7 @@ export function NavMenu({ className }: NavMenuProps) {
   return (
     <NavigationMenu
       viewport={false}
-      className={cn('hidden items-center md:flex', className)}
+      className={cn('hidden items-center xl:flex', className)}
     >
       <NavigationMenuList className="gap-1">
         <NavigationMenuItem>

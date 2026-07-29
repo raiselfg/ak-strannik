@@ -37,7 +37,7 @@ export function FestivalDetailContent({
   return (
     <article className="content-page">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,var(--color-gold)/0.12,transparent_28%),radial-gradient(circle_at_86%_38%,var(--color-ink-3),transparent_34%)]" />
-      <div className="container mx-auto space-y-24">
+      <div className="container mx-auto min-w-0 space-y-14 sm:space-y-20 lg:space-y-24">
         <FestivalDetailHeader
           festival={festival}
           eyebrow={labels.eyebrow}
@@ -59,7 +59,7 @@ export function FestivalDetailContent({
 
         {festival.events.length > 0 ? (
           <section>
-            <ol className="mt-8 grid gap-px overflow-hidden rounded-4xl border border-border/45 bg-border/45 md:grid-cols-2">
+            <ol className="mt-6 grid gap-px overflow-hidden rounded-3xl border border-border/45 bg-border/45 sm:mt-8 sm:rounded-4xl lg:grid-cols-2">
               {festival.events.map((event) => (
                 <li key={event.id} className="bg-card p-6 sm:p-8">
                   <h3 className="mt-4 text-xl font-semibold">{event.title}</h3>
@@ -73,7 +73,7 @@ export function FestivalDetailContent({
         ) : null}
 
         {festival.nominations ? (
-          <section className="rounded-4xl border border-border/45 bg-card/45 p-6 shadow-xl shadow-background/25 sm:p-8">
+          <section className="rounded-3xl border border-border/45 bg-card/45 p-5 shadow-xl shadow-background/25 sm:rounded-4xl sm:p-8">
             <h2 className="content-page__title">
               {festival.nominations.title}
             </h2>
