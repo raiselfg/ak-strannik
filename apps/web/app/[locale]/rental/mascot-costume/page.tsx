@@ -4,7 +4,6 @@ import { Suspense } from 'react';
 
 import { ContentEmptyState } from '@/app/_components/content/content-empty-state';
 import {
-  ContentCardGrid,
   ContentContactNotice,
   ContentPage,
   type ContentPageProps as PageProps,
@@ -13,7 +12,7 @@ import { ContentPageSkeleton } from '@/app/_components/content/content-page-skel
 import { createPageMetadata } from '@/app/_lib/localized-page';
 import { getMascotCostumes } from '@/features/mascot-costume/queries';
 import { getLocale } from '@/i18n/get-locale';
-import { RentalItemCard } from '../_components/rental-item-card';
+import { RentalMasonry } from '../_components/rental-masonry';
 
 export const generateMetadata = createPageMetadata('Pages.rentalMascotCostume');
 
@@ -41,18 +40,16 @@ async function MascotCostumeContent({ params }: PageProps) {
       {records.length === 0 ? (
         <ContentEmptyState message={common('empty')} />
       ) : (
-        <ContentCardGrid layout="masonry">
-          {records.map((record, index) => (
-            <RentalItemCard
-              key={record.id}
-              image={record.image}
-              imageAlt={t('imageAlt', { number: index + 1 })}
-              imageUnavailable={common('imageUnavailable')}
-            >
-              {record.text}
-            </RentalItemCard>
-          ))}
-        </ContentCardGrid>
+        <RentalMasonry
+          items={records.map((record, index) => ({
+            id: record.id,
+            image: record.image,
+            imageAlt: t('imageAlt', { number: index + 1 }),
+            imageUnavailable: common('imageUnavailable'),
+            caption: record.text,
+            captionKind: 'text',
+          }))}
+        />
       )}
       <ContentContactNotice>{t('contactNotice')}</ContentContactNotice>
     </ContentPage>

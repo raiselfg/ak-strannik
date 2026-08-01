@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { SyntheticEvent } from 'react';
 import { JustifiedImageGallery } from './justified-image-gallery';
 import { ImageLightbox } from './image-lightbox';
 
@@ -39,6 +40,10 @@ export function ContentImage({
   portrait = false,
   contain = false,
   variant = 'default',
+  width,
+  height,
+  sizes,
+  onLoad,
 }: {
   src: string;
   alt: string;
@@ -46,6 +51,10 @@ export function ContentImage({
   portrait?: boolean;
   contain?: boolean;
   variant?: 'default' | 'rental';
+  width?: number;
+  height?: number;
+  sizes?: string;
+  onLoad?: (event: SyntheticEvent<HTMLImageElement>) => void;
 }) {
   const isRental = variant === 'rental';
   const imageSizes = isRental
@@ -75,9 +84,10 @@ export function ContentImage({
         <Image
           src={src}
           alt={alt}
-          width={1600}
-          height={1200}
-          sizes={imageSizes}
+          width={width ?? 1600}
+          height={height ?? 1200}
+          sizes={sizes ?? imageSizes}
+          onLoad={onLoad}
           className="h-auto w-full transition-opacity duration-300 group-hover/lightbox:opacity-90"
         />
       ) : (

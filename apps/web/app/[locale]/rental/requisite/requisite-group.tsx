@@ -1,6 +1,5 @@
-import { ContentCardGrid } from '@/app/_components/content/content-page';
 import type { PublicRequisiteGroup } from '@/features/requisite/queries';
-import { RentalItemCard } from '../_components/rental-item-card';
+import { RentalMasonry } from '../_components/rental-masonry';
 
 export function RequisiteGroup({
   group,
@@ -25,25 +24,20 @@ export function RequisiteGroup({
           {emptyMessage}
         </p>
       ) : (
-        <ContentCardGrid className="mt-6" layout="masonry">
-          {group.requisites.map((item, index) => {
+        <RentalMasonry
+          className="mt-6"
+          items={group.requisites.map((item, index) => {
             const title = item.title?.trim() || itemTitle(index);
-            return (
-              <RentalItemCard
-                key={item.id}
-                image={item.image}
-                imageAlt={imageAlt(title, index)}
-                imageUnavailable={imageUnavailable}
-              >
-                {item.title?.trim() ? (
-                  <h3 className="font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                ) : null}
-              </RentalItemCard>
-            );
+            return {
+              id: item.id,
+              image: item.image,
+              imageAlt: imageAlt(title, index),
+              imageUnavailable,
+              caption: item.title?.trim() || null,
+              captionKind: 'heading' as const,
+            };
           })}
-        </ContentCardGrid>
+        />
       )}
     </section>
   );

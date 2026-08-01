@@ -1,7 +1,6 @@
 import { Children, type ReactNode } from 'react';
 
 import { cn } from '@ak-strannik/ui/lib/utils';
-import { MasonryGrid } from './masonry-grid';
 
 export type ContentPageProps = {
   params: Promise<{ locale: string }>;
@@ -42,22 +41,12 @@ export function ContentCardGrid({
   className,
   ordered = false,
   balanced = false,
-  layout = 'grid',
 }: {
   children: ReactNode;
   className?: string;
   ordered?: boolean;
   balanced?: boolean;
-  layout?: 'grid' | 'masonry';
 }) {
-  if (layout === 'masonry') {
-    return (
-      <MasonryGrid className={className} ordered={ordered}>
-        {children}
-      </MasonryGrid>
-    );
-  }
-
   const Component = ordered ? 'ol' : 'ul';
   const itemCount = Children.count(children);
 
