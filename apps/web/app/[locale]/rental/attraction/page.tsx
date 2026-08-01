@@ -41,7 +41,7 @@ async function AttractionContent({ params }: PageProps) {
       {records.length === 0 ? (
         <ContentEmptyState message={common('empty')} />
       ) : (
-        <ContentCardGrid ordered>
+        <ContentCardGrid ordered layout="masonry">
           {records.map((record, index) => (
             <RentalItemCard
               key={record.id}

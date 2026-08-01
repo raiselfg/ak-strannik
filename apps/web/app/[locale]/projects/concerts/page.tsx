@@ -59,6 +59,7 @@ async function ConcertsContent({ params }: PageProps) {
                   t('videoTitle', { title, number: index + 1 })
                 }
                 imageUnavailable={common('imageUnavailable')}
+                splitMediaWithoutText
                 meta={
                   record.duration?.trim()
                     ? { label: t('durationLabel'), value: record.duration }

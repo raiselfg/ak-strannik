@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react';
+import { Children, type ReactNode } from 'react';
 
 import { cn } from '@ak-strannik/ui/lib/utils';
+import { MasonryGrid } from './masonry-grid';
 
 export type ContentPageProps = {
   params: Promise<{ locale: string }>;
@@ -40,21 +41,61 @@ export function ContentCardGrid({
   children,
   className,
   ordered = false,
+  balanced = false,
+  layout = 'grid',
 }: {
   children: ReactNode;
   className?: string;
   ordered?: boolean;
+  balanced?: boolean;
+  layout?: 'grid' | 'masonry';
 }) {
+  if (layout === 'masonry') {
+    return (
+      <MasonryGrid className={className} ordered={ordered}>
+        {children}
+      </MasonryGrid>
+    );
+  }
+
   const Component = ordered ? 'ol' : 'ul';
+  const itemCount = Children.count(children);
+
   return (
     <Component
       className={cn(
-        'grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3',
+        'grid gap-4 sm:gap-6',
+        balanced
+          ? getBalancedCardGridClass(itemCount)
+          : 'sm:grid-cols-2 xl:grid-cols-3',
         className
       )}
     >
       {children}
     </Component>
+  );
+}
+
+function getBalancedCardGridClass(itemCount: number): string {
+  if (itemCount === 1) {
+    return 'sm:grid-cols-1 xl:grid-cols-12 [&>li]:xl:col-span-6 [&>li]:xl:col-start-4';
+  }
+
+  if (itemCount === 2) {
+    return 'sm:grid-cols-2 xl:grid-cols-12 [&>li]:xl:col-span-6';
+  }
+
+  const remainder = itemCount % 3;
+  const balancedLastRow =
+    remainder === 1
+      ? '[&>li:nth-last-child(-n+4)]:xl:col-span-3'
+      : remainder === 2
+        ? '[&>li:nth-last-child(-n+2)]:xl:col-span-6'
+        : '';
+
+  return cn(
+    'sm:grid-cols-2 xl:grid-cols-12 [&>li]:xl:col-span-4',
+    balancedLastRow
   );
 }
 

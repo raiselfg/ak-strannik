@@ -41,7 +41,7 @@ async function MascotCostumeContent({ params }: PageProps) {
       {records.length === 0 ? (
         <ContentEmptyState message={common('empty')} />
       ) : (
-        <ContentCardGrid>
+        <ContentCardGrid layout="masonry">
           {records.map((record, index) => (
             <RentalItemCard
               key={record.id}

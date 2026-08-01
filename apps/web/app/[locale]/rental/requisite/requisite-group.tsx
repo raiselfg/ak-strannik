@@ -25,7 +25,7 @@ export function RequisiteGroup({
           {emptyMessage}
         </p>
       ) : (
-        <ContentCardGrid className="mt-6">
+        <ContentCardGrid className="mt-6" layout="masonry">
           {group.requisites.map((item, index) => {
             const title = item.title?.trim() || itemTitle(index);
             return (

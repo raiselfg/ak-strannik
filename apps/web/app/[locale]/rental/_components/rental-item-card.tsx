@@ -16,14 +16,19 @@ export function RentalItemCard({
 }) {
   return (
     <ContentImageCard>
-      <ContentImage src={image} alt={imageAlt} emptyLabel={imageUnavailable} />
-      <div className="px-4 pt-6 pb-5">
-        {children ? (
-          <div className="mt-3 leading-7 whitespace-pre-line text-muted-foreground">
+      <ContentImage
+        src={image}
+        alt={imageAlt}
+        emptyLabel={imageUnavailable}
+        variant="rental"
+      />
+      {children ? (
+        <div className="px-4 py-4 sm:px-5 sm:py-5">
+          <div className="leading-7 whitespace-pre-line text-muted-foreground">
             {children}
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </ContentImageCard>
   );
 }
