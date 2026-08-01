@@ -11,12 +11,13 @@ import {
   MAP_CENTER,
   YANDEX_MAPS_API_KEY,
 } from './constants/constants';
+import { memo } from 'react';
 
 const YandexMap = dynamic(
   () => import('@/app/_components/layout/yandex-map/yandex-map')
 );
 
-export default function Contacts() {
+export default memo(function Contacts() {
   const t = useTranslations('Contacts');
 
   return (
@@ -127,4 +128,4 @@ export default function Contacts() {
       </div>
     </section>
   );
-}
+});

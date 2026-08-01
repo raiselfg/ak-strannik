@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Suspense } from 'react';
+import { memo, Suspense } from 'react';
 
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './language-switcher';
 import { MobileNavMenu } from './mobile-nav-menu';
 import { CompactNavMenu, NavMenu } from './nav-menu';
 
-export function Header() {
+export const Header = memo(function Header() {
   return (
     <header className="fixed inset-x-0 top-2 z-40 px-2 sm:top-4 sm:px-4">
       <div className="container mx-auto">
@@ -34,7 +34,7 @@ export function Header() {
       </div>
     </header>
   );
-}
+});
 
 function NavMenuFallback() {
   return (
