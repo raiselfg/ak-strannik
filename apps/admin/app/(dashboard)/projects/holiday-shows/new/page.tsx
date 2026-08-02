@@ -1,4 +1,4 @@
-import type { CreateHolidayShowContentDto } from '@ak-strannik/types';
+import type { CreateHolidayShowContentDto } from '@ak-strannik/types/holiday-show';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { HolidayShowForm } from '../_components/holiday-show-form';

@@ -6,7 +6,7 @@ import {
   type CreateEventsContentDto,
   updateEventsContentDtoSchema,
   type UpdateEventsContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/events';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

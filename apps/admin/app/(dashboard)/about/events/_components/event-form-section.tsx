@@ -26,7 +26,7 @@ import type { z } from 'zod';
 import {
   updateEventsContentDtoSchema,
   type UpdateEventsContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/events';
 import { ImagesField } from '../../../../_components/images-field';
 import { VideoUrlsField } from '../../../../_components/video-urls-field';
 

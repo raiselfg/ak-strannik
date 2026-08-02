@@ -5,7 +5,7 @@ import {
   type CreateMascotCostumeContentDto,
   updateMascotCostumeContentDtoSchema,
   type UpdateMascotCostumeContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/mascot-costume';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

@@ -6,7 +6,7 @@ import {
   type CreateArtistContentDto,
   updateArtistContentDtoSchema,
   type UpdateArtistContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/artist';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

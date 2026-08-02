@@ -1,4 +1,4 @@
-import type { UpdateFestivalContentDto } from '@ak-strannik/types';
+import type { UpdateFestivalContentDto } from '@ak-strannik/types/festival';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

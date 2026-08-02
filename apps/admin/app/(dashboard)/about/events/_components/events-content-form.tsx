@@ -4,7 +4,7 @@ import {
   createEventsContentDtoSchema,
   updateEventsContentDtoSchema,
   type UpdateEventsContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/events';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

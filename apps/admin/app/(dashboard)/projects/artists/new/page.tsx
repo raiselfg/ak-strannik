@@ -1,4 +1,4 @@
-import type { CreateArtistContentDto } from '@ak-strannik/types';
+import type { CreateArtistContentDto } from '@ak-strannik/types/artist';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { ArtistForm } from '../_components/artist-form';

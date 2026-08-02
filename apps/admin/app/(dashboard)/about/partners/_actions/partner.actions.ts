@@ -6,7 +6,7 @@ import {
   type CreatePartnerContentDto,
   updatePartnerContentDtoSchema,
   type UpdatePartnerContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/partner';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

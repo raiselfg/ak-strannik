@@ -3,7 +3,7 @@
 import {
   updatePerformancesContentDtoSchema,
   type UpdatePerformancesContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/performances';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

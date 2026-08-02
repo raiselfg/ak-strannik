@@ -5,7 +5,7 @@ import {
   type CreateExhibitionContentDto,
   updateExhibitionContentDtoSchema,
   type UpdateExhibitionContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/exhibition';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

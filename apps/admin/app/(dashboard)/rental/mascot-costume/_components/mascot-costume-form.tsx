@@ -2,7 +2,7 @@
 import {
   createMascotCostumeContentDtoSchema,
   type CreateMascotCostumeContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/mascot-costume';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

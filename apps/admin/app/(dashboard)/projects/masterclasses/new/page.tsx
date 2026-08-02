@@ -1,4 +1,4 @@
-import type { CreateMasterclassesContentDto } from '@ak-strannik/types';
+import type { CreateMasterclassesContentDto } from '@ak-strannik/types/masterclasses';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { MasterclassesForm } from '../_components/masterclasses-form';

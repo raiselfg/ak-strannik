@@ -6,7 +6,7 @@ import {
   type CreateThankYouNoteContentDto,
   updateThankYouNoteContentDtoSchema,
   type UpdateThankYouNoteContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/thank-you-note';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

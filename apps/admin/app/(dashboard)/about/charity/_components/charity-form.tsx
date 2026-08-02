@@ -3,7 +3,7 @@
 import {
   createCharityContentDtoSchema,
   type CreateCharityContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/charity';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

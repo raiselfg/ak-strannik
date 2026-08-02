@@ -1,4 +1,4 @@
-import type { CreateThankYouNoteContentDto } from '@ak-strannik/types';
+import type { CreateThankYouNoteContentDto } from '@ak-strannik/types/thank-you-note';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { ThankYouNoteForm } from '../_components/thank-you-note-form';

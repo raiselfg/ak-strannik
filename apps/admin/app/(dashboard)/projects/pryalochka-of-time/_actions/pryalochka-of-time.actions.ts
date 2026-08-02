@@ -6,7 +6,7 @@ import {
   type CreatePryalochkaOfTimeContentDto,
   updatePryalochkaOfTimeContentDtoSchema,
   type UpdatePryalochkaOfTimeContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/pryalochka-of-time';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

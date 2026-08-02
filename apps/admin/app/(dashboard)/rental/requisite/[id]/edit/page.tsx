@@ -1,4 +1,4 @@
-import type { UpdateRequisiteContentDto } from '@ak-strannik/types';
+import type { UpdateRequisiteContentDto } from '@ak-strannik/types/requisite';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

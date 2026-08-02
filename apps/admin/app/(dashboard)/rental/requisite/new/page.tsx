@@ -1,4 +1,4 @@
-import type { UpdateRequisiteContentDto } from '@ak-strannik/types';
+import type { UpdateRequisiteContentDto } from '@ak-strannik/types/requisite';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { RequisiteContentForm } from '../_components/requisite-content-form';

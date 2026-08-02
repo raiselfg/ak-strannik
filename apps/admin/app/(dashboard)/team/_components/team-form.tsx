@@ -2,7 +2,7 @@
 import {
   createTeamMemberDtoSchema,
   type CreateTeamMemberDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/team';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

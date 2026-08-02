@@ -1,4 +1,4 @@
-import type { CreateCharityContentDto } from '@ak-strannik/types';
+import type { CreateCharityContentDto } from '@ak-strannik/types/charity';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

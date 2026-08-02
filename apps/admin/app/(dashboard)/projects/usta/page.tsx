@@ -1,4 +1,4 @@
-import type { UpdateUstaContentDto } from '@ak-strannik/types';
+import type { UpdateUstaContentDto } from '@ak-strannik/types/usta';
 import {
   Card,
   CardContent,

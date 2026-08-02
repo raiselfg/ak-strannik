@@ -5,7 +5,7 @@ import {
   type CreateMasterclassesContentDto,
   updateMasterclassesContentDtoSchema,
   type UpdateMasterclassesContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/masterclasses';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

@@ -1,4 +1,4 @@
-import type { CreateAttractionContentDto } from '@ak-strannik/types';
+import type { CreateAttractionContentDto } from '@ak-strannik/types/attraction';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

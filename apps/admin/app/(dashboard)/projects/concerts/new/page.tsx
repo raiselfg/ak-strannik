@@ -1,4 +1,4 @@
-import type { CreateConcertContentDto } from '@ak-strannik/types';
+import type { CreateConcertContentDto } from '@ak-strannik/types/concert';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { ConcertForm } from '../_components/concert-form';

@@ -6,7 +6,7 @@ import {
   type CreateFestivalContentDto,
   updateFestivalContentDtoSchema,
   type UpdateFestivalContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/festival';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

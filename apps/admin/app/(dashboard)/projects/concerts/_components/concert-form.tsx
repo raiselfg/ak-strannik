@@ -2,7 +2,7 @@
 import {
   createConcertContentDtoSchema,
   type CreateConcertContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/concert';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

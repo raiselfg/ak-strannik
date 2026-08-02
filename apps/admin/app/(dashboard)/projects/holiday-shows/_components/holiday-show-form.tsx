@@ -2,7 +2,7 @@
 import {
   createHolidayShowContentDtoSchema,
   type CreateHolidayShowContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/holiday-show';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

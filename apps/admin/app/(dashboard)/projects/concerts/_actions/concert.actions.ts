@@ -5,7 +5,7 @@ import {
   type CreateConcertContentDto,
   updateConcertContentDtoSchema,
   type UpdateConcertContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/concert';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

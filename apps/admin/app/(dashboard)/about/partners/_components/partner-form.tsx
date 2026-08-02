@@ -3,7 +3,7 @@
 import {
   createPartnerContentDtoSchema,
   type CreatePartnerContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/partner';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

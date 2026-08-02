@@ -1,4 +1,4 @@
-import type { CreateMascotCostumeContentDto } from '@ak-strannik/types';
+import type { CreateMascotCostumeContentDto } from '@ak-strannik/types/mascot-costume';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { MascotCostumeForm } from '../_components/mascot-costume-form';

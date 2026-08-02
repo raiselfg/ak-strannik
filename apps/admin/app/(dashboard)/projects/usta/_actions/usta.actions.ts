@@ -6,7 +6,7 @@ import {
   type CreateUstaContentDto,
   updateUstaContentDtoSchema,
   type UpdateUstaContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/usta';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

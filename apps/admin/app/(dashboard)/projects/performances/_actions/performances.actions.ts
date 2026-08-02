@@ -6,7 +6,7 @@ import {
   type CreatePerformancesContentDto,
   updatePerformancesContentDtoSchema,
   type UpdatePerformancesContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/performances';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

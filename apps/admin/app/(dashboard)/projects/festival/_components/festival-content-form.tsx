@@ -4,7 +4,7 @@ import {
   createFestivalContentDtoSchema,
   updateFestivalContentDtoSchema,
   type UpdateFestivalContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/festival';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

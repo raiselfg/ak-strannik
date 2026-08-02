@@ -6,7 +6,7 @@ import {
   type CreateRequisiteContentDto,
   updateRequisiteContentDtoSchema,
   type UpdateRequisiteContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/requisite';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

@@ -1,4 +1,4 @@
-import type { UpdateEventsContentDto } from '@ak-strannik/types';
+import type { UpdateEventsContentDto } from '@ak-strannik/types/events';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

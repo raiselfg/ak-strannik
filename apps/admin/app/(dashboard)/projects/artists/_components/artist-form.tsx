@@ -3,7 +3,7 @@
 import {
   createArtistContentDtoSchema,
   type CreateArtistContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/artist';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

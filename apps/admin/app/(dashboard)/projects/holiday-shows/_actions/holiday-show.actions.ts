@@ -5,7 +5,7 @@ import {
   type CreateHolidayShowContentDto,
   updateHolidayShowContentDtoSchema,
   type UpdateHolidayShowContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/holiday-show';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

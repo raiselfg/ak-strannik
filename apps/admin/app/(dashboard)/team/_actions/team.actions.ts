@@ -5,7 +5,7 @@ import {
   type CreateTeamMemberDto,
   updateTeamMemberDtoSchema,
   type UpdateTeamMemberDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/team';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

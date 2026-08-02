@@ -2,7 +2,7 @@
 import {
   createMasterclassesContentDtoSchema,
   type CreateMasterclassesContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/masterclasses';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

@@ -2,7 +2,7 @@
 import {
   createAttractionContentDtoSchema,
   type CreateAttractionContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/attraction';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

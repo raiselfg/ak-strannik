@@ -12,7 +12,7 @@ import { Input } from '@ak-strannik/ui/components/input';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { authClient } from '../../lib/auth-client';
-import { LoginFormSchema, type LoginForm } from '@ak-strannik/types';
+import { LoginFormSchema, type LoginForm } from '@ak-strannik/types/forms';
 
 const callbackURL = '/';
 

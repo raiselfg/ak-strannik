@@ -2,7 +2,7 @@
 import {
   createExhibitionContentDtoSchema,
   type CreateExhibitionContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/exhibition';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

@@ -1,4 +1,4 @@
-import type { CreatePartnerContentDto } from '@ak-strannik/types';
+import type { CreatePartnerContentDto } from '@ak-strannik/types/partner';
 import type { Metadata } from 'next';
 import { PageHeader } from '../../../../_components/page-header';
 import { PartnerForm } from '../_components/partner-form';

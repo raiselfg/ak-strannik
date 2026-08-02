@@ -4,7 +4,7 @@ import {
   createRequisiteContentDtoSchema,
   updateRequisiteContentDtoSchema,
   type UpdateRequisiteContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/requisite';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

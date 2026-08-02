@@ -5,7 +5,7 @@ import {
   type CreateAttractionContentDto,
   updateAttractionContentDtoSchema,
   type UpdateAttractionContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/attraction';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,

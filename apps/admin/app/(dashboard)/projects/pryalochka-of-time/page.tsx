@@ -1,4 +1,4 @@
-import type { UpdatePryalochkaOfTimeContentDto } from '@ak-strannik/types';
+import type { UpdatePryalochkaOfTimeContentDto } from '@ak-strannik/types/pryalochka-of-time';
 import {
   Card,
   CardContent,

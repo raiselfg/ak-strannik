@@ -1,4 +1,4 @@
-import type { UpdatePerformancesContentDto } from '@ak-strannik/types';
+import type { UpdatePerformancesContentDto } from '@ak-strannik/types/performances';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '../../../../../_components/page-header';

@@ -3,7 +3,7 @@
 import {
   createThankYouNoteContentDtoSchema,
   type CreateThankYouNoteContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/thank-you-note';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

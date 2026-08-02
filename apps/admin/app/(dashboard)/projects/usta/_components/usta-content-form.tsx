@@ -4,7 +4,7 @@ import {
   createUstaContentDtoSchema,
   updateUstaContentDtoSchema,
   type UpdateUstaContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/usta';
 import { Button } from '@ak-strannik/ui/components/button';
 import {
   Card,

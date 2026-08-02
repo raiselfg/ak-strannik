@@ -6,7 +6,7 @@ import {
   type CreateCharityContentDto,
   updateCharityContentDtoSchema,
   type UpdateCharityContentDto,
-} from '@ak-strannik/types';
+} from '@ak-strannik/types/charity';
 import { revalidatePath } from 'next/cache';
 import {
   authenticate,
