@@ -1,14 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  type SyntheticEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ImageLightbox } from './image-lightbox';
 import {
   createJustifiedRows,
@@ -23,6 +16,8 @@ type GalleryImage = {
 type JustifiedImageGalleryProps = {
   images: GalleryImage[];
   compact?: boolean;
+  eagerImageCount?: number;
+  initialAspectRatio?: number;
 };
 
 const FALLBACK_ASPECT_RATIO = 4 / 3;
@@ -30,14 +25,16 @@ const FALLBACK_ASPECT_RATIO = 4 / 3;
 export function JustifiedImageGallery({
   images,
   compact = false,
+  eagerImageCount = 0,
+  initialAspectRatio = FALLBACK_ASPECT_RATIO,
 }: JustifiedImageGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const pendingRatiosRef = useRef<Record<string, number>>({});
-  const animationFrameRef = useRef<number | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
-  const [measuredRatios, setMeasuredRatios] = useState<Record<string, number>>(
-    {}
+  const imageKeys = useMemo(
+    () => images.map((image, index) => getImageKey(image.src, index)),
+    [images]
   );
+  const fallbackRatio = normalizeAspectRatio(initialAspectRatio);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -63,59 +60,14 @@ export function JustifiedImageGallery({
     return () => resizeObserver.disconnect();
   }, []);
 
-  useEffect(
-    () => () => {
-      if (animationFrameRef.current !== null) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    },
-    []
-  );
-
-  const saveImageRatio = useCallback(
-    (key: string, event: SyntheticEvent<HTMLImageElement>) => {
-      const image = event.currentTarget;
-      const ratio = normalizeAspectRatio(
-        image.naturalWidth / image.naturalHeight
-      );
-
-      pendingRatiosRef.current[key] = ratio;
-
-      if (animationFrameRef.current !== null) {
-        return;
-      }
-
-      animationFrameRef.current = requestAnimationFrame(() => {
-        const pendingRatios = pendingRatiosRef.current;
-        pendingRatiosRef.current = {};
-        animationFrameRef.current = null;
-
-        setMeasuredRatios((currentRatios) => {
-          const hasChanges = Object.entries(pendingRatios).some(
-            ([imageKey, imageRatio]) => currentRatios[imageKey] !== imageRatio
-          );
-
-          return hasChanges
-            ? { ...currentRatios, ...pendingRatios }
-            : currentRatios;
-        });
-      });
-    },
-    []
-  );
-
-  const ratios = useMemo(
-    () =>
-      images.map(
-        (image, index) =>
-          measuredRatios[getImageKey(image.src, index)] ?? FALLBACK_ASPECT_RATIO
-      ),
-    [images, measuredRatios]
+  const initialRatios = useMemo(
+    () => imageKeys.map(() => fallbackRatio),
+    [fallbackRatio, imageKeys]
   );
   const layout = getLayoutSettings(containerWidth, compact);
   const rows = useMemo(
     () =>
-      createJustifiedRows(ratios, {
+      createJustifiedRows(initialRatios, {
         containerWidth: layout.width,
         gap: layout.gap,
         targetHeight: layout.targetHeight,
@@ -126,7 +78,7 @@ export function JustifiedImageGallery({
       layout.maxItemsPerRow,
       layout.targetHeight,
       layout.width,
-      ratios,
+      initialRatios,
     ]
   );
   const imageSizes = getImageSizes(images.length, compact);
@@ -141,47 +93,111 @@ export function JustifiedImageGallery({
       style={{ gap: layout.gap }}
     >
       {rows.map((row) => (
-        <div
+        <GalleryRow
           key={`${row.start}-${row.end}`}
-          role="presentation"
-          className="flex w-full"
-          style={{ gap: layout.gap }}
-        >
-          {images.slice(row.start, row.end).map((image, rowIndex) => {
-            const imageIndex = row.start + rowIndex;
-            const imageKey = getImageKey(image.src, imageIndex);
-            const ratio = ratios[imageIndex] ?? FALLBACK_ASPECT_RATIO;
-
-            return (
-              <div
-                key={imageKey}
-                role="listitem"
-                className="relative min-w-0"
-                style={{
-                  aspectRatio: ratio,
-                  flexBasis: 0,
-                  flexGrow: ratio,
-                }}
-              >
-                <ImageLightbox
-                  src={image.src}
-                  alt={image.alt}
-                  className="h-full w-full rounded-2xl bg-muted/35 shadow-md shadow-background/15 sm:rounded-3xl"
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes={imageSizes}
-                    onLoad={(event) => saveImageRatio(imageKey, event)}
-                    className="object-contain transition-opacity duration-300 group-hover/lightbox:opacity-90"
-                  />
-                </ImageLightbox>
-              </div>
-            );
-          })}
-        </div>
+          images={images.slice(row.start, row.end)}
+          imageKeys={imageKeys.slice(row.start, row.end)}
+          imageSizes={imageSizes}
+          fallbackRatio={fallbackRatio}
+          gap={layout.gap}
+          startIndex={row.start}
+          eagerImageCount={eagerImageCount}
+        />
       ))}
+    </div>
+  );
+}
+
+function GalleryRow({
+  images,
+  imageKeys,
+  imageSizes,
+  fallbackRatio,
+  gap,
+  startIndex,
+  eagerImageCount,
+}: {
+  images: GalleryImage[];
+  imageKeys: string[];
+  imageSizes: string;
+  fallbackRatio: number;
+  gap: number;
+  startIndex: number;
+  eagerImageCount: number;
+}) {
+  const [measuredRatios, setMeasuredRatios] = useState<Record<string, number>>(
+    {}
+  );
+  const saveImageRatio = useCallback((key: string, ratio: number) => {
+    setMeasuredRatios((currentRatios) => {
+      const normalizedRatio = normalizeAspectRatio(ratio);
+
+      return currentRatios[key] === normalizedRatio
+        ? currentRatios
+        : { ...currentRatios, [key]: normalizedRatio };
+    });
+  }, []);
+  const isReady = imageKeys.every(
+    (imageKey) => measuredRatios[imageKey] !== undefined
+  );
+
+  return (
+    <div role="presentation" className="flex w-full" style={{ gap }}>
+      {images.map((image, rowIndex) => {
+        const imageKey =
+          imageKeys[rowIndex] ?? getImageKey(image.src, startIndex + rowIndex);
+        const ratio = isReady
+          ? (measuredRatios[imageKey] ?? fallbackRatio)
+          : fallbackRatio;
+
+        return (
+          <div
+            key={imageKey}
+            role="listitem"
+            className="relative min-w-0"
+            style={{
+              aspectRatio: ratio,
+              flexBasis: 0,
+              flexGrow: ratio,
+              transition:
+                'aspect-ratio 500ms ease-out, flex-grow 500ms ease-out',
+            }}
+          >
+            <ImageLightbox
+              src={image.src}
+              alt={image.alt}
+              className="h-full w-full rounded-2xl bg-muted/35 shadow-md shadow-background/15 sm:rounded-3xl"
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute inset-0 bg-muted/55 transition-opacity duration-300 ${
+                  isReady ? 'opacity-0' : 'animate-pulse opacity-100'
+                }`}
+              />
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes={imageSizes}
+                loading={
+                  startIndex + rowIndex < eagerImageCount ? 'eager' : 'lazy'
+                }
+                onLoad={(event) =>
+                  saveImageRatio(
+                    imageKey,
+                    event.currentTarget.naturalWidth /
+                      event.currentTarget.naturalHeight
+                  )
+                }
+                onError={() => saveImageRatio(imageKey, fallbackRatio)}
+                className={`object-contain transition-opacity duration-300 group-hover/lightbox:opacity-90 ${
+                  isReady ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            </ImageLightbox>
+          </div>
+        );
+      })}
     </div>
   );
 }

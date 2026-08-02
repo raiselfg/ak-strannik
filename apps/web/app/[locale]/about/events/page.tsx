@@ -76,10 +76,11 @@ async function EventsContent({
         label={t('filterLabel')}
         allYearsLabel={t('allYears')}
       />
-      {groups.map((group) => (
+      {groups.map((group, groupIndex) => (
         <EventsYearSection
           key={group.id}
           group={group}
+          eagerFirstGallery={groupIndex === 0}
           emptyMessage={t('yearEmpty')}
           imageAlt={(eventIndex, imageIndex) =>
             t('imageAlt', {

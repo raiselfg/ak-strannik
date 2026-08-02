@@ -8,6 +8,8 @@ type ContentImageGalleryProps = {
   alt: (index: number) => string;
   emptyLabel: string;
   compact?: boolean;
+  eagerImageCount?: number;
+  initialAspectRatio?: number;
 };
 
 export function ContentImageGallery({
@@ -15,6 +17,8 @@ export function ContentImageGallery({
   alt,
   emptyLabel,
   compact = false,
+  eagerImageCount = 0,
+  initialAspectRatio,
 }: ContentImageGalleryProps) {
   const renderableImages = images.filter(isRenderableImageUrl);
 
@@ -29,6 +33,8 @@ export function ContentImageGallery({
         alt: alt(index),
       }))}
       compact={compact}
+      eagerImageCount={eagerImageCount}
+      initialAspectRatio={initialAspectRatio}
     />
   );
 }

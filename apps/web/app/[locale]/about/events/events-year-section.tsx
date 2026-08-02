@@ -4,12 +4,14 @@ import type { PublicEventsYear } from '@/features/events/queries';
 
 export function EventsYearSection({
   group,
+  eagerFirstGallery,
   emptyMessage,
   imageAlt,
   videoTitle,
   imageUnavailable,
 }: {
   group: PublicEventsYear;
+  eagerFirstGallery: boolean;
   emptyMessage: string;
   imageAlt: (eventIndex: number, imageIndex: number) => string;
   videoTitle: (eventIndex: number, videoIndex: number) => string;
@@ -40,6 +42,10 @@ export function EventsYearSection({
                     images={event.images}
                     alt={(imageIndex) => imageAlt(eventIndex, imageIndex)}
                     emptyLabel={imageUnavailable}
+                    eagerImageCount={
+                      eagerFirstGallery && eventIndex === 0 ? 5 : 0
+                    }
+                    initialAspectRatio={1}
                   />
                 ) : null}
                 <ContentVideoGallery
