@@ -96,7 +96,9 @@ export function PartnerForm({
         <CardContent>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="partner-link">Ссылка</FieldLabel>
+              <FieldLabel htmlFor="partner-link">
+                Ссылка на сайт партнёра
+              </FieldLabel>
               <Input
                 aria-invalid={Boolean(form.formState.errors.link)}
                 id="partner-link"
@@ -110,6 +112,7 @@ export function PartnerForm({
             <ImagesField
               disabled={isSubmitting}
               images={images}
+              label="Изображения партнёра"
               onChange={(nextImages) =>
                 form.setValue('images', nextImages, {
                   shouldDirty: true,
@@ -165,7 +168,7 @@ export function PartnerForm({
                   </Field>
                   <Field>
                     <FieldLabel htmlFor={`partner-text-${translation.locale}`}>
-                      Текст
+                      Описание партнёра
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

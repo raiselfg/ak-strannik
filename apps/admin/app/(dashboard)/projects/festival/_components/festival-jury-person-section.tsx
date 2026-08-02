@@ -110,6 +110,7 @@ export function FestivalJuryPersonSection({
         <SingleImageField
           disabled={disabled}
           image={image}
+          label="Фотография члена жюри"
           onChange={(value) =>
             form.setValue(`jury.persons.${index}.image`, value, {
               shouldDirty: true,

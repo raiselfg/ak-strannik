@@ -37,15 +37,15 @@ export default async function ThankYouNotesPage() {
           title="Писем пока нет"
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {notes.map((note, index) => (
-            <Card key={note.id}>
+            <Card className="h-full" key={note.id}>
               <MediaImage
                 alt={`Благодарственное письмо ${index + 1}`}
                 className="aspect-3/4 w-full"
                 src={note.image}
               />
-              <CardFooter className="gap-2">
+              <CardFooter className="mt-auto gap-2">
                 <Button asChild className="flex-1" variant="outline">
                   <Link href={`/about/thank-you-notes/${note.id}/edit`}>
                     <Pencil />

@@ -79,6 +79,7 @@ export function MascotCostumeForm({
           <SingleImageField
             disabled={isSubmitting}
             image={image}
+            label="Изображение ростовой куклы"
             onChange={(value) =>
               form.setValue('image', value, {
                 shouldDirty: true,
@@ -113,7 +114,7 @@ export function MascotCostumeForm({
                 <FieldGroup>
                   <Field>
                     <FieldLabel htmlFor={`costume-text-${translation.locale}`}>
-                      Текст
+                      Описание ростовой куклы
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

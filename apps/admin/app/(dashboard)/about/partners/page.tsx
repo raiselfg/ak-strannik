@@ -46,7 +46,7 @@ export default async function PartnersPage() {
           title="Партнёров пока нет"
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {partners.map((partner) => {
             const title =
               partner.translations.find(
@@ -54,7 +54,7 @@ export default async function PartnersPage() {
               )?.title || titleFallback;
 
             return (
-              <Card key={partner.id}>
+              <Card className="h-full" key={partner.id}>
                 {partner.images[0] ? (
                   <div
                     aria-label={`Изображение партнёра «${title}»`}
@@ -79,7 +79,7 @@ export default async function PartnersPage() {
                     </p>
                   </CardContent>
                 ) : null}
-                <CardFooter className="gap-2">
+                <CardFooter className="mt-auto gap-2">
                   <Button asChild className="flex-1" variant="outline">
                     <Link href={`/about/partners/${partner.id}/edit`}>
                       <Pencil />

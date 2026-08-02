@@ -131,7 +131,7 @@ export function FestivalNominationsSection({
                   ) : null}
                 </Field>
                 <Field>
-                  <FieldLabel>Текст</FieldLabel>
+                  <FieldLabel>Описание блока номинаций</FieldLabel>
                   <Textarea
                     aria-invalid={Boolean(
                       form.formState.errors.nominations?.translations?.[index]

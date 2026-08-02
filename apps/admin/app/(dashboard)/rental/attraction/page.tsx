@@ -40,13 +40,13 @@ export default async function AttractionsPage() {
           title="Аттракционов пока нет"
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {records.map((record) => {
             const text = preview(
               record.translations.find((item) => item.locale === 'ru')?.text
             );
             return (
-              <Card key={record.id}>
+              <Card className="h-full" key={record.id}>
                 <MediaImage
                   alt="Изображение аттракциона"
                   className="aspect-video w-full"
@@ -56,7 +56,7 @@ export default async function AttractionsPage() {
                 <CardContent>
                   <p className="line-clamp-3 leading-6">{text}</p>
                 </CardContent>
-                <CardFooter className="gap-2">
+                <CardFooter className="mt-auto gap-2">
                   <Button asChild className="flex-1" variant="outline">
                     <Link href={`/rental/attraction/${record.id}/edit`}>
                       <Pencil />

@@ -108,6 +108,7 @@ export function PryalochkaEventSection({
         <SingleImageField
           disabled={disabled}
           image={image}
+          label="Изображение события"
           onChange={(value) =>
             form.setValue(`events.${index}.image`, value, {
               shouldDirty: true,
@@ -120,7 +121,9 @@ export function PryalochkaEventSection({
           <FieldError>{errors.image.message}</FieldError>
         ) : null}
         <Field>
-          <FieldLabel htmlFor={`event-${index}-link`}>Ссылка</FieldLabel>
+          <FieldLabel htmlFor={`event-${index}-link`}>
+            Ссылка на событие
+          </FieldLabel>
           <Input
             id={`event-${index}-link`}
             {...form.register(`events.${index}.link`)}
@@ -160,7 +163,7 @@ export function PryalochkaEventSection({
                     <FieldLabel
                       htmlFor={`event-${index}-text-${translation.locale}`}
                     >
-                      Текст
+                      Описание события
                     </FieldLabel>
                     <Textarea
                       id={`event-${index}-text-${translation.locale}`}

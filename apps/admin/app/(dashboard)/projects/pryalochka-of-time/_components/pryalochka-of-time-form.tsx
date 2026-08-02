@@ -128,6 +128,7 @@ export function PryalochkaOfTimeForm({
           <ImagesField
             disabled={isSubmitting}
             images={images}
+            label="Фотогалерея проекта"
             onChange={(value) =>
               form.setValue('images', value, {
                 shouldDirty: true,

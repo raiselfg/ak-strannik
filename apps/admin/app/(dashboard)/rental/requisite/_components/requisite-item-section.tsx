@@ -111,6 +111,7 @@ export function RequisiteItemSection({
         <SingleImageField
           disabled={disabled}
           image={image}
+          label="Изображение реквизита"
           onChange={(value) =>
             form.setValue(`requisites.${index}.image`, value, {
               shouldDirty: true,

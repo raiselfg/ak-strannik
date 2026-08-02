@@ -46,7 +46,7 @@ export default async function TeamPage() {
           title="Команда пока пуста"
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {members.map((member) => {
             const translation = member.translations.find(
               (item) => item.locale === 'ru'
@@ -54,7 +54,7 @@ export default async function TeamPage() {
             const name = translation?.name || nameFallback;
             const bio = bioPreview(translation?.bio);
             return (
-              <Card key={member.id}>
+              <Card className="h-full" key={member.id}>
                 <MediaImage
                   alt={`Фотография «${name}»`}
                   className="aspect-square w-full"
@@ -76,7 +76,7 @@ export default async function TeamPage() {
                     </p>
                   </CardContent>
                 ) : null}
-                <CardFooter className="gap-2">
+                <CardFooter className="mt-auto gap-2">
                   <Button asChild className="flex-1" variant="outline">
                     <Link href={`/team/${member.id}/edit`}>
                       <Pencil />

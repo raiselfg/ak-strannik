@@ -67,6 +67,7 @@ export function ThankYouNoteForm({
           <SingleImageField
             disabled={isSubmitting}
             image={image}
+            label="Изображение благодарственного письма"
             onChange={(value) =>
               form.setValue('image', value, {
                 shouldDirty: true,

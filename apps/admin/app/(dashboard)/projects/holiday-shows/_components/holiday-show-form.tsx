@@ -79,6 +79,7 @@ export function HolidayShowForm({
           <ImagesField
             disabled={isSubmitting}
             images={images}
+            label="Фотографии праздника"
             onChange={(value) =>
               form.setValue('images', value, {
                 shouldDirty: true,

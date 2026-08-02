@@ -79,6 +79,7 @@ export function ExhibitionForm({
           <ImagesField
             disabled={isSubmitting}
             images={images}
+            label="Фотографии выставки"
             onChange={(value) =>
               form.setValue('images', value, {
                 shouldDirty: true,

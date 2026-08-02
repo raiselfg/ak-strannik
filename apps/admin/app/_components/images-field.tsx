@@ -18,11 +18,13 @@ const maxImageSize = 4 * 1024 * 1024;
 export function ImagesField({
   disabled,
   images,
+  label,
   onChange,
   onUploadingChange,
 }: {
   disabled: boolean;
   images: string[];
+  label: string;
   onChange: (images: string[]) => void;
   onUploadingChange: (uploading: boolean) => void;
 }) {
@@ -91,7 +93,7 @@ export function ImagesField({
 
   return (
     <Field>
-      <FieldLabel>Изображения</FieldLabel>
+      <FieldLabel>{label}</FieldLabel>
       <div
         {...getRootProps({
           className: `flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed p-6 text-center transition-colors ${

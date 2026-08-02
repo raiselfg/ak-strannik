@@ -94,6 +94,7 @@ export function CharityForm({
             <ImagesField
               disabled={isSubmitting}
               images={images}
+              label="Фотографии благотворительного проекта"
               onChange={(value) =>
                 form.setValue('images', value, {
                   shouldDirty: true,
@@ -107,6 +108,7 @@ export function CharityForm({
             ) : null}
             <VideoUrlsField
               disabled={isSubmitting || uploading}
+              label="Видео благотворительного проекта"
               videos={videos}
               onChange={(value) =>
                 form.setValue('videos', value, {
@@ -162,7 +164,7 @@ export function CharityForm({
                   </Field>
                   <Field>
                     <FieldLabel htmlFor={`charity-text-${translation.locale}`}>
-                      Текст
+                      Описание благотворительного проекта
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

@@ -95,6 +95,7 @@ export function ArtistForm({
             <ImagesField
               disabled={isSubmitting}
               images={images}
+              label="Фотографии артиста"
               onChange={(value) =>
                 form.setValue('images', value, {
                   shouldDirty: true,
@@ -108,6 +109,7 @@ export function ArtistForm({
             ) : null}
             <VideoUrlsField
               disabled={isSubmitting || uploading}
+              label="Видео артиста"
               videos={videos}
               onChange={(value) =>
                 form.setValue('videos', value, {
@@ -162,7 +164,7 @@ export function ArtistForm({
                   </Field>
                   <Field>
                     <FieldLabel htmlFor={`artist-text-${translation.locale}`}>
-                      Текст
+                      Описание артиста
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

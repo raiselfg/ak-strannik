@@ -150,7 +150,7 @@ export function FestivalEventSection({
                   ) : null}
                 </Field>
                 <Field>
-                  <FieldLabel>Текст</FieldLabel>
+                  <FieldLabel>Описание события</FieldLabel>
                   <Textarea
                     aria-invalid={Boolean(
                       form.formState.errors.events?.[index]?.translations?.[

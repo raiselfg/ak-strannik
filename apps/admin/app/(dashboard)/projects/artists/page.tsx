@@ -43,13 +43,13 @@ export default async function ArtistsPage() {
           title="Артистов пока нет"
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {records.map((record) => {
             const title =
               record.translations.find((item) => item.locale === 'ru')?.title ||
               fallback;
             return (
-              <Card key={record.id}>
+              <Card className="h-full" key={record.id}>
                 {record.images[0] ? (
                   <MediaImage
                     alt={`Изображение артиста «${title}»`}
@@ -65,7 +65,7 @@ export default async function ArtistsPage() {
                 <CardHeader>
                   <CardTitle>{title}</CardTitle>
                 </CardHeader>
-                <CardFooter className="gap-2">
+                <CardFooter className="mt-auto gap-2">
                   <Button asChild className="flex-1" variant="outline">
                     <Link href={`/projects/artists/${record.id}/edit`}>
                       <Pencil />

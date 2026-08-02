@@ -149,23 +149,27 @@ export function FestivalContentForm({
           ...event,
           position,
         })),
-        jury: values.jury && hasJury
-          ? {
-              ...values.jury,
-              persons: (values.jury.persons ?? []).map((person, position) => ({
-                ...person,
-                position,
-              })),
-            }
-          : null,
-        organizations: values.organizations && hasOrganizations
-          ? {
-              ...values.organizations,
-              organizations: (values.organizations.organizations ?? []).map(
-                (item, position) => ({ ...item, position })
-              ),
-            }
-          : null,
+        jury:
+          values.jury && hasJury
+            ? {
+                ...values.jury,
+                persons: (values.jury.persons ?? []).map(
+                  (person, position) => ({
+                    ...person,
+                    position,
+                  })
+                ),
+              }
+            : null,
+        organizations:
+          values.organizations && hasOrganizations
+            ? {
+                ...values.organizations,
+                organizations: (values.organizations.organizations ?? []).map(
+                  (item, position) => ({ ...item, position })
+                ),
+              }
+            : null,
       };
       const result = contentId
         ? await updateFestivalContent(contentId, normalized)
@@ -201,7 +205,9 @@ export function FestivalContentForm({
         </CardHeader>
         <CardContent className="space-y-6">
           <Field>
-            <FieldLabel htmlFor="festival-slug">Slug</FieldLabel>
+            <FieldLabel htmlFor="festival-slug">
+              Адрес страницы (slug)
+            </FieldLabel>
             <Input
               aria-invalid={Boolean(form.formState.errors.slug)}
               id="festival-slug"
@@ -214,6 +220,7 @@ export function FestivalContentForm({
           <SingleImageField
             disabled={isSubmitting}
             image={logo}
+            label="Логотип фестиваля"
             onChange={(value) =>
               form.setValue('logo', value, {
                 shouldDirty: true,
@@ -228,6 +235,7 @@ export function FestivalContentForm({
           <ImagesField
             disabled={isSubmitting}
             images={images}
+            label="Фотогалерея фестиваля"
             onChange={(value) =>
               form.setValue('images', value, {
                 shouldDirty: true,
@@ -241,6 +249,7 @@ export function FestivalContentForm({
           ) : null}
           <VideoUrlsField
             disabled={isSubmitting}
+            label="Видео фестиваля"
             onChange={(value) =>
               form.setValue('videos', value, {
                 shouldDirty: true,
@@ -252,25 +261,23 @@ export function FestivalContentForm({
           {form.formState.errors.videos?.message ? (
             <FieldError>{form.formState.errors.videos.message}</FieldError>
           ) : null}
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Достижения</h3>
-            <ImagesField
-              disabled={isSubmitting}
-              images={achievements}
-              onChange={(value) =>
-                form.setValue('achievements', value, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
-              onUploadingChange={trackUpload}
-            />
-            {form.formState.errors.achievements?.message ? (
-              <FieldError>
-                {form.formState.errors.achievements.message}
-              </FieldError>
-            ) : null}
-          </div>
+          <ImagesField
+            disabled={isSubmitting}
+            images={achievements}
+            label="Достижения фестиваля"
+            onChange={(value) =>
+              form.setValue('achievements', value, {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+            onUploadingChange={trackUpload}
+          />
+          {form.formState.errors.achievements?.message ? (
+            <FieldError>
+              {form.formState.errors.achievements.message}
+            </FieldError>
+          ) : null}
           <StringListField
             description="Ссылки на социальные сети."
             disabled={isSubmitting}

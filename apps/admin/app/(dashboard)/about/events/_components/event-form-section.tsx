@@ -117,6 +117,7 @@ export function EventFormSection({
         <ImagesField
           disabled={disabled}
           images={images}
+          label="Фотографии события"
           onChange={(value) =>
             form.setValue(`events.${index}.images`, value, {
               shouldDirty: true,
@@ -132,6 +133,7 @@ export function EventFormSection({
         ) : null}
         <VideoUrlsField
           disabled={disabled}
+          label="Видео события"
           videos={videos}
           onChange={(value) =>
             form.setValue(`events.${index}.videos`, value, {
@@ -178,7 +180,7 @@ export function EventFormSection({
                     <FieldLabel
                       htmlFor={`event-${index}-text-${translation.locale}`}
                     >
-                      Текст
+                      Описание события
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

@@ -144,6 +144,7 @@ export function PerformancesContentForm({
           <ImagesField
             disabled={isSubmitting}
             images={images}
+            label="Фотографии спектакля"
             onChange={(value) =>
               form.setValue('images', value, {
                 shouldDirty: true,
@@ -157,6 +158,7 @@ export function PerformancesContentForm({
           ) : null}
           <VideoUrlsField
             disabled={isSubmitting}
+            label="Видео спектакля"
             videos={videos}
             onChange={(value) =>
               form.setValue('videos', value, {

@@ -101,6 +101,22 @@ export function RequisiteContentForm({
   const trackUpload = (active: boolean) =>
     setUploadCount((count) => (active ? count + 1 : Math.max(0, count - 1)));
 
+  function addRequisite() {
+    const index = fields.length;
+
+    append(
+      {
+        image: '',
+        position: index,
+        translations: [
+          { locale: 'ru', title: '' },
+          { locale: 'en', title: '' },
+        ],
+      },
+      { focusName: `requisites.${index}.translations.0.title` }
+    );
+  }
+
   const submit = form.handleSubmit(
     async (values) => {
       setFormError(null);
@@ -213,16 +229,7 @@ export function RequisiteContentForm({
         </div>
         <Button
           disabled={isSubmitting || uploading}
-          onClick={() =>
-            append({
-              image: '',
-              position: fields.length,
-              translations: [
-                { locale: 'ru', title: '' },
-                { locale: 'en', title: '' },
-              ],
-            })
-          }
+          onClick={addRequisite}
           type="button"
         >
           <Plus />
@@ -259,6 +266,15 @@ export function RequisiteContentForm({
       <div className="flex justify-end gap-3">
         <Button asChild disabled={isSubmitting || uploading} variant="outline">
           <Link href="/rental/requisite">Отменить</Link>
+        </Button>
+        <Button
+          disabled={isSubmitting || uploading}
+          onClick={addRequisite}
+          type="button"
+          variant="outline"
+        >
+          <Plus />
+          Добавить элемент
         </Button>
         <Button disabled={isSubmitting || uploading} type="submit">
           {isSubmitting ? 'Сохранение…' : 'Сохранить'}

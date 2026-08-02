@@ -105,7 +105,7 @@ export function FestivalOrganizationSection({
           })}
         />
         <Field>
-          <FieldLabel>Значение</FieldLabel>
+          <FieldLabel>Ссылка на сайт организации</FieldLabel>
           <Input
             aria-invalid={Boolean(
               form.formState.errors.organizations?.organizations?.[index]?.value

@@ -90,6 +90,7 @@ export function MasterclassesForm({
             <ImagesField
               disabled={isSubmitting}
               images={images}
+              label="Фотографии мастер-класса"
               onChange={(value) =>
                 form.setValue('images', value, {
                   shouldDirty: true,
@@ -103,6 +104,7 @@ export function MasterclassesForm({
             ) : null}
             <VideoUrlsField
               disabled={isSubmitting || uploading}
+              label="Видео мастер-класса"
               videos={videos}
               onChange={(value) =>
                 form.setValue('videos', value, {
@@ -161,7 +163,7 @@ export function MasterclassesForm({
                     <FieldLabel
                       htmlFor={`masterclass-text-${translation.locale}`}
                     >
-                      Текст
+                      Описание мастер-класса
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

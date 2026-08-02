@@ -79,6 +79,7 @@ export function AttractionForm({
           <SingleImageField
             disabled={isSubmitting}
             image={image}
+            label="Изображение аттракциона"
             onChange={(value) =>
               form.setValue('image', value, {
                 shouldDirty: true,
@@ -115,7 +116,7 @@ export function AttractionForm({
                     <FieldLabel
                       htmlFor={`attraction-text-${translation.locale}`}
                     >
-                      Текст
+                      Описание аттракциона
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

@@ -92,6 +92,7 @@ export function ConcertForm({
             <ImagesField
               disabled={isSubmitting}
               images={images}
+              label="Фотографии концерта"
               onChange={(value) =>
                 form.setValue('images', value, {
                   shouldDirty: true,
@@ -105,6 +106,7 @@ export function ConcertForm({
             ) : null}
             <VideoUrlsField
               disabled={isSubmitting || uploading}
+              label="Видео концерта"
               videos={videos}
               onChange={(value) =>
                 form.setValue('videos', value, {
@@ -182,7 +184,7 @@ export function ConcertForm({
                   </Field>
                   <Field>
                     <FieldLabel htmlFor={`concert-text-${translation.locale}`}>
-                      Текст
+                      Описание концерта
                     </FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(

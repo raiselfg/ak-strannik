@@ -128,6 +128,7 @@ export function UstaContentForm({
         <CardContent className="space-y-6">
           <VideoUrlsField
             disabled={isSubmitting || uploading}
+            label="Видео проекта"
             onChange={(value) =>
               form.setValue('videos', value, {
                 shouldDirty: true,
@@ -139,42 +140,38 @@ export function UstaContentForm({
           {form.formState.errors.videos?.message ? (
             <FieldError>{form.formState.errors.videos.message}</FieldError>
           ) : null}
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Изображения</h3>
-            <ImagesField
-              disabled={isSubmitting}
-              images={images}
-              onChange={(value) =>
-                form.setValue('images', value, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
-              onUploadingChange={trackUpload}
-            />
-            {form.formState.errors.images?.message ? (
-              <FieldError>{form.formState.errors.images.message}</FieldError>
-            ) : null}
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Достижения</h3>
-            <ImagesField
-              disabled={isSubmitting}
-              images={achievements}
-              onChange={(value) =>
-                form.setValue('achievements', value, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
-              onUploadingChange={trackUpload}
-            />
-            {form.formState.errors.achievements?.message ? (
-              <FieldError>
-                {form.formState.errors.achievements.message}
-              </FieldError>
-            ) : null}
-          </div>
+          <ImagesField
+            disabled={isSubmitting}
+            images={images}
+            label="Фотогалерея проекта"
+            onChange={(value) =>
+              form.setValue('images', value, {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+            onUploadingChange={trackUpload}
+          />
+          {form.formState.errors.images?.message ? (
+            <FieldError>{form.formState.errors.images.message}</FieldError>
+          ) : null}
+          <ImagesField
+            disabled={isSubmitting}
+            images={achievements}
+            label="Достижения проекта"
+            onChange={(value) =>
+              form.setValue('achievements', value, {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+            onUploadingChange={trackUpload}
+          />
+          {form.formState.errors.achievements?.message ? (
+            <FieldError>
+              {form.formState.errors.achievements.message}
+            </FieldError>
+          ) : null}
         </CardContent>
       </Card>
       <Card>
@@ -202,7 +199,7 @@ export function UstaContentForm({
                 />
                 <FieldGroup>
                   <Field>
-                    <FieldLabel>Текст</FieldLabel>
+                    <FieldLabel>Описание проекта</FieldLabel>
                     <Textarea
                       aria-invalid={Boolean(
                         form.formState.errors.translations?.[index]?.text

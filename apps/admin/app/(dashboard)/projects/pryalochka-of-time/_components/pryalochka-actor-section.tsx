@@ -150,7 +150,7 @@ export function PryalochkaActorSection({
                   <FieldLabel
                     htmlFor={`actor-${index}-text-${translation.locale}`}
                   >
-                    Текст
+                    Описание актёра
                   </FieldLabel>
                   <Textarea
                     id={`actor-${index}-text-${translation.locale}`}

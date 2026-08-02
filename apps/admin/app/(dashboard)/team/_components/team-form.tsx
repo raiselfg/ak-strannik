@@ -44,6 +44,7 @@ export function TeamForm({
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [uploadCount, setUploadCount] = useState(0);
+
   const form = useForm<
     z.input<typeof createTeamMemberDtoSchema>,
     undefined,
@@ -52,10 +53,12 @@ export function TeamForm({
     resolver: zodResolver(createTeamMemberDtoSchema),
     defaultValues: initialValues,
   });
+
   const { fields: translationFields } = useFieldArray({
     control: form.control,
     name: 'translations',
   });
+
   const {
     append: appendLink,
     fields: linkFields,
@@ -64,14 +67,19 @@ export function TeamForm({
     control: form.control,
     name: 'links',
   });
+
   const image = useWatch({ control: form.control, name: 'image' }) ?? '';
+
   const achievements =
     useWatch({ control: form.control, name: 'achievements' }) ?? [];
+
   const isSubmitting = form.formState.isSubmitting;
   const uploading = uploadCount > 0;
+
   function trackUpload(active: boolean) {
     setUploadCount((count) => Math.max(0, count + (active ? 1 : -1)));
   }
+
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
     const result = memberId
@@ -82,6 +90,7 @@ export function TeamForm({
     router.push('/team');
     router.refresh();
   });
+
   return (
     <form className="space-y-6" onSubmit={onSubmit}>
       <Card>
@@ -93,6 +102,7 @@ export function TeamForm({
             <SingleImageField
               disabled={isSubmitting}
               image={image}
+              label="Фотография участника команды"
               onChange={(value) =>
                 form.setValue('image', value, {
                   shouldDirty: true,
@@ -107,6 +117,7 @@ export function TeamForm({
             <ImagesField
               disabled={isSubmitting}
               images={achievements}
+              label="Достижения"
               onChange={(value) =>
                 form.setValue('achievements', value, {
                   shouldDirty: true,

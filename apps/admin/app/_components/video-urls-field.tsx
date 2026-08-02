@@ -11,10 +11,12 @@ import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 
 export function VideoUrlsField({
   disabled,
+  label,
   onChange,
   videos,
 }: {
   disabled: boolean;
+  label: string;
   onChange: (videos: string[]) => void;
   videos: string[];
 }) {
@@ -32,7 +34,7 @@ export function VideoUrlsField({
   return (
     <Field>
       <div className="flex items-center justify-between gap-3">
-        <FieldLabel>Видео</FieldLabel>
+        <FieldLabel>{label}</FieldLabel>
         <Button
           disabled={disabled}
           onClick={() => onChange([...videos, ''])}
