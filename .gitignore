@@ -51,3 +51,4 @@ next-env.d.ts
 .codex
 
 .tokensave
+.tokensave/tokensave.db
