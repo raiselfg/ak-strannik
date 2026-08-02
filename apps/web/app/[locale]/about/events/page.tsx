@@ -13,6 +13,7 @@ import { getLocale } from '@/i18n/get-locale';
 import type { Locale } from '@/i18n/routing';
 import { EventsYearFilter } from './events-year-filter';
 import { EventsYearSection } from './events-year-section';
+import { resolveEventsYearFilter } from './resolve-events-year-filter';
 
 type PageProps = LocalizedPageProps & {
   searchParams: Promise<{ year?: string | string[] }>;
@@ -48,18 +49,13 @@ async function EventsContent({
   selectedYear?: string;
 }) {
   await connection();
-  const yearFilter =
-    selectedYear === 'all'
-      ? undefined
-      : selectedYear && /^\d{4}$/.test(selectedYear)
-        ? selectedYear
-        : null;
-  const [groups, years, t, common] = await Promise.all([
-    getEvents(locale, yearFilter),
+  const [years, t, common] = await Promise.all([
     getEventYears(),
     getTranslations('Pages.aboutEvents'),
     getTranslations('Pages.common'),
   ]);
+  const yearFilter = resolveEventsYearFilter(selectedYear, years);
+  const groups = await getEvents(locale, yearFilter);
 
   if (groups.length === 0) {
     return <ContentEmptyState message={common('empty')} />;
