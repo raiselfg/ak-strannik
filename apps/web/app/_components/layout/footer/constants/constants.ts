@@ -1,5 +1,5 @@
 export const contacts = {
-  phone: { display: '+7 (996) 775-22-57', href: 'tel:+79967752257' },
+  phone: { display: '+7 (905) 205-25-50', href: 'tel:+79052052550' },
   email: { display: 'ak-strannik@mail.ru', href: 'mailto:ak-strannik@mail.ru' },
   address: 'Санкт-Петербург, Невский проспект, дом 111/3',
   addressNote: 'вход в арку с улицы Гончарной, дом 26',
