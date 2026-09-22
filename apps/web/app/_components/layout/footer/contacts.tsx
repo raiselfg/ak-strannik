@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { ExternalLink, FileText, Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 
@@ -64,6 +64,22 @@ export default memo(function Contacts() {
                   note={t('addressNote')}
                 />
               </div>
+
+              <a
+                href="https://cdn.ak-strannik.ru/media/docs/%D0%A3%D1%81%D1%82%D0%B0%D0%B2%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group hover:text-gold inline-flex w-fit items-center gap-2 self-start text-sm font-medium text-muted-foreground transition-colors"
+              >
+                <FileText className="size-4" strokeWidth={1.5} />
+                <span className="border-b border-current/25 pb-0.5 transition-colors group-hover:border-current">
+                  {t('charter')}
+                </span>
+                <ExternalLink
+                  className="size-3.5 transition-transform group-hover:translate-x-px group-hover:-translate-y-px"
+                  strokeWidth={1.5}
+                />
+              </a>
 
               <div className="mt-auto flex flex-col gap-4 border-t border-border/35 pt-6 sm:flex-row sm:items-end sm:justify-between">
                 <div className="flex items-center gap-3">
